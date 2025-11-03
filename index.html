@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Подушка з фото — Завантаж своє зображення</title>
+  <meta name="description" content="Створи унікальний подарунок: подушка з твоїм фото. Завантаж зображення з телефону або комп'ютера — ми обробимо та надішлемо результат." />
+
+  <!-- Uploadcare config -->
+  <script>
+    window.UPLOADCARE_PUBLIC_KEY = 'a531fc572a02653c4d18';
+    window.UPLOADCARE_STORE = 'auto';
+    window.UPLOADCARE_SYSTEM_DIALOG = true;
+  </script>
+  <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+
+  <style>
+    :root{
+      --bg:#f7fafc;--card:#ffffff;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;
+      --accent:#0ea5e9;--radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:var(--accent);text-decoration:none}
+    .wrap{max-width:760px;margin:0 auto;padding:24px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+          padding:22px;box-shadow:0 10px 30px rgba(2,6,23,.04);}
+    header{padding:28px 0 10px;text-align:center}
+    header h1{font-size:clamp(22px,4.6vw,34px);margin:0 0 8px}
+    header p{margin:0 auto;color:var(--muted);max-width:640px;font-size:14px}
+    .uploader{border:2px dashed #d1e3f6;border-radius:14px;background:#f0f7ff;padding:20px;text-align:center}
+    .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
+    .btn.primary{background:linear-gradient(135deg,var(--accent),#60a5fa);color:#fff}
+    .btn.ghost{background:#edf2f7;color:#0f172a;border:1px solid #dbe3ee}
+    .muted{color:var(--muted);font-size:14px}
+    .preview img{max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(2,6,23,.06)}
+    footer{margin:28px 0 16px;color:var(--muted);font-size:13px;text-align:center}
+    /* Прибираємо дефолтну кнопку Uploadcare */
+    .uploadcare--widget{display:none !important;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Подушка з твоїм фото</h1>
+      <p>Завантаж зображення — ми підготуємо макет і надамо результат. Працює на телефоні та десктопі.</p>
+    </header>
+
+    <section class="card">
+      <h2 style="margin-top:4px">1) Завантаж своє фото</h2>
+      <p class="muted">Формати: JPG/PNG/WebP. Рекомендовано висока роздільна здатність. Після завантаження зʼявиться превʼю.</p>
+
+      <div class="uploader" style="margin-top:10px">
+        <button id="openUpload" class="btn primary">📸 Завантажити фото</button>
+        <input type="hidden" id="uc-file" role="uploadcare-uploader"
+               data-images-only="true"
+               data-system-dialog="true"
+               data-multiple="false"
+               data-tabs="file camera url"
+               data-preferred-types="image/*" />
+
+        <div id="status" class="muted" style="margin-top:10px"></div>
+        <div id="uc-link" style="margin-top:8px"></div>
+        <div id="preview" class="preview" style="margin-top:14px"></div>
+
+        <div id="afterUpload" style="display:none; margin-top:10px; gap:8px">
+          <button id="previewBtn" class="btn ghost">🔍 Переглянути превʼю</button>
+          <button id="sendBtn" class="btn primary">➡️ Відправити</button>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> Подушка з фото • Макет і обробка виконуються вручну. Результат надсилаємо посиланням.
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const AUTO_REDIRECT = true; // true — одразу на result.html; false — показати кнопки
+
+    const openBtn   = document.getElementById('openUpload');
+    const statusEl  = document.getElementById('status');
+    const linkEl    = document.getElementById('uc-link');
+    const preview   = document.getElementById('preview');
+    const afterBlk  = document.getElementById('afterUpload');
+    const previewBtn= document.getElementById('previewBtn');
+    const sendBtn   = document.getElementById('sendBtn');
+
+    function makeOrderId(){
+      const d = new Date();
+      const pad=n=>String(n).padStart(2,'0');
+      return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}-${Math.floor(Math.random()*9000+1000)}`;
+    }
+    function saveSession({orderId,url,uuid,name}){
+      localStorage.setItem('order_id', orderId);
+      localStorage.setItem('last_upload_url', url);
+      localStorage.setItem('last_upload_uuid', uuid);
+      localStorage.setItem('last_upload_name', name||'photo');
+    }
+
+    openBtn.addEventListener('click', () => {
+      const dialog = uploadcare.openDialog(null, null, { imagesOnly:true, systemDialog:true });
+      dialog.done(file => {
+        file.done(info => {
+          const url   = info.cdnUrl;
+          const uuid  = info.uuid;
+          const name  = info.name || 'photo';
+          const thumb = `${url}-/preview/900x900/`;
+
+          const orderId = makeOrderId();
+          saveSession({orderId,url,uuid,name});
+
+          statusEl.textContent = '✅ Фото завантажено.';
+          linkEl.innerHTML = `Оригінал: <a href="${url}" target="_blank" rel="noopener">${name}</a>`;
+          preview.innerHTML = `<img src="${thumb}" alt="preview">`;
+
+          if (AUTO_REDIRECT) {
+            location.href = `result.html?img=${encodeURIComponent(url)}&order=${encodeURIComponent(orderId)}`;
+          } else {
+            afterBlk.style.display='inline-flex';
+            previewBtn.onclick = () => window.open(url, '_blank');
+            sendBtn.onclick    = () => location.href = `result.html?img=${encodeURIComponent(url)}&order=${encodeURIComponent(orderId)}`;
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
