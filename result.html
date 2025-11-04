@@ -1,52 +1,116 @@
-<script>
-  // рік в футері
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  const p = new URLSearchParams(location.search);
-  const imgUrl = p.get('img') || localStorage.getItem('last_upload_url') || '';
-  const orderId = p.get('order') || localStorage.getItem('order_id') || '';
-  const uuid = p.get('uuid') || '';
-  const previewBox = document.getElementById('preview');
-
-  // показати прев'ю оригіналу (Uploadcare)
-  if (!imgUrl) {
-    previewBox.innerHTML = '<p class="muted">Фото не додано. <a href="index.html">Повернутися</a></p>';
-  } else {
-    const thumb = `${imgUrl}-/preview/1200x1200/`;
-    previewBox.innerHTML = `<img id="photo" src="${thumb}" alt="preview">`;
-  }
-
-  // Полінг готового результату (public/results/<uuid>.json)
-  async function pollResult() {
-    if (!uuid) return; // нема чого перевіряти
-    try {
-      const r = await fetch(`/results/${uuid}.json`, { cache: 'no-store' });
-      if (r.ok) {
-        const j = await r.json();
-        if (j && j.ready && j.cdn) {
-          // підміняємо прев'ю на фінал
-          const finalUrl = `${j.cdn}-/quality/smart/-/format/jpeg/`;
-          const imgEl = document.getElementById('photo');
-          if (imgEl) imgEl.src = finalUrl;
-          else previewBox.innerHTML = `<img id="photo" src="${finalUrl}" alt="result">`;
-          return; // зупиняємо полінг
-        }
-      }
-    } catch (e) {
-      // тихо ідемо далі
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Попередній перегляд — Подушка з фото</title>
+  <meta name="description" content="Попередній перегляд вашої подушки та оформлення замовлення."/>
+  <style>
+    :root{
+      --bg:#f7fafc; --card:#ffffff; --text:#0f172a; --muted:#64748b; --line:#e2e8f0;
+      --accent:#0ea5e9; --radius:18px;
     }
-    setTimeout(pollResult, 2500);
-  }
-  pollResult();
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--text);
+              font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:var(--accent);text-decoration:none}
+    .wrap{max-width:760px;margin:0 auto;padding:24px}
+    header{text-align:center;margin-bottom:16px}
+    header h1{font-size:clamp(22px,4.6vw,34px);margin:0 0 8px}
+    header p{margin:0 auto;color:var(--muted);max-width:640px;font-size:14px}
+    .card{background:var(--card);border:1px solid var(--line);
+          border-radius:var(--radius);padding:20px;
+          box-shadow:0 10px 30px rgba(2,6,23,.04);margin-bottom:18px}
+    .preview img{width:100%;border-radius:14px;border:1px solid var(--line);
+                 box-shadow:0 16px 36px rgba(2,6,23,.06)}
+    .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;
+         font-weight:700;cursor:pointer}
+    .btn.ghost{background:#edf2f7;color:#0f172a;border:1px solid #dbe3ee}
+    .muted{color:var(--muted);font-size:14px}
+    footer{margin:28px 0 16px;color:#94a3b8;font-size:13px;text-align:center}
+    .hint{font-size:13px;color:#909db1;margin-top:8px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Попередній перегляд</h1>
+      <p>Спочатку бачиш прев’ю завантаженого фото. Коли макет буде готовий — картинка оновиться автоматично.</p>
+    </header>
 
-  // (опціонально) скачати оригінал
-  function triggerDownload(url, fileName = 'photo.jpg') {
-    const a = document.createElement('a');
-    a.href = `${url}-/inline/no/${encodeURIComponent(fileName)}`;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  }
-  window._downloadOriginal = () => { if (imgUrl) triggerDownload(imgUrl, `${orderId || 'order'}-original.jpg`); };
-</script>
+    <!-- Превʼю -->
+    <section class="card">
+      <div id="preview" class="preview"></div>
+      <div id="note" class="hint"></div>
+      <a href="index.html" class="btn ghost" style="margin-top:12px;display:inline-block">↩️ Завантажити інше фото</a>
+    </section>
+
+    <!-- Блок опису -->
+    <section class="card">
+      <h2 style="margin:4px 0 8px">Подушка з твоїм фото</h2>
+      <p class="muted">Виготовлення 1–2 дні. Доставка по Україні Новою Поштою. Підходить для 40×40, 50×70 та 150×50 (дакiмакура).</p>
+    </section>
+
+    <footer>© <span id="year"></span> Подушка з фото</footer>
+  </div>
+
+  <script>
+    // Рік у футері
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const params  = new URLSearchParams(location.search);
+    const imgUrl  = params.get('img')   || localStorage.getItem('last_upload_url') || '';
+    const uuid    = params.get('uuid')  || '';   // ВАЖЛИВО для полінгу
+    const orderId = params.get('order') || localStorage.getItem('order_id') || '';
+
+    const box  = document.getElementById('preview');
+    const note = document.getElementById('note');
+
+    console.log('[result] params:', { uuid, imgUrl, orderId });
+
+    // 1) Показати превʼю завантаженого фото (навіть без uuid)
+    if (imgUrl) {
+      const thumb = `${imgUrl}-/preview/1200x1200/`;
+      box.innerHTML = `<img id="photo" src="${thumb}" alt="preview">`;
+      note.textContent = uuid
+        ? 'Очікуємо готовий макет… Сторінка оновиться автоматично.'
+        : 'UUID не передано. Показуємо лише превʼю. Поверніться назад і завантажте ще раз.';
+      console.log('[result] show preview:', thumb);
+    } else {
+      box.innerHTML = '<p class="muted">Фото не додано. <a href="index.html">Повернутися</a></p>';
+      note.textContent = '';
+      console.warn('[result] no img param');
+    }
+
+    // 2) Полінг готового результату (results/<uuid>.json на тому ж домені/репо)
+    async function poll() {
+      if (!uuid) { console.warn('[result] no uuid → skip polling'); return; }
+      // якщо result.html лежить у корені репозиторію, відносний шлях "results/..." працює.
+      // якщо ти перенесеш файл у підпапку — просто додай "../" відповідно.
+      const url = `results/${uuid}.json?ts=${Date.now()}`;
+
+      try {
+        const r = await fetch(url, { cache: 'no-store' });
+        console.log('[result] fetch:', url, r.status);
+        if (r.ok) {
+          const j = await r.json();
+          console.log('[result] json:', j);
+          if (j && j.ready && j.cdn) {
+            const finalUrl = `${j.cdn}-/quality/smart/-/format/jpeg/`;
+            const imgEl = document.getElementById('photo');
+            if (imgEl) imgEl.src = finalUrl;
+            else box.innerHTML = `<img id="photo" src="${finalUrl}" alt="result">`;
+            note.textContent = 'Готово ✅';
+            console.log('[result] show final:', finalUrl);
+            return; // зупиняємо полінг
+          }
+        }
+      } catch (e) {
+        console.error('[result] fetch error:', e);
+      }
+      setTimeout(poll, 2500);
+    }
+    poll();
+  </script>
+</body>
+</html>
