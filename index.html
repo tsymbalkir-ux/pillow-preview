@@ -9,7 +9,7 @@
   <!-- Uploadcare config -->
   <script>
     window.UPLOADCARE_PUBLIC_KEY = 'a531fc572a02653c4d18';
-    /* ВАЖЛИВО: робимо перший аплоад UNSTORED */
+    /* перший аплоад UNSTORED, щоб задати своє ім’я при другому */
     window.UPLOADCARE_STORE = '0';
     window.UPLOADCARE_SYSTEM_DIALOG = true;
   </script>
@@ -57,28 +57,30 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // orderId
+    // базовий URL для редіректу (GitHub Pages)
+    const BASE = 'https://tsymbalkir-ux.github.io/pillow-preview/';
+
     function makeOrderId(){
       const d = new Date(), p = n => String(n).padStart(2,'0');
       return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}-${Math.floor(1000+Math.random()*9000)}`;
     }
 
-    // беремо PNG із CDN (конвертація на льоту)
+    // беремо PNG із CDN (конвертація на льоту Uploadcare)
     async function fetchAsPngBlob(cdnUrl){
-      const res = await fetch(`${cdnUrl}-/format/png/`);
+      const res = await fetch(`${cdnUrl}-/format/png/`, { cache: 'no-store' });
       if(!res.ok) throw new Error('Не вдалося отримати PNG');
       return await res.blob();
     }
 
-    // друга заливка: STORED через прямий POST (перший файл був unstored)
+    // друга заливка — STORED (з нашим ім’ям файлу)
     async function uploadBlobStored(blob, filename){
       const form = new FormData();
       form.append('UPLOADCARE_PUB_KEY', 'a531fc572a02653c4d18');
-      form.append('UPLOADCARE_STORE', '1');          // <— зберегти!
-      form.append('file', blob, filename);           // задаємо своє ім'я
+      form.append('UPLOADCARE_STORE', '1');
+      form.append('file', blob, filename);
       const r = await fetch('https://upload.uploadcare.com/base/', { method:'POST', body: form });
       if(!r.ok) throw new Error('Помилка Uploadcare base/');
-      const j = await r.json();                      // { file: "<uuid>" }
+      const j = await r.json();
       const uuid = (typeof j.file === 'string') ? j.file : (j.file && j.file.uuid) || j.uuid;
       if(!uuid) throw new Error('Не отримали uuid другого аплоаду');
       return { uuid, cdnUrl: `https://ucarecdn.com/${uuid}/`, name: filename };
@@ -93,29 +95,32 @@
           try {
             const orderId = makeOrderId();
 
-            // перший (unstored) аплоад від віджета
+            // 1) перший (unstored) аплоад — лише щоб взяти контент
             const srcCdn  = info.cdnUrl;
-            if(!srcCdn) throw new Error('Uploadcare не повернув cdnUrl для попереднього перегляду');
+            if(!srcCdn) throw new Error('Uploadcare не повернув cdnUrl');
 
-            // конвертуємо в PNG і робимо stored-аплоад із іменем input-<orderId>.png
+            // 2) конвертуємо в PNG та заливаємо як stored з ім’ям input-<orderId>.png
             const pngBlob = await fetchAsPngBlob(srcCdn);
             const newName = `input-${orderId}.png`;
             const stored  = await uploadBlobStored(pngBlob, newName); // {uuid, cdnUrl, name}
 
-            // UI прев'ю
+            // прев’ю
             const thumb  = `${stored.cdnUrl}-/preview/900x900/`;
             status.textContent = `✅ Завантажено як ${newName}`;
             preview.innerHTML = `<img src="${thumb}" alt="preview">`;
 
-            // збереження локально (для сумісності)
+            // локальне збереження (для сумісності)
             localStorage.setItem('order_id', orderId);
             localStorage.setItem('input_url', stored.cdnUrl);
             localStorage.setItem('input_name', newName);
             localStorage.setItem('last_upload_url', stored.cdnUrl);
+            localStorage.setItem('last_uuid', stored.uuid);
 
-            // ✅ РЕДІРЕКТ ІЗ UUID
-            location.href = `result.html?uuid=${encodeURIComponent(stored.uuid)}&img=${encodeURIComponent(stored.cdnUrl)}&order=${encodeURIComponent(orderId)}`;
+            // 3) редірект із UUID на GitHub Pages
+            const href = `${BASE}result.html?uuid=${encodeURIComponent(stored.uuid)}&img=${encodeURIComponent(stored.cdnUrl)}&order=${encodeURIComponent(orderId)}`;
+            location.href = href;
           } catch(err){
+            console.error('[upload] error:', err);
             status.textContent = '❌ Помилка: ' + err.message;
           }
         });
