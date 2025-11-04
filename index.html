@@ -78,11 +78,14 @@
     }
 
     // --- перезавантаження Blob у Uploadcare з новим ім'ям ---
-    async function reuploadBlobToUploadcare(blob, filename){
-      const file = uploadcare.fileFrom('object', blob, { name: filename });
-      const stored = await file.store();
-      return stored; // { uuid, cdnUrl, name }
-    }
+async function reuploadBlobToUploadcare(blob, filename){
+  const ucFile = uploadcare.fileFrom('object', blob, { name: filename });
+  return await new Promise((resolve, reject) => {
+    ucFile.progress(p => console.log('upload', Math.round(p*100)+'%'));
+    ucFile.done(info => resolve(info));   // готовий результат
+    ucFile.fail(err => reject(err));
+  });
+}
 
     // --- основна логіка ---
     document.getElementById('openUpload').addEventListener('click', () => {
