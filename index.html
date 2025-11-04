@@ -78,24 +78,32 @@
     }
 
     // --- перезавантаження Blob у Uploadcare з новим ім'ям ---
-async function reuploadBlobToUploadcare(blob, filename){
-  const ucFile = uploadcare.fileFrom('object', blob, { name: filename });
-  return await new Promise((resolve, reject) => {
-    ucFile.progress(p => console.log('upload', Math.round(p*100)+'%'));
-    ucFile.done(info => resolve(info));   // готовий результат
-    ucFile.fail(err => reject(err));
-  });
-}
+    async function reuploadBlobToUploadcare(blob, filename){
+      const ucFile = uploadcare.fileFrom('object', blob, { name: filename });
+      return await new Promise((resolve, reject) => {
+        ucFile.progress(p => console.log('upload', Math.round(p*100)+'%'));
+        ucFile.done(info => resolve(info));   // готовий результат {uuid, cdnUrl, name}
+        ucFile.fail(err => reject(err));
+      });
+    }
 
     // --- основна логіка ---
     document.getElementById('openUpload').addEventListener('click', () => {
+      // тимчасово вимикаємо збереження ПЕРШОГО файлу (щоб не було "original")
+      const prevStore = uploadcare.settings.get('store');
+      uploadcare.settings.set('store', '0');
+
       const dialog = uploadcare.openDialog(null, null, { imagesOnly:true, systemDialog:true });
       dialog.done(file => {
         file.done(async info => {
           try {
             const orderId = makeOrderId();
-            const srcCdn  = info.cdnUrl;
-            const pngBlob = await fetchAsPngBlob(srcCdn);
+
+            // повертаємо налаштування перед перезаливкою (цей файл буде stored)
+            uploadcare.settings.set('store', prevStore || 'auto');
+
+            const srcCdn  = info.cdnUrl;                  // тимчасовий (unstored) файл
+            const pngBlob = await fetchAsPngBlob(srcCdn); // беремо PNG із CDN
             const newName = `input-${orderId}.png`;
 
             const stored = await reuploadBlobToUploadcare(pngBlob, newName);
@@ -113,6 +121,7 @@ async function reuploadBlobToUploadcare(blob, filename){
             location.href = `result.html?img=${encodeURIComponent(stored.cdnUrl)}&order=${encodeURIComponent(orderId)}`;
           } catch(err){
             document.getElementById('status').textContent = '❌ Помилка: ' + err.message;
+            uploadcare.settings.set('store', prevStore || 'auto'); // на всяк випадок
           }
         });
       });
