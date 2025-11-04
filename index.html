@@ -9,7 +9,7 @@
   <!-- Uploadcare config -->
   <script>
     window.UPLOADCARE_PUBLIC_KEY = 'a531fc572a02653c4d18';
-    /* перший аплоад UNSTORED, щоб задати своє ім’я при другому */
+    /* Перший аплоад UNSTORED, щоб другим зберегти як input-<id>.png */
     window.UPLOADCARE_STORE = '0';
     window.UPLOADCARE_SYSTEM_DIALOG = true;
   </script>
@@ -41,7 +41,7 @@
 
     <section class="card">
       <h2 style="margin-top:4px">1) Завантаж своє фото</h2>
-      <p class="muted">Підтримуємо JPG/PNG/WebP/HEIC/AVIF — усе конвертується у PNG.</p>
+      <p class="muted">Підтримуємо JPG/PNG/WebP/HEIC/AVIF — усе конвертуємо у PNG.</p>
       <div class="uploader" style="margin-top:10px">
         <button id="openUpload" class="btn primary">📸 Завантажити фото</button>
         <div id="status" class="muted" style="margin-top:10px"></div>
@@ -65,14 +65,14 @@
       return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}-${Math.floor(1000+Math.random()*9000)}`;
     }
 
-    // беремо PNG із CDN (конвертація на льоту Uploadcare)
+    // Беремо PNG зі сторони CDN (Uploadcare конвертує на льоту)
     async function fetchAsPngBlob(cdnUrl){
       const res = await fetch(`${cdnUrl}-/format/png/`, { cache: 'no-store' });
       if(!res.ok) throw new Error('Не вдалося отримати PNG');
       return await res.blob();
     }
 
-    // друга заливка — STORED (з нашим ім’ям файлу)
+    // Другий аплоад — STORED (з нашим ім’ям файлу)
     async function uploadBlobStored(blob, filename){
       const form = new FormData();
       form.append('UPLOADCARE_PUB_KEY', 'a531fc572a02653c4d18');
@@ -95,7 +95,7 @@
           try {
             const orderId = makeOrderId();
 
-            // 1) перший (unstored) аплоад — лише щоб взяти контент
+            // 1) перший (unstored) аплоад — щоб взяти контент
             const srcCdn  = info.cdnUrl;
             if(!srcCdn) throw new Error('Uploadcare не повернув cdnUrl');
 
@@ -104,8 +104,8 @@
             const newName = `input-${orderId}.png`;
             const stored  = await uploadBlobStored(pngBlob, newName); // {uuid, cdnUrl, name}
 
-            // прев’ю
-            const thumb  = `${stored.cdnUrl}-/preview/900x900/`;
+            // превʼю через PREVIEW + FORMAT/AUTO (швидкий показ)
+            const thumb  = `${stored.cdnUrl}-/preview/900x900/-/format/auto/`;
             status.textContent = `✅ Завантажено як ${newName}`;
             preview.innerHTML = `<img src="${thumb}" alt="preview">`;
 
@@ -116,7 +116,7 @@
             localStorage.setItem('last_upload_url', stored.cdnUrl);
             localStorage.setItem('last_uuid', stored.uuid);
 
-            // 3) редірект із UUID на GitHub Pages
+            // 3) редірект із UUID на сторінку попереднього перегляду
             const href = `${BASE}result.html?uuid=${encodeURIComponent(stored.uuid)}&img=${encodeURIComponent(stored.cdnUrl)}&order=${encodeURIComponent(orderId)}`;
             location.href = href;
           } catch(err){
