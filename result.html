@@ -60,48 +60,40 @@
 
     const params  = new URLSearchParams(location.search);
     const imgUrl  = params.get('img')   || localStorage.getItem('last_upload_url') || '';
-    const uuid    = params.get('uuid')  || '';   // ВАЖЛИВО для полінгу
+    const uuid    = params.get('uuid')  || '';   // потрібен для полінгу
     const orderId = params.get('order') || localStorage.getItem('order_id') || '';
 
     const box  = document.getElementById('preview');
     const note = document.getElementById('note');
 
-    console.log('[result] params:', { uuid, imgUrl, orderId });
-
-    // 1) Показати превʼю завантаженого фото (навіть без uuid)
+    // 1) Показати превʼю одразу через preview + format/auto
     if (imgUrl) {
-      const thumb = `${imgUrl}-/preview/1200x1200/`;
+      const thumb = `${imgUrl}-/preview/1200x1200/-/format/auto/`;
       box.innerHTML = `<img id="photo" src="${thumb}" alt="preview">`;
       note.textContent = uuid
         ? 'Очікуємо готовий макет… Сторінка оновиться автоматично.'
         : 'UUID не передано. Показуємо лише превʼю. Поверніться назад і завантажте ще раз.';
-      console.log('[result] show preview:', thumb);
     } else {
       box.innerHTML = '<p class="muted">Фото не додано. <a href="index.html">Повернутися</a></p>';
       note.textContent = '';
-      console.warn('[result] no img param');
     }
 
-    // 2) Полінг готового результату (results/<uuid>.json на тому ж домені/репо)
+    // 2) Полінг готового результату
+    // Очікуємо JSON: results/<uuid>.json з полями { ready: true, cdn: "https://ucarecdn.com/<uuid>/" }
     async function poll() {
-      if (!uuid) { console.warn('[result] no uuid → skip polling'); return; }
-      // якщо result.html лежить у корені репозиторію, відносний шлях "results/..." працює.
-      // якщо ти перенесеш файл у підпапку — просто додай "../" відповідно.
+      if (!uuid) return;
       const url = `results/${uuid}.json?ts=${Date.now()}`;
-
       try {
         const r = await fetch(url, { cache: 'no-store' });
-        console.log('[result] fetch:', url, r.status);
         if (r.ok) {
           const j = await r.json();
-          console.log('[result] json:', j);
           if (j && j.ready && j.cdn) {
-            const finalUrl = `${j.cdn}-/quality/smart/-/format/jpeg/`;
+            // фінальний показ теж через оптимізований URL
+            const finalUrl = `${j.cdn}-/preview/1500x1500/-/quality/smart/-/format/auto/`;
             const imgEl = document.getElementById('photo');
             if (imgEl) imgEl.src = finalUrl;
             else box.innerHTML = `<img id="photo" src="${finalUrl}" alt="result">`;
             note.textContent = 'Готово ✅';
-            console.log('[result] show final:', finalUrl);
             return; // зупиняємо полінг
           }
         }
