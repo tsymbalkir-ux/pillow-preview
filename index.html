@@ -35,7 +35,6 @@
     .muted{color:var(--muted);font-size:14px}
     .preview img{max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(2,6,23,.06)}
     footer{margin:28px 0 16px;color:var(--muted);font-size:13px;text-align:center}
-    /* Прибираємо дефолтну кнопку Uploadcare */
     .uploadcare--widget{display:none !important;}
   </style>
 </head>
@@ -48,25 +47,12 @@
 
     <section class="card">
       <h2 style="margin-top:4px">1) Завантаж своє фото</h2>
-      <p class="muted">Формати: JPG/PNG/WebP. Рекомендовано висока роздільна здатність. Після завантаження зʼявиться превʼю.</p>
+      <p class="muted">Формати: JPG, PNG, WebP, HEIC, AVIF — усі конвертуються в PNG перед обробкою.</p>
 
       <div class="uploader" style="margin-top:10px">
         <button id="openUpload" class="btn primary">📸 Завантажити фото</button>
-        <input type="hidden" id="uc-file" role="uploadcare-uploader"
-               data-images-only="true"
-               data-system-dialog="true"
-               data-multiple="false"
-               data-tabs="file camera url"
-               data-preferred-types="image/*" />
-
         <div id="status" class="muted" style="margin-top:10px"></div>
-        <div id="uc-link" style="margin-top:8px"></div>
         <div id="preview" class="preview" style="margin-top:14px"></div>
-
-        <div id="afterUpload" style="display:none; margin-top:10px; gap:8px">
-          <button id="previewBtn" class="btn ghost">🔍 Переглянути превʼю</button>
-          <button id="sendBtn" class="btn primary">➡️ Відправити</button>
-        </div>
       </div>
     </section>
 
@@ -78,50 +64,52 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    const AUTO_REDIRECT = true; // true — одразу на result.html; false — показати кнопки
-
-    const openBtn   = document.getElementById('openUpload');
-    const statusEl  = document.getElementById('status');
-    const linkEl    = document.getElementById('uc-link');
-    const preview   = document.getElementById('preview');
-    const afterBlk  = document.getElementById('afterUpload');
-    const previewBtn= document.getElementById('previewBtn');
-    const sendBtn   = document.getElementById('sendBtn');
-
+    // --- генерація orderId ---
     function makeOrderId(){
-      const d = new Date();
-      const pad=n=>String(n).padStart(2,'0');
-      return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}-${Math.floor(Math.random()*9000+1000)}`;
-    }
-    function saveSession({orderId,url,uuid,name}){
-      localStorage.setItem('order_id', orderId);
-      localStorage.setItem('last_upload_url', url);
-      localStorage.setItem('last_upload_uuid', uuid);
-      localStorage.setItem('last_upload_name', name||'photo');
+      const d = new Date(), p = n => String(n).padStart(2,'0');
+      return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}-${Math.floor(Math.random()*9000+1000)}`;
     }
 
-    openBtn.addEventListener('click', () => {
+    // --- конвертація в PNG з Uploadcare CDN ---
+    async function fetchAsPngBlob(cdnUrl){
+      const res = await fetch(`${cdnUrl}-/format/png/`);
+      if(!res.ok) throw new Error('Не вдалося отримати PNG');
+      return await res.blob();
+    }
+
+    // --- перезавантаження Blob у Uploadcare з новим ім'ям ---
+    async function reuploadBlobToUploadcare(blob, filename){
+      const file = uploadcare.fileFrom('object', blob, { name: filename });
+      const stored = await file.store();
+      return stored; // { uuid, cdnUrl, name }
+    }
+
+    // --- основна логіка ---
+    document.getElementById('openUpload').addEventListener('click', () => {
       const dialog = uploadcare.openDialog(null, null, { imagesOnly:true, systemDialog:true });
       dialog.done(file => {
-        file.done(info => {
-          const url   = info.cdnUrl;
-          const uuid  = info.uuid;
-          const name  = info.name || 'photo';
-          const thumb = `${url}-/preview/900x900/`;
+        file.done(async info => {
+          try {
+            const orderId = makeOrderId();
+            const srcCdn  = info.cdnUrl;
+            const pngBlob = await fetchAsPngBlob(srcCdn);
+            const newName = `input-${orderId}.png`;
 
-          const orderId = makeOrderId();
-          saveSession({orderId,url,uuid,name});
+            const stored = await reuploadBlobToUploadcare(pngBlob, newName);
+            const thumb  = `${stored.cdnUrl}-/preview/900x900/`;
 
-          statusEl.textContent = '✅ Фото завантажено.';
-          linkEl.innerHTML = `Оригінал: <a href="${url}" target="_blank" rel="noopener">${name}</a>`;
-          preview.innerHTML = `<img src="${thumb}" alt="preview">`;
+            document.getElementById('status').textContent = `✅ Завантажено як ${newName}`;
+            document.getElementById('preview').innerHTML = `<img src="${thumb}" alt="preview">`;
 
-          if (AUTO_REDIRECT) {
-            location.href = `result.html?img=${encodeURIComponent(url)}&order=${encodeURIComponent(orderId)}`;
-          } else {
-            afterBlk.style.display='inline-flex';
-            previewBtn.onclick = () => window.open(url, '_blank');
-            sendBtn.onclick    = () => location.href = `result.html?img=${encodeURIComponent(url)}&order=${encodeURIComponent(orderId)}`;
+            // зберігаємо дані для result.html
+            localStorage.setItem('order_id', orderId);
+            localStorage.setItem('input_url', stored.cdnUrl);
+            localStorage.setItem('input_name', newName);
+
+            // редірект на сторінку результатів
+            location.href = `result.html?img=${encodeURIComponent(stored.cdnUrl)}&order=${encodeURIComponent(orderId)}`;
+          } catch(err){
+            document.getElementById('status').textContent = '❌ Помилка: ' + err.message;
           }
         });
       });
