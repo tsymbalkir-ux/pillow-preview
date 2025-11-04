@@ -3,102 +3,70 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Попередній перегляд — Подушка з фото</title>
-  <meta name="description" content="Попередній перегляд вашої подушки та оформлення замовлення."/>
+  <title>Подушка з фото — Завантажити</title>
+  <meta name="description" content="Завантаж своє фото — отримаєш попередній перегляд і результат." />
+  <!-- Uploadcare -->
+  <script>
+    window.UPLOADCARE_PUBLIC_KEY = 'a531fc572a02653c4d18';
+    window.UPLOADCARE_STORE = 'auto';        // одразу дає cdnUrl
+    window.UPLOADCARE_SYSTEM_DIALOG = true;  // відкривати системний вибір файлів
+  </script>
+  <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
   <style>
-    :root{
-      --bg:#f7fafc; --card:#ffffff; --text:#0f172a; --muted:#64748b; --line:#e2e8f0;
-      --accent:#0ea5e9; --radius:18px;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--text);
-              font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
-    a{color:var(--accent);text-decoration:none}
-    .wrap{max-width:760px;margin:0 auto;padding:24px}
-    header{text-align:center;margin-bottom:16px}
-    header h1{font-size:clamp(22px,4.6vw,34px);margin:0 0 8px}
-    header p{margin:0 auto;color:var(--muted);max-width:640px;font-size:14px}
-
-    .card{background:var(--card);border:1px solid var(--line);
-          border-radius:var(--radius);padding:20px;
-          box-shadow:0 10px 30px rgba(2,6,23,.04);margin-bottom:18px}
-    .preview img{width:100%;border-radius:14px;border:1px solid var(--line);
-                 box-shadow:0 16px 36px rgba(2,6,23,.06)}
-    .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;
-         font-weight:700;cursor:pointer}
-    .btn.ghost{background:#edf2f7;color:#0f172a;border:1px solid #dbe3ee}
-    .muted{color:var(--muted);font-size:14px}
-    ul.check{padding-left:18px;margin:10px 0}
-    ul.check li{margin:6px 0}
-    input[type="text"], input[type="tel"]{width:100%;padding:12px 14px;
-        border:1px solid var(--line);border-radius:12px}
-    label.small{font-size:12px;color:var(--muted)}
-    footer{margin:28px 0 16px;color:#94a3b8;font-size:13px;text-align:center}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:0;display:grid;place-items:center;min-height:100dvh;background:#f7fafc}
+    .card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:24px;box-shadow:0 10px 30px rgba(2,6,23,.06);max-width:520px;width:100%}
+    h1{margin:0 0 8px}
+    p{margin:0 0 16px;color:#64748b}
+    .btn{display:inline-block;margin-top:8px;padding:10px 14px;border-radius:10px;background:#0ea5e9;color:#fff;text-decoration:none;font-weight:700}
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <h1>Попередній перегляд</h1>
-      <p>Перевір, чи підходить фото. Якщо все добре — залиш свої дані або повернись і завантаж інше.</p>
-    </header>
+  <div class="card">
+    <h1>Завантаж своє фото</h1>
+    <p>Після завантаження ми автоматично відкриємо сторінку попереднього перегляду.</p>
 
-    <!-- Превʼю -->
-    <section class="card">
-      <div id="preview" class="preview"></div>
-      <a href="index.html" class="btn ghost" style="margin-top:12px;display:inline-block">↩️ Завантажити інше фото</a>
-    </section>
+    <!-- Uploader -->
+    <input type="hidden" role="uploadcare-uploader" id="uploader"
+           data-clearable="true" data-images-only="true" />
 
-    <!-- Блок Подушка з твоїм фото -->
-    <section class="card">
-      <h2 style="margin:4px 0 8px">Подушка з твоїм фото</h2>
-      <p class="muted">Індивідуальний друк. Виготовлення 1–2 дні. Доставка по Україні Новою Поштою.</p>
-      <ul class="check muted">
-        <li>Розміри: 40×40, 50×70, 150×50 (дакiмакура)</li>
-        <li>Насичений друк, чіткість деталей</li>
-        <li>Оплата при отриманні або онлайн</li>
-      </ul>
-
-      <div style="margin-top:10px">
-        <label class="small">Імʼя</label>
-        <input id="name" type="text" placeholder="Ваше імʼя">
-        <div style="height:10px"></div>
-        <label class="small">Телефон</label>
-        <input id="phone" type="tel" placeholder="+380 …">
-        <div style="height:10px"></div>
-        <label class="small">Коментар</label>
-        <input id="note" type="text" placeholder="Розмір, побажання до макета">
-      </div>
-    </section>
-
-    <footer>© <span id="year"></span> Подушка з фото</footer>
+    <a class="btn" id="open">Обрати файл</a>
+    <div id="status" style="margin-top:10px;color:#94a3b8;font-size:14px;"></div>
   </div>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    const w = uploadcare.Widget('#uploader');
+    document.getElementById('open').addEventListener('click', () => w.openDialog());
 
-    const params = new URLSearchParams(location.search);
-    const imgUrl = params.get('img') || localStorage.getItem('last_upload_url');
-    const orderId= params.get('order') || localStorage.getItem('order_id');
-    const previewBox = document.getElementById('preview');
+    const $status = document.getElementById('status');
 
-    if (!imgUrl) {
-      previewBox.innerHTML = `<p class="muted">Фото не додано. <a href="index.html">Повернутися</a></p>`;
-    } else {
-      const thumb = `${imgUrl}-/preview/1200x1200/`;
-      previewBox.innerHTML = `<img src="${thumb}" alt="preview">`;
-    }
+    // Показуємо прогрес (необов'язково)
+    w.onUploadProgress((info) => {
+      if (!info) return;
+      $status.textContent = `Завантаження: ${Math.round(info.progress*100)}%`;
+    });
 
-    // (опціонально) функція завантаження оригіналу; викликається по кліку з будь-якої кнопки, якщо додаси
-    function triggerDownload(url, fileName='photo.jpg'){
-      const a = document.createElement('a');
-      a.href = `${url}-/inline/no/${encodeURIComponent(fileName)}`;
-      a.download = fileName;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    }
-    window._downloadOriginal = () => { if(imgUrl) triggerDownload(imgUrl, `${orderId||'order'}-original.jpg`); };
+    // Коли файл збережено — редіректимо на result.html
+    w.onUploadComplete(async (info) => {
+      // info містить uuid, cdnUrl, originalFilename
+      const uuid = info.uuid;
+      // інколи cdnUrl з’являється не одразу → підстрахуємося
+      let cdn = info.cdnUrl;
+      if (!cdn && info.cdnUrlModifiers !== undefined && info.isStored) {
+        // останні версії завжди дають cdnUrl при store=auto, але хай буде
+        cdn = `https://ucarecdn.com/${uuid}/`;
+      }
+      // збережемо в localStorage для сумісності з твоєю result-сторінкою
+      if (cdn) localStorage.setItem('last_upload_url', cdn);
+
+      // опціонально свій order_id
+      const orderId = Date.now().toString();
+      localStorage.setItem('order_id', orderId);
+
+      // редірект з параметрами (uuid + img + name)
+      const name = encodeURIComponent(info.originalFilename || '');
+      const imgQ = cdn ? `&img=${encodeURIComponent(cdn)}` : '';
+      location.href = `/result.html?uuid=${uuid}${imgQ}&name=${name}&order=${orderId}`;
+    });
   </script>
 </body>
 </html>
