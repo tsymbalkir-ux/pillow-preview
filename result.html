@@ -25,13 +25,11 @@
   <div class="wrap">
     <header>
       <h1>Готовий результат</h1>
-      <p id="status" class="muted">Очікуємо на макет… (сторінка оновиться автоматично)</p>
+      <p id="status" class="muted">Очікуємо на макет…</p>
     </header>
 
     <section class="card">
-      <div id="preview" class="preview">
-        <!-- лиш одна картинка output з’явиться тут -->
-      </div>
+      <div id="preview" class="preview"></div>
       <div style="text-align:center;margin-top:12px">
         <a href="index.html" class="btn ghost">↩️ Завантажити інше фото</a>
       </div>
@@ -39,22 +37,16 @@
   </div>
 
   <script>
-    // Фіксований твій CDN-хост
     const CDN_HOST = "https://5qcw92vr76.ucarecd.net";
-
-    // Новий публічний JSONBin (public)
     const BIN_ID  = "690cba9443b1c97be99cf32e";
     const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`;
+    const POLL_MS = 900; // швидше за 2500
 
-    // Параметри
     const qs      = new URLSearchParams(location.search);
     const origId  = qs.get("uuid") || localStorage.getItem("last_uuid") || "";
-    const orderId = qs.get("order") || "";
+    const box     = document.getElementById("preview");
+    const status  = document.getElementById("status");
 
-    const box    = document.getElementById("preview");
-    const status = document.getElementById("status");
-
-    // Допоміжне: дістати UUID з рядка/URL
     function pickUuid(s){
       const m = String(s||"").match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i);
       return m ? m[0] : "";
@@ -62,35 +54,29 @@
 
     if (!origId) {
       status.textContent = "Не передано uuid (ключ замовлення). Поверніться та завантажте фото ще раз.";
-      box.innerHTML = "";
     } else {
-      // Збережемо на всяк
       localStorage.setItem("last_uuid", origId);
-      // Стартуємо полінг лише по результату (без жодного прев’ю інпуту)
       poll();
     }
 
     async function poll(){
       try {
-        const r = await fetch(`${BIN_URL}?ts=${Date.now()}`, { cache: "no-store" });
-        if (!r.ok) throw new Error("JSONBin HTTP " + r.status);
-        const j = await r.json();
-        const map = j.record || {};
-        const saved = map[origId];            // тут має бути result_uuid (або повний URL — теж витягнемо uuid)
-        const resUuid = pickUuid(saved);
-
-        if (resUuid) {
-          const url = `${CDN_HOST}/${resUuid}/-/preview/1200x1200/?t=${Date.now()}`;
-          box.innerHTML = `<img src="${url}" alt="result">`;
-          status.textContent = "✅ Макет готовий!";
-          return; // зупиняємо полінг — є результат
+        const ctrl = new AbortController();
+        const id = setTimeout(()=>ctrl.abort(), 2000); // таймаут на довгі відповіді
+        const r = await fetch(`${BIN_URL}?ts=${Date.now()}`, { cache: "no-store", signal: ctrl.signal });
+        clearTimeout(id);
+        if (r.ok) {
+          const j = await r.json();
+          const resUuid = pickUuid((j.record || {})[origId]);
+          if (resUuid) {
+            const url = `${CDN_HOST}/${resUuid}/-/preview/1000x1000/`;
+            box.innerHTML = `<img src="${url}" alt="result">`;
+            status.textContent = "✅ Макет готовий!";
+            return;
+          }
         }
-      } catch (e) {
-        // мовчазно — просто наступна спроба
-        // console.warn(e);
-      }
-      // повторимо
-      setTimeout(poll, 2500);
+      } catch (_) { /* тихо */ }
+      setTimeout(poll, POLL_MS);
     }
   </script>
 </body>
