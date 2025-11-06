@@ -15,7 +15,7 @@
     .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;
           box-shadow:0 10px 30px rgba(2,6,23,.04);margin-bottom:18px}
     .preview{min-height:200px;display:flex;align-items:center;justify-content:center}
-    .preview img{width:100%;border-radius:14px;border:1px solid var(--line);box-shadow:0 16px 36px rgba(2,6,23,.06);background:transparent}
+    .preview img{width:100%;border-radius:14px;border:1px solid var(--line);box-shadow:0 16px 36px rgba(2,6,23,.06)}
     .muted{color:var(--muted);font-size:14px;text-align:center;margin-top:8px}
     .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
     .btn.ghost{background:#edf2f7;color:#0f172a;border:1px solid #dbe3ee}
@@ -30,10 +30,9 @@
 
     <section class="card">
       <div id="preview" class="preview"></div>
-      <div style="text-align:center;margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
-        <a href="index.html" class="btn ghost">↩️ Нове фото</a>
+      <div style="text-align:center;margin-top:12px">
+        <a href="index.html" class="btn ghost">↩️ Завантажити інше фото</a>
       </div>
-      <p class="muted" id="note" style="text-align:center;margin-top:10px"></p>
     </section>
   </div>
 
@@ -41,14 +40,12 @@
     const CDN_HOST = "https://5qcw92vr76.ucarecd.net";
     const BIN_ID  = "690cba9443b1c97be99cf32e";
     const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`;
-    const POLL_MS = 900;
+    const POLL_MS = 900; // швидше за 2500
 
     const qs      = new URLSearchParams(location.search);
     const origId  = qs.get("uuid") || localStorage.getItem("last_uuid") || "";
-    const rb      = (qs.get("rb") || localStorage.getItem("remove_bg") || "0") === "1";
     const box     = document.getElementById("preview");
     const status  = document.getElementById("status");
-    const note    = document.getElementById("note");
 
     function pickUuid(s){
       const m = String(s||"").match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i);
@@ -64,39 +61,17 @@
 
     async function poll(){
       try {
-        const r = await fetch(`${BIN_URL}?ts=${Date.now()}`, { cache: "no-store" });
+        const ctrl = new AbortController();
+        const id = setTimeout(()=>ctrl.abort(), 2000); // таймаут на довгі відповіді
+        const r = await fetch(`${BIN_URL}?ts=${Date.now()}`, { cache: "no-store", signal: ctrl.signal });
+        clearTimeout(id);
         if (r.ok) {
           const j = await r.json();
           const resUuid = pickUuid((j.record || {})[origId]);
           if (resUuid) {
-            // Якщо увімкнено "remove background", пробуємо показати через трансформацію.
-            // Якщо аддон не активний в акаунті, просто покажемо звичайний прев’ю.
-            const tryUrls = rb ? [
-              `${CDN_HOST}/${resUuid}/-/remove_background/`, // якщо підтримується аддон
-              `${CDN_HOST}/${resUuid}/-/preview/1200x1200/`  // fallback
-            ] : [
-              `${CDN_HOST}/${resUuid}/-/preview/1200x1200/`
-            ];
-
-            let loaded = false;
-            for (let i=0;i<tryUrls.length;i++){
-              const u = tryUrls[i];
-              try {
-                const ping = await fetch(u, { method: 'HEAD', cache:'no-store' });
-                if (ping.ok){
-                  box.innerHTML = `<img src="${u}" alt="result">`;
-                  loaded = true;
-                  break;
-                }
-              } catch (_) {}
-            }
-            if (!loaded){
-              // остання спроба без HEAD
-              const u = `${CDN_HOST}/${resUuid}/-/preview/1200x1200/`;
-              box.innerHTML = `<img src="${u}" alt="result">`;
-            }
+            const url = `${CDN_HOST}/${resUuid}/-/preview/1000x1000/`;
+            box.innerHTML = `<img src="${url}" alt="result">`;
             status.textContent = "✅ Макет готовий!";
-            if (rb) note.textContent = "Режим без фону (якщо аддон вимкнений — показано звичайний результат).";
             return;
           }
         }
