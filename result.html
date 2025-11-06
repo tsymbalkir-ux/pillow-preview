@@ -225,5 +225,58 @@
       }
     });
   </script>
+  <!-- ВІДГУКИ -->
+<section class="card reviews" aria-label="Відгуки на Prom і Rozetka">
+  <h3 style="margin-bottom:10px;text-align:center">Відгуки на Prom і Rozetka</h3>
+
+  <div class="carousel">
+    <div class="carousel-track">
+      <div class="review"><img src="reviews/rev1.png" alt="Відгук 1"></div>
+      <div class="review"><img src="reviews/rev2.png" alt="Відгук 2"></div>
+      <div class="review"><img src="reviews/rev3.png" alt="Відгук 3"></div>
+      <div class="review"><img src="reviews/rev4.png" alt="Відгук 4"></div>
+    </div>
+    <button class="nav prev">‹</button>
+    <button class="nav next">›</button>
+  </div>
+</section>
+
+<style>
+.reviews{position:relative;overflow:hidden;padding-bottom:8px}
+.carousel{position:relative;overflow:hidden}
+.carousel-track{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  scroll-behavior:smooth;
+  scrollbar-width:none;
+}
+.carousel-track::-webkit-scrollbar{display:none}
+.review img{
+  height:140px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  box-shadow:0 6px 14px rgba(2,6,23,.05);
+}
+.nav{
+  position:absolute;top:40%;transform:translateY(-50%);
+  background:rgba(255,255,255,0.9);border:1px solid #ccc;
+  border-radius:50%;width:34px;height:34px;font-size:22px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.1);
+}
+.nav.prev{left:4px}
+.nav.next{right:4px}
+@media(max-width:600px){
+  .review img{height:120px}
+  .nav{display:none}
+}
+</style>
+
+<script>
+const track=document.querySelector('.carousel-track');
+document.querySelector('.nav.next').onclick=()=>track.scrollBy({left:220,behavior:'smooth'});
+document.querySelector('.nav.prev').onclick=()=>track.scrollBy({left:-220,behavior:'smooth'});
+</script>
 </body>
 </html>
