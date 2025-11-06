@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Кроп — підготувати макет</title>
+<style>
+  :root{--bg:#f7fafc;--card:#fff;--muted:#64748b;--line:#e2e8f0;}
+  body{margin:0;font-family:Inter,system-ui,Arial;background:var(--bg);color:#0f172a}
+  .wrap{max-width:980px;margin:18px auto;padding:16px}
+  .row{display:flex;gap:16px;flex-wrap:wrap}
+  .card{background:var(--card);border-radius:12px;padding:12px;border:1px solid var(--line);box-shadow:0 8px 24px rgba(2,6,23,.04)}
+  #canvasWrap{position:relative; width:100%; max-width:640px; background:#111; display:flex; align-items:center; justify-content:center}
+  canvas{max-width:100%; height:auto; display:block}
+  /* crop box */
+  .cropBox{
+    position:absolute;
+    border:3px dashed rgba(255,255,255,.9);
+    box-shadow:0 6px 20px rgba(2,6,23,.24);
+    cursor:grab;
+    touch-action:none;
+  }
+  .controls{display:flex;flex-direction:column;gap:8px}
+  .btn{padding:10px 14px;border-radius:10px;border:0;font-weight:700;cursor:pointer}
+  .btn.primary{background:#06a6d6;color:#fff}
+  .muted{color:var(--muted);font-size:13px}
+  label{font-size:13px}
+  input[type="number"]{width:90px;padding:6px;border-radius:8px;border:1px solid #e6eef6}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h2>Розмістіть прямокутник обрізки на фото</h2>
+    <p class="muted">Перетягни прямокутник, щоб вибрати потрібну ділянку. Розмір фіксований (aspect ratio), можна змінити нижче.</p>
+
+    <div class="row">
+      <div class="card" id="canvasWrap" style="flex:1 1 640px; min-height:360px">
+        <canvas id="imgCanvas"></canvas>
+        <div id="cropBox" class="cropBox" aria-hidden="true"></div>
+      </div>
+
+      <div style="flex:0 1 280px" class="controls">
+        <div class="card">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <label>Aspect ratio (w/h):</label>
+            <input id="aspect" type="number" step="0.01" min="0.1" value="0.37"/>
+            <button id="applyAspect" class="btn">Змінити</button>
+          </div>
+          <p class="muted">Приклад: 0.37 = вузький вертикальний формат (dakimakura). Встанови свій.</p>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;gap:8px">
+            <button id="doCrop" class="btn primary">Застосувати кроп і завантажити</button>
+            <button id="cancel" class="btn">Скасувати</button>
+          </div>
+          <p class="muted" id="info">Готово до обрізки</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+/* CONFIG — при потребі поміняй */
+const UPLOAD_URL = "https://upload.uploadcare.com/base/";
+const UPLOADCARE_PUB_KEY = "a531fc572a02653c4d18";
+
+/* Параметри UI / crop */
+const ASPECT_INPUT = document.getElementById("aspect");
+const APPLY_ASPECT_BTN = document.getElementById("applyAspect");
+const CANVAS = document.getElementById("imgCanvas");
+const WRAP = document.getElementById("canvasWrap");
+const CROPBOX = document.getElementById("cropBox");
+const DO_CROP_BTN = document.getElementById("doCrop");
+const INFO = document.getElementById("info");
+const CANCEL = document.getElementById("cancel");
+
+let aspectRatio = parseFloat(ASPECT_INPUT.value) || 0.37; // default
+let img = new Image();
+let naturalW = 0, naturalH = 0;
+let scale = 1;
+
+// crop box state in canvas pixels
+let crop = { x: 50, y: 50, w: 200, h: 540 };
+
+// helper: read query params
+function qp(name){ return new URLSearchParams(location.search).get(name); }
+
+// load image by uuid or src
+(async function init(){
+  const uuid = qp("uuid");
+  const src = qp("src");
+  let url = "";
+  if (uuid) url = `https://ucarecdn.com/${uuid}/-/preview/2048x/`;
+  else if (src) url = src;
+  else {
+    INFO.textContent = "Не знайдено uuid або src в URL. Сторінка має ?uuid=<uuid> або ?src=<url>";
+    return;
+  }
+
+  img.crossOrigin = "anonymous";
+  img.onload = onImageLoad;
+  img.onerror = ()=> INFO.textContent = "Не вдалося завантажити зображення.";
+  img.src = url;
+})();
+
+function onImageLoad(){
+  naturalW = img.naturalWidth; naturalH = img.naturalHeight;
+  fitCanvas();
+  // set initial crop box centered with fixed aspect
+  const startW = Math.round(Math.min(naturalW*0.6, naturalH*aspectRatio*0.6));
+  const startH = Math.round(startW / aspectRatio);
+  crop.w = startW; crop.h = startH;
+  crop.x = Math.round((naturalW - crop.w)/2);
+  crop.y = Math.round((naturalH - crop.h)/2);
+  draw();
+  placeCropDom();
+}
+
+// fit canvas to container while keeping image aspect
+function fitCanvas(){
+  const maxW = WRAP.clientWidth;
+  const maxH = Math.max(360, window.innerHeight * 0.6);
+  const ratio = naturalW / naturalH;
+  let w = Math.min(maxW, naturalW);
+  let h = Math.round(w / ratio);
+  if (h > maxH){ h = maxH; w = Math.round(h * ratio); }
+  CANVAS.width = naturalW; CANVAS.height = naturalH;
+  CANVAS.style.width = w + "px"; CANVAS.style.height = h + "px";
+  scale = w / naturalW;
+  WRAP.style.height = (h) + "px";
+}
+
+// draw image scaled to CSS size but keep canvas natural pixels for cropping math
+function draw(){
+  const ctx = CANVAS.getContext("2d");
+  ctx.clearRect(0,0,CANVAS.width,CANVAS.height);
+  ctx.drawImage(img, 0,0, naturalW, naturalH);
+  // draw overlay on canvas? We'll use DOM crop box for UX instead
+}
+
+// Position DOM crop box according to crop (canvas pixels -> CSS pixels via scale)
+function placeCropDom(){
+  CROPBOX.style.width = Math.round(crop.w * scale) + "px";
+  CROPBOX.style.height = Math.round(crop.h * scale) + "px";
+  CROPBOX.style.left = Math.round(crop.x * scale) + "px";
+  CROPBOX.style.top  = Math.round(crop.y * scale) + "px";
+}
+
+// drag handling (move only)
+let dragging=false, dragStart={x:0,y:0}, origin={x:0,y:0};
+CROPBOX.addEventListener("pointerdown", e=>{
+  dragging = true; CROPBOX.setPointerCapture(e.pointerId);
+  CROPBOX.style.cursor = "grabbing";
+  dragStart.x = e.clientX; dragStart.y = e.clientY;
+  origin.x = crop.x; origin.y = crop.y;
+});
+window.addEventListener("pointermove", e=>{
+  if(!dragging) return;
+  const dx = (e.clientX - dragStart.x)/scale;
+  const dy = (e.clientY - dragStart.y)/scale;
+  crop.x = Math.max(0, Math.min(naturalW - crop.w, Math.round(origin.x + dx)));
+  crop.y = Math.max(0, Math.min(naturalH - crop.h, Math.round(origin.y + dy)));
+  placeCropDom();
+});
+window.addEventListener("pointerup", e=>{
+  if(!dragging) return;
+  dragging=false; CROPBOX.style.cursor="grab";
+});
+
+// apply aspect change
+APPLY_ASPECT_BTN.addEventListener("click", ()=>{
+  const v = parseFloat(ASPECT_INPUT.value);
+  if (!isFinite(v) || v <= 0) return alert("Невірний aspect ratio");
+  aspectRatio = v;
+  // keep center, recompute w/h to fit
+  const centerX = crop.x + crop.w/2, centerY = crop.y + crop.h/2;
+  let newW = Math.round(Math.min(naturalW*0.6, naturalH*aspectRatio*0.6));
+  let newH = Math.round(newW / aspectRatio);
+  crop.w = Math.min(naturalW, newW);
+  crop.h = Math.min(naturalH, newH);
+  crop.x = Math.max(0, Math.min(naturalW - crop.w, Math.round(centerX - crop.w/2)));
+  crop.y = Math.max(0, Math.min(naturalH - crop.h, Math.round(centerY - crop.h/2)));
+  placeCropDom();
+});
+
+// crop -> canvas blob -> upload to Uploadcare with metadata.token
+DO_CROP_BTN.addEventListener("click", async ()=>{
+  INFO.textContent = "Виконую обрізку, формую файл...";
+  try {
+    // draw cropped region into temporary canvas sized to crop.w x crop.h
+    const tmp = document.createElement("canvas");
+    tmp.width = crop.w; tmp.height = crop.h;
+    const tctx = tmp.getContext("2d");
+    tctx.drawImage(img, crop.x, crop.y, crop.w, crop.h, 0,0, crop.w, crop.h);
+
+    // toBlob (PNG or JPG)
+    const blob = await new Promise(res=> tmp.toBlob(res, "image/jpeg", 0.92));
+    if(!blob) throw new Error("Не вдалось сформувати blob");
+
+    INFO.textContent = "Завантажую обрізане зображення...";
+
+    // token — беремо з query 'token' якщо є, або формуємо та виводимо (рекомендовано формувати раніше)
+    let token = qp("token");
+    if(!token){
+      // формуємо token у форматі YYYYMMDDHHMMSS-XXXX — щоб ім'я output-... могло бути таким
+      const d = new Date();
+      const pad = n=>String(n).padStart(2,"0");
+      token = `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}-${Math.floor(Math.random()*9000+1000)}`;
+    }
+
+    // POST formdata to Uploadcare base
+    const fd = new FormData();
+    fd.append("file", blob, "crop.jpg");
+    fd.append("UPLOADCARE_PUB_KEY", UPLOADCARE_PUB_KEY);
+    fd.append("UPLOADCARE_STORE", "auto");
+    // metadata as JSON string is supported (Uploadcare will set file.metadata)
+    fd.append("metadata[token]", token); // simple metadata field approach
+
+    const resp = await fetch(UPLOAD_URL, { method: "POST", body: fd });
+    if(!resp.ok) throw new Error("Upload failed: " + resp.status);
+    const j = await resp.json();
+    // the API returns {file: "<uuid>"} or similar
+    const newUuid = j.file || j.uuid || j.file_uuid || (j?.file?.uuid);
+    if(!newUuid){
+      // fallback: try to read 'file' field
+      console.log("upload resp:", j);
+      throw new Error("Не отримано UUID після аплоаду");
+    }
+
+    INFO.textContent = "Обрізка завантажена, перенаправляю…";
+    // redirect to result flow (далі твій вотчер знайде metadata.token)
+    location.href = `result.html?uuid=${newUuid}`;
+  } catch(err){
+    console.error(err);
+    INFO.textContent = "Помилка: " + err.message;
+    alert("Помилка обробки: " + err.message);
+  }
+});
+
+CANCEL.addEventListener("click", ()=> history.back());
+
+// handle window resize to recompute scale
+window.addEventListener("resize", ()=>{
+  fitCanvas();
+  placeCropDom();
+});
+</script>
+</body>
+</html>
