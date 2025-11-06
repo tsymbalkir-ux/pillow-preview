@@ -3,15 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Попередній перегляд — Подушка з фото</title>
-  <meta name="description" content="Попередній перегляд вашої подушки та оформлення замовлення."/>
+  <title>Результат — Подушка з фото</title>
+  <meta name="description" content="Готовий макет подушки з вашого фото."/>
   <style>
     :root{--bg:#f7fafc;--card:#fff;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--accent:#0ea5e9;--radius:18px;}
-    *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
     .wrap{max-width:760px;margin:0 auto;padding:24px}
     header{text-align:center;margin-bottom:16px}
     header h1{font-size:clamp(22px,4.6vw,34px);margin:0 0 8px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:0 10px 30px rgba(2,6,23,.04);margin-bottom:18px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;
+          box-shadow:0 10px 30px rgba(2,6,23,.04);margin-bottom:18px}
+    .preview{min-height:200px;display:flex;align-items:center;justify-content:center}
     .preview img{width:100%;border-radius:14px;border:1px solid var(--line);box-shadow:0 16px 36px rgba(2,6,23,.06)}
     .muted{color:var(--muted);font-size:14px;text-align:center;margin-top:8px}
     .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
@@ -21,74 +24,74 @@
 <body>
   <div class="wrap">
     <header>
-      <h1>Попередній перегляд</h1>
-      <p>Спочатку показуємо завантажене фото. Коли макет готовий — автоматично підміняємо на результат.</p>
+      <h1>Готовий результат</h1>
+      <p id="status" class="muted">Очікуємо на макет… (сторінка оновиться автоматично)</p>
     </header>
 
     <section class="card">
-      <div id="preview" class="preview"></div>
-      <p id="note" class="muted"></p>
-      <a href="index.html" class="btn ghost" style="margin-top:12px;display:inline-block">↩️ Завантажити інше фото</a>
+      <div id="preview" class="preview">
+        <!-- лиш одна картинка output з’явиться тут -->
+      </div>
+      <div style="text-align:center;margin-top:12px">
+        <a href="index.html" class="btn ghost">↩️ Завантажити інше фото</a>
+      </div>
     </section>
   </div>
 
   <script>
-    const CDN   = "https://5qcw92vr76.ucarecd.net";
-    const BINID = "690a58f0d0ea881f40d3da19";
-    const BIN   = `https://api.jsonbin.io/v3/b/${BINID}/latest`;
+    // Фіксований твій CDN-хост
+    const CDN_HOST = "https://5qcw92vr76.ucarecd.net";
 
-    const qs     = new URLSearchParams(location.search);
-    const img    = qs.get('img')   || '';
-    const origId = qs.get('uuid')  || ''; // це UUID ВХІДНОГО (input), ключ у JSONBin
-    const note   = document.getElementById('note');
-    const box    = document.getElementById('preview');
+    // Твій JSONBin
+    const BIN_ID  = "690a58f0d0ea881f40d3da19";
+    const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`;
 
-    // витягнути uuid із рядка
-    function pickUuid(s){ const m = String(s||'').match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i); return m?m[0]:''; }
+    // Параметри
+    const qs      = new URLSearchParams(location.search);
+    const origId  = qs.get("uuid") || localStorage.getItem("last_uuid") || "";
+    const orderId = qs.get("order") || "";
 
-    // 1) показати прев'ю для input
-    const inputUuid = pickUuid(img);
-    if (inputUuid){
-      const u = `${CDN}/${inputUuid}/-/preview/1200x1200/?t=${Date.now()}`;
-      box.innerHTML = `<img id="photo" src="${u}" alt="preview">`;
-      note.textContent = origId ? "Очікуємо готовий макет…" : "UUID не передано — показуємо лише прев’ю.";
-      console.log("[result] show input preview:", u, "| origId:", origId);
-    } else {
-      box.innerHTML = `<p class="muted">Фото не додано. <a href="index.html">Повернутися</a></p>`;
-      note.textContent = "";
-      console.warn("[result] no input preview (img param missing or invalid)");
+    const box    = document.getElementById("preview");
+    const status = document.getElementById("status");
+
+    // Допоміжне: дістати UUID з рядка/URL
+    function pickUuid(s){
+      const m = String(s||"").match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i);
+      return m ? m[0] : "";
     }
 
-    // 2) полінг JSONBin → отримуємо result_uuid і ПІДМІНЯЄМО src
+    if (!origId) {
+      status.textContent = "Не передано uuid (ключ замовлення). Поверніться та завантажте фото ще раз.";
+      box.innerHTML = "";
+    } else {
+      // Збережемо на всяк
+      localStorage.setItem("last_uuid", origId);
+      // Стартуємо полінг лише по результату (без жодного прев’ю інпуту)
+      poll();
+    }
+
     async function poll(){
-      if (!origId) return;
-      try{
-        const r = await fetch(`${BIN}?ts=${Date.now()}`, {cache:'no-store'});
-        if (r.ok){
-          const j = await r.json();
-          const map = j.record || {};
-          const saved = map[origId];                 // очікуємо тут result_uuid
-          const resultUuid = pickUuid(saved);
-          console.log("[result] JSONBin lookup:", {origId, saved});
-          if (resultUuid){
-            const final = `${CDN}/${resultUuid}/-/preview/1200x1200/?t=${Date.now()}`;
-            const imgEl = document.getElementById('photo');
-            if (imgEl){
-              imgEl.src = final;                     // <- ключове: ПІДМІНЯЄМО НА RESULT
-            } else {
-              box.innerHTML = `<img id="photo" src="${final}" alt="result">`;
-            }
-            note.textContent = "✅ Макет готовий!";
-            console.log("[result] show OUTPUT:", final);
-            return; // зупиняємо полінг
-          }
-        } else {
-          console.warn("[result] JSONBin http:", r.status);
+      try {
+        const r = await fetch(`${BIN_URL}?ts=${Date.now()}`, { cache: "no-store" });
+        if (!r.ok) throw new Error("JSONBin HTTP " + r.status);
+        const j = await r.json();
+        const map = j.record || {};
+        const saved = map[origId];            // тут має бути result_uuid (або повний URL — теж витягнемо uuid)
+        const resUuid = pickUuid(saved);
+
+        if (resUuid) {
+          const url = `${CDN_HOST}/${resUuid}/-/preview/1200x1200/?t=${Date.now()}`;
+          box.innerHTML = `<img src="${url}" alt="result">`;
+          status.textContent = "✅ Макет готовий!";
+          return; // зупиняємо полінг — є результат
         }
-      }catch(e){ console.warn("[result] JSONBin error:", e); }
+      } catch (e) {
+        // мовчазно — просто наступна спроба
+        // console.warn(e);
+      }
+      // повторимо
       setTimeout(poll, 2500);
     }
-    poll();
   </script>
 </body>
 </html>
