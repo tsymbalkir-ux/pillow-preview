@@ -26,12 +26,12 @@
     .controls{margin-top:14px;display:flex;justify-content:center}
     .form-row{display:flex;flex-direction:column;gap:6px;max-width:360px;width:100%}
     label{font-size:14px;color:var(--muted)}
-    select{
+    select, input{
       width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);
       background:#fff;font-size:14px;color:#0f172a;outline:none
     }
 
-    /* новий блок інформації */
+    /* інфо-блок */
     .info-block{
       margin-top:20px;
       padding:14px 18px;
@@ -42,6 +42,18 @@
       color:#0f172a;
     }
     .info-block ul{padding-left:18px;margin:0}
+
+    /* замовлення */
+    .order{margin-top:18px}
+    .order h3{margin:0 0 10px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .grid .full{grid-column:1/-1}
+    .submit-row{margin-top:10px;display:flex;gap:10px;align-items:center}
+    .btn.primary{background:linear-gradient(135deg,var(--accent),#60a5fa);color:#fff}
+    .note{font-size:12px;color:var(--muted)}
+    @media (max-width:560px){ .grid{grid-template-columns:1fr} }
+    .success{color:#16a34a}
+    .error{color:#dc2626}
   </style>
 </head>
 <body>
@@ -71,7 +83,7 @@
         </div>
       </div>
 
-      <!-- Новий блок інформації -->
+      <!-- Інфо-блок -->
       <div class="info-block">
         <ul>
           <li><strong>Без Передоплат</strong></li>
@@ -80,9 +92,47 @@
         </ul>
       </div>
     </section>
+
+    <!-- ОФОРМЛЕННЯ ЗАМОВЛЕННЯ -->
+    <section class="card order" aria-label="Оформлення замовлення">
+      <h3>Оформлення замовлення</h3>
+      <form id="orderForm">
+        <div class="grid">
+          <div class="full">
+            <label for="phone">Телефон*</label>
+            <input id="phone" name="phone" type="tel" placeholder="+380..." required />
+          </div>
+          <div>
+            <label for="lname">Прізвище*</label>
+            <input id="lname" name="last_name" required />
+          </div>
+          <div>
+            <label for="fname">Ім’я*</label>
+            <input id="fname" name="first_name" required />
+          </div>
+          <div>
+            <label for="city">Населений пункт*</label>
+            <input id="city" name="city" required />
+          </div>
+          <div>
+            <label for="np">Номер Нової Пошти*</label>
+            <input id="np" name="np_branch" required />
+          </div>
+        </div>
+
+        <div class="submit-row">
+          <button class="btn primary" type="submit">✅ Підтвердити замовлення</button>
+          <span id="formMsg" class="muted"></span>
+        </div>
+        <div class="note">* натискаючи “Підтвердити”, ви погоджуєтесь на обробку даних для оформлення доставки</div>
+      </form>
+    </section>
   </div>
 
   <script>
+    // === Налаштування ===
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbwsk74T5auA2RwrKoZvC0dTLpw7LTsFwObUvTCjgG18gltJBWt3qYakGBFGXszqXJaz/exec";
+
     const CDN_HOST = "https://5qcw92vr76.ucarecd.net";
     const BIN_ID  = "690cba9443b1c97be99cf32e";
     const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`;
@@ -118,12 +168,62 @@
             const url = `${CDN_HOST}/${resUuid}/-/preview/1000x1000/`;
             box.innerHTML = `<img src="${url}" alt="result">`;
             status.textContent = "✅ Макет готовий!";
+            localStorage.setItem('result_url', url);
             return;
           }
         }
       } catch (_) {}
       setTimeout(poll, POLL_MS);
     }
+
+    // === Відправка форми до Google Sheets ===
+    const formEl = document.getElementById('orderForm');
+    const msgEl  = document.getElementById('formMsg');
+    const sizeEl = document.getElementById('sizeSelect');
+
+    function parseSize(val){
+      const [size, price] = String(val||'').split('|');
+      return { size, price };
+    }
+
+    formEl.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      msgEl.textContent = 'Надсилаємо…';
+
+      const { size, price } = parseSize(sizeEl.value);
+      const payload = {
+        order_id: localStorage.getItem('order_id') || '',
+        uuid: localStorage.getItem('last_uuid') || '',
+        input_url: localStorage.getItem('input_url') || '',
+        result_url: localStorage.getItem('result_url') || '',
+        size_label: sizeEl.options[sizeEl.selectedIndex].text,
+        size_value: size,
+        price_uah: price,
+        phone: document.getElementById('phone').value.trim(),
+        last_name: document.getElementById('lname').value.trim(),
+        first_name: document.getElementById('fname').value.trim(),
+        city: document.getElementById('city').value.trim(),
+        np_branch: document.getElementById('np').value.trim(),
+        source: 'pillow-preview',
+        ts: new Date().toISOString()
+      };
+
+      try{
+        await fetch(GAS_URL, {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify(payload),
+          mode: 'no-cors'
+        });
+        msgEl.textContent = '✅ Заявку надіслано! Ми зв’яжемося з вами.';
+        msgEl.className = 'success';
+        formEl.reset();
+      }catch(err){
+        console.error('send error', err);
+        msgEl.textContent = '❌ Не вдалося надіслати. Спробуйте ще раз або напишіть нам.';
+        msgEl.className = 'error';
+      }
+    });
   </script>
 </body>
 </html>
