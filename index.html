@@ -9,6 +9,7 @@
   <!-- Uploadcare config -->
   <script>
     window.UPLOADCARE_PUBLIC_KEY = 'a531fc572a02653c4d18';
+    /* Перший аплоад UNSTORED, щоб другим зберегти як input-<id>.png */
     window.UPLOADCARE_STORE = '0';
     window.UPLOADCARE_SYSTEM_DIALOG = true;
   </script>
@@ -29,25 +30,18 @@
     .btn.primary{background:linear-gradient(135deg,var(--accent),#60a5fa);color:#fff}
     .muted{color:var(--muted);font-size:14px}
     .preview img{max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(2,6,23,.06)}
-    .opts{display:flex;align-items:center;gap:10px;justify-content:center;margin-top:10px}
-    .check{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #e6eef6;border-radius:10px;padding:8px 12px}
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
       <h1>Подушка з твоїм фото</h1>
-      <p>Завантаж зображення — за бажанням можемо <strong>забрати фон</strong> (експериментально).</p>
+      <p>Завантаж зображення — ми підготуємо макет і надамо результат. Працює на телефоні та десктопі.</p>
     </header>
 
     <section class="card">
       <h2 style="margin-top:4px">1) Завантаж своє фото</h2>
-      <div class="opts">
-        <label class="check">
-          <input id="rb" type="checkbox"/>
-          <span>Забрати фон (AI)</span>
-        </label>
-      </div>
+      <p class="muted">Підтримуємо JPG/PNG/WebP/HEIC/AVIF — усе конвертуємо у PNG.</p>
       <div class="uploader" style="margin-top:10px">
         <button id="openUpload" class="btn primary">📸 Завантажити фото</button>
         <div id="status" class="muted" style="margin-top:10px"></div>
@@ -62,26 +56,28 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    const BASE = ''; // відносні лінки (index і result у тій самій папці)
 
-    function makeToken(){
+    // базовий URL для редіректу (GitHub Pages)
+    const BASE = 'https://tsymbalkir-ux.github.io/pillow-preview/';
+
+    function makeOrderId(){
       const d = new Date(), p = n => String(n).padStart(2,'0');
       return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}-${Math.floor(1000+Math.random()*9000)}`;
     }
 
+    // Беремо PNG зі сторони CDN (Uploadcare конвертує на льоту)
     async function fetchAsPngBlob(cdnUrl){
       const res = await fetch(`${cdnUrl}-/format/png/`, { cache: 'no-store' });
       if(!res.ok) throw new Error('Не вдалося отримати PNG');
       return await res.blob();
     }
 
-    async function uploadBlobStored(blob, filename, token, removeBgFlag){
+    // Другий аплоад — STORED (з нашим ім’ям файлу)
+    async function uploadBlobStored(blob, filename){
       const form = new FormData();
       form.append('UPLOADCARE_PUB_KEY', 'a531fc572a02653c4d18');
       form.append('UPLOADCARE_STORE', '1');
       form.append('file', blob, filename);
-      form.append('metadata[token]', token);
-      if (removeBgFlag) form.append('metadata[remove_bg]', '1'); // для бек-процесу/вотчера
       const r = await fetch('https://upload.uploadcare.com/base/', { method:'POST', body: form });
       if(!r.ok) throw new Error('Помилка Uploadcare base/');
       const j = await r.json();
@@ -91,32 +87,37 @@
     }
 
     document.getElementById('openUpload').addEventListener('click', () => {
-      const removeBg = document.getElementById('rb').checked;
-      const token = makeToken();
-      const dialog = uploadcare.openDialog(null, { imagesOnly:true, systemDialog:true, metadata: { token, remove_bg: removeBg ? '1' : '0' } });
-
+      const dialog = uploadcare.openDialog(null, null, { imagesOnly:true, systemDialog:true });
       dialog.done(file => {
         file.done(async info => {
           const status = document.getElementById('status');
           const preview = document.getElementById('preview');
           try {
+            const orderId = makeOrderId();
+
+            // 1) перший (unstored) аплоад — щоб взяти контент
             const srcCdn  = info.cdnUrl;
             if(!srcCdn) throw new Error('Uploadcare не повернув cdnUrl');
 
+            // 2) конвертуємо в PNG та заливаємо як stored з ім’ям input-<orderId>.png
             const pngBlob = await fetchAsPngBlob(srcCdn);
-            const newName = `input-${token}.png`;
-            const stored  = await uploadBlobStored(pngBlob, newName, token, removeBg);
+            const newName = `input-${orderId}.png`;
+            const stored  = await uploadBlobStored(pngBlob, newName); // {uuid, cdnUrl, name}
 
+            // превʼю через PREVIEW + FORMAT/AUTO (швидкий показ)
             const thumb  = `${stored.cdnUrl}-/preview/900x900/-/format/auto/`;
-            status.textContent = `✅ Завантажено як ${newName}${removeBg ? ' (без фону)' : ''}`;
+            status.textContent = `✅ Завантажено як ${newName}`;
             preview.innerHTML = `<img src="${thumb}" alt="preview">`;
 
-            localStorage.setItem('token', token);
+            // локальне збереження (для сумісності)
+            localStorage.setItem('order_id', orderId);
+            localStorage.setItem('input_url', stored.cdnUrl);
+            localStorage.setItem('input_name', newName);
+            localStorage.setItem('last_upload_url', stored.cdnUrl);
             localStorage.setItem('last_uuid', stored.uuid);
-            localStorage.setItem('remove_bg', removeBg ? '1' : '0');
 
-            // передаємо в result параметр rb=1|0 (для відображення через трансформацію, якщо доступна)
-            const href = `${BASE}result.html?uuid=${encodeURIComponent(stored.uuid)}&token=${encodeURIComponent(token)}&rb=${removeBg?'1':'0'}`;
+            // 3) редірект із UUID на сторінку попереднього перегляду
+            const href = `${BASE}result.html?uuid=${encodeURIComponent(stored.uuid)}&img=${encodeURIComponent(stored.cdnUrl)}&order=${encodeURIComponent(orderId)}`;
             location.href = href;
           } catch(err){
             console.error('[upload] error:', err);
