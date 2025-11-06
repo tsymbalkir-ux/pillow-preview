@@ -30,8 +30,9 @@
 
     <section class="card">
       <div id="preview" class="preview"></div>
-      <div style="text-align:center;margin-top:12px">
-        <a href="index.html" class="btn ghost">↩️ Завантажити інше фото</a>
+      <div style="text-align:center;margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+        <a href="index.html" class="btn ghost">↩️ Нове фото</a>
+        <a id="backToEditor" href="#" class="btn ghost">✂️ Повернутися до кропу</a>
       </div>
     </section>
   </div>
@@ -40,12 +41,21 @@
     const CDN_HOST = "https://5qcw92vr76.ucarecd.net";
     const BIN_ID  = "690cba9443b1c97be99cf32e";
     const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`;
-    const POLL_MS = 900; // швидше за 2500
+    const POLL_MS = 900;
 
     const qs      = new URLSearchParams(location.search);
     const origId  = qs.get("uuid") || localStorage.getItem("last_uuid") || "";
+    const token   = qs.get("token") || localStorage.getItem("token") || "";
     const box     = document.getElementById("preview");
     const status  = document.getElementById("status");
+
+    const back = document.getElementById("backToEditor");
+    back.onclick = (e)=>{
+      e.preventDefault();
+      if(!origId){ alert('Немає UUID для повернення до редактора'); return; }
+      const base = location.href.replace(/result\.html.*$/,''); 
+      location.href = base + 'editor.html?uuid=' + encodeURIComponent(origId) + (token ? ('&token=' + encodeURIComponent(token)) : '');
+    };
 
     function pickUuid(s){
       const m = String(s||"").match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i);
@@ -62,14 +72,14 @@
     async function poll(){
       try {
         const ctrl = new AbortController();
-        const id = setTimeout(()=>ctrl.abort(), 2000); // таймаут на довгі відповіді
+        const id = setTimeout(()=>ctrl.abort(), 2000);
         const r = await fetch(`${BIN_URL}?ts=${Date.now()}`, { cache: "no-store", signal: ctrl.signal });
         clearTimeout(id);
         if (r.ok) {
           const j = await r.json();
           const resUuid = pickUuid((j.record || {})[origId]);
           if (resUuid) {
-            const url = `${CDN_HOST}/${resUuid}/-/preview/1000x1000/`;
+            const url = `${CDN_HOST}/${resUuid}/-/preview/1200x1200/`;
             box.innerHTML = `<img src="${url}" alt="result">`;
             status.textContent = "✅ Макет готовий!";
             return;
