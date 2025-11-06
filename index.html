@@ -30,6 +30,28 @@
     .btn.primary{background:linear-gradient(135deg,var(--accent),#60a5fa);color:#fff}
     .muted{color:var(--muted);font-size:14px}
     .preview img{max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(2,6,23,.06)}
+
+    /* VIDEO */
+    .video-card h2{margin:6px 0 12px;font-size:16px;color:var(--muted);font-weight:600}
+    .video-wrap{
+      position:relative;
+      width:100%;
+      aspect-ratio:16/9;            /* без чорних полів і стабільна висота */
+      border-radius:14px;
+      overflow:hidden;
+      background:#000;
+      border:1px solid var(--line);
+      box-shadow:0 12px 30px rgba(2,6,23,.06);
+    }
+    .video-wrap iframe{
+      position:absolute; inset:0; width:100%; height:100%; border:0;
+    }
+    @media (max-width:560px){
+      .video-card h2{font-size:14px}
+    }
+    @media (prefers-reduced-motion: reduce){
+      .video-wrap iframe{opacity:.001} /* не граємо відео для тих, хто просить менше анімації */
+    }
   </style>
 </head>
 <body>
@@ -38,6 +60,19 @@
       <h1>Подушка з твоїм дизайном</h1><h1>WOW-Подарунок</h1>
       <p>Завантаж фото → Переглянь макет → Оформи замовлення</p>
     </header>
+
+    <!-- VIDEO: вставлено між підзаголовком і аплоадом -->
+    <section class="card video-card" aria-label="Коротке відео-пояснення">
+      <h2>Як це виглядає (12 сек)</h2>
+      <div class="video-wrap">
+        <iframe
+          title="Подушка з фото — коротке відео"
+          src="https://www.youtube.com/embed/zzx11W-KdlM?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1&controls=0&loop=1&playlist=zzx11W-KdlM"
+          allow="autoplay; encrypted-media; picture-in-picture; clipboard-write; web-share"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </section>
 
     <section class="card">
       <h2 style="margin-top:4px">Завантажте ваше фото</h2>
