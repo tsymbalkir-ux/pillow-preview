@@ -22,7 +22,7 @@
     .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
     .btn.ghost{background:#edf2f7;color:#0f172a;border:1px solid #dbe3ee}
 
-    /* NEW: стилі для селектора розміру */
+    /* селектор розміру */
     .controls{margin-top:14px;display:flex;justify-content:center}
     .form-row{display:flex;flex-direction:column;gap:6px;max-width:360px;width:100%}
     label{font-size:14px;color:var(--muted)}
@@ -30,6 +30,18 @@
       width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);
       background:#fff;font-size:14px;color:#0f172a;outline:none
     }
+
+    /* новий блок інформації */
+    .info-block{
+      margin-top:20px;
+      padding:14px 18px;
+      background:#f1f5f9;
+      border-radius:12px;
+      font-size:14px;
+      line-height:1.6;
+      color:#0f172a;
+    }
+    .info-block ul{padding-left:18px;margin:0}
   </style>
 </head>
 <body>
@@ -46,7 +58,7 @@
         <a href="index.html" class="btn ghost">↩️ Завантажити інше фото</a>
       </div>
 
-      <!-- NEW: випадаючий список "Оберіть розмір" -->
+      <!-- Випадаючий список "Оберіть розмір" -->
       <div class="controls">
         <div class="form-row">
           <label for="sizeSelect">Оберіть розмір</label>
@@ -58,6 +70,15 @@
           </select>
         </div>
       </div>
+
+      <!-- Новий блок інформації -->
+      <div class="info-block">
+        <ul>
+          <li><strong>Без Передоплат</strong></li>
+          <li>Виготовлення і відправка <strong>Новою Поштою 1–2 робочих дні</strong></li>
+          <li>Матеріал наволочки — <strong>габардин</strong>, подушка — <strong>бязь</strong>, наповнювач — <strong>холофайбер</strong></li>
+        </ul>
+      </div>
     </section>
   </div>
 
@@ -65,7 +86,7 @@
     const CDN_HOST = "https://5qcw92vr76.ucarecd.net";
     const BIN_ID  = "690cba9443b1c97be99cf32e";
     const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`;
-    const POLL_MS = 900; // швидше за 2500
+    const POLL_MS = 900;
 
     const qs      = new URLSearchParams(location.search);
     const origId  = qs.get("uuid") || localStorage.getItem("last_uuid") || "";
@@ -87,7 +108,7 @@
     async function poll(){
       try {
         const ctrl = new AbortController();
-        const id = setTimeout(()=>ctrl.abort(), 2000); // таймаут на довгі відповіді
+        const id = setTimeout(()=>ctrl.abort(), 2000);
         const r = await fetch(`${BIN_URL}?ts=${Date.now()}`, { cache: "no-store", signal: ctrl.signal });
         clearTimeout(id);
         if (r.ok) {
@@ -100,7 +121,7 @@
             return;
           }
         }
-      } catch (_) { /* тихо */ }
+      } catch (_) {}
       setTimeout(poll, POLL_MS);
     }
   </script>
