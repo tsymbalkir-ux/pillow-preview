@@ -12,13 +12,24 @@
     .wrap{max-width:760px;margin:0 auto;padding:24px}
     header{text-align:center;margin-bottom:16px}
     header h1{font-size:clamp(22px,4.6vw,34px);margin:0 0 8px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;
-          box-shadow:0 10px 30px rgba(2,6,23,.04);margin-bottom:18px}
+    .card{
+      background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;
+      box-shadow:0 10px 30px rgba(2,6,23,.04);margin-bottom:18px
+    }
     .preview{min-height:200px;display:flex;align-items:center;justify-content:center}
     .preview img{width:100%;border-radius:14px;border:1px solid var(--line);box-shadow:0 16px 36px rgba(2,6,23,.06)}
     .muted{color:var(--muted);font-size:14px;text-align:center;margin-top:8px}
     .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
     .btn.ghost{background:#edf2f7;color:#0f172a;border:1px solid #dbe3ee}
+
+    /* NEW: стилі для селектора розміру */
+    .controls{margin-top:14px;display:flex;justify-content:center}
+    .form-row{display:flex;flex-direction:column;gap:6px;max-width:360px;width:100%}
+    label{font-size:14px;color:var(--muted)}
+    select{
+      width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);
+      background:#fff;font-size:14px;color:#0f172a;outline:none
+    }
   </style>
 </head>
 <body>
@@ -30,8 +41,22 @@
 
     <section class="card">
       <div id="preview" class="preview"></div>
+
       <div style="text-align:center;margin-top:12px">
         <a href="index.html" class="btn ghost">↩️ Завантажити інше фото</a>
+      </div>
+
+      <!-- NEW: випадаючий список "Оберіть розмір" -->
+      <div class="controls">
+        <div class="form-row">
+          <label for="sizeSelect">Оберіть розмір</label>
+          <select id="sizeSelect" name="size">
+            <option value="33x100|950">33 на 100 см — 950 грн</option>
+            <option value="40x120|1190">40 на 120 см — 1190 грн</option>
+            <option value="50x150|1490">50 на 150 см — 1490 грн</option>
+            <option value="60x180|1890">60 на 180 см — 1890 грн</option>
+          </select>
+        </div>
       </div>
     </section>
   </div>
