@@ -6,10 +6,7 @@
   <title>Попередній перегляд — Подушка з фото</title>
   <meta name="description" content="Попередній перегляд вашої подушки та оформлення замовлення."/>
   <style>
-    :root{
-      --bg:#f7fafc; --card:#ffffff; --text:#0f172a; --muted:#64748b; --line:#e2e8f0;
-      --accent:#0ea5e9; --radius:18px;
-    }
+    :root{ --bg:#f7fafc; --card:#ffffff; --text:#0f172a; --muted:#64748b; --line:#e2e8f0; --accent:#0ea5e9; --radius:18px; }
     *{box-sizing:border-box}
     html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
     a{color:var(--accent);text-decoration:none}
@@ -42,72 +39,59 @@
     <footer>© <span id="year"></span> Подушка з фото</footer>
   </div>
 
- <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-  const params  = new URLSearchParams(location.search);
-  const imgUrl  = params.get('img')  || localStorage.getItem('last_upload_url') || '';
-  const uuid    = params.get('uuid') || localStorage.getItem('last_uuid') || '';
-  const box     = document.getElementById('preview');
-  const note    = document.getElementById('note');
+    const CDN_HOST = 'https://5qcw92vr76.ucarecd.net';           // <-- твій домен
+    const BIN_ID   = '690a58f0d0ea881f40d3da19';                 // JSONBin
+    const BIN_URL  = `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`;
 
-  // JSONBin (public read)
-  const BIN_ID  = "690a58f0d0ea881f40d3da19";
-  const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`;
+    const params  = new URLSearchParams(location.search);
+    const imgUrl  = params.get('img')  || localStorage.getItem('last_upload_url') || '';
+    const uuid    = params.get('uuid') || localStorage.getItem('last_uuid') || '';
+    const box     = document.getElementById('preview');
+    const note    = document.getElementById('note');
 
-  // Визначимо "базовий" CDN-хост із параметра img (щоб поважати *.ucarecd.net)
-  function pickCdnBase() {
-    try {
-      const u = new URL(imgUrl);
-      return `${u.protocol}//${u.host}`; // напр., https://5qcw92vr76.ucarecd.net
-    } catch { 
-      return "https://ucarecdn.com"; 
+    function extractUuid(str) {
+      const m = String(str||'').match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i);
+      return m ? m[0] : '';
     }
-  }
 
-  function extractUuidFrom(any) {
-    // витягаємо UUID із рядка типу "https://.../<uuid>/" або просто "<uuid>"
-    const m = String(any).match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i);
-    return m ? m[0] : "";
-  }
+    // 1) Показуємо прев’ю з твого хоста (беремо uuid з img=)
+    const origUuid = extractUuid(imgUrl);
+    if (origUuid) {
+      const thumb = `${CDN_HOST}/${origUuid}/-/preview/1200x1200/`;
+      box.innerHTML = `<img id="photo" src="${thumb}" alt="preview">`;
+      note.textContent = uuid
+        ? 'Очікуємо готовий макет… Сторінка оновиться автоматично.'
+        : 'UUID не передано. Показуємо лише прев’ю.';
+    } else {
+      box.innerHTML = '<p class="muted">Фото не додано. <a href="index.html">Повернутися</a></p>';
+      note.textContent = '';
+    }
 
-  // 1) показуємо превʼю
-  if (imgUrl) {
-    const thumb = `${imgUrl.replace(/\/$/, "")}/-/preview/1200x1200/`;
-    box.innerHTML = `<img id="photo" src="${thumb}" alt="preview">`;
-    note.textContent = uuid
-      ? 'Очікуємо готовий макет… Сторінка оновиться автоматично.'
-      : 'UUID не передано. Показуємо лише прев’ю.';
-  } else {
-    box.innerHTML = '<p class="muted">Фото не додано. <a href="index.html">Повернутися</a></p>';
-    note.textContent = '';
-  }
-
-  // 2) полінг JSONBin за uuid → будуємо фінальний URL на базі того ж хоста, що в img
-  async function poll() {
-    if (!uuid) return;
-    try {
-      const r = await fetch(`${BIN_URL}?ts=${Date.now()}`, { cache: 'no-store' });
-      if (r.ok) {
-        const j = await r.json();
-        const record = j.record || {};
-        // у JSONBin значенням зберігаємо ТІЛЬКИ result_uuid або старий повний URL — підтримуємо обидва
-        const saved = record[uuid];
-        const resultUuid = extractUuidFrom(saved);
-        if (resultUuid) {
-          const base = pickCdnBase(); // поважає *.ucarecd.net
-          const finalUrl = `${base}/${resultUuid}/-/quality/smart/-/format/jpeg/`;
-          const imgEl = document.getElementById('photo');
-          if (imgEl) imgEl.src = finalUrl; else box.innerHTML = `<img id="photo" src="${finalUrl}" alt="result">`;
-          note.textContent = 'Готово ✅';
-          return; // stop polling
+    // 2) Полінг JSONBin → будуємо фінал теж на твоєму хості
+    async function poll() {
+      if (!uuid) return;
+      try {
+        const r = await fetch(`${BIN_URL}?ts=${Date.now()}`, { cache: 'no-store' });
+        if (r.ok) {
+          const j = await r.json();
+          const record = j.record || {};
+          const saved  = record[uuid];                 // зберігаємо result_uuid
+          const resultUuid = extractUuid(saved);
+          if (resultUuid) {
+            const finalUrl = `${CDN_HOST}/${resultUuid}/-/preview/1200x1200/`;
+            const imgEl = document.getElementById('photo');
+            if (imgEl) imgEl.src = finalUrl; else box.innerHTML = `<img id="photo" src="${finalUrl}" alt="result">`;
+            note.textContent = 'Готово ✅';
+            return; // stop polling
+          }
         }
-      }
-    } catch {}
-    setTimeout(poll, 2500);
-  }
-  poll();
-</script>
-
+      } catch (e) {}
+      setTimeout(poll, 2500);
+    }
+    poll();
+  </script>
 </body>
 </html>
