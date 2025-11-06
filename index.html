@@ -9,122 +9,35 @@
   <!-- Uploadcare config -->
   <script>
     window.UPLOADCARE_PUBLIC_KEY = 'a531fc572a02653c4d18';
+    /* Перший аплоад UNSTORED, щоб другим зберегти як input-<id>.png */
     window.UPLOADCARE_STORE = '0';
     window.UPLOADCARE_SYSTEM_DIALOG = true;
   </script>
   <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 
   <style>
-    :root {
-      --bg:#f7fafc;
-      --card:#ffffff;
-      --text:#0f172a;
-      --muted:#64748b;
-      --line:#e2e8f0;
-      --accent:#0ea5e9;
-      --radius:18px;
-    }
+    :root{ --bg:#f7fafc;--card:#ffffff;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--accent:#0ea5e9;--radius:18px; }
     *{box-sizing:border-box}
-    html,body{
-      margin:0;
-      background:var(--bg);
-      color:var(--text);
-      font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif
-    }
+    html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
     a{color:var(--accent);text-decoration:none}
     .wrap{max-width:760px;margin:0 auto;padding:24px}
-    .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      padding:22px;
-      box-shadow:0 10px 30px rgba(2,6,23,.04);
-    }
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:0 10px 30px rgba(2,6,23,.04);}
     header{padding:28px 0 10px;text-align:center}
     header h1{font-size:clamp(22px,4.6vw,34px);margin:0 0 8px}
     header p{margin:0 auto;color:var(--muted);max-width:640px;font-size:14px}
-    .uploader{
-      border:2px dashed #d1e3f6;
-      border-radius:14px;
-      background:#f0f7ff;
-      padding:20px;
-      text-align:center
-    }
-    .btn{
-      appearance:none;
-      border:0;
-      border-radius:12px;
-      padding:12px 16px;
-      font-weight:700;
-      cursor:pointer
-    }
-    .btn.primary{
-      background:linear-gradient(135deg,var(--accent),#60a5fa);
-      color:#fff
-    }
+    .uploader{border:2px dashed #d1e3f6;border-radius:14px;background:#f0f7ff;padding:20px;text-align:center}
+    .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
+    .btn.primary{background:linear-gradient(135deg,var(--accent),#60a5fa);color:#fff}
     .muted{color:var(--muted);font-size:14px}
-    .preview img{
-      max-width:100%;
-      border-radius:12px;
-      border:1px solid var(--line);
-      box-shadow:0 12px 30px rgba(2,6,23,.06)
-    }
-
-    /* VIDEO (YouTube Shorts 9:16 без UI) */
-    .video-card h2{
-      margin:6px 0 12px;
-      font-size:16px;
-      color:var(--muted);
-      font-weight:600;
-      text-align:center;
-    }
-    .video-wrap{
-      position:relative;
-      width:100%;
-      max-width:420px;
-      margin:0 auto;
-      aspect-ratio:9/16;
-      border-radius:14px;
-      overflow:hidden;
-      background:#000;
-      border:1px solid var(--line);
-      box-shadow:0 12px 30px rgba(2,6,23,.06);
-    }
-    .video-wrap iframe{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      border:0;
-    }
-    @media (max-width:560px){
-      .video-card h2{font-size:14px}
-      .video-wrap{max-width:100%;border-radius:10px;}
-    }
-    @media (prefers-reduced-motion: reduce){
-      .video-wrap iframe{opacity:.001}
-    }
+    .preview img{max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(2,6,23,.06)}
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <h1>Подушка-обіймашка з твоїм дизайном</h1>
+      <h1>Подушка з твоїм дизайном</h1><h1>WOW-Подарунок</h1>
       <p>Завантаж фото → Переглянь макет → Оформи замовлення</p>
     </header>
-
-    <!-- Відео у форматі Shorts, без каналу/тайтлу -->
-    <section class="card video-card" aria-label="Коротке відео-пояснення">
-      <h2>Як це виглядає (12 сек)</h2>
-      <div class="video-wrap">
-        <iframe
-          title="Подушка з фото — коротке відео"
-          src="https://www.youtube.com/embed/zzx11W-KdlM?autoplay=1&mute=1&playsinline=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1&fs=0&iv_load_policy=3&playlist=zzx11W-KdlM"
-          allow="autoplay; encrypted-media; picture-in-picture; clipboard-write; web-share"
-          allowfullscreen
-        ></iframe>
-      </div>
-    </section>
 
     <section class="card">
       <h2 style="margin-top:4px">Завантажте ваше фото</h2>
@@ -143,6 +56,8 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // базовий URL для редіректу (GitHub Pages)
     const BASE = 'https://tsymbalkir-ux.github.io/pillow-preview/';
 
     function makeOrderId(){
@@ -150,12 +65,14 @@
       return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}-${Math.floor(1000+Math.random()*9000)}`;
     }
 
+    // Беремо PNG зі сторони CDN (Uploadcare конвертує на льоту)
     async function fetchAsPngBlob(cdnUrl){
       const res = await fetch(`${cdnUrl}-/format/png/`, { cache: 'no-store' });
       if(!res.ok) throw new Error('Не вдалося отримати PNG');
       return await res.blob();
     }
 
+    // Другий аплоад — STORED (з нашим ім’ям файлу)
     async function uploadBlobStored(blob, filename){
       const form = new FormData();
       form.append('UPLOADCARE_PUB_KEY', 'a531fc572a02653c4d18');
@@ -177,19 +94,29 @@
           const preview = document.getElementById('preview');
           try {
             const orderId = makeOrderId();
+
+            // 1) перший (unstored) аплоад — щоб взяти контент
             const srcCdn  = info.cdnUrl;
             if(!srcCdn) throw new Error('Uploadcare не повернув cdnUrl');
+
+            // 2) конвертуємо в PNG та заливаємо як stored з ім’ям input-<orderId>.png
             const pngBlob = await fetchAsPngBlob(srcCdn);
             const newName = `input-${orderId}.png`;
-            const stored  = await uploadBlobStored(pngBlob, newName);
+            const stored  = await uploadBlobStored(pngBlob, newName); // {uuid, cdnUrl, name}
+
+            // превʼю через PREVIEW + FORMAT/AUTO (швидкий показ)
             const thumb  = `${stored.cdnUrl}-/preview/900x900/-/format/auto/`;
             status.textContent = `✅ Завантажено як ${newName}`;
             preview.innerHTML = `<img src="${thumb}" alt="preview">`;
+
+            // локальне збереження (для сумісності)
             localStorage.setItem('order_id', orderId);
             localStorage.setItem('input_url', stored.cdnUrl);
             localStorage.setItem('input_name', newName);
             localStorage.setItem('last_upload_url', stored.cdnUrl);
             localStorage.setItem('last_uuid', stored.uuid);
+
+            // 3) редірект із UUID на сторінку попереднього перегляду
             const href = `${BASE}result.html?uuid=${encodeURIComponent(stored.uuid)}&img=${encodeURIComponent(stored.cdnUrl)}&order=${encodeURIComponent(orderId)}`;
             location.href = href;
           } catch(err){
