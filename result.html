@@ -6,89 +6,77 @@
   <title>Попередній перегляд — Подушка з фото</title>
   <meta name="description" content="Попередній перегляд вашої подушки та оформлення замовлення."/>
   <style>
-    :root{ --bg:#f7fafc; --card:#ffffff; --text:#0f172a; --muted:#64748b; --line:#e2e8f0; --accent:#0ea5e9; --radius:18px; }
-    *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
-    a{color:var(--accent);text-decoration:none}
-    .wrap{max-width:760px;margin:0 auto;padding:24px}
-    header{text-align:center;margin-bottom:16px}
-    header h1{font-size:clamp(22px,4.6vw,34px);margin:0 0 8px}
-    header p{margin:0 auto;color:var(--muted);max-width:640px;font-size:14px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:0 10px 30px rgba(2,6,23,.04);margin-bottom:18px}
+    :root{--bg:#f7fafc;--card:#fff;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--accent:#0ea5e9;--radius:18px;}
+    *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:var(--accent);text-decoration:none}.wrap{max-width:760px;margin:0 auto;padding:24px}
+    header{text-align:center;margin-bottom:16px}header h1{font-size:clamp(22px,4.6vw,34px);margin:0 0 8px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;
+    box-shadow:0 10px 30px rgba(2,6,23,.04);margin-bottom:18px}
     .preview img{width:100%;border-radius:14px;border:1px solid var(--line);box-shadow:0 16px 36px rgba(2,6,23,.06)}
     .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
     .btn.ghost{background:#edf2f7;color:#0f172a;border:1px solid #dbe3ee}
-    .muted{color:var(--muted);font-size:14px}
-    footer{margin:28px 0 16px;color:#94a3b8;font-size:13px;text-align:center}
-    .hint{font-size:13px;color:#909db1;margin-top:8px}
+    .muted{color:var(--muted);font-size:14px;text-align:center;margin-top:8px}
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
       <h1>Попередній перегляд</h1>
-      <p>Спочатку бачиш прев’ю завантаженого фото. Коли макет буде готовий — картинка оновиться автоматично.</p>
+      <p>Спочатку бачиш завантажене фото. Коли макет готовий — воно оновиться автоматично.</p>
     </header>
 
     <section class="card">
       <div id="preview" class="preview"></div>
-      <div id="note" class="hint"></div>
+      <p id="note" class="muted"></p>
       <a href="index.html" class="btn ghost" style="margin-top:12px;display:inline-block">↩️ Завантажити інше фото</a>
     </section>
-
-    <footer>© <span id="year"></span> Подушка з фото</footer>
   </div>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    const CDN = "https://5qcw92vr76.ucarecd.net";
+    const BIN_ID = "690a58f0d0ea881f40d3da19";
+    const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`;
 
-    const CDN_HOST = 'https://5qcw92vr76.ucarecd.net';           // <-- твій домен
-    const BIN_ID   = '690a58f0d0ea881f40d3da19';                 // JSONBin
-    const BIN_URL  = `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`;
+    const params = new URLSearchParams(location.search);
+    const imgUrl = params.get('img');
+    const origUuid = params.get('uuid');
+    const note = document.getElementById('note');
+    const box = document.getElementById('preview');
 
-    const params  = new URLSearchParams(location.search);
-    const imgUrl  = params.get('img')  || localStorage.getItem('last_upload_url') || '';
-    const uuid    = params.get('uuid') || localStorage.getItem('last_uuid') || '';
-    const box     = document.getElementById('preview');
-    const note    = document.getElementById('note');
-
+    // Витягнути uuid з будь-якого рядка
     function extractUuid(str) {
       const m = String(str||'').match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i);
       return m ? m[0] : '';
     }
 
-    // 1) Показуємо прев’ю з твого хоста (беремо uuid з img=)
-    const origUuid = extractUuid(imgUrl);
-    if (origUuid) {
-      const thumb = `${CDN_HOST}/${origUuid}/-/preview/1200x1200/`;
-      box.innerHTML = `<img id="photo" src="${thumb}" alt="preview">`;
-      note.textContent = uuid
-        ? 'Очікуємо готовий макет… Сторінка оновиться автоматично.'
-        : 'UUID не передано. Показуємо лише прев’ю.';
+    // --- показати прев’ю input ---
+    const inputUuid = extractUuid(imgUrl);
+    if (inputUuid) {
+      const prevUrl = `${CDN}/${inputUuid}/-/preview/1200x1200/`;
+      box.innerHTML = `<img id="photo" src="${prevUrl}" alt="preview">`;
+      note.textContent = "Очікуємо готовий макет…";
     } else {
-      box.innerHTML = '<p class="muted">Фото не додано. <a href="index.html">Повернутися</a></p>';
-      note.textContent = '';
+      box.innerHTML = `<p class="muted">Фото не знайдено. <a href="index.html">Повернутися</a></p>`;
+      note.textContent = "";
     }
 
-    // 2) Полінг JSONBin → будуємо фінал теж на твоєму хості
+    // --- оновити на готовий результат ---
     async function poll() {
-      if (!uuid) return;
+      if (!origUuid) return;
       try {
-        const r = await fetch(`${BIN_URL}?ts=${Date.now()}`, { cache: 'no-store' });
+        const r = await fetch(`${BIN_URL}?ts=${Date.now()}`, {cache:'no-store'});
         if (r.ok) {
           const j = await r.json();
-          const record = j.record || {};
-          const saved  = record[uuid];                 // зберігаємо result_uuid
-          const resultUuid = extractUuid(saved);
-          if (resultUuid) {
-            const finalUrl = `${CDN_HOST}/${resultUuid}/-/preview/1200x1200/`;
-            const imgEl = document.getElementById('photo');
-            if (imgEl) imgEl.src = finalUrl; else box.innerHTML = `<img id="photo" src="${finalUrl}" alt="result">`;
-            note.textContent = 'Готово ✅';
-            return; // stop polling
+          const rec = j.record || {};
+          const resUuid = extractUuid(rec[origUuid]);
+          if (resUuid) {
+            const finalUrl = `${CDN}/${resUuid}/-/preview/1200x1200/`;
+            document.getElementById('photo').src = finalUrl;
+            note.textContent = "✅ Макет готовий!";
+            return;
           }
         }
-      } catch (e) {}
+      } catch(e){}
       setTimeout(poll, 2500);
     }
     poll();
