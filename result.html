@@ -25,7 +25,6 @@
     .note{font-size:12px;color:var(--muted)}
     .success{color:#16a34a}
     .error{color:#dc2626}
-    @media (max-width:560px){ .grid{grid-template-columns:1fr} }
 
     /* селектор розміру */
     .controls{margin-top:14px;display:flex;justify-content:center}
@@ -53,7 +52,13 @@
     .order h3{margin:0 0 10px}
     .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .grid .full{grid-column:1/-1}
-    .submit-row{margin-top:10px;display:flex;gap:10px;align-items:center}
+    .submit-row{
+      margin-top:10px;
+      display:flex;
+      justify-content:center;   /* центр */
+      align-items:center;
+      gap:10px;
+    }
 
     /* відгуки */
     .reviews {
@@ -67,46 +72,36 @@
       margin-left: auto;
       margin-right: auto;
     }
-    .carousel {
-      position: relative;
-      overflow: hidden;
-    }
+    .carousel { position: relative; overflow: hidden; }
     .carousel-track {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      scroll-behavior: smooth;
-      scrollbar-width: none;
+      display: flex; gap: 12px; overflow-x: auto;
+      scroll-behavior: smooth; scrollbar-width: none;
     }
     .carousel-track::-webkit-scrollbar {display: none;}
-    .review img {
-      height: 140px;
-      border-radius: 10px;
-      border: 1px solid var(--line);
+    .review img{
+      height: 140px; border-radius: 10px; border: 1px solid var(--line);
       box-shadow: 0 6px 14px rgba(2,6,23,.05);
     }
-    .nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(255,255,255,0.9);
-      border: 1px solid #ccc;
-      border-radius: 50%;
-      width: 34px;
-      height: 34px;
-      font-size: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 3px 10px rgba(0,0,0,.1);
+    .nav{
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,0.9); border: 1px solid #ccc;
+      border-radius: 50%; width: 34px; height: 34px; font-size: 22px;
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer; box-shadow: 0 3px 10px rgba(0,0,0,.1);
     }
-    .nav.prev { left: 4px; }
-    .nav.next { right: 4px; }
-    @media(max-width:600px){
-      .review img{height:120px}
-      .nav{display:none}
+    .nav.prev{left:4px} .nav.next{right:4px}
+    @media(max-width:600px){ .review img{height:120px} .nav{display:none} }
+
+    /* FAQ */
+    .faq{
+      max-width:760px;
+      margin-left:auto;margin-right:auto;
     }
+    .faq details{padding:10px 2px;border-top:1px solid var(--line)}
+    .faq details:first-of-type{border-top:none}
+    .faq summary{cursor:pointer;list-style:none;font-weight:600;color:var(--text)}
+    .faq summary::-webkit-details-marker{display:none}
+    .faq details>div{margin-top:6px;color:var(--muted);line-height:1.6;font-size:14px}
   </style>
 </head>
 <body>
@@ -171,6 +166,12 @@
             <label for="np">Номер Нової Пошти*</label>
             <input id="np" name="np_branch" required />
           </div>
+
+          <!-- НОВЕ: Коментар -->
+          <div class="full">
+            <label for="comment">Коментар (необов’язково)</label>
+            <input id="comment" name="comment" placeholder="Наприклад: двосторонній друк, інші побажання…" />
+          </div>
         </div>
 
         <div class="submit-row">
@@ -184,7 +185,6 @@
     <!-- ВІДГУКИ -->
     <section class="reviews card" aria-label="Відгуки на Prom і Rozetka">
       <h3 style="margin-bottom:10px;text-align:center">Відгуки на Prom і Rozetka</h3>
-
       <div class="carousel">
         <div class="carousel-track">
           <div class="review"><img src="reviews/rev1.png" alt="Відгук 1"></div>
@@ -195,6 +195,46 @@
         <button class="nav prev">‹</button>
         <button class="nav next">›</button>
       </div>
+    </section>
+
+    <!-- FAQ (без заголовка) -->
+    <section class="card faq" aria-label="Питання та відповіді">
+      <details>
+        <summary>Скільки триває виготовлення?</summary>
+        <div>Зазвичай <b>1–2 робочі дні</b> + доставка Новою Поштою.</div>
+      </details>
+      <details>
+        <summary>Чи потрібна передоплата?</summary>
+        <div><b>Ні.</b> Оплата при отриманні на Новій Пошті. За бажанням — можемо надіслати посилання на онлайн-оплату.</div>
+      </details>
+      <details>
+        <summary>Яке фото підійде найкраще?</summary>
+        <div>Зображення у повний зріст або від пояса, бажано у хорошому світлі, <b>1500&nbsp;px+</b> по довгій стороні, JPG/PNG.</div>
+      </details>
+      <details>
+        <summary>Чи видаляєте фон / робите корекцію?</summary>
+        <div>Так, можемо прибрати фон і підкоригувати яскравість/контраст. Невеликі правки — безкоштовно.</div>
+      </details>
+      <details>
+        <summary>Чи побачу макет перед друком?</summary>
+        <div>Так, макет відображається на цій сторінці. За потреби внесемо дрібні правки перед друком.</div>
+      </details>
+      <details>
+        <summary>Матеріали</summary>
+        <div>Наволочка — <b>габардин</b>, подушка — <b>бязь</b>, наповнювач — <b>холофайбер</b>.</div>
+      </details>
+      <details>
+        <summary>Догляд</summary>
+        <div>Прання при <b>30°C</b> (делікатний режим), без відбілювачів. Сушити природно; прасувати на низькій температурі.</div>
+      </details>
+      <details>
+        <summary>Повернення/гарантія</summary>
+        <div>Якщо є виробничий брак або помилка друку — переробимо або повернемо кошти. Напишіть нам.</div>
+      </details>
+      <details>
+        <summary>Конфіденційність</summary>
+        <div>Фото використовуємо <b>лише для виготовлення</b> замовлення. Не публікуємо. За запитом видаляємо файли після відправки.</div>
+      </details>
     </section>
   </div>
 
@@ -264,6 +304,7 @@
         first_name:document.getElementById('fname').value.trim(),
         city:document.getElementById('city').value.trim(),
         np_branch:document.getElementById('np').value.trim(),
+        comment:document.getElementById('comment').value.trim(),   // НОВЕ
         source:'pillow-preview',
         ts:new Date().toISOString()
       };
@@ -290,58 +331,5 @@
     document.querySelector('.nav.next').onclick=()=>track.scrollBy({left:240,behavior:'smooth'});
     document.querySelector('.nav.prev').onclick=()=>track.scrollBy({left:-240,behavior:'smooth'});
   </script>
-  <!-- FAQ (без заголовка) -->
-<section class="card faq" aria-label="Питання та відповіді">
-  <details>
-    <summary>Скільки триває виготовлення?</summary>
-    <div>Зазвичай <b>1–2 робочі дні</b> + доставка Новою Поштою.</div>
-  </details>
-
-  <details>
-    <summary>Чи потрібна передоплата?</summary>
-    <div><b>Ні.</b> Оплата при отриманні на Новій Пошті. За бажанням — можемо надіслати посилання на онлайн-оплату.</div>
-  </details>
-
-  <details>
-    <summary>Яке фото підійде найкраще?</summary>
-    <div>Зображення у повний зріст або від пояса, бажано у хорошому світлі, <b>1500&nbsp;px+</b> по довгій стороні, формат JPG/PNG, без сильних фільтрів.</div>
-  </details>
-
-  <details>
-    <summary>Чи видаляєте фон / робите корекцію?</summary>
-    <div>Так, можемо прибрати фон і трохи підкоригувати яскравість/контраст. Невеликі правки — безкоштовно.</div>
-  </details>
-
-  <details>
-    <summary>Чи побачу макет перед друком?</summary>
-    <div>Так, макет відображається на цій сторінці. За потреби можемо внести дрібні правки перед друком.</div>
-  </details>
-
-  <details>
-    <summary>З яких матеріалів виготовлено?</summary>
-    <div>Наволочка — <b>габардин</b>, подушка — <b>бязь</b>, наповнювач — <b>холофайбер</b>.</div>
-  </details>
-
-  <details>
-    <summary>Як доглядати за подушкою?</summary>
-    <div>Прання при <b>30°C</b>, делікатний режим, вивернувши наволочку. Без відбілювачів. Сушити природно; прасувати на низькій температурі.</div>
-  </details>
-
-  <details>
-    <summary>Чи можна надрукувати обидві сторони?</summary>
-    <div>Так, можемо зробити двосторонній друк. Напишіть про це у коментарі до замовлення — уточнимо деталі.</div>
-  </details>
-
-  <details>
-    <summary>Що з поверненням/гарантією?</summary>
-    <div>Якщо є виробничий брак або помилка друку — оперативно переробимо або повернемо кошти. Просто напишіть нам у відповідь на повідомлення про замовлення.</div>
-  </details>
-
-  <details>
-    <summary>Чи безпечно з моїми фото?</summary>
-    <div>Використовуємо <b>лише для виготовлення</b> вашого замовлення. Без дозволу ніде не публікуємо. За запитом видаляємо файли після відправки.</div>
-  </details>
-</section>
-
 </body>
 </html>
