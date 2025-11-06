@@ -27,12 +27,34 @@
     .error{color:#dc2626}
 
     /* селектор розміру */
-    .controls{margin-top:14px;display:flex;justify-content:center}
-    .form-row{display:flex;flex-direction:column;gap:6px;max-width:360px;width:100%}
-    label{font-size:14px;color:var(--muted)}
-    select, input{
-      width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);
-      background:#fff;font-size:14px;color:#0f172a;outline:none
+    .controls{
+      margin-top:14px;
+      display:flex;
+      justify-content:center;
+    }
+    .form-row{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      max-width:500px;      /* стало ширше */
+      width:100%;
+    }
+    label{
+      font-size:15px;
+      color:var(--muted);
+      text-align:center;
+    }
+    select{
+      width:100%;
+      padding:16px 14px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-size:16px;
+      color:#0f172a;
+      outline:none;
+      font-weight:500;
+      box-shadow:0 6px 14px rgba(2,6,23,.05);
     }
 
     /* інфо-блок */
@@ -55,7 +77,7 @@
     .submit-row{
       margin-top:10px;
       display:flex;
-      justify-content:center;   /* центр */
+      justify-content:center;
       align-items:center;
       gap:10px;
     }
@@ -118,8 +140,17 @@
         <a href="index.html" class="btn ghost">↩️ Завантажити інше фото</a>
       </div>
 
-      <!-- Випадаючий список "Оберіть розмір" -->
-      <div class="controls">
+      <!-- Інфо-блок -->
+      <div class="info-block">
+        <ul>
+          <li><strong>Без Передоплат</strong></li>
+          <li>Виготовлення і відправка <strong>Новою Поштою 1–2 робочих дні</strong></li>
+          <li>Матеріал наволочки — <strong>габардин</strong>, подушка — <strong>бязь</strong>, наповнювач — <strong>холофайбер</strong></li>
+        </ul>
+      </div>
+
+      <!-- Випадаючий список "Оберіть розмір" (тепер нижче) -->
+      <div class="controls large-select">
         <div class="form-row">
           <label for="sizeSelect">Оберіть розмір</label>
           <select id="sizeSelect" name="size">
@@ -130,206 +161,4 @@
           </select>
         </div>
       </div>
-
-      <!-- Інфо-блок -->
-      <div class="info-block">
-        <ul>
-          <li><strong>Без Передоплат</strong></li>
-          <li>Виготовлення і відправка <strong>Новою Поштою 1–2 робочих дні</strong></li>
-          <li>Матеріал наволочки — <strong>габардин</strong>, подушка — <strong>бязь</strong>, наповнювач — <strong>холофайбер</strong></li>
-        </ul>
-      </div>
     </section>
-
-    <!-- ОФОРМЛЕННЯ ЗАМОВЛЕННЯ -->
-    <section class="card order" aria-label="Оформлення замовлення">
-      <h3>Оформлення замовлення</h3>
-      <form id="orderForm">
-        <div class="grid">
-          <div class="full">
-            <label for="phone">Телефон*</label>
-            <input id="phone" name="phone" type="tel" placeholder="+380..." required />
-          </div>
-          <div>
-            <label for="lname">Прізвище*</label>
-            <input id="lname" name="last_name" required />
-          </div>
-          <div>
-            <label for="fname">Ім’я*</label>
-            <input id="fname" name="first_name" required />
-          </div>
-          <div>
-            <label for="city">Населений пункт*</label>
-            <input id="city" name="city" required />
-          </div>
-          <div>
-            <label for="np">Номер Нової Пошти*</label>
-            <input id="np" name="np_branch" required />
-          </div>
-
-          <!-- НОВЕ: Коментар -->
-          <div class="full">
-            <label for="comment">Коментар (необов’язково)</label>
-            <input id="comment" name="comment" placeholder="Наприклад: двосторонній друк, інші побажання…" />
-          </div>
-        </div>
-
-        <div class="submit-row">
-          <button class="btn primary" type="submit">✅ Підтвердити замовлення</button>
-          <span id="formMsg" class="muted"></span>
-        </div>
-        <div class="note">* натискаючи “Підтвердити”, ви погоджуєтесь на обробку даних для оформлення доставки</div>
-      </form>
-    </section>
-
-    <!-- ВІДГУКИ -->
-    <section class="reviews card" aria-label="Відгуки на Prom і Rozetka">
-      <h3 style="margin-bottom:10px;text-align:center">Відгуки на Prom і Rozetka</h3>
-      <div class="carousel">
-        <div class="carousel-track">
-          <div class="review"><img src="reviews/rev1.png" alt="Відгук 1"></div>
-          <div class="review"><img src="reviews/rev2.png" alt="Відгук 2"></div>
-          <div class="review"><img src="reviews/rev3.png" alt="Відгук 3"></div>
-          <div class="review"><img src="reviews/rev4.png" alt="Відгук 4"></div>
-        </div>
-        <button class="nav prev">‹</button>
-        <button class="nav next">›</button>
-      </div>
-    </section>
-
-    <!-- FAQ (без заголовка) -->
-    <section class="card faq" aria-label="Питання та відповіді">
-      <details>
-        <summary>Скільки триває виготовлення?</summary>
-        <div>Зазвичай <b>1–2 робочі дні</b> + доставка Новою Поштою.</div>
-      </details>
-      <details>
-        <summary>Чи потрібна передоплата?</summary>
-        <div><b>Ні.</b> Оплата при отриманні на Новій Пошті. За бажанням — можемо надіслати посилання на онлайн-оплату.</div>
-      </details>
-      <details>
-        <summary>Яке фото підійде найкраще?</summary>
-        <div>Зображення у повний зріст або від пояса, бажано у хорошому світлі, <b>1500&nbsp;px+</b> по довгій стороні, JPG/PNG.</div>
-      </details>
-      <details>
-        <summary>Чи видаляєте фон / робите корекцію?</summary>
-        <div>Так, можемо прибрати фон і підкоригувати яскравість/контраст. Невеликі правки — безкоштовно.</div>
-      </details>
-      <details>
-        <summary>Чи побачу макет перед друком?</summary>
-        <div>Так, макет відображається на цій сторінці. За потреби внесемо дрібні правки перед друком.</div>
-      </details>
-      <details>
-        <summary>Матеріали</summary>
-        <div>Наволочка — <b>габардин</b>, подушка — <b>бязь</b>, наповнювач — <b>холофайбер</b>.</div>
-      </details>
-      <details>
-        <summary>Догляд</summary>
-        <div>Прання при <b>30°C</b> (делікатний режим), без відбілювачів. Сушити природно; прасувати на низькій температурі.</div>
-      </details>
-      <details>
-        <summary>Повернення/гарантія</summary>
-        <div>Якщо є виробничий брак або помилка друку — переробимо або повернемо кошти. Напишіть нам.</div>
-      </details>
-      <details>
-        <summary>Конфіденційність</summary>
-        <div>Фото використовуємо <b>лише для виготовлення</b> замовлення. Не публікуємо. За запитом видаляємо файли після відправки.</div>
-      </details>
-    </section>
-  </div>
-
-  <script>
-    // === URL вебхука ===
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbwsk74T5auA2RwrKoZvC0dTLpw7LTsFwObUvTCjgG18gltJBWt3qYakGBFGXszqXJaz/exec";
-
-    const CDN_HOST = "https://5qcw92vr76.ucarecd.net";
-    const BIN_ID  = "690cba9443b1c97be99cf32e";
-    const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}/latest`;
-    const POLL_MS = 900;
-
-    const qs = new URLSearchParams(location.search);
-    const origId = qs.get("uuid") || localStorage.getItem("last_uuid") || "";
-    const box = document.getElementById("preview");
-    const status = document.getElementById("status");
-
-    function pickUuid(s){
-      const m = String(s||"").match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i);
-      return m ? m[0] : "";
-    }
-
-    if (!origId) status.textContent = "Не передано uuid. Поверніться та завантажте фото ще раз.";
-    else { localStorage.setItem("last_uuid", origId); poll(); }
-
-    async function poll(){
-      try {
-        const ctrl = new AbortController();
-        const id = setTimeout(()=>ctrl.abort(),2000);
-        const r = await fetch(`${BIN_URL}?ts=${Date.now()}`, {cache:"no-store",signal:ctrl.signal});
-        clearTimeout(id);
-        if(r.ok){
-          const j = await r.json();
-          const resUuid = pickUuid((j.record||{})[origId]);
-          if(resUuid){
-            const url=`${CDN_HOST}/${resUuid}/-/preview/1000x1000/`;
-            box.innerHTML=`<img src="${url}" alt="result">`;
-            status.textContent="✅ Макет готовий!";
-            localStorage.setItem('result_url', url);
-            return;
-          }
-        }
-      }catch(_){}
-      setTimeout(poll,POLL_MS);
-    }
-
-    // надсилання до Google Sheets
-    const formEl=document.getElementById('orderForm');
-    const msgEl=document.getElementById('formMsg');
-    const sizeEl=document.getElementById('sizeSelect');
-
-    formEl.addEventListener('submit',async e=>{
-      e.preventDefault();
-      msgEl.textContent='Надсилаємо…';
-
-      const [size,price]=String(sizeEl.value||'').split('|');
-      const payload={
-        order_id:localStorage.getItem('order_id')||'',
-        uuid:localStorage.getItem('last_uuid')||'',
-        input_url:localStorage.getItem('input_url')||'',
-        result_url:localStorage.getItem('result_url')||'',
-        size_label:sizeEl.options[sizeEl.selectedIndex].text,
-        size_value:size,
-        price_uah:price,
-        phone:document.getElementById('phone').value.trim(),
-        last_name:document.getElementById('lname').value.trim(),
-        first_name:document.getElementById('fname').value.trim(),
-        city:document.getElementById('city').value.trim(),
-        np_branch:document.getElementById('np').value.trim(),
-        comment:document.getElementById('comment').value.trim(),   // НОВЕ
-        source:'pillow-preview',
-        ts:new Date().toISOString()
-      };
-
-      try{
-        await fetch(GAS_URL,{
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify(payload),
-          mode:'no-cors'
-        });
-        msgEl.textContent='✅ Заявку надіслано! Ми зв’яжемося з вами.';
-        msgEl.className='success';
-        formEl.reset();
-      }catch(err){
-        console.error('send error',err);
-        msgEl.textContent='❌ Не вдалося надіслати. Спробуйте ще раз.';
-        msgEl.className='error';
-      }
-    });
-
-    // карусель
-    const track=document.querySelector('.carousel-track');
-    document.querySelector('.nav.next').onclick=()=>track.scrollBy({left:240,behavior:'smooth'});
-    document.querySelector('.nav.prev').onclick=()=>track.scrollBy({left:-240,behavior:'smooth'});
-  </script>
-</body>
-</html>
