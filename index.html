@@ -1,56 +1,133 @@
-Нижче — дві повні версії файлів з оновленими ключами і логікою без опитувань. Просто заміни на GitHub Pages.
-
----
-
-# ✅ index.html (оновлено під новий акаунт, autostore, редірект із uuid)
-
-```html
 <!DOCTYPE html>
 <html lang="uk">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Подушка з фото — Завантаж своє зображення</title>
-  <meta name="description" content="Створи унікальний подарунок: подушка з твоїм фото. Завантаж зображення — ми обробимо та надішлемо результат." />
+  <meta name="description" content="Створи унікальний подарунок: подушка з твоїм фото. Завантаж зображення з телефону або комп'ютера — ми обробимо та надішлемо результат." />
 
   <!-- Uploadcare config -->
   <script>
-    // НОВІ ключі — безкоштовний акаунт
-    window.UPLOADCARE_PUBLIC_KEY = '522d0009158a7301a94b';
-    // Вмикаємо автозберігання, щоб не робити окремий store-виклик
-    window.UPLOADCARE_STORE = 'auto';
+    window.UPLOADCARE_PUBLIC_KEY = 'a531fc572a02653c4d18';
+    window.UPLOADCARE_STORE = '0';
     window.UPLOADCARE_SYSTEM_DIALOG = true;
   </script>
   <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 
   <style>
-    :root{ --bg:#0a0a0a; --card:#1a1a1a; --text:#fff; --muted:#b4b4b4; --line:#333; --accent:#0ea5e9; --radius:18px; }
+    :root {
+      --bg:#0a0a0a;
+      --card:#1a1a1a;
+      --text:#ffffff;
+      --muted:#b4b4b4;
+      --line:#333333;
+      --accent:#0ea5e9;
+      --radius:18px;
+    }
+
     *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    html,body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+    }
     a{color:var(--accent);text-decoration:none}
     .wrap{max-width:760px;margin:0 auto;padding:24px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:0 10px 30px rgba(255,255,255,.05)}
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:22px;
+      box-shadow:0 10px 30px rgba(255,255,255,0.05);
+    }
     header{padding:28px 0 10px;text-align:center}
     header h1{font-size:clamp(22px,4.6vw,34px);margin:0 0 8px}
     header p{margin:0 auto;color:var(--muted);max-width:640px;font-size:14px}
-    .uploader{border:2px dashed #444;border-radius:14px;background:#111;padding:20px;text-align:center}
-    .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer;transition:opacity .2s}
-    .btn.primary{background:linear-gradient(135deg,var(--accent),#60a5fa);color:#fff}
+
+    /* VIDEO (звичайний 16:9, чистий embed без UI) */
+    .video-card{
+      margin-top:16px;
+      padding:14px;
+    }
+    .video-wrap{
+      position:relative;
+      width:100%;
+      max-width:900px;       /* трохи ширше на десктопі */
+      margin:0 auto;
+      aspect-ratio:16/9;     /* стандартне горизонтальне відео */
+      border-radius:14px;
+      overflow:hidden;
+      background:#000;
+      border:1px solid var(--line);
+      box-shadow:0 12px 30px rgba(255,255,255,0.08);
+    }
+    .video-wrap iframe{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      border:0;
+    }
+    /* на мобільному — майже на всю ширину (залишаємо невеликі відступи .wrap) */
+    @media (max-width:560px){
+      .wrap{padding:16px}
+      .video-card{padding:10px}
+      .video-wrap{border-radius:10px}
+    }
+
+    .uploader{
+      border:2px dashed #444;
+      border-radius:14px;
+      background:#111;
+      padding:20px;
+      text-align:center;
+    }
+    .btn{
+      appearance:none;
+      border:0;
+      border-radius:12px;
+      padding:12px 16px;
+      font-weight:700;
+      cursor:pointer;
+      transition:opacity .2s ease;
+    }
+    .btn.primary{
+      background:linear-gradient(135deg,var(--accent),#60a5fa);
+      color:#fff;
+    }
     .btn:hover{opacity:.9}
     .muted{color:var(--muted);font-size:14px}
-    .preview img{max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(255,255,255,.08)}
+    .preview img{
+      max-width:100%;
+      border-radius:12px;
+      border:1px solid var(--line);
+      box-shadow:0 12px 30px rgba(255,255,255,0.08);
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
       <h1>Подушка-обіймашка з твоїм дизайном</h1>
+      <h1>WOW-Подарунок для тих, кого любиш ♥</h1>
+       <p>і для себе коханого...</p>
       <p>Завантаж фото → Переглянь макет → Оформи замовлення</p>
     </header>
 
+    <!-- ВІДЕО: після рядка з кроками -->
+    <section class="card video-card" aria-label="Коротке відео-пояснення">
+      <div class="video-wrap">
+        <iframe
+          title="Подушка з фото — коротке відео"
+          src="https://www.youtube.com/embed/zzx11W-KdlM?autoplay=1&mute=1&playsinline=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1&fs=0&iv_load_policy=3&playlist=zzx11W-KdlM"
+          allow="autoplay; encrypted-media; picture-in-picture; clipboard-write; web-share"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </section>
+
     <section class="card" style="margin-top:16px">
       <h2 style="margin-top:4px;color:#fff">Завантажте ваше фото</h2>
-      <p class="muted">Найкраще підходять зображення у повний зріст або від пояса. Час обробки: 30–60 сек.</p>
+      <p class="muted">Найкраще підходять зображення у повний зріст або від пояса (час очікування ≈ 30-60 сек, знимки з камери напряму обробляються до 2 хв, перепрошуємо за очікування...)</p>
       <div class="uploader" style="margin-top:10px">
         <button id="openUpload" class="btn primary">📸 Завантажити фото</button>
         <div id="status" class="muted" style="margin-top:10px"></div>
@@ -65,37 +142,56 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+    const BASE = 'https://tsymbalkir-ux.github.io/pillow-preview/';
 
     function makeOrderId(){
-      const d=new Date(),p=n=>String(n).padStart(2,'0');
+      const d = new Date(), p = n => String(n).padStart(2,'0');
       return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}-${Math.floor(1000+Math.random()*9000)}`;
     }
 
-    // Відкриваємо системний діалог віджета
+    async function fetchAsPngBlob(cdnUrl){
+      const res = await fetch(`${cdnUrl}-/format/png/`, { cache: 'no-store' });
+      if(!res.ok) throw new Error('Не вдалося отримати PNG');
+      return await res.blob();
+    }
+
+    async function uploadBlobStored(blob, filename){
+      const form = new FormData();
+      form.append('UPLOADCARE_PUB_KEY', 'a531fc572a02653c4d18');
+      form.append('UPLOADCARE_STORE', '1');
+      form.append('file', blob, filename);
+      const r = await fetch('https://upload.uploadcare.com/base/', { method:'POST', body: form });
+      if(!r.ok) throw new Error('Помилка Uploadcare base/');
+      const j = await r.json();
+      const uuid = (typeof j.file === 'string') ? j.file : (j.file && j.file.uuid) || j.uuid;
+      if(!uuid) throw new Error('Не отримали uuid другого аплоаду');
+      return { uuid, cdnUrl: `https://ucarecdn.com/${uuid}/`, name: filename };
+    }
+
     document.getElementById('openUpload').addEventListener('click', () => {
       const dialog = uploadcare.openDialog(null, null, { imagesOnly:true, systemDialog:true });
       dialog.done(file => {
         file.done(async info => {
           const status = document.getElementById('status');
           const preview = document.getElementById('preview');
-          try{
+          try {
             const orderId = makeOrderId();
-            if(!info.cdnUrl) throw new Error('Uploadcare не повернув cdnUrl');
-
-            // Миттєвий превʼю на цій сторінці (не обовʼязково)
-            const thumb = `${info.cdnUrl}-/preview/900x900/-/format/auto/`;
+            const srcCdn  = info.cdnUrl;
+            if(!srcCdn) throw new Error('Uploadcare не повернув cdnUrl');
+            const pngBlob = await fetchAsPngBlob(srcCdn);
+            const newName = `input-${orderId}.png`;
+            const stored  = await uploadBlobStored(pngBlob, newName);
+            const thumb  = `${stored.cdnUrl}-/preview/900x900/-/format/auto/`;
+            status.textContent = `✅ Завантажено як ${newName}`;
             preview.innerHTML = `<img src="${thumb}" alt="preview">`;
-
-            // Зберігаємо дані локально (знадобляться на result.html)
             localStorage.setItem('order_id', orderId);
-            localStorage.setItem('input_url', info.cdnUrl);
-            localStorage.setItem('last_uuid', info.uuid);
-
-            // Переходимо на сторінку результату з UUID у query
-            // Використовуємо відносний шлях — працює і на GitHub Pages, і на власному домені
-            const href = `result.html?uuid=${encodeURIComponent(info.uuid)}&order=${encodeURIComponent(orderId)}`;
+            localStorage.setItem('input_url', stored.cdnUrl);
+            localStorage.setItem('input_name', newName);
+            localStorage.setItem('last_upload_url', stored.cdnUrl);
+            localStorage.setItem('last_uuid', stored.uuid);
+            const href = `${BASE}result.html?uuid=${encodeURIComponent(stored.uuid)}&img=${encodeURIComponent(stored.cdnUrl)}&order=${encodeURIComponent(orderId)}`;
             location.href = href;
-          }catch(err){
+          } catch(err){
             console.error('[upload] error:', err);
             status.textContent = '❌ Помилка: ' + err.message;
           }
@@ -105,85 +201,3 @@
   </script>
 </body>
 </html>
-```
-
----
-
-# ✅ result.html (рендер результату напряму з CDN за uuid, без JSONBin/polling)
-
-```html
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Результат — Подушка з фото</title>
-  <meta name="description" content="Готовий макет подушки з вашого фото."/>
-  <style>
-    :root{--bg:#f7fafc;--card:#fff;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--accent:#0ea5e9;--radius:18px}
-    *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
-    .wrap{max-width:760px;margin:0 auto;padding:24px}
-    header{text-align:center;margin-bottom:16px}
-    header h1{font-size:clamp(22px,4.6vw,34px);margin:0 0 8px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:0 10px 30px rgba(2,6,23,.04);margin-bottom:18px}
-    .preview{min-height:200px;display:flex;align-items:center;justify-content:center}
-    .preview img{width:100%;border-radius:14px;border:1px solid var(--line);box-shadow:0 16px 36px rgba(2,6,23,.06)}
-    .muted{color:var(--muted);font-size:14px;text-align:center;margin-top:8px}
-    .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
-    .btn.ghost{background:#edf2f7;color:#0f172a;border:1px solid #dbe3ee}
-    .btn.primary{background:linear-gradient(135deg,var(--accent),#60a5fa);color:#fff}
-    .note{font-size:12px;color:var(--muted)}
-    .success{color:#16a34a}
-    .error{color:#dc2626}
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <header>
-      <h1>Готовий результат</h1>
-      <p id="status" class="muted">Завантажуємо макет…</p>
-    </header>
-
-    <section class="card">
-      <div id="preview" class="preview"></div>
-      <div style="text-align:center;margin-top:12px">
-        <a href="index.html" class="btn ghost">↩️ Завантажити інше фото</a>
-      </div>
-    </section>
-  </div>
-
-  <script>
-    const qs = new URLSearchParams(location.search);
-    const uuid = qs.get('uuid') || localStorage.getItem('last_uuid') || '';
-    const status = document.getElementById('status');
-    const box = document.getElementById('preview');
-
-    if(!uuid){
-      status.textContent = 'Не передано uuid. Поверніться та завантажте фото ще раз.';
-    } else {
-      // Універсальний CDN-хост: працює для будь-якого проекту
-      const url = `https://ucarecdn.com/${uuid}/-/preview/1000x1000/`;
-      const img = new Image();
-      img.alt = 'result';
-      img.onload = () => { status.textContent = '✅ Макет готовий!'; };
-      img.onerror = () => { status.textContent = '❌ Не вдалося завантажити превʼю. Перевірте uuid.'; };
-      img.src = url;
-      box.innerHTML = '';
-      box.appendChild(img);
-      // збережемо для форми/аналітики, якщо знадобиться
-      localStorage.setItem('result_url', url);
-    }
-  </script>
-</body>
-</html>
-```
-
----
-
-## Примітки до міграції
-
-1. **Dashboard → Project settings**: увімкни *Store files automatically* (autostore).
-2. **Allowed origins (CORS)**: додай домени GitHub Pages і/або свій кастомний домен.
-3. **Жодного polling/JSONBin** тут вже немає: передаємо `uuid` напряму.
-4. Якщо залишаєш поточні Python-скрипти, просто заміни ключі у них на нові, або відключи їх, якщо повністю переходиш на цей флоу.
