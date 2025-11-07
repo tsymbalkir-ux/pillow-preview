@@ -8,7 +8,7 @@
 
   <!-- Uploadcare config -->
   <script>
-    window.UPLOADCARE_PUBLIC_KEY = 'a531fc572a02653c4d18';
+    window.UPLOADCARE_PUBLIC_KEY = '522d0009158a7301a94b';
     window.UPLOADCARE_STORE = '0';
     window.UPLOADCARE_SYSTEM_DIALOG = true;
   </script>
@@ -157,7 +157,7 @@
 
     async function uploadBlobStored(blob, filename){
       const form = new FormData();
-      form.append('UPLOADCARE_PUB_KEY', 'a531fc572a02653c4d18');
+      form.append('UPLOADCARE_PUB_KEY', '522d0009158a7301a94b');
       form.append('UPLOADCARE_STORE', '1');
       form.append('file', blob, filename);
       const r = await fetch('https://upload.uploadcare.com/base/', { method:'POST', body: form });
