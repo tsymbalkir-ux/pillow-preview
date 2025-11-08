@@ -45,63 +45,25 @@
     header h1{font-size:clamp(22px,4.6vw,34px);margin:0 0 8px}
     header p{margin:0 auto;color:var(--muted);max-width:640px;font-size:14px}
 
-    /* VIDEO (звичайний 16:9, чистий embed без UI) */
-    .video-card{
-      margin-top:16px;
-      padding:14px;
-    }
-    .video-wrap{
-      position:relative;
-      width:100%;
-      max-width:900px;       /* трохи ширше на десктопі */
-      margin:0 auto;
-      aspect-ratio:16/9;     /* стандартне горизонтальне відео */
-      border-radius:14px;
-      overflow:hidden;
-      background:#000;
-      border:1px solid var(--line);
-      box-shadow:0 12px 30px rgba(255,255,255,0.08);
-    }
-    .video-wrap iframe{
-      position:absolute; inset:0;
-      width:100%; height:100%;
-      border:0;
-    }
-    /* на мобільному — майже на всю ширину (залишаємо невеликі відступи .wrap) */
-    @media (max-width:560px){
-      .wrap{padding:16px}
-      .video-card{padding:10px}
-      .video-wrap{border-radius:10px}
-    }
+    .video-card{margin-top:16px;padding:14px}
+    .video-wrap{position:relative;width:100%;max-width:900px;margin:0 auto;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000;border:1px solid var(--line);box-shadow:0 12px 30px rgba(255,255,255,0.08)}
+    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    @media (max-width:560px){.wrap{padding:16px}.video-card{padding:10px}.video-wrap{border-radius:10px}}
 
-    .uploader{
-      border:2px dashed #444;
-      border-radius:14px;
-      background:#111;
-      padding:20px;
-      text-align:center;
-    }
-    .btn{
-      appearance:none;
-      border:0;
-      border-radius:12px;
-      padding:12px 16px;
-      font-weight:700;
-      cursor:pointer;
-      transition:opacity .2s ease;
-    }
-    .btn.primary{
-      background:linear-gradient(135deg,var(--accent),#60a5fa);
-      color:#fff;
-    }
+    .uploader{border:2px dashed #444;border-radius:14px;background:#111;padding:20px;text-align:center}
+    .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer;transition:opacity .2s ease}
+    .btn.primary{background:linear-gradient(135deg,var(--accent),#60a5fa);color:#fff}
     .btn:hover{opacity:.9}
     .muted{color:var(--muted);font-size:14px}
-    .preview img{
-      max-width:100%;
-      border-radius:12px;
-      border:1px solid var(--line);
-      box-shadow:0 12px 30px rgba(255,255,255,0.08);
-    }
+    .preview img{max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(255,255,255,0.08)}
+
+    /* Статус + прогрес */
+    .status-row{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:10px;color:var(--muted)}
+    .dot{width:10px;height:10px;border-radius:50%;background:#666;animation:pulse 1.2s infinite}
+    @keyframes pulse{0%{opacity:.4}50%{opacity:1}100%{opacity:.4}}
+
+    /* Превʼю готового результату */
+    #finalPreview{display:none;margin-top:14px;max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(255,255,255,0.08)}
   </style>
 </head>
 <body>
@@ -109,11 +71,10 @@
     <header>
       <h1>Подушка-обіймашка з твоїм дизайном</h1>
       <h1>WOW-Подарунок для тих, кого любиш ♥</h1>
-       <p>і для себе коханого...</p>
-      <p>Завантаж фото → Переглянь макет → Оформи замовлення</p>
+      <p>і для себе коханого...</p>
+      <p>Завантаж фото → Автообробка у Photoshop → Отримай готовий макет</p>
     </header>
 
-    <!-- ВІДЕО: після рядка з кроками -->
     <section class="card video-card" aria-label="Коротке відео-пояснення">
       <div class="video-wrap">
         <iframe
@@ -127,11 +88,16 @@
 
     <section class="card" style="margin-top:16px">
       <h2 style="margin-top:4px;color:#fff">Завантажте ваше фото</h2>
-      <p class="muted">Найкраще підходять зображення у повний зріст або від пояса (час очікування ≈ 30-60 сек, знимки з камери напряму обробляються до 2 хв, перепрошуємо за очікування...)</p>
+      <p class="muted">Найкраще підходять зображення у повний зріст або від пояса. Час очікування: ~30–90 сек (залежно від інтернету та розміру файлу).</p>
       <div class="uploader" style="margin-top:10px">
         <button id="openUpload" class="btn primary">📸 Завантажити фото</button>
-        <div id="status" class="muted" style="margin-top:10px"></div>
+        <div id="status" class="status-row" aria-live="polite">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="statusText" class="muted">Готові, коли ви готові 🙂</span>
+        </div>
+        <!-- Превʼю вхідного та вихідного -->
         <div id="preview" class="preview" style="margin-top:14px"></div>
+        <img id="finalPreview" alt="Готовий результат">
       </div>
     </section>
 
@@ -141,59 +107,91 @@
   </div>
 
   <script>
+    // ==== НАЛАШТУВАННЯ ====
     document.getElementById('year').textContent = new Date().getFullYear();
-    const BASE = 'https://tsymbalkir-ux.github.io/pillow-preview/';
+    // URL Apps Script Web App (наданий вами)
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyaZ7fGgQ9pOOkU6cgprXRvltNFBc4A_tkrWw-Fa3pUf6TK_zc1BCCyifz5CMgUi2i1/exec';
 
+    // ==== УТИЛІТИ ====
     function makeOrderId(){
-      const d = new Date(), p = n => String(n).padStart(2,'0');
+      const d=new Date(),p=n=>String(n).padStart(2,'0');
       return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}-${Math.floor(1000+Math.random()*9000)}`;
     }
-
-    async function fetchAsPngBlob(cdnUrl){
-      const res = await fetch(`${cdnUrl}-/format/png/`, { cache: 'no-store' });
-      if(!res.ok) throw new Error('Не вдалося отримати PNG');
-      return await res.blob();
+    async function fileToDataUrl(file){
+      return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)});
+    }
+    async function urlToFile(url, suggestedName='upload.jpg'){
+      const res=await fetch(url,{cache:'no-store'});
+      if(!res.ok) throw new Error('Не вдалося отримати файл з Uploadcare');
+      const blob=await res.blob();
+      return new File([blob], suggestedName, {type: blob.type||'image/jpeg'});
     }
 
-    async function uploadBlobStored(blob, filename){
-      const form = new FormData();
-      form.append('UPLOADCARE_PUB_KEY', '522d0009158a7301a94b');
-      form.append('UPLOADCARE_STORE', '1');
-      form.append('file', blob, filename);
-      const r = await fetch('https://upload.uploadcare.com/base/', { method:'POST', body: form });
-      if(!r.ok) throw new Error('Помилка Uploadcare base/');
-      const j = await r.json();
-      const uuid = (typeof j.file === 'string') ? j.file : (j.file && j.file.uuid) || j.uuid;
-      if(!uuid) throw new Error('Не отримали uuid другого аплоаду');
-      return { uuid, cdnUrl: `https://ucarecdn.com/${uuid}/`, name: filename };
+    // ==== КЛЮЧОВА ЛОГІКА: ЗАПУСК КОНВЕЄРА ====
+    async function startPipelineFromFile(file){
+      const statusText=document.getElementById('statusText');
+      const preview=document.getElementById('preview');
+      const finalImg=document.getElementById('finalPreview');
+
+      try {
+        statusText.textContent='Завантаження у чергу…';
+        finalImg.style.display='none';
+
+        // 1) Відправляємо у Apps Script (Inbox)
+        const dataUrl = await fileToDataUrl(file);
+        const upRes = await fetch(WEB_APP_URL,{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ filename:file.name, dataUrl })
+        }).then(r=>r.json());
+
+        if(!upRes.ok) throw new Error(upRes.error||'Помилка завантаження');
+
+        const jobId = upRes.job_id;
+        statusText.textContent = `Фото у черзі. Обробка… (job ${jobId.slice(0,8)}…)`;
+
+        // превʼю вхідного
+        const urlObj = URL.createObjectURL(file);
+        preview.innerHTML = `<img src="${urlObj}" alt="Ваше фото">`;
+
+        // 2) Опитування статусу
+        const start = Date.now();
+        const timeoutMs = 3*60*1000; // до 3 хв
+        const intervalMs = 3000;
+        while (Date.now()-start < timeoutMs){
+          await new Promise(r=>setTimeout(r, intervalMs));
+          const st = await fetch(`${WEB_APP_URL}?action=status&job_id=${encodeURIComponent(jobId)}`).then(r=>r.json());
+          if(!st.ok) { statusText.textContent = 'Помилка статусу. Повторюємо…'; continue; }
+          if(st.ready){
+            statusText.textContent='Готово ✔';
+            finalImg.src = st.url; // пряме посилання з Drive
+            finalImg.style.display='block';
+            return;
+          }
+          statusText.textContent='Обробляємо…';
+        }
+        statusText.textContent='Перевищено час очікування. Спробуйте ще раз або пізніше.';
+      } catch (err){
+        console.error('[pipeline] error', err);
+        statusText.textContent = '❌ Помилка: ' + err.message;
+      }
     }
 
+    // ==== ПРИВʼЯЗКА ДО UPLOADCARE ВІДЖЕТА ====
     document.getElementById('openUpload').addEventListener('click', () => {
       const dialog = uploadcare.openDialog(null, null, { imagesOnly:true, systemDialog:true });
       dialog.done(file => {
         file.done(async info => {
-          const status = document.getElementById('status');
-          const preview = document.getElementById('preview');
-          try {
+          const statusText=document.getElementById('statusText');
+          try{
+            if(!info.cdnUrl) throw new Error('Uploadcare не повернув cdnUrl');
+            // Завантажуємо з Uploadcare у File (щоб віддати у Apps Script одним способом)
             const orderId = makeOrderId();
-            const srcCdn  = info.cdnUrl;
-            if(!srcCdn) throw new Error('Uploadcare не повернув cdnUrl');
-            const pngBlob = await fetchAsPngBlob(srcCdn);
-            const newName = `input-${orderId}.png`;
-            const stored  = await uploadBlobStored(pngBlob, newName);
-            const thumb  = `${stored.cdnUrl}-/preview/900x900/-/format/auto/`;
-            status.textContent = `✅ Завантажено як ${newName}`;
-            preview.innerHTML = `<img src="${thumb}" alt="preview">`;
-            localStorage.setItem('order_id', orderId);
-            localStorage.setItem('input_url', stored.cdnUrl);
-            localStorage.setItem('input_name', newName);
-            localStorage.setItem('last_upload_url', stored.cdnUrl);
-            localStorage.setItem('last_uuid', stored.uuid);
-            const href = `${BASE}result.html?uuid=${encodeURIComponent(stored.uuid)}&img=${encodeURIComponent(stored.cdnUrl)}&order=${encodeURIComponent(orderId)}`;
-            location.href = href;
-          } catch(err){
-            console.error('[upload] error:', err);
-            status.textContent = '❌ Помилка: ' + err.message;
+            const localFile = await urlToFile(info.cdnUrl, `input-${orderId}.jpg`);
+            await startPipelineFromFile(localFile);
+          }catch(err){
+            console.error('[uploadcare] error:', err);
+            statusText.textContent = '❌ Помилка: ' + err.message;
           }
         });
       });
