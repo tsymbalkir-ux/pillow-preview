@@ -1,10 +1,8 @@
-// api/events.js — Vercel Serverless (Node, CommonJS)
-// Віддає події, які uc-hook зберігає у globalThis.EVENTS
+// /api/events.js — віддає події з Vercel KV з базовими фільтрами і no-store кешем
+// CommonJS (Pages API)
 
-function BUF() { return (globalThis.EVENTS ||= []); }
-function VER() { return (globalThis.EV_VER ||= 0); }
+const { kv } = require("@vercel/kv");
 
-// прості CORS-заголовки, щоб локальний watcher міг читати
 const CORS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, OPTIONS",
@@ -13,34 +11,35 @@ const CORS = {
 
 module.exports = async function handler(req, res) {
   if (req.method === "OPTIONS") {
-    res.writeHead(204, CORS);
-    return res.end();
+    res.writeHead(204, CORS); return res.end();
   }
   if (req.method !== "GET") {
-    res.writeHead(405, { ...CORS });
-    return res.end("Method Not Allowed");
+    res.writeHead(405, CORS); return res.end("Method Not Allowed");
   }
 
   const url = new URL(req.url, "http://localhost");
-  const since = Number(url.searchParams.get("since") || 0);  // unix ms, вертаємо лише новіші
-  const limit = Math.max(1, Math.min(200, Number(url.searchParams.get("limit") || 200)));
+  const since  = Number(url.searchParams.get("since") || 0);
+  const only   = (url.searchParams.get("only") || "").toLowerCase();     // "input"
+  const status = (url.searchParams.get("status") || "").toLowerCase();   // "stored"
+  const limit  = Math.max(1, Math.min(500, Number(url.searchParams.get("limit") || 200)));
 
-  const etag = `"v${VER()}"`;
-  const inm = req.headers["if-none-match"];
-  if (inm && inm === etag) {
-    res.writeHead(304, { ETag: etag, "Cache-Control": "no-store", ...CORS });
-    return res.end();
-  }
+  // читаємо останні N (потім фільтруємо і реверсимо до старі→нові)
+  const raw = await kv.lrange("events:list", 0, Math.max(500, limit));
+  const all = raw.map(s => { try { return JSON.parse(s); } catch { return null; } }).filter(Boolean);
 
-  let events = BUF();
-  if (since > 0) events = events.filter(e => (e.ts || 0) > since);
-  if (events.length > limit) events = events.slice(0, limit);
+  let out = all.filter(e => {
+    if (since && (e.ts || 0) <= since) return false;
+    if (only === "input" && !String(e.filename || "").toLowerCase().startsWith("input-")) return false;
+    if (status === "stored" && e.type && !(String(e.type).includes("stored") || String(e.type).includes("ready"))) return false;
+    return true;
+  }).reverse();
+
+  if (out.length > limit) out = out.slice(0, limit);
 
   res.writeHead(200, {
     "Content-Type": "application/json; charset=utf-8",
     "Cache-Control": "no-store",
-    ETag: etag,
     ...CORS,
   });
-  res.end(JSON.stringify(events));
+  res.end(JSON.stringify(out));
 };
