@@ -7,12 +7,90 @@
   <meta name="description" content="Створи унікальний подарунок: подушка з твоїм фото. Завантаж зображення з телефону або комп'ютера — ми обробимо та надішлемо результат." />
 
   <!-- Uploadcare config -->
-  <script>
-    window.UPLOADCARE_PUBLIC_KEY = '522d0009158a7301a94b';
-    window.UPLOADCARE_STORE = '0';
-    window.UPLOADCARE_SYSTEM_DIALOG = true;
-  </script>
-  <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+ <script>
+  // ==== CONFIG: встав свій деплой GAS нижче ====
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbyaZ7fGgQ9pOOkU6cgprXRvltNFBc4A_tkrWw-Fa3pUf6TK_zc1BCCyifz5CMgUi2i1/exec';
+
+  // Допоміжне
+  document.getElementById('year')?.textContent = new Date().getFullYear();
+
+  function uuidv4(){
+    if (crypto?.randomUUID) return crypto.randomUUID();
+    // fallback
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c=>{
+      const r = Math.random()*16|0, v = c==='x'?r:(r&0x3|0x8);
+      return v.toString(16);
+    });
+  }
+  function extFromName(name=''){
+    const m = String(name).toLowerCase().match(/\.(png|jpe?g|heic|webp|gif)$/);
+    return m ? (m[1]==='jpg'?'jpeg':m[1]) : 'jpeg';
+  }
+
+  async function uploadRawToGAS(file, uuid){
+    // Надсилаємо СИРИМИ байтами (без multipart/form-data),
+    // щоб на GAS зробити Utilities.newBlob(e.postData.contents, e.postData.type, filename)
+    const ext = extFromName(file.name);
+    const url = `${GAS_URL}?action=save_raw&uuid=${encodeURIComponent(uuid)}&filename=${encodeURIComponent(uuid+'.'+(ext==='jpg'?'jpeg':ext))}`;
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': file.type || 'application/octet-stream' },
+      body: file
+    });
+    // Можемо не чекати JSON (але якщо хочеш — зчитати):
+    // if (!res.ok) throw new Error('Upload failed'); else await res.json();
+    if (!res.ok) throw new Error('Не вдалось завантажити на Google Drive');
+  }
+
+  async function startPipelineFromFile(file){
+    const statusText = document.getElementById('statusText');
+    const preview    = document.getElementById('preview');
+    const finalImg   = document.getElementById('finalPreview');
+
+    try {
+      statusText.textContent = 'Готуємо файл…';
+      finalImg.style.display = 'none';
+
+      // 1) UUID для зв’язку input→output
+      const uuid = uuidv4();
+      localStorage.setItem('last_uuid', uuid);
+
+      // 2) Показати превʼю локально (не обов’язково)
+      const blobUrl = URL.createObjectURL(file);
+      preview.innerHTML = `<img src="${blobUrl}" alt="Ваше фото" style="max-width:100%;border-radius:12px;border:1px solid #333;box-shadow:0 12px 30px rgba(255,255,255,0.08)">`;
+
+      // 3) Відправити СИРИМИ байтами в GAS → Drive (*input*)
+      statusText.textContent = 'Завантажуємо на Google Drive…';
+      await uploadRawToGAS(file, uuid);
+
+      // 4) Підказка користувачу
+      statusText.textContent = 'Файл надіслано. Обробляємо на ПК… Відкрийте сторінку результату.';
+      // Можеш автоматично редіректити:
+      // location.href = `result.html?uuid=${encodeURIComponent(uuid)}`;
+    } catch (err){
+      console.error(err);
+      statusText.textContent = '❌ Помилка: ' + err.message;
+    }
+  }
+
+  // Додаємо невидимий file input, щоб не міняти верстку
+  const hiddenInput = document.createElement('input');
+  hiddenInput.type = 'file';
+  hiddenInput.accept = 'image/*';
+  hiddenInput.style.display = 'none';
+  document.body.appendChild(hiddenInput);
+
+  hiddenInput.addEventListener('change', async (e)=>{
+    const file = e.target.files && e.target.files[0];
+    if (file) await startPipelineFromFile(file);
+    hiddenInput.value = '';
+  });
+
+  // Кнопка "Завантажити фото" відкриває системний діалог
+  document.getElementById('openUpload').addEventListener('click', ()=>{
+    hiddenInput.click();
+  });
+</script>
 
   <style>
     :root {
