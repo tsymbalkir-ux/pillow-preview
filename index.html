@@ -4,201 +4,197 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Подушка з фото — Завантаж своє зображення</title>
-  <meta name="description" content="Створи унікальний подарунок: подушка з твоїм фото. Завантаж зображення — ми обробимо та покажемо результат." />
+  <meta name="description" content="Створи унікальний подарунок: подушка з твоїм фото. Завантаж зображення з телефону або комп'ютера — ми обробимо та надішлемо результат." />
 
-  <!-- Uploadcare -->
+  <!-- Uploadcare config -->
   <script>
-    window.UPLOADCARE_PUBLIC_KEY = 'a531fc572a02653c4d18';
+    window.UPLOADCARE_PUBLIC_KEY = '522d0009158a7301a94b';
+    window.UPLOADCARE_STORE = '0';
     window.UPLOADCARE_SYSTEM_DIALOG = true;
-    window.UPLOADCARE_STORE = '0'; /* перший аплоад UNSTORED — ми збережемо на Диск своїм ім’ям через GAS */
   </script>
   <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 
   <style>
-    :root{--bg:#f7fafc;--card:#ffffff;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--accent:#0ea5e9;--radius:18px;}
-    *{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
-    .wrap{max-width:920px;margin:0 auto;padding:24px}
-    header{text-align:center;margin-bottom:20px}
-    header h1{margin:6px 0 8px;font-size:28px}
-    header p{margin:0;color:var(--muted)}
-    .uploader{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
-    .btn{display:inline-block;border:1px solid var(--accent);color:#fff;background:var(--accent);border-radius:12px;padding:10px 14px;text-decoration:none;cursor:pointer}
-    .btn.ghost{background:transparent;color:var(--accent)}
-    .status{color:var(--muted);font-size:14px;margin-top:8px}
-    .preview{display:flex;align-items:center;justify-content:center;min-height:280px;border:1px dashed var(--line);border-radius:14px;background:#fff}
-    .preview img{max-width:100%;max-height:360px;display:none;border-radius:12px}
-    .hint{font-size:12px;color:var(--muted);margin-top:6px}
-    @media (max-width:780px){.row{grid-template-columns:1fr}}
+    :root {
+      --bg:#0a0a0a;
+      --card:#1a1a1a;
+      --text:#ffffff;
+      --muted:#b4b4b4;
+      --line:#333333;
+      --accent:#0ea5e9;
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+    }
+    a{color:var(--accent);text-decoration:none}
+    .wrap{max-width:760px;margin:0 auto;padding:24px}
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:22px;
+      box-shadow:0 10px 30px rgba(255,255,255,0.05);
+    }
+    header{padding:28px 0 10px;text-align:center}
+    header h1{font-size:clamp(22px,4.6vw,34px);margin:0 0 8px}
+    header p{margin:0 auto;color:var(--muted);max-width:640px;font-size:14px}
+
+    .video-card{margin-top:16px;padding:14px}
+    .video-wrap{position:relative;width:100%;max-width:900px;margin:0 auto;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000;border:1px solid var(--line);box-shadow:0 12px 30px rgba(255,255,255,0.08)}
+    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    @media (max-width:560px){.wrap{padding:16px}.video-card{padding:10px}.video-wrap{border-radius:10px}}
+
+    .uploader{border:2px dashed #444;border-radius:14px;background:#111;padding:20px;text-align:center}
+    .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer;transition:opacity .2s ease}
+    .btn.primary{background:linear-gradient(135deg,var(--accent),#60a5fa);color:#fff}
+    .btn:hover{opacity:.9}
+    .muted{color:var(--muted);font-size:14px}
+    .preview img{max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(255,255,255,0.08)}
+
+    /* Статус + прогрес */
+    .status-row{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:10px;color:var(--muted)}
+    .dot{width:10px;height:10px;border-radius:50%;background:#666;animation:pulse 1.2s infinite}
+    @keyframes pulse{0%{opacity:.4}50%{opacity:1}100%{opacity:.4}}
+
+    /* Превʼю готового результату */
+    #finalPreview{display:none;margin-top:14px;max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(255,255,255,0.08)}
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <h1>Подушка з фото</h1>
-      <p>Завантаж своє зображення — ми зробимо макет і покажемо результат.</p>
+      <h1>Подушка-обіймашка з твоїм дизайном</h1>
+      <h1>WOW-Подарунок для тих, кого любиш ♥</h1>
+      <p>і для себе коханого...</p>
+      <p>Завантаж фото → Автообробка у Photoshop → Отримай готовий макет</p>
     </header>
 
-    <section class="uploader">
-      <div class="row">
-        <div class="card">
-          <h3 style="margin-top:0">1) Завантаж фото</h3>
-          <input type="hidden" role="uploadcare-uploader" id="uc" data-multiple="false" data-images-only="true" />
-          <div class="status" id="uploadStatus">Очікуємо на файл…</div>
-          <div class="hint">Підтримка: JPG/PNG/HEIC. Великі фото — ок.</div>
-          <div style="margin-top:10px">
-            <button id="pickBtn" class="btn">Обрати з галереї</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3 style="margin-top:0">2) Результат</h3>
-          <div class="preview"><img id="finalImg" alt="Прев’ю результату" /></div>
-          <div class="status" id="statusText">Ще немає макету — з’явиться після обробки.</div>
-          <div style="margin-top:10px">
-            <a class="btn ghost" id="toResult" href="result.html" style="display:none">Відкрити сторінку результату</a>
-          </div>
-        </div>
+    <section class="card video-card" aria-label="Коротке відео-пояснення">
+      <div class="video-wrap">
+        <iframe
+          title="Подушка з фото — коротке відео"
+          src="https://www.youtube.com/embed/zzx11W-KdlM?autoplay=1&mute=1&playsinline=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1&fs=0&iv_load_policy=3&playlist=zzx11W-KdlM"
+          allow="autoplay; encrypted-media; picture-in-picture; clipboard-write; web-share"
+          allowfullscreen
+        ></iframe>
       </div>
     </section>
 
-    <section class="card" style="margin-top:18px">
-      <h3 style="margin-top:0">3) Оформити замовлення</h3>
-      <form id="orderForm">
-        <div class="row">
-          <div>
-            <label>Ім’я<br><input id="fname" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></label>
-          </div>
-          <div>
-            <label>Прізвище<br><input id="lname" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></label>
-          </div>
-          <div>
-            <label>Телефон<br><input id="phone" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></label>
-          </div>
-          <div>
-            <label>Розмір та ціна<br>
-              <select id="sizeSelect" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px">
-                <option value="40x40|499">40×40 — 499 грн</option>
-                <option value="50x50|649">50×50 — 649 грн</option>
-                <option value="70x70|899">70×70 — 899 грн</option>
-              </select>
-            </label>
-          </div>
-          <div>
-            <label>Місто<br><input id="city" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></label>
-          </div>
-          <div>
-            <label>Відділення Нової Пошти<br><input id="np" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></label>
-          </div>
-          <div style="grid-column:1 / -1">
-            <label>Коментар<br><textarea id="comment" rows="3" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></textarea></label>
-          </div>
+    <section class="card" style="margin-top:16px">
+      <h2 style="margin-top:4px;color:#fff">Завантажте ваше фото</h2>
+      <p class="muted">Найкраще підходять зображення у повний зріст або від пояса. Час очікування: ~30–90 сек (залежно від інтернету та розміру файлу).</p>
+      <div class="uploader" style="margin-top:10px">
+        <button id="openUpload" class="btn primary">📸 Завантажити фото</button>
+        <div id="status" class="status-row" aria-live="polite">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="statusText" class="muted">Готові, коли ви готові 🙂</span>
         </div>
-        <div style="margin-top:12px">
-          <button class="btn" type="submit">Надіслати заявку</button>
-          <span id="formMsg" class="status" style="margin-left:10px"></span>
-        </div>
-      </form>
+        <!-- Превʼю вхідного та вихідного -->
+        <div id="preview" class="preview" style="margin-top:14px"></div>
+        <img id="finalPreview" alt="Готовий результат">
+      </div>
     </section>
 
-    <footer class="status" style="text-align:center;margin-top:16px">
-      © Світ Легенд — подушки з фото
+    <footer style="margin:28px 0 16px;color:#888;font-size:13px;text-align:center">
+      © <span id="year"></span> Подушка з фото
     </footer>
   </div>
 
   <script>
-    /* ======= CONFIG (TODO: заповнити свої GAS URL) ======= */
-    const SAVE_URL   = 'https://script.google.com/macros/s/___YOUR_SAVE_WEB_APP___/exec';   // приймає {cdn_url, uuid} → зберігає <uuid> у input-папку
-    const STATUS_URL = 'https://script.google.com/macros/s/___YOUR_STATUS_WEB_APP___/exec'; // action=find_output → шукає output-<uuid>.png у out-папці
-    const ORDER_URL  = 'https://script.google.com/macros/s/___YOUR_ORDER_WEB_APP___/exec';  // прийом форми
+    // ==== НАЛАШТУВАННЯ ====
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // URL Apps Script Web App (наданий вами)
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyaZ7fGgQ9pOOkU6cgprXRvltNFBc4A_tkrWw-Fa3pUf6TK_zc1BCCyifz5CMgUi2i1/exec';
 
-    /* ======= Елементи ======= */
-    const pickBtn = document.getElementById('pickBtn');
-    const ucInput = document.getElementById('uc');
-    const uploadStatus = document.getElementById('uploadStatus');
-    const finalImg = document.getElementById('finalImg');
-    const statusText = document.getElementById('statusText');
-    const toResultA = document.getElementById('toResult');
+    // ==== УТИЛІТИ ====
+    function makeOrderId(){
+      const d=new Date(),p=n=>String(n).padStart(2,'0');
+      return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}-${Math.floor(1000+Math.random()*9000)}`;
+    }
+    async function fileToDataUrl(file){
+      return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)});
+    }
+    async function urlToFile(url, suggestedName='upload.jpg'){
+      const res=await fetch(url,{cache:'no-store'});
+      if(!res.ok) throw new Error('Не вдалося отримати файл з Uploadcare');
+      const blob=await res.blob();
+      return new File([blob], suggestedName, {type: blob.type||'image/jpeg'});
+    }
 
-    // Відкрити системний діалог Uploadcare
-    pickBtn.addEventListener('click', () => {
-      uploadcare.openDialog(null, { imagesOnly:true }).done(file => {
-        handleFile(file);
-      });
-    });
+    // ==== КЛЮЧОВА ЛОГІКА: ЗАПУСК КОНВЕЄРА ====
+    async function startPipelineFromFile(file){
+      const statusText=document.getElementById('statusText');
+      const preview=document.getElementById('preview');
+      const finalImg=document.getElementById('finalPreview');
 
-    // Функція обробки аплоаду
-    async function handleFile(file){
-      uploadStatus.textContent = 'Завантажуємо…';
-      try{
-        const info = await file.promise(); // Uploadcare file info
-        const cdn = info.cdnUrl || info.cdnUrlModifiers || info.originalUrl || info.file;
-        const uuid = info.uuid; // типу 0700a7f5-f5bd-4f49-8503-694272926f28
+      try {
+        statusText.textContent='Завантаження у чергу…';
+        finalImg.style.display='none';
 
-        if (!uuid) throw new Error('UUID not found');
-
-        // Запам’ятаємо ID замовлення/uuid/вхідний URL
-        localStorage.setItem('last_uuid', uuid);
-        localStorage.setItem('input_url', cdn || '');
-
-        // Надішлемо у GAS, щоб зберегти на Google Drive як файл з назвою "<uuid>"
-        await fetch(SAVE_URL, {
+        // 1) Відправляємо у Apps Script (Inbox)
+        const dataUrl = await fileToDataUrl(file);
+        const upRes = await fetch(WEB_APP_URL,{
           method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body: JSON.stringify({ action:'save_input', uuid, cdn_url: cdn }),
-          mode:'no-cors'
-        });
+          headers:{'Content-Type':'text/plain;charset=utf-8'},
+          body: JSON.stringify({ filename:file.name, dataUrl })
+        }).then(r=>r.json());
 
-        uploadStatus.textContent = 'Файл прийнято. Розпочато обробку.';
-        statusText.textContent = 'Очікуємо на макет…';
-        toResultA.style.display = 'inline-block';
-        toResultA.href = `result.html?uuid=${encodeURIComponent(uuid)}`;
+        if(!upRes.ok) throw new Error(upRes.error||'Помилка завантаження');
 
-        // (Не показуємо проміжний прев’ю, чекаємо готовий макет на result.html)
-      }catch(err){
-        console.error(err);
-        uploadStatus.textContent = 'Помилка завантаження. Спробуйте інший файл.';
+        const jobId = upRes.job_id;
+        statusText.textContent = `Фото у черзі. Обробка… (job ${jobId.slice(0,8)}…)`;
+
+        // превʼю вхідного
+        const urlObj = URL.createObjectURL(file);
+        preview.innerHTML = `<img src="${urlObj}" alt="Ваше фото">`;
+
+        // 2) Опитування статусу
+        const start = Date.now();
+        const timeoutMs = 3*60*1000; // до 3 хв
+        const intervalMs = 3000;
+        while (Date.now()-start < timeoutMs){
+          await new Promise(r=>setTimeout(r, intervalMs));
+          const st = await fetch(`${WEB_APP_URL}?action=status&job_id=${encodeURIComponent(jobId)}`).then(r=>r.json());
+          if(!st.ok) { statusText.textContent = 'Помилка статусу. Повторюємо…'; continue; }
+          if(st.ready){
+            statusText.textContent='Готово ✔';
+            finalImg.src = st.url; // пряме посилання з Drive
+            finalImg.style.display='block';
+            return;
+          }
+          statusText.textContent='Обробляємо…';
+        }
+        statusText.textContent='Перевищено час очікування. Спробуйте ще раз або пізніше.';
+      } catch (err){
+        console.error('[pipeline] error', err);
+        statusText.textContent = '❌ Помилка: ' + err.message;
       }
     }
 
-    /* ======= Надсилання форми у Google Sheets ======= */
-    const formEl = document.getElementById('orderForm');
-    const msgEl  = document.getElementById('formMsg');
-    const sizeEl = document.getElementById('sizeSelect');
-
-    formEl.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      msgEl.textContent = 'Надсилаємо…';
-
-      const [size,price] = String(sizeEl.value||'').split('|');
-
-      const payload = {
-        order_id:   localStorage.getItem('order_id') || '',
-        uuid:       localStorage.getItem('last_uuid') || '',
-        input_url:  localStorage.getItem('input_url') || '',
-        result_url: localStorage.getItem('result_url') || '',
-        size_label: sizeEl.options[sizeEl.selectedIndex].text,
-        size_value: size,
-        price_uah:  price,
-        phone:      document.getElementById('phone').value.trim(),
-        last_name:  document.getElementById('lname').value.trim(),
-        first_name: document.getElementById('fname').value.trim(),
-        city:       document.getElementById('city').value.trim(),
-        np_branch:  document.getElementById('np').value.trim(),
-        comment:    document.getElementById('comment').value.trim(),
-        source:     'pillow-preview',
-        ts:         new Date().toISOString()
-      };
-
-      try{
-        await fetch(ORDER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),mode:'no-cors'});
-        msgEl.textContent='✅ Заявку надіслано! Ми зв’яжемося з вами.'; 
-        formEl.reset();
-      }catch(err){
-        console.error('send error',err);
-        msgEl.textContent='❌ Не вдалося надіслати. Спробуйте ще раз.';
-      }
+    // ==== ПРИВʼЯЗКА ДО UPLOADCARE ВІДЖЕТА ====
+    document.getElementById('openUpload').addEventListener('click', () => {
+      const dialog = uploadcare.openDialog(null, null, { imagesOnly:true, systemDialog:true });
+      dialog.done(file => {
+        file.done(async info => {
+          const statusText=document.getElementById('statusText');
+          try{
+            if(!info.cdnUrl) throw new Error('Uploadcare не повернув cdnUrl');
+            // Завантажуємо з Uploadcare у File (щоб віддати у Apps Script одним способом)
+            const orderId = makeOrderId();
+            const localFile = await urlToFile(info.cdnUrl, `input-${orderId}.jpg`);
+            await startPipelineFromFile(localFile);
+          }catch(err){
+            console.error('[uploadcare] error:', err);
+            statusText.textContent = '❌ Помилка: ' + err.message;
+          }
+        });
+      });
     });
   </script>
 </body>
