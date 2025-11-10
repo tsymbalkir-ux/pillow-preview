@@ -24,45 +24,27 @@
       --accent:#0ea5e9;
       --radius:18px;
     }
-
     *{box-sizing:border-box}
-    html,body{
-      margin:0;
-      background:var(--bg);
-      color:var(--text);
-      font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
-    }
+    html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
     a{color:var(--accent);text-decoration:none}
     .wrap{max-width:760px;margin:0 auto;padding:24px}
-    .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      padding:22px;
-      box-shadow:0 10px 30px rgba(255,255,255,0.05);
-    }
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:0 10px 30px rgba(255,255,255,0.05)}
     header{padding:28px 0 10px;text-align:center}
     header h1{font-size:clamp(22px,4.6vw,34px);margin:0 0 8px}
     header p{margin:0 auto;color:var(--muted);max-width:640px;font-size:14px}
-
     .video-card{margin-top:16px;padding:14px}
     .video-wrap{position:relative;width:100%;max-width:900px;margin:0 auto;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000;border:1px solid var(--line);box-shadow:0 12px 30px rgba(255,255,255,0.08)}
     .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
     @media (max-width:560px){.wrap{padding:16px}.video-card{padding:10px}.video-wrap{border-radius:10px}}
-
     .uploader{border:2px dashed #444;border-radius:14px;background:#111;padding:20px;text-align:center}
     .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer;transition:opacity .2s ease}
     .btn.primary{background:linear-gradient(135deg,var(--accent),#60a5fa);color:#fff}
     .btn:hover{opacity:.9}
     .muted{color:var(--muted);font-size:14px}
     .preview img{max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(255,255,255,0.08)}
-
-    /* Статус + прогрес */
     .status-row{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:10px;color:var(--muted)}
     .dot{width:10px;height:10px;border-radius:50%;background:#666;animation:pulse 1.2s infinite}
     @keyframes pulse{0%{opacity:.4}50%{opacity:1}100%{opacity:.4}}
-
-    /* Превʼю готового результату */
     #finalPreview{display:none;margin-top:14px;max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(255,255,255,0.08)}
   </style>
 </head>
@@ -95,7 +77,6 @@
           <span class="dot" aria-hidden="true"></span>
           <span id="statusText" class="muted">Готові, коли ви готові 🙂</span>
         </div>
-        <!-- Превʼю вхідного та вихідного -->
         <div id="preview" class="preview" style="margin-top:14px"></div>
         <img id="finalPreview" alt="Готовий результат">
       </div>
@@ -109,26 +90,17 @@
   <script>
     // ==== НАЛАШТУВАННЯ ====
     document.getElementById('year').textContent = new Date().getFullYear();
-    // URL Apps Script Web App (наданий вами)
+    // URL вашого Apps Script Web App
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyaZ7fGgQ9pOOkU6cgprXRvltNFBc4A_tkrWw-Fa3pUf6TK_zc1BCCyifz5CMgUi2i1/exec';
 
-    // ==== УТИЛІТИ ====
+    // Утиліта: ID замовлення
     function makeOrderId(){
       const d=new Date(),p=n=>String(n).padStart(2,'0');
       return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}-${Math.floor(1000+Math.random()*9000)}`;
     }
-    async function fileToDataUrl(file){
-      return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)});
-    }
-    async function urlToFile(url, suggestedName='upload.jpg'){
-      const res=await fetch(url,{cache:'no-store'});
-      if(!res.ok) throw new Error('Не вдалося отримати файл з Uploadcare');
-      const blob=await res.blob();
-      return new File([blob], suggestedName, {type: blob.type||'image/jpeg'});
-    }
 
-    // ==== КЛЮЧОВА ЛОГІКА: ЗАПУСК КОНВЕЄРА ====
-    async function startPipelineFromFile(file){
+    // ==== НОВА КЛЮЧОВА ЛОГІКА: працюємо по cdnUrl (без base64) ====
+    async function startPipelineFromCdn(cdnUrl, suggestedName = 'upload.jpg'){
       const statusText=document.getElementById('statusText');
       const preview=document.getElementById('preview');
       const finalImg=document.getElementById('finalPreview');
@@ -137,12 +109,11 @@
         statusText.textContent='Завантаження у чергу…';
         finalImg.style.display='none';
 
-        // 1) Відправляємо у Apps Script (Inbox)
-        const dataUrl = await fileToDataUrl(file);
+        // 1) Відправляємо у Apps Script лише посилання на Uploadcare CDN
         const upRes = await fetch(WEB_APP_URL,{
           method:'POST',
-          headers:{'Content-Type':'text/plain;charset=utf-8'},
-          body: JSON.stringify({ filename:file.name, dataUrl })
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ filename:suggestedName, cdnUrl })
         }).then(r=>r.json());
 
         if(!upRes.ok) throw new Error(upRes.error||'Помилка завантаження');
@@ -150,11 +121,10 @@
         const jobId = upRes.job_id;
         statusText.textContent = `Фото у черзі. Обробка… (job ${jobId.slice(0,8)}…)`;
 
-        // превʼю вхідного
-        const urlObj = URL.createObjectURL(file);
-        preview.innerHTML = `<img src="${urlObj}" alt="Ваше фото">`;
+        // превʼю вхідного — прямо з Uploadcare
+        preview.innerHTML = `<img src="${cdnUrl}" alt="Ваше фото">`;
 
-        // 2) Опитування статусу
+        // 2) Опитування статусу (як було)
         const start = Date.now();
         const timeoutMs = 3*60*1000; // до 3 хв
         const intervalMs = 3000;
@@ -177,7 +147,7 @@
       }
     }
 
-    // ==== ПРИВʼЯЗКА ДО UPLOADCARE ВІДЖЕТА ====
+    // ==== Привʼязка до Uploadcare віджета ====
     document.getElementById('openUpload').addEventListener('click', () => {
       const dialog = uploadcare.openDialog(null, null, { imagesOnly:true, systemDialog:true });
       dialog.done(file => {
@@ -185,10 +155,9 @@
           const statusText=document.getElementById('statusText');
           try{
             if(!info.cdnUrl) throw new Error('Uploadcare не повернув cdnUrl');
-            // Завантажуємо з Uploadcare у File (щоб віддати у Apps Script одним способом)
             const orderId = makeOrderId();
-            const localFile = await urlToFile(info.cdnUrl, `input-${orderId}.jpg`);
-            await startPipelineFromFile(localFile);
+            const suggestedName = `input-${orderId}.jpg`;
+            await startPipelineFromCdn(info.cdnUrl, suggestedName);
           }catch(err){
             console.error('[uploadcare] error:', err);
             statusText.textContent = '❌ Помилка: ' + err.message;
