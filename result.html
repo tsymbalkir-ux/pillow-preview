@@ -19,8 +19,6 @@
     .status{color:var(--muted);font-size:14px;margin-top:8px}
     .btn{display:inline-block;border:1px solid var(--accent);color:#fff;background:var(--accent);border-radius:12px;padding:10px 14px;text-decoration:none;cursor:pointer}
     .btn.ghost{background:transparent;color:var(--accent)}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    @media (max-width:720px){.row{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -31,159 +29,57 @@
     </header>
 
     <section class="card">
-      <div class="preview" id="preview"><div class="status">Очікуємо на макет…</div></div>
-      <div class="status" id="status">Перевіряємо кожні 4 секунди.</div>
+      <div class="preview" id="box"><div class="status">Очікуємо на макет…</div></div>
+      <div class="status" id="st">Перевіряємо кожні 4 секунди.</div>
       <div style="margin-top:10px">
         <a class="btn ghost" href="index.html">← На головну</a>
       </div>
     </section>
-
-    <section class="card" style="margin-top:16px">
-      <h3 style="margin-top:0">Замовлення</h3>
-      <form id="orderForm">
-        <div class="row">
-          <div>
-            <label>Ім’я<br><input id="fname" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></label>
-          </div>
-          <div>
-            <label>Прізвище<br><input id="lname" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></label>
-          </div>
-          <div>
-            <label>Телефон<br><input id="phone" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></label>
-          </div>
-          <div>
-            <label>Розмір та ціна<br>
-              <select id="sizeSelect" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px">
-                <option value="40x40|499">40×40 — 499 грн</option>
-                <option value="50x50|649">50×50 — 649 грн</option>
-                <option value="70x70|899">70×70 — 899 грн</option>
-              </select>
-            </label>
-          </div>
-          <div>
-            <label>Місто<br><input id="city" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></label>
-          </div>
-          <div>
-            <label>Відділення Нової Пошти<br><input id="np" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></label>
-          </div>
-          <div style="grid-column:1 / -1">
-            <label>Коментар<br><textarea id="comment" rows="3" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></textarea></label>
-          </div>
-        </div>
-        <div style="margin-top:12px">
-          <button class="btn" type="submit">Надіслати заявку</button>
-          <span id="formMsg" class="status" style="margin-left:10px"></span>
-        </div>
-      </form>
-    </section>
-
-    <footer class="status" style="text-align:center;margin-top:16px">
-      © Світ Легенд — подушки з фото
-    </footer>
   </div>
 
   <script>
-    /* ======= CONFIG (TODO: підстав свій GAS Web App) ======= */
-    const STATUS_URL = 'https://script.google.com/macros/s/___YOUR_STATUS_WEB_APP___/exec'; // action=find_output&uuid=... → {ok,ready,url}
-    const ORDER_URL  = 'https://script.google.com/macros/s/___YOUR_ORDER_WEB_APP___/exec';
+    const STATUS_URL = 'YOUR_GAS_WEB_APP_EXEC_URL'; // <-- той самий /exec
 
-    /* ======= Елементи ======= */
-    const box    = document.getElementById('preview');
-    const status = document.getElementById('status');
+    const box = document.getElementById('box');
+    const st  = document.getElementById('st');
 
-    /* ======= UUID ======= */
-    const qs       = new URLSearchParams(location.search);
-    const wantUuid = (qs.get('uuid') || localStorage.getItem('last_uuid') || '').trim();
-    const expectName = wantUuid ? `output-${wantUuid}.png` : '';
+    const qs = new URLSearchParams(location.search);
+    const job = (qs.get('job') || localStorage.getItem('last_job_id') || '').trim();
 
-    function setPreview(url){
+    function show(url){
       box.innerHTML = `<img src="${url}" alt="Готовий макет">`;
+      st.textContent = '✅ Макет готовий!';
       localStorage.setItem('result_url', url);
-      status.textContent = '✅ Макет готовий!';
     }
 
-    async function askOnce(){
-      if (!expectName){
-        status.textContent = 'Не передано uuid. Поверніться на головну та завантажте фото ще раз.';
+    async function ask(){
+      if (!job){
+        st.textContent = 'job_id не передано. Поверніться на головну.';
         return { ok:false };
       }
-      const url = `${STATUS_URL}?action=find_output&uuid=${encodeURIComponent(wantUuid)}&name=${encodeURIComponent(expectName)}&ts=${Date.now()}`;
+      const url = `${STATUS_URL}?action=status&job_id=${encodeURIComponent(job)}&ts=${Date.now()}`;
       const r = await fetch(url, { cache:'no-store' });
       if (!r.ok) return { ok:false };
       return r.json(); // {ok, ready, url?}
     }
 
-    async function loadResult(){
-      // миттєве відображення, якщо URL уже в кеші й uuid збігається
-      const cachedUrl  = localStorage.getItem('result_url');
-      const cachedUuid = localStorage.getItem('last_uuid');
-      if (cachedUrl && cachedUuid && wantUuid && cachedUuid === wantUuid){
-        setPreview(cachedUrl);
-        return;
-      }
+    async function poll(){
+      // миттєво з кешу
+      const u = localStorage.getItem('result_url');
+      if (u) { show(u); return; }
 
-      status.textContent = 'Очікуємо на макет…';
-      const timeoutMs  = 3 * 60 * 1000; // 3 хв
-      const intervalMs = 4000;
-      const start = Date.now();
-
-      while (Date.now() - start < timeoutMs){
+      const start = Date.now(), timeoutMs=5*60*1000, intervalMs=4000;
+      while (Date.now()-start < timeoutMs){
         try{
-          const st = await askOnce();
-          if (st.ok && st.ready && st.url){
-            localStorage.setItem('last_uuid', wantUuid);
-            setPreview(st.url);
-            return;
-          }
-        }catch(err){
-          console.warn('status error:', err);
-        }
-        status.textContent = 'Обробляємо…';
-        await new Promise(r => setTimeout(r, intervalMs));
+          const s = await ask();
+          if (s.ok && s.ready && s.url){ show(s.url); return; }
+        }catch(e){}
+        st.textContent = 'Обробляємо…';
+        await new Promise(r=>setTimeout(r, intervalMs));
       }
-
-      status.textContent = 'Поки що немає готового макету. Оновіть сторінку трохи пізніше.';
+      st.textContent = 'Поки що немає готового макету. Оновіть сторінку трохи пізніше.';
     }
-
-    loadResult();
-
-    /* ======= Надсилання форми у Google Sheets ======= */
-    const formEl = document.getElementById('orderForm');
-    const msgEl  = document.getElementById('formMsg');
-    const sizeEl = document.getElementById('sizeSelect');
-
-    formEl.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      msgEl.textContent = 'Надсилаємо…';
-
-      const [size, price] = String(sizeEl.value||'').split('|');
-      const payload = {
-        order_id:   localStorage.getItem('order_id') || '',
-        uuid:       wantUuid || localStorage.getItem('last_uuid') || '',
-        input_url:  localStorage.getItem('input_url') || '',
-        result_url: localStorage.getItem('result_url') || '',
-        size_label: sizeEl.options[sizeEl.selectedIndex].text,
-        size_value: size,
-        price_uah:  price,
-        phone:      document.getElementById('phone').value.trim(),
-        last_name:  document.getElementById('lname').value.trim(),
-        first_name: document.getElementById('fname').value.trim(),
-        city:       document.getElementById('city').value.trim(),
-        np_branch:  document.getElementById('np').value.trim(),
-        comment:    document.getElementById('comment').value.trim(),
-        source:     'pillow-preview',
-        ts:         new Date().toISOString()
-      };
-
-      try{
-        await fetch(ORDER_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload), mode:'no-cors' });
-        msgEl.textContent = '✅ Заявку надіслано! Ми зв’яжемося з вами.';
-        formEl.reset();
-      }catch(err){
-        console.error('send error', err);
-        msgEl.textContent = '❌ Не вдалося надіслати. Спробуйте ще раз.';
-      }
-    });
+    poll();
   </script>
 </body>
 </html>
