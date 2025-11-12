@@ -91,13 +91,12 @@
     document.getElementById('year').textContent = new Date().getFullYear();
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz57JS9-1dULwr6UJKhdGKhJUJg-QCJ4RDwFOmnqxv7f_jlplvkWwCGFh0YvP3iR7Zj/exec';
 
-    // лишив генератор orderId (може знадобитись у логах), але ім'я файлу тепер по uuid
+    // опційно для логів
     function makeOrderId(){
       const d=new Date(),p=n=>String(n).padStart(2,'0');
       return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}-${Math.floor(1000+Math.random()*9000)}`;
     }
 
-    // ОНОВЛЕНО: приймаємо і cdnUrl, і uuid; ім'я — input-<uuid>.png; надсилаємо uuid у бекенд
     async function startPipelineFromCdn(cdnUrl, uuid){
       const statusText=document.getElementById('statusText');
       const preview=document.getElementById('preview');
@@ -106,7 +105,7 @@
         statusText.textContent='Завантаження у чергу…';
         finalImg.style.display='none';
 
-        // форсуємо PNG-версію для уніфікації обробки
+        // форсуємо PNG
         let cdnPng = cdnUrl;
         if (cdnPng.includes('ucarecdn.com') && !cdnPng.includes('/-/')) {
           cdnPng = cdnPng.replace(/\/?$/, '/-/format/png/');
@@ -114,34 +113,37 @@
           cdnPng = cdnPng.replace(/\/?$/, '/format/png/');
         }
 
-        // запам'ятаємо uuid локально — стане у пригоді на result.html
-        try { localStorage.setItem('last_uuid', uuid); } catch(e) {}
+        // кешуємо для result.html
+        try {
+          localStorage.setItem('last_uuid', uuid);
+          localStorage.setItem('input_url', cdnUrl);
+        } catch(e){}
 
-        // ключова зміна: filename = input-<uuid>.png і надсилаємо також сам uuid
+        // надсилаємо в GAS (вже з uuid та ім’ям input-<uuid>.png)
         const upRes = await fetch(WEB_APP_URL,{
           method:'POST',
-          headers:{'Content-Type':'text/plain;charset=utf-8'},
+          headers:{'Content-Type':'application/json;charset=utf-8'},
           body: JSON.stringify({ uuid, filename: `input-${uuid}.png`, cdnUrl: cdnPng })
         }).then(r=>r.json());
 
         if(!upRes.ok) throw new Error(upRes.error||'Помилка завантаження');
-        const jobId = upRes.job_id || makeOrderId(); // на випадок, якщо бекенд ще не повертає job_id
-        statusText.textContent = `Фото у черзі. Обробка…`;
+        const jobId = upRes.job_id || makeOrderId();
+        statusText.textContent = 'Фото у черзі. Обробка…';
 
         preview.innerHTML = `<img src="${cdnPng}-/preview/800x800/" alt="Ваше фото">`;
 
-        // пулінг статусу за job_id (без змін у верстці)
+        // пулінг статусу
         const start = Date.now();
         const timeoutMs = 180000, intervalMs = 3000;
         while (Date.now()-start < timeoutMs){
           await new Promise(r=>setTimeout(r, intervalMs));
-          const st = await fetch(`${WEB_APP_URL}?action=status&job_id=${encodeURIComponent(jobId)}&uuid=${encodeURIComponent(uuid)}`)
-            .then(r=>r.json());
+          const st = await fetch(`${WEB_APP_URL}?action=status&job_id=${encodeURIComponent(jobId)}&uuid=${encodeURIComponent(uuid)}`).then(r=>r.json());
           if(st.ready){
             statusText.textContent='Готово ✔';
             if (st.url) {
-              finalImg.src = st.url;    // якщо бекенд віддає CDN Uploadcare
+              finalImg.src = st.url;    // CDN Uploadcare для результату
               finalImg.style.display='block';
+              try { localStorage.setItem('result_url', st.url); } catch(e){}
             }
             return;
           }
@@ -152,9 +154,9 @@
         console.error(err);
         statusText.textContent = '❌ Помилка: ' + err.message;
       }
-    }
+    } // кінець startPipelineFromCdn
 
-    // відкриття віджета без змін у розмітці
+    // відкриття Uploadcare і запуск пайплайну
     document.getElementById('openUpload').addEventListener('click', () => {
       const dialog = uploadcare.openDialog(null, null, { imagesOnly:true, systemDialog:true });
       dialog.done(file => {
@@ -163,9 +165,13 @@
           try{
             if(!info.cdnUrl) throw new Error('Uploadcare не повернув cdnUrl');
             if(!info.uuid)   throw new Error('Uploadcare не повернув uuid');
-            // тепер використовуємо саме uuid як головний ідентифікатор
             await startPipelineFromCdn(info.cdnUrl, info.uuid);
+
+            // Якщо хочеш показувати на окремій сторінці:
+            // location.href = `result.html?uuid=${encodeURIComponent(info.uuid)}`;
+
           }catch(err){
+            console.error(err);
             statusText.textContent = '❌ ' + err.message;
           }
         });
