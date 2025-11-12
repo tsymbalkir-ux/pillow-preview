@@ -3,265 +3,160 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Подушка з фото — Завантаження</title>
-  <meta name="description" content="Завантаж своє фото — ми зробимо макет подушки та віддамо результат у PNG." />
-  <style>
-    :root{--bg:#f7fafc;--card:#fff;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--accent:#0ea5e9;--radius:18px;}
-    *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
-    .wrap{max-width:880px;margin:0 auto;padding:24px}
-    header{text-align:center;margin-bottom:20px}
-    header h1{margin:0;font-size:28px;font-weight:800}
-    header p{margin:6px 0 0;color:var(--muted)}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
-    .grid{display:grid;grid-template-columns:1fr;gap:16px}
-    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-    button{cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:12px;padding:10px 16px;font-weight:600}
-    button.ghost{background:transparent;color:var(--accent)}
-    .muted{color:var(--muted);font-size:14px}
-    .status{padding:10px 12px;border:1px dashed var(--line);border-radius:12px;background:#fff}
-    .thumb{display:block;max-width:100%;height:auto;border-radius:12px;border:1px solid var(--line)}
-    .result{display:none}
-    .result.ready{display:block}
-    .progress{font-variant-numeric:tabular-nums}
-    .linkrow a{color:var(--accent);text-decoration:none;border-bottom:1px dashed var(--accent)}
-    .center{text-align:center}
-    @media (min-width:780px){
-      .grid{grid-template-columns:1.2fr 1fr}
-    }
-  </style>
+  <title>Подушка з фото — Завантаж своє зображення</title>
+  <meta name="description" content="Створи унікальний подарунок: подушка з твоїм фото. Завантаж зображення з телефону або комп'ютера — ми обробимо та надішлемо результат." />
 
-  <!-- Uploadcare -->
+  <!-- Uploadcare config -->
   <script>
-    // Public key
-    window.UPLOADCARE_PUBLIC_KEY = 'a531fc572a02653c4d18';
-    // збереження файлів, щоб cdnUrl стабільно працював з трансформаціями
-    window.UPLOADCARE_STORE = 'auto';
-    // викликати системний діалог на мобільному (галерея/камера)
+    window.UPLOADCARE_PUBLIC_KEY = '522d0009158a7301a94b';
+    window.UPLOADCARE_STORE = '0';
     window.UPLOADCARE_SYSTEM_DIALOG = true;
   </script>
   <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+
+  <style>
+    :root {
+      --bg:#0a0a0a;
+      --card:#1a1a1a;
+      --text:#ffffff;
+      --muted:#b4b4b4;
+      --line:#333333;
+      --accent:#0ea5e9;
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:var(--accent);text-decoration:none}
+    .wrap{max-width:760px;margin:0 auto;padding:24px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:0 10px 30px rgba(255,255,255,0.05)}
+    header{padding:28px 0 10px;text-align:center}
+    header h1{font-size:clamp(22px,4.6vw,34px);margin:0 0 8px}
+    header p{margin:0 auto;color:var(--muted);max-width:640px;font-size:14px}
+    .video-card{margin-top:16px;padding:14px}
+    .video-wrap{position:relative;width:100%;max-width:900px;margin:0 auto;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000;border:1px solid var(--line);box-shadow:0 12px 30px rgba(255,255,255,0.08)}
+    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    @media (max-width:560px){.wrap{padding:16px}.video-card{padding:10px}.video-wrap{border-radius:10px}}
+    .uploader{border:2px dashed #444;border-radius:14px;background:#111;padding:20px;text-align:center}
+    .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer;transition:opacity .2s ease}
+    .btn.primary{background:linear-gradient(135deg,var(--accent),#60a5fa);color:#fff}
+    .btn:hover{opacity:.9}
+    .muted{color:var(--muted);font-size:14px}
+    .preview img{max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(255,255,255,0.08)}
+    .status-row{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:10px;color:var(--muted)}
+    .dot{width:10px;height:10px;border-radius:50%;background:#666;animation:pulse 1.2s infinite}
+    @keyframes pulse{0%{opacity:.4}50%{opacity:1}100%{opacity:.4}}
+    #finalPreview{display:none;margin-top:14px;max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(255,255,255,0.08)}
+  </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <h1>Подушка з фото</h1>
-      <p>Завантаж зображення — отримаєш готовий макет у PNG.</p>
+      <h1>Подушка-обіймашка з твоїм дизайном</h1>
+      <h1>WOW-Подарунок для тих, кого любиш ♥</h1>
+      <p>і для себе коханого...</p>
+      <p>Завантаж фото → Автообробка у Photoshop → Отримай готовий макет</p>
     </header>
 
-    <div class="card">
-      <div class="grid">
-        <div>
-          <div class="row">
-            <input type="hidden"
-                   role="uploadcare-uploader"
-                   data-images-only="true"
-                   data-clearable="true"
-                   data-crop=""
-                   data-multiple="false"
-                   id="uploader" />
-            <button id="pickBtn">Обрати фото</button>
-          </div>
-          <p class="muted">Підтримка: JPG, PNG, HEIC/HEIF тощо — на виході завжди PNG.</p>
-
-          <div id="previewBlock" style="display:none;margin-top:12px">
-            <img id="preview" class="thumb" alt="Передперегляд" />
-          </div>
-
-          <div style="height:12px"></div>
-
-          <div class="row">
-            <button id="sendBtn" disabled>Надіслати на обробку</button>
-            <button class="ghost" id="resetBtn" disabled>Скинути</button>
-          </div>
-
-          <div id="statusBox" class="status" style="display:none;margin-top:12px">
-            <div class="progress" id="progressText">Готуємо…</div>
-          </div>
-        </div>
-
-        <div>
-          <div id="resultBox" class="result">
-            <h3>Результат</h3>
-            <img id="resultImg" class="thumb" alt="Результат" />
-            <div class="row linkrow" style="margin-top:10px">
-              <a id="downloadLink" href="#" download>Завантажити PNG</a>
-              <a id="viewLink" href="#" target="_blank" rel="noopener">Відкрити у Drive</a>
-            </div>
-          </div>
-          <div id="placeholderInfo" class="muted">
-            Після обробки тут з’явиться готове PNG-зображення.
-          </div>
-        </div>
+    <section class="card video-card">
+      <div class="video-wrap">
+        <iframe
+          title="Подушка з фото — коротке відео"
+          src="https://www.youtube.com/embed/zzx11W-KdlM?autoplay=1&mute=1&playsinline=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1&fs=0&iv_load_policy=3&playlist=zzx11W-KdlM"
+          allow="autoplay; encrypted-media; picture-in-picture; clipboard-write; web-share"
+          allowfullscreen
+        ></iframe>
       </div>
-    </div>
+    </section>
 
-    <p class="center muted" style="margin-top:16px">Порада: для найкращої якості завантажуйте фото з високою роздільністю.</p>
+    <section class="card" style="margin-top:16px">
+      <h2 style="margin-top:4px;color:#fff">Завантажте ваше фото</h2>
+      <p class="muted">Найкраще підходять зображення у повний зріст або від пояса. Час очікування: ~30–90 сек.</p>
+      <div class="uploader" style="margin-top:10px">
+        <button id="openUpload" class="btn primary">📸 Завантажити фото</button>
+        <div id="status" class="status-row">
+          <span class="dot"></span>
+          <span id="statusText" class="muted">Готові, коли ви готові 🙂</span>
+        </div>
+        <div id="preview" class="preview" style="margin-top:14px"></div>
+        <img id="finalPreview" alt="Готовий результат">
+      </div>
+    </section>
+
+    <footer style="margin:28px 0 16px;color:#888;font-size:13px;text-align:center">
+      © <span id="year"></span> Подушка з фото
+    </footer>
   </div>
 
   <script>
-    // 1) Вкажи свій продакшн-URL веб-апки (Google Apps Script)
+    document.getElementById('year').textContent = new Date().getFullYear();
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz57JS9-1dULwr6UJKhdGKhJUJg-QCJ4RDwFOmnqxv7f_jlplvkWwCGFh0YvP3iR7Zj/exec';
 
-    // 2) Захоплюємо елементи
-    const pickBtn      = document.getElementById('pickBtn');
-    const sendBtn      = document.getElementById('sendBtn');
-    const resetBtn     = document.getElementById('resetBtn');
-    const uploader     = uploadcare.Widget('#uploader');
-
-    const previewBlock = document.getElementById('previewBlock');
-    const previewImg   = document.getElementById('preview');
-
-    const statusBox    = document.getElementById('statusBox');
-    const progressText = document.getElementById('progressText');
-
-    const resultBox    = document.getElementById('resultBox');
-    const resultImg    = document.getElementById('resultImg');
-    const downloadLink = document.getElementById('downloadLink');
-    const viewLink     = document.getElementById('viewLink');
-    const placeholderInfo = document.getElementById('placeholderInfo');
-
-    let currentFileInfo = null;
-    let currentJobId = null;
-    let pollTimer = null;
-    let pollTicks = 0;
-
-    // Допоміжне: красивий timestamp -> ім'я файлу
-    function ts() {
-      const d = new Date();
-      const p = n => String(n).padStart(2,'0');
-      return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`;
+    function makeOrderId(){
+      const d=new Date(),p=n=>String(n).padStart(2,'0');
+      return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}-${Math.floor(1000+Math.random()*9000)}`;
     }
 
-    function enableActions(hasFile) {
-      sendBtn.disabled = !hasFile;
-      resetBtn.disabled = !hasFile;
-    }
+    async function startPipelineFromCdn(cdnUrl, suggestedName = 'upload.png'){
+      const statusText=document.getElementById('statusText');
+      const preview=document.getElementById('preview');
+      const finalImg=document.getElementById('finalPreview');
+      try {
+        statusText.textContent='Завантаження у чергу…';
+        finalImg.style.display='none';
+        // форсуємо PNG-версію
+        let cdnPng = cdnUrl;
+        if (cdnPng.includes('ucarecdn.com') && !cdnPng.includes('/-/')) {
+          cdnPng = cdnPng.replace(/\/?$/, '/-/format/png/');
+        } else if (cdnPng.includes('ucarecdn.com') && !/\/format\/png\/?/.test(cdnPng)) {
+          cdnPng = cdnPng.replace(/\/?$/, '/format/png/');
+        }
 
-    function resetUI(hard=false) {
-      statusBox.style.display = 'none';
-      progressText.textContent = 'Готуємо…';
-      resultBox.classList.remove('ready');
-      resultImg.src = '';
-      downloadLink.href = '#';
-      viewLink.href = '#';
-      placeholderInfo.style.display = 'block';
-      if (hard) {
-        uploader.value(null);
-        previewBlock.style.display = 'none';
-        previewImg.src = '';
-        currentFileInfo = null;
-        currentJobId = null;
-        enableActions(false);
-      }
-      if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
-      pollTicks = 0;
-    }
+        const upRes = await fetch(WEB_APP_URL,{
+          method:'POST',
+          headers:{'Content-Type':'text/plain;charset=utf-8'},
+          body: JSON.stringify({ filename:suggestedName, cdnUrl: cdnPng })
+        }).then(r=>r.json());
+        if(!upRes.ok) throw new Error(upRes.error||'Помилка завантаження');
+        const jobId = upRes.job_id;
+        statusText.textContent = `Фото у черзі. Обробка…`;
 
-    // 3) Кнопка "Обрати фото"
-    pickBtn.addEventListener('click', () => {
-      uploader.openDialog(null, { imagesOnly: true });
-    });
+        preview.innerHTML = `<img src="${cdnPng}-/preview/800x800/" alt="Ваше фото">`;
 
-    // 4) Коли файл завантажено в Uploadcare
-    uploader.onUploadComplete(info => {
-      currentFileInfo = info;
-      // Показати прев’ю (краще брати зі cdnUrl)
-      previewBlock.style.display = 'block';
-      previewImg.src = info.cdnUrl + '-/preview/800x800/';
-      enableActions(true);
-    });
-
-    // 5) Надіслати в бекенд (PNG форсуємо трансформацією на CDN)
-    async function sendToBackend() {
-      if (!currentFileInfo) return;
-      resetUI(false);
-
-      const rawCdn = String(currentFileInfo.cdnUrl || '');
-      let cdnPng = rawCdn;
-
-      // якщо це Uploadcare CDN і ще не було трансформацій — додаємо
-      if (cdnPng.includes('ucarecdn.com') && !cdnPng.includes('/-/')) {
-        cdnPng = cdnPng.replace(/\/?$/, '/-/format/png/');
-      } else if (cdnPng.includes('ucarecdn.com') && !/\/format\/png\/?/.test(cdnPng)) {
-        // якщо вже є набір трансформацій — додаємо format/png в кінець
-        cdnPng = cdnPng.replace(/\/?$/, '/format/png/');
-      }
-
-      const suggestedName = `input-${ts()}.png`;
-
-      statusBox.style.display = 'block';
-      progressText.textContent = 'Надсилаємо у чергу…';
-
-      const resp = await fetch(WEB_APP_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain; charset=utf-8' },
-        body: JSON.stringify({
-          cdnUrl: cdnPng,
-          filename: suggestedName
-        })
-      });
-      const data = await resp.json();
-
-      if (!data.ok) {
-        progressText.textContent = 'Помилка: ' + (data.error || 'невідома');
-        return;
-      }
-
-      currentJobId = data.job_id;
-      progressText.textContent = 'Файл отримано. Обробка…';
-      startPolling();
-    }
-
-    // 6) Поллінг статусу
-    function startPolling() {
-      if (pollTimer) clearInterval(pollTimer);
-      const intervalMs = 2000;
-
-      pollTimer = setInterval(async () => {
-        pollTicks++;
-        // легкий індикатор
-        progressText.textContent = `Обробка… (${pollTicks * 2} с)`;
-
-        const u = new URL(WEB_APP_URL);
-        u.searchParams.set('action', 'status');
-        u.searchParams.set('job_id', currentJobId);
-
-        try {
-          const r = await fetch(u.toString(), { method: 'GET' });
-          const s = await r.json();
-          if (!s.ok) {
-            progressText.textContent = 'Помилка: ' + (s.error || 'невідома');
-            clearInterval(pollTimer); pollTimer = null;
+        const start = Date.now();
+        const timeoutMs = 180000, intervalMs = 3000;
+        while (Date.now()-start < timeoutMs){
+          await new Promise(r=>setTimeout(r, intervalMs));
+          const st = await fetch(`${WEB_APP_URL}?action=status&job_id=${encodeURIComponent(jobId)}`).then(r=>r.json());
+          if(st.ready){
+            statusText.textContent='Готово ✔';
+            finalImg.src = st.url;
+            finalImg.style.display='block';
             return;
           }
-          if (s.ready) {
-            clearInterval(pollTimer); pollTimer = null;
-            showResult(s);
-          }
-        } catch (e) {
-          progressText.textContent = 'Помилка мережі, пробуємо ще…';
+          statusText.textContent='Обробляємо…';
         }
-      }, intervalMs);
+        statusText.textContent='⏳ Перевищено час очікування.';
+      } catch (err){
+        console.error(err);
+        statusText.textContent = '❌ Помилка: ' + err.message;
+      }
     }
 
-    // 7) Показати результат
-    function showResult(s) {
-      statusBox.style.display = 'none';
-      resultBox.classList.add('ready');
-      placeholderInfo.style.display = 'none';
-
-      resultImg.src = s.url;               // перегляд (зручно для <img>)
-      downloadLink.href = s.downloadUrl;   // пряме завантаження
-      viewLink.href = s.viewUrl;           // сторінка Google Drive
-    }
-
-    // 8) Події кнопок
-    sendBtn.addEventListener('click', sendToBackend);
-    resetBtn.addEventListener('click', () => resetUI(true));
-
-    // Стартова ініціалізація
-    resetUI(true);
+    document.getElementById('openUpload').addEventListener('click', () => {
+      const dialog = uploadcare.openDialog(null, null, { imagesOnly:true, systemDialog:true });
+      dialog.done(file => {
+        file.done(async info => {
+          const statusText=document.getElementById('statusText');
+          try{
+            if(!info.cdnUrl) throw new Error('Uploadcare не повернув cdnUrl');
+            const orderId = makeOrderId();
+            await startPipelineFromCdn(info.cdnUrl, `input-${orderId}.png`);
+          }catch(err){
+            statusText.textContent = '❌ ' + err.message;
+          }
+        });
+      });
+    });
   </script>
 </body>
 </html>
