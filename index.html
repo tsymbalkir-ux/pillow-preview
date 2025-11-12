@@ -4,166 +4,90 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Подушка з фото — Завантаж своє зображення</title>
-  <meta name="description" content="Створи унікальний подарунок: подушка з твоїм фото. Завантаж зображення з телефону або комп'ютера — ми обробимо та надішлемо результат." />
-
-  <!-- Uploadcare config -->
-  <script>
-    window.UPLOADCARE_PUBLIC_KEY = '522d0009158a7301a94b';
-    window.UPLOADCARE_STORE = '0';
-    window.UPLOADCARE_SYSTEM_DIALOG = true;
-  </script>
-  <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
-
+  <meta name="description" content="Створи унікальний подарунок: подушка з твоїм фото. Завантаж — обробимо у Photoshop — отримаєш готовий макет." />
   <style>
-    :root {
-      --bg:#0a0a0a;
-      --card:#1a1a1a;
-      --text:#ffffff;
-      --muted:#b4b4b4;
-      --line:#333333;
-      --accent:#0ea5e9;
-      --radius:18px;
-    }
+    :root{--bg:#f7fafc;--card:#fff;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--accent:#0ea5e9;--radius:18px}
     *{box-sizing:border-box}
     html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
-    a{color:var(--accent);text-decoration:none}
     .wrap{max-width:760px;margin:0 auto;padding:24px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:0 10px 30px rgba(255,255,255,0.05)}
-    header{padding:28px 0 10px;text-align:center}
-    header h1{font-size:clamp(22px,4.6vw,34px);margin:0 0 8px}
-    header p{margin:0 auto;color:var(--muted);max-width:640px;font-size:14px}
-    .video-card{margin-top:16px;padding:14px}
-    .video-wrap{position:relative;width:100%;max-width:900px;margin:0 auto;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000;border:1px solid var(--line);box-shadow:0 12px 30px rgba(255,255,255,0.08)}
-    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-    @media (max-width:560px){.wrap{padding:16px}.video-card{padding:10px}.video-wrap{border-radius:10px}}
-    .uploader{border:2px dashed #444;border-radius:14px;background:#111;padding:20px;text-align:center}
-    .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer;transition:opacity .2s ease}
-    .btn.primary{background:linear-gradient(135deg,var(--accent),#60a5fa);color:#fff}
-    .btn:hover{opacity:.9}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+    header{text-align:center;margin:14px 0}
+    header h1{margin:0 0 6px}
+    .uploader{border:2px dashed var(--line);border-radius:14px;background:#fff;padding:18px;text-align:center}
+    .btn{border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:12px;padding:12px 16px;cursor:pointer}
+    .btn.ghost{background:transparent;color:var(--accent)}
+    #preview img{max-width:100%;border-radius:12px;border:1px solid var(--line)}
     .muted{color:var(--muted);font-size:14px}
-    .preview img{max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(255,255,255,0.08)}
-    .status-row{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:10px;color:var(--muted)}
-    .dot{width:10px;height:10px;border-radius:50%;background:#666;animation:pulse 1.2s infinite}
-    @keyframes pulse{0%{opacity:.4}50%{opacity:1}100%{opacity:.4}}
-    #finalPreview{display:none;margin-top:14px;max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(255,255,255,0.08)}
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <h1>Подушка-обіймашка з твоїм дизайном</h1>
-      <h1>WOW-Подарунок для тих, кого любиш ♥</h1>
-      <p>і для себе коханого...</p>
-      <p>Завантаж фото → Автообробка у Photoshop → Отримай готовий макет</p>
+      <h1>Подушка з фото</h1>
+      <p class="muted">Завантажте зображення — ми підготуємо макет автоматично.</p>
     </header>
 
-    <section class="card video-card" aria-label="Коротке відео-пояснення">
-      <div class="video-wrap">
-        <iframe
-          title="Подушка з фото — коротке відео"
-          src="https://www.youtube.com/embed/zzx11W-KdlM?autoplay=1&mute=1&playsinline=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1&fs=0&iv_load_policy=3&playlist=zzx11W-KdlM"
-          allow="autoplay; encrypted-media; picture-in-picture; clipboard-write; web-share"
-          allowfullscreen
-        ></iframe>
-      </div>
-    </section>
-
-    <section class="card" style="margin-top:16px">
-      <h2 style="margin-top:4px;color:#fff">Завантажте ваше фото</h2>
-      <p class="muted">Найкраще підходять зображення у повний зріст або від пояса. Час очікування: ~30–90 сек (залежно від інтернету та розміру файлу).</p>
-      <div class="uploader" style="margin-top:10px">
-        <button id="openUpload" class="btn primary">📸 Завантажити фото</button>
-        <div id="status" class="status-row" aria-live="polite">
-          <span class="dot" aria-hidden="true"></span>
-          <span id="statusText" class="muted">Готові, коли ви готові 🙂</span>
+    <section class="card">
+      <div class="uploader">
+        <input id="file" type="file" accept="image/*" style="display:none" />
+        <button id="pick" class="btn">📸 Обрати фото</button>
+        <div id="status" class="muted" style="margin-top:10px">Готові, коли ви готові 🙂</div>
+        <div id="preview" style="margin-top:14px"></div>
+        <div style="margin-top:12px;display:none" id="goResultWrap">
+          <a id="goResult" class="btn ghost" href="#">Відкрити сторінку результату →</a>
         </div>
-        <div id="preview" class="preview" style="margin-top:14px"></div>
-        <img id="finalPreview" alt="Готовий результат">
       </div>
     </section>
-
-    <footer style="margin:28px 0 16px;color:#888;font-size:13px;text-align:center">
-      © <span id="year"></span> Подушка з фото
-    </footer>
   </div>
 
   <script>
-    // ==== НАЛАШТУВАННЯ ====
-    document.getElementById('year').textContent = new Date().getFullYear();
-    // URL вашого Apps Script Web App
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz57JS9-1dULwr6UJKhdGKhJUJg-QCJ4RDwFOmnqxv7f_jlplvkWwCGFh0YvP3iR7Zj/exec';
+    const WEB_APP_URL = 'YOUR_GAS_WEB_APP_EXEC_URL'; // <-- підстав свій
 
-    // Утиліта: ID замовлення
-    function makeOrderId(){
-      const d=new Date(),p=n=>String(n).padStart(2,'0');
-      return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}-${Math.floor(1000+Math.random()*9000)}`;
-    }
+    const pickBtn  = document.getElementById('pick');
+    const fileIn   = document.getElementById('file');
+    const statusEl = document.getElementById('status');
+    const preview  = document.getElementById('preview');
+    const goWrap   = document.getElementById('goResultWrap');
+    const goLink   = document.getElementById('goResult');
 
-    // ==== НОВА КЛЮЧОВА ЛОГІКА: працюємо по cdnUrl (без base64) ====
-    async function startPipelineFromCdn(cdnUrl, suggestedName = 'upload.jpg'){
-      const statusText=document.getElementById('statusText');
-      const preview=document.getElementById('preview');
-      const finalImg=document.getElementById('finalPreview');
+    pickBtn.addEventListener('click', ()=> fileIn.click());
 
-      try {
-        statusText.textContent='Завантаження у чергу…';
-        finalImg.style.display='none';
+    fileIn.addEventListener('change', async ()=> {
+      const f = fileIn.files && fileIn.files[0];
+      if (!f) return;
 
-        // 1) Відправляємо у Apps Script лише посилання на Uploadcare CDN
-        const upRes = await fetch(WEB_APP_URL,{
-          method:'POST',
-          headers:{'Content-Type':'text/plain;charset=utf-8'},
-          body: JSON.stringify({ filename:suggestedName, cdnUrl })
-        }).then(r=>r.json());
+      // локальне превʼю
+      const localUrl = URL.createObjectURL(f);
+      preview.innerHTML = `<img src="${localUrl}" alt="Ваше фото">`;
 
-        if(!upRes.ok) throw new Error(upRes.error||'Помилка завантаження');
-
-        const jobId = upRes.job_id;
-        statusText.textContent = `Фото у черзі. Обробка… (job ${jobId.slice(0,8)}…)`;
-
-        // превʼю вхідного — прямо з Uploadcare
-        preview.innerHTML = `<img src="${cdnUrl}" alt="Ваше фото">`;
-
-        // 2) Опитування статусу (як було)
-        const start = Date.now();
-        const timeoutMs = 3*60*1000; // до 3 хв
-        const intervalMs = 3000;
-        while (Date.now()-start < timeoutMs){
-          await new Promise(r=>setTimeout(r, intervalMs));
-          const st = await fetch(`${WEB_APP_URL}?action=status&job_id=${encodeURIComponent(jobId)}`).then(r=>r.json());
-          if(!st.ok) { statusText.textContent = 'Помилка статусу. Повторюємо…'; continue; }
-          if(st.ready){
-            statusText.textContent='Готово ✔';
-            finalImg.src = st.url; // пряме посилання з Drive
-            finalImg.style.display='block';
-            return;
-          }
-          statusText.textContent='Обробляємо…';
-        }
-        statusText.textContent='Перевищено час очікування. Спробуйте ще раз або пізніше.';
-      } catch (err){
-        console.error('[pipeline] error', err);
-        statusText.textContent = '❌ Помилка: ' + err.message;
-      }
-    }
-
-    // ==== Привʼязка до Uploadcare віджета ====
-    document.getElementById('openUpload').addEventListener('click', () => {
-      const dialog = uploadcare.openDialog(null, null, { imagesOnly:true, systemDialog:true });
-      dialog.done(file => {
-        file.done(async info => {
-          const statusText=document.getElementById('statusText');
-          try{
-            if(!info.cdnUrl) throw new Error('Uploadcare не повернув cdnUrl');
-            const orderId = makeOrderId();
-            const suggestedName = `input-${orderId}.jpg`;
-            await startPipelineFromCdn(info.cdnUrl, suggestedName);
-          }catch(err){
-            console.error('[uploadcare] error:', err);
-            statusText.textContent = '❌ Помилка: ' + err.message;
-          }
-        });
+      // читаємо як dataURL і шлемо у GAS
+      statusEl.textContent = 'Завантажуємо у чергу…';
+      const dataUrl = await new Promise((res, rej)=>{
+        const r = new FileReader();
+        r.onload = ()=> res(r.result);
+        r.onerror = rej;
+        r.readAsDataURL(f);
       });
+
+      try{
+        const resp = await fetch(WEB_APP_URL, {
+          method: 'POST',
+          headers: {'Content-Type':'text/plain;charset=utf-8'},
+          body: JSON.stringify({ filename: f.name, dataUrl })
+        });
+        const j = await resp.json();
+        if (!j.ok) throw new Error(j.error || 'Помилка завантаження');
+        const jobId = j.job_id;
+
+        statusEl.textContent = 'Фото у черзі. Йдемо на сторінку результату…';
+        // збережемо jobId для відновлення
+        localStorage.setItem('last_job_id', jobId);
+        goLink.href = `result.html?job=${encodeURIComponent(jobId)}`;
+        goWrap.style.display = 'block';
+      } catch (err){
+        console.error(err);
+        statusEl.textContent = '❌ Не вдалося завантажити. Спробуйте ще раз.';
+      }
     });
   </script>
 </body>
