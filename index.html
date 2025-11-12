@@ -168,7 +168,7 @@
             await startPipelineFromCdn(info.cdnUrl, info.uuid);
 
             // Якщо хочеш показувати на окремій сторінці:
-            // location.href = `result.html?uuid=${encodeURIComponent(info.uuid)}`;
+            location.href = `result.html?uuid=${encodeURIComponent(info.uuid)}`;
 
           }catch(err){
             console.error(err);
