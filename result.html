@@ -19,6 +19,7 @@
     .status{color:var(--muted);font-size:14px;margin-top:8px}
     .btn{display:inline-block;border:1px solid var(--accent);color:#fff;background:var(--accent);border-radius:12px;padding:10px 14px;text-decoration:none;cursor:pointer}
     .btn.ghost{background:transparent;color:var(--accent)}
+    .links{margin-top:10px;display:flex;gap:14px;flex-wrap:wrap}
   </style>
 </head>
 <body>
@@ -30,80 +31,74 @@
 
     <section class="card">
       <div class="preview" id="box"><div class="status" id="msg">Очікуємо на макет…</div></div>
-      <div class="status" id="st">Перевіряємо кожні 4 секунди.</div>
-      <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap">
+      <div class="status" id="st">Обробляємо… (оновлення кожні 4 с)</div>
+      <div class="links">
         <a class="btn ghost" href="index.html">← На головну</a>
         <button class="btn ghost" id="retry" type="button">Оновити статус</button>
+        <a class="btn ghost" id="openDrive" href="#" target="_blank" rel="noopener" style="display:none">Відкрити у Google Drive</a>
+        <a class="btn ghost" id="download" href="#" download style="display:none">Завантажити файл</a>
       </div>
     </section>
   </div>
 
   <script>
-    // ПІДСТАВ СВІЙ /exec (той, що працює на ?action=ping)
+    // ⚠️ якщо змінюватимеш деплой — підстав новий /exec тут:
     const STATUS_URL = 'https://script.google.com/macros/s/AKfycbztLzWpW2V9ylCs_kEo8x7kyXKqD3E_u_fGEmGSDG9O-CVg283KEDEI8brPNmv-ZRM/exec';
 
     const box   = document.getElementById('box');
     const st    = document.getElementById('st');
-    const msgEl = document.getElementById('msg');
     const retry = document.getElementById('retry');
+    const aDrive = document.getElementById('openDrive');
+    const aDown  = document.getElementById('download');
 
-    // job_id із ?job=... або з localStorage
     const qs  = new URLSearchParams(location.search);
     const job = (qs.get('job') || localStorage.getItem('last_job_id') || '').trim();
 
-    function setStatus(text){ if (st) st.textContent = text; }
-    function showError(text){
-      setStatus(''); 
-      if (box) box.innerHTML = `<div style="color:#d11;padding:8px 0">${text}</div>`;
-    }
-    function showImage(url){
-      const u = url + (url.includes('?') ? '&' : '?') + 'nocache=' + Date.now();
-      box.innerHTML = `<img src="${u}" alt="Готовий макет">`;
+    const setStatus = (t)=> st && (st.textContent = t);
+    const showError = (t)=> { box.innerHTML = `<div style="color:#d11;padding:10px 0">${t}</div>`; setStatus(''); };
+
+    function antiCache(u){ return u + (u.includes('?')?'&':'?') + 'nocache=' + Date.now(); }
+
+    function showImage(src, viewUrl, downloadUrl){
+      box.innerHTML = `<img src="${antiCache(src)}" alt="Готовий макет">`;
       setStatus('✅ Макет готовий!');
-      localStorage.setItem('result_url', url);
+      if (viewUrl)   { aDrive.href = viewUrl;   aDrive.style.display='inline-block'; }
+      if (downloadUrl){ aDown.href = downloadUrl; aDown.style.display='inline-block'; }
+      localStorage.setItem('result_url', src);
+    }
+
+    function testImg(u){
+      return new Promise(res=>{
+        const i = new Image();
+        i.onload = ()=>res(true);
+        i.onerror= ()=>res(false);
+        i.src = antiCache(u);
+      });
     }
 
     async function askStatus(){
-      if (!job){
-        showError('Не передано job_id. Поверніться на головну і завантажте фото.');
-        throw new Error('no job');
-      }
-      const url = `${STATUS_URL}?action=status&job_id=${encodeURIComponent(job)}&ts=${Date.now()}`;
-      const r = await fetch(url, { cache:'no-store' });
+      if (!job){ showError('Не передано job_id. Поверніться на головну і завантажте фото.'); throw new Error('no job'); }
+      const r = await fetch(`${STATUS_URL}?action=status&job_id=${encodeURIComponent(job)}&ts=${Date.now()}`, {cache:'no-store'});
       if (!r.ok) throw new Error('HTTP '+r.status);
-      return r.json(); // {ok, ready, url?}
+      return r.json(); // {ok, ready, url, downloadUrl, viewUrl, ...}
     }
 
-    async function pollLoop(maxMs = 5*60*1000, stepMs = 4000){
-      // Показати з кешу, якщо вже дивились
+    async function renderWhenReady(timeoutMs=5*60*1000, stepMs=4000){
+      // миттєвий кеш
       const cached = localStorage.getItem('result_url');
-      if (cached) showImage(cached);
+      if (cached && await testImg(cached)) {
+        showImage(cached, null, null);
+        return true;
+      }
 
       const start = Date.now();
-      while (Date.now() - start < maxMs){
+      while (Date.now()-start < timeoutMs){
         try{
           const s = await askStatus();
-          if (s && s.ok && s.ready && s.url){
-            showImage(s.url);
-            return true;
-          }
-          setStatus('Обробляємо… (оновлення кожні 4 сек)');
-        }catch(e){
-          setStatus('Очікуємо з’єднання…');
-        }
-        await new Promise(r=>setTimeout(r, stepMs));
-      }
-      showError('Поки що немає готового макету. Оновіть сторінку трохи пізніше.');
-      return false;
-    }
-
-    retry.addEventListener('click', ()=> {
-      setStatus('Перевіряємо…');
-      pollLoop(60*1000, 2000); // короткий цикл на 60с
-    });
-
-    // старт
-    pollLoop();
-  </script>
-</body>
-</html>
+          console.log('[status]', s);
+          if (s.ok && s.ready){
+            const candidates = [s.url, s.downloadUrl, s.viewUrl].filter(Boolean);
+            for (const u of candidates){
+              if (await testImg(u)) { showImage(u, s.viewUrl, s.downloadUrl); return true; }
+            }
+            // якщо превʼю
