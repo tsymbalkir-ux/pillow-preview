@@ -1,189 +1,129 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Результат — Подушка з фото</title>
-  <meta name="description" content="Готовий макет подушки з вашого фото."/>
-  <style>
-    :root{--bg:#f7fafc;--card:#fff;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--accent:#0ea5e9;--radius:18px;}
-    *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
-    .wrap{max-width:760px;margin:0 auto;padding:24px}
-    header{text-align:center;margin-bottom:12px}
-    header h1{margin:6px 0 4px}
-    header p{margin:0;color:var(--muted)}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
-    .preview{display:flex;align-items:center;justify-content:center;min-height:320px;border:1px dashed var(--line);border-radius:14px;background:#fff}
-    .preview img{max-width:100%;max-height:520px;display:block;border-radius:12px}
-    .status{color:var(--muted);font-size:14px;margin-top:8px}
-    .btn{display:inline-block;border:1px solid var(--accent);color:#fff;background:var(--accent);border-radius:12px;padding:10px 14px;text-decoration:none;cursor:pointer}
-    .btn.ghost{background:transparent;color:var(--accent)}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    @media (max-width:720px){.row{grid-template-columns:1fr}}
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <header>
-      <h1>Результат</h1>
-      <p>Показуємо макет, щойно він з’явиться у вихідній папці.</p>
-    </header>
+<script>
+  /* ======= CONFIG ======= */
+  // JSONBin з мапою: { "<input_uuid>": "<result_uuid>" }
+  const BIN_ID     = "6914cead43b1c97be9a96b03";
+  // Твій Uploadcare CDN-домен:
+  const CDN_HOST   = "mt7stlfqcv.ucarecd.net";
+  // Розмір прев’ю для відображення:
+  const PREVIEW_SZ = "1000x1000";
 
-    <section class="card">
-      <div class="preview" id="preview"><div class="status">Очікуємо на макет…</div></div>
-      <div class="status" id="status">Перевіряємо кожні 4 секунди.</div>
-      <div style="margin-top:10px">
-        <a class="btn ghost" href="index.html">← На головну</a>
-      </div>
-    </section>
+  // Якщо користуєшся Google Sheets для замовлень — залиш ORDER_URL
+  const ORDER_URL  = 'https://script.google.com/macros/s/___YOUR_ORDER_WEB_APP___/exec';
 
-    <section class="card" style="margin-top:16px">
-      <h3 style="margin-top:0">Замовлення</h3>
-      <form id="orderForm">
-        <div class="row">
-          <div>
-            <label>Ім’я<br><input id="fname" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></label>
-          </div>
-          <div>
-            <label>Прізвище<br><input id="lname" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></label>
-          </div>
-          <div>
-            <label>Телефон<br><input id="phone" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></label>
-          </div>
-          <div>
-            <label>Розмір та ціна<br>
-              <select id="sizeSelect" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px">
-                <option value="40x40|499">40×40 — 499 грн</option>
-                <option value="50x50|649">50×50 — 649 грн</option>
-                <option value="70x70|899">70×70 — 899 грн</option>
-              </select>
-            </label>
-          </div>
-          <div>
-            <label>Місто<br><input id="city" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></label>
-          </div>
-          <div>
-            <label>Відділення Нової Пошти<br><input id="np" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></label>
-          </div>
-          <div style="grid-column:1 / -1">
-            <label>Коментар<br><textarea id="comment" rows="3" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></textarea></label>
-          </div>
-        </div>
-        <div style="margin-top:12px">
-          <button class="btn" type="submit">Надіслати заявку</button>
-          <span id="formMsg" class="status" style="margin-left:10px"></span>
-        </div>
-      </form>
-    </section>
+  /* ======= Елементи ======= */
+  const box    = document.getElementById('preview');
+  const status = document.getElementById('status');
 
-    <footer class="status" style="text-align:center;margin-top:16px">
-      © Світ Легенд — подушки з фото
-    </footer>
-  </div>
+  /* ======= UUID, що шукаємо ======= */
+  const qs         = new URLSearchParams(location.search);
+  const inputUuid  = (qs.get('uuid') || localStorage.getItem('last_uuid') || '').trim();
 
-  <script>
-    /* ======= CONFIG (TODO: підстав свій GAS Web App) ======= */
-    const STATUS_URL = 'https://script.google.com/macros/s/___YOUR_STATUS_WEB_APP___/exec'; // action=find_output&uuid=... → {ok,ready,url}
-    const ORDER_URL  = 'https://script.google.com/macros/s/___YOUR_ORDER_WEB_APP___/exec';
+  function previewUrl(resUuid){
+    return `https://${CDN_HOST}/${resUuid}/-/preview/${PREVIEW_SZ}/`;
+  }
+  function fullPngUrl(resUuid){
+    return `https://${CDN_HOST}/${resUuid}/-/format/png/`;
+  }
+  function setPreview(url){
+    box.innerHTML = `<img src="${url}" alt="Готовий макет">`;
+    localStorage.setItem('result_url', url);
+    status.textContent = '✅ Макет готовий!';
+  }
 
-    /* ======= Елементи ======= */
-    const box    = document.getElementById('preview');
-    const status = document.getElementById('status');
+  async function fetchMap(){
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { cache:'no-store' });
+    if (!r.ok) throw new Error('jsonbin http ' + r.status);
+    const j = await r.json();
+    return j.record || {};
+  }
 
-    /* ======= UUID ======= */
-    const qs       = new URLSearchParams(location.search);
-    const wantUuid = (qs.get('uuid') || localStorage.getItem('last_uuid') || '').trim();
-    const expectName = wantUuid ? `output-${wantUuid}.png` : '';
-
-    function setPreview(url){
-      box.innerHTML = `<img src="${url}" alt="Готовий макет">`;
-      localStorage.setItem('result_url', url);
-      status.textContent = '✅ Макет готовий!';
+  async function loadResult(){
+    if (!inputUuid){
+      status.textContent = 'Не передано uuid. Поверніться на головну та завантажте фото ще раз.';
+      return;
     }
 
-    async function askOnce(){
-      if (!expectName){
-        status.textContent = 'Не передано uuid. Поверніться на головну та завантажте фото ще раз.';
-        return { ok:false };
-      }
-      const url = `${STATUS_URL}?action=find_output&uuid=${encodeURIComponent(wantUuid)}&name=${encodeURIComponent(expectName)}&ts=${Date.now()}`;
-      const r = await fetch(url, { cache:'no-store' });
-      if (!r.ok) return { ok:false };
-      return r.json(); // {ok, ready, url?}
+    // миттєвий показ із кешу (якщо є)
+    const cachedUrl  = localStorage.getItem('result_url');
+    const cachedUuid = localStorage.getItem('last_uuid');
+    if (cachedUrl && cachedUuid === inputUuid){
+      setPreview(cachedUrl);
+      return;
     }
 
-    async function loadResult(){
-      // миттєве відображення, якщо URL уже в кеші й uuid збігається
-      const cachedUrl  = localStorage.getItem('result_url');
-      const cachedUuid = localStorage.getItem('last_uuid');
-      if (cachedUrl && cachedUuid && wantUuid && cachedUuid === wantUuid){
-        setPreview(cachedUrl);
-        return;
-      }
+    status.textContent = 'Очікуємо на макет…';
+    const timeoutMs  = 3 * 60 * 1000; // 3 хвилини очікування
+    const intervalMs = 4000;
+    const t0 = Date.now();
 
-      status.textContent = 'Очікуємо на макет…';
-      const timeoutMs  = 3 * 60 * 1000; // 3 хв
-      const intervalMs = 4000;
-      const start = Date.now();
-
-      while (Date.now() - start < timeoutMs){
-        try{
-          const st = await askOnce();
-          if (st.ok && st.ready && st.url){
-            localStorage.setItem('last_uuid', wantUuid);
-            setPreview(st.url);
-            return;
-          }
-        }catch(err){
-          console.warn('status error:', err);
-        }
-        status.textContent = 'Обробляємо…';
-        await new Promise(r => setTimeout(r, intervalMs));
-      }
-
-      status.textContent = 'Поки що немає готового макету. Оновіть сторінку трохи пізніше.';
-    }
-
-    loadResult();
-
-    /* ======= Надсилання форми у Google Sheets ======= */
-    const formEl = document.getElementById('orderForm');
-    const msgEl  = document.getElementById('formMsg');
-    const sizeEl = document.getElementById('sizeSelect');
-
-    formEl.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      msgEl.textContent = 'Надсилаємо…';
-
-      const [size, price] = String(sizeEl.value||'').split('|');
-      const payload = {
-        order_id:   localStorage.getItem('order_id') || '',
-        uuid:       wantUuid || localStorage.getItem('last_uuid') || '',
-        input_url:  localStorage.getItem('input_url') || '',
-        result_url: localStorage.getItem('result_url') || '',
-        size_label: sizeEl.options[sizeEl.selectedIndex].text,
-        size_value: size,
-        price_uah:  price,
-        phone:      document.getElementById('phone').value.trim(),
-        last_name:  document.getElementById('lname').value.trim(),
-        first_name: document.getElementById('fname').value.trim(),
-        city:       document.getElementById('city').value.trim(),
-        np_branch:  document.getElementById('np').value.trim(),
-        comment:    document.getElementById('comment').value.trim(),
-        source:     'pillow-preview',
-        ts:         new Date().toISOString()
-      };
-
+    while (Date.now() - t0 < timeoutMs){
       try{
-        await fetch(ORDER_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload), mode:'no-cors' });
-        msgEl.textContent = '✅ Заявку надіслано! Ми зв’яжемося з вами.';
-        formEl.reset();
-      }catch(err){
-        console.error('send error', err);
-        msgEl.textContent = '❌ Не вдалося надіслати. Спробуйте ще раз.';
+        const map = await fetchMap();
+        const resUuid = map[inputUuid];
+        if (resUuid){
+          const prev = previewUrl(resUuid);
+          const full = fullPngUrl(resUuid);
+          setPreview(prev);
+          // запам’ятати посилання
+          try {
+            localStorage.setItem('last_uuid', inputUuid);
+            localStorage.setItem('result_url', full);
+          } catch(e){}
+          return;
+        }
+      }catch(e){
+        // тихо ідемо далі
+        console.warn('status error:', e);
       }
-    });
-  </script>
-</body>
-</html>
+      status.textContent = 'Обробляємо…';
+      await new Promise(r => setTimeout(r, intervalMs));
+    }
+    status.textContent = 'Поки що немає готового макету. Оновіть сторінку трохи пізніше.';
+  }
+
+  loadResult();
+
+  /* ======= Надсилання форми у Google Sheets (без змін у верстці) ======= */
+  const formEl = document.getElementById('orderForm');
+  const msgEl  = document.getElementById('formMsg');
+  const sizeEl = document.getElementById('sizeSelect');
+
+  formEl.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    msgEl.textContent = 'Надсилаємо…';
+
+    const [size, price] = String(sizeEl.value||'').split('|');
+
+    const payload = {
+      order_id:   localStorage.getItem('order_id') || '',
+      uuid:       inputUuid,
+      input_url:  localStorage.getItem('input_url') || '',
+      result_url: localStorage.getItem('result_url') || '',
+      size_label: sizeEl.options[sizeEl.selectedIndex].text,
+      size_value: size,
+      price_uah:  price,
+      phone:      document.getElementById('phone').value.trim(),
+      last_name:  document.getElementById('lname').value.trim(),
+      first_name: document.getElementById('fname').value.trim(),
+      city:       document.getElementById('city').value.trim(),
+      np_branch:  document.getElementById('np').value.trim(),
+      comment:    document.getElementById('comment').value.trim(),
+      source:     'pillow-preview',
+      ts:         new Date().toISOString()
+    };
+
+    try{
+      await fetch(ORDER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        mode: 'no-cors'
+      });
+      msgEl.textContent = '✅ Заявку надіслано! Ми зв’яжемося з вами.';
+      formEl.reset();
+    }catch(err){
+      console.error('send error', err);
+      msgEl.textContent = '❌ Не вдалося надіслати. Спробуйте ще раз.';
+    }
+  });
+</script>
