@@ -20,6 +20,7 @@
     .btn{display:inline-block;border:1px solid var(--accent);color:#fff;background:var(--accent);border-radius:12px;padding:10px 14px;text-decoration:none;cursor:pointer}
     .btn.ghost{background:transparent;color:var(--accent)}
     .links{margin-top:10px;display:flex;gap:14px;flex-wrap:wrap}
+    iframe{width:100%;height:520px;border:0;border-radius:12px;background:#fff}
   </style>
 </head>
 <body>
@@ -42,63 +43,89 @@
   </div>
 
   <script>
-    // ⚠️ якщо змінюватимеш деплой — підстав новий /exec тут:
-    const STATUS_URL = 'https://script.google.com/macros/s/AKfycbztLzWpW2V9ylCs_kEo8x7kyXKqD3E_u_fGEmGSDG9O-CVg283KEDEI8brPNmv-ZRM/exec';
+    // ПІДСТАВ СВІЖИЙ /exec (той що працює з ?action=ping)
+    const STATUS_URL = 'https://script.google.com/macros/s/AKfycbwOF1tGP8eB5jvBa75TOd9rzhJh2GYRHnpxiUF7OAs3oQLd1xh-SK2P31bDrsjkFJKI/exec';
 
     const box   = document.getElementById('box');
     const st    = document.getElementById('st');
     const retry = document.getElementById('retry');
-    const aDrive = document.getElementById('openDrive');
-    const aDown  = document.getElementById('download');
+    const aDrive= document.getElementById('openDrive');
+    const aDown = document.getElementById('download');
 
     const qs  = new URLSearchParams(location.search);
     const job = (qs.get('job') || localStorage.getItem('last_job_id') || '').trim();
 
     const setStatus = (t)=> st && (st.textContent = t);
-    const showError = (t)=> { box.innerHTML = `<div style="color:#d11;padding:10px 0">${t}</div>`; setStatus(''); };
+    const antiCache = (u)=> u + (u.includes('?')?'&':'?') + 'nocache=' + Date.now();
 
-    function antiCache(u){ return u + (u.includes('?')?'&':'?') + 'nocache=' + Date.now(); }
-
-    function showImage(src, viewUrl, downloadUrl){
-      box.innerHTML = `<img src="${antiCache(src)}" alt="Готовий макет">`;
-      setStatus('✅ Макет готовий!');
-      if (viewUrl)   { aDrive.href = viewUrl;   aDrive.style.display='inline-block'; }
-      if (downloadUrl){ aDown.href = downloadUrl; aDown.style.display='inline-block'; }
-      localStorage.setItem('result_url', src);
+    function showError(t){
+      box.innerHTML = `<div style="color:#d11;padding:10px 0">${t}</div>`;
+      setStatus('');
     }
-
-    function testImg(u){
+    function canLoadImg(u){
       return new Promise(res=>{
         const i = new Image();
-        i.onload = ()=>res(true);
-        i.onerror= ()=>res(false);
+        i.onload  = ()=>res(true);
+        i.onerror = ()=>res(false);
         i.src = antiCache(u);
       });
     }
-
-    async function askStatus(){
-      if (!job){ showError('Не передано job_id. Поверніться на головну і завантажте фото.'); throw new Error('no job'); }
-      const r = await fetch(`${STATUS_URL}?action=status&job_id=${encodeURIComponent(job)}&ts=${Date.now()}`, {cache:'no-store'});
-      if (!r.ok) throw new Error('HTTP '+r.status);
-      return r.json(); // {ok, ready, url, downloadUrl, viewUrl, ...}
+    function renderImg(u, viewUrl, downloadUrl){
+      box.innerHTML = `<img src="${antiCache(u)}" alt="Готовий макет">`;
+      setStatus('✅ Макет готовий!');
+      if (viewUrl){ aDrive.href=viewUrl; aDrive.style.display='inline-block'; }
+      if (downloadUrl){ aDown.href=downloadUrl; aDown.style.display='inline-block'; }
+      localStorage.setItem('result_url', u);
+    }
+    function renderIframe(viewUrl, downloadUrl){
+      box.innerHTML = `<iframe src="${viewUrl}"></iframe>
+        <div style="margin-top:8px">
+          <a href="${viewUrl}" target="_blank" rel="noopener">Відкрити у Drive</a>
+          ${downloadUrl ? ' | <a href="'+downloadUrl+'">Завантажити</a>' : ''}
+        </div>`;
+      setStatus('✅ Макет готовий (через превʼю Drive)');
     }
 
-    async function renderWhenReady(timeoutMs=5*60*1000, stepMs=4000){
-      // миттєвий кеш
+    async function askStatus(){
+      const r = await fetch(`${STATUS_URL}?action=status&job_id=${encodeURIComponent(job)}&ts=${Date.now()}`, { cache:'no-store' });
+      if (!r.ok) throw new Error('HTTP '+r.status);
+      return r.json(); // {ok, ready, id, url, downloadUrl, viewUrl, ...}
+    }
+
+    async function run(timeoutMs=5*60*1000, stepMs=4000){
+      if (!job){ showError('Не передано job_id. Поверніться на головну і завантажте фото.'); return; }
+
+      // спроба з кешу
       const cached = localStorage.getItem('result_url');
-      if (cached && await testImg(cached)) {
-        showImage(cached, null, null);
-        return true;
-      }
+      if (cached && await canLoadImg(cached)) { renderImg(cached, null, null); return; }
 
       const start = Date.now();
-      while (Date.now()-start < timeoutMs){
+      while (Date.now() - start < timeoutMs){
         try{
           const s = await askStatus();
           console.log('[status]', s);
           if (s.ok && s.ready){
-            const candidates = [s.url, s.downloadUrl, s.viewUrl].filter(Boolean);
-            for (const u of candidates){
-              if (await testImg(u)) { showImage(u, s.viewUrl, s.downloadUrl); return true; }
-            }
-            // якщо превʼю
+            // 1) прямий контент-url
+            if (s.url && await canLoadImg(s.url)) { renderImg(s.url, s.viewUrl, s.downloadUrl); return; }
+            // 2) завантажувальний url
+            if (s.downloadUrl && await canLoadImg(s.downloadUrl)) { renderImg(s.downloadUrl, s.viewUrl, s.downloadUrl); return; }
+            // 3) fallback — Drive-превʼю
+            if (s.viewUrl) { renderIframe(s.viewUrl, s.downloadUrl); return; }
+
+            showError('Файл знайдено, але не вдалось показати превʼю.');
+            return;
+          }
+          setStatus('Обробляємо… (оновлення кожні 4 с)');
+        }catch(e){
+          setStatus('Очікуємо зʼєднання…');
+        }
+        await new Promise(r=>setTimeout(r, stepMs));
+      }
+      showError('Поки що немає готового макету. Оновіть сторінку трохи пізніше.');
+    }
+
+    retry && retry.addEventListener('click', ()=>{ setStatus('Перевіряємо…'); run(60*1000, 2000); });
+    run();
+  </script>
+</body>
+</html>
