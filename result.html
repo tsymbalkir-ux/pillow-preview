@@ -19,8 +19,8 @@
     .status{color:var(--muted);font-size:14px;margin-top:8px}
     .btn{display:inline-block;border:1px solid var(--accent);color:#fff;background:var(--accent);border-radius:12px;padding:10px 14px;text-decoration:none;cursor:pointer}
     .btn.ghost{background:transparent;color:var(--accent)}
-    .links{margin-top:10px;display:flex;gap:14px;flex-wrap:wrap}
-    iframe{width:100%;height:520px;border:0;border-radius:12px;background:#fff}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media (max-width:720px){.row{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -31,101 +31,159 @@
     </header>
 
     <section class="card">
-      <div class="preview" id="box"><div class="status" id="msg">Очікуємо на макет…</div></div>
-      <div class="status" id="st">Обробляємо… (оновлення кожні 4 с)</div>
-      <div class="links">
+      <div class="preview" id="preview"><div class="status">Очікуємо на макет…</div></div>
+      <div class="status" id="status">Перевіряємо кожні 4 секунди.</div>
+      <div style="margin-top:10px">
         <a class="btn ghost" href="index.html">← На головну</a>
-        <button class="btn ghost" id="retry" type="button">Оновити статус</button>
-        <a class="btn ghost" id="openDrive" href="#" target="_blank" rel="noopener" style="display:none">Відкрити у Google Drive</a>
-        <a class="btn ghost" id="download" href="#" download style="display:none">Завантажити файл</a>
       </div>
     </section>
+
+    <section class="card" style="margin-top:16px">
+      <h3 style="margin-top:0">Замовлення</h3>
+      <form id="orderForm">
+        <div class="row">
+          <div>
+            <label>Ім’я<br><input id="fname" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></label>
+          </div>
+          <div>
+            <label>Прізвище<br><input id="lname" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></label>
+          </div>
+          <div>
+            <label>Телефон<br><input id="phone" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></label>
+          </div>
+          <div>
+            <label>Розмір та ціна<br>
+              <select id="sizeSelect" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px">
+                <option value="40x40|499">40×40 — 499 грн</option>
+                <option value="50x50|649">50×50 — 649 грн</option>
+                <option value="70x70|899">70×70 — 899 грн</option>
+              </select>
+            </label>
+          </div>
+          <div>
+            <label>Місто<br><input id="city" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></label>
+          </div>
+          <div>
+            <label>Відділення Нової Пошти<br><input id="np" required style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></label>
+          </div>
+          <div style="grid-column:1 / -1">
+            <label>Коментар<br><textarea id="comment" rows="3" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px"></textarea></label>
+          </div>
+        </div>
+        <div style="margin-top:12px">
+          <button class="btn" type="submit">Надіслати заявку</button>
+          <span id="formMsg" class="status" style="margin-left:10px"></span>
+        </div>
+      </form>
+    </section>
+
+    <footer class="status" style="text-align:center;margin-top:16px">
+      © Світ Легенд — подушки з фото
+    </footer>
   </div>
 
   <script>
-    // ПІДСТАВ СВІЖИЙ /exec (той що працює з ?action=ping)
-    const STATUS_URL = 'https://script.google.com/macros/s/AKfycbw8unVmOHlb35-PhgpefbU32bYgh693Cdm7PDYOmTJwdx4Zc53eVeXbupXGprph_Rrt/exec';
+    /* ======= CONFIG (TODO: підстав свій GAS Web App) ======= */
+    const STATUS_URL = 'https://script.google.com/macros/s/___YOUR_STATUS_WEB_APP___/exec'; // action=find_output&uuid=... → {ok,ready,url}
+    const ORDER_URL  = 'https://script.google.com/macros/s/___YOUR_ORDER_WEB_APP___/exec';
 
-    const box   = document.getElementById('box');
-    const st    = document.getElementById('st');
-    const retry = document.getElementById('retry');
-    const aDrive= document.getElementById('openDrive');
-    const aDown = document.getElementById('download');
+    /* ======= Елементи ======= */
+    const box    = document.getElementById('preview');
+    const status = document.getElementById('status');
 
-    const qs  = new URLSearchParams(location.search);
-    const job = (qs.get('job') || localStorage.getItem('last_job_id') || '').trim();
+    /* ======= UUID ======= */
+    const qs       = new URLSearchParams(location.search);
+    const wantUuid = (qs.get('uuid') || localStorage.getItem('last_uuid') || '').trim();
+    const expectName = wantUuid ? `output-${wantUuid}.png` : '';
 
-    const setStatus = (t)=> st && (st.textContent = t);
-    const antiCache = (u)=> u + (u.includes('?')?'&':'?') + 'nocache=' + Date.now();
-
-    function showError(t){
-      box.innerHTML = `<div style="color:#d11;padding:10px 0">${t}</div>`;
-      setStatus('');
-    }
-    function canLoadImg(u){
-      return new Promise(res=>{
-        const i = new Image();
-        i.onload  = ()=>res(true);
-        i.onerror = ()=>res(false);
-        i.src = antiCache(u);
-      });
-    }
-    function renderImg(u, viewUrl, downloadUrl){
-      box.innerHTML = `<img src="${antiCache(u)}" alt="Готовий макет">`;
-      setStatus('✅ Макет готовий!');
-      if (viewUrl){ aDrive.href=viewUrl; aDrive.style.display='inline-block'; }
-      if (downloadUrl){ aDown.href=downloadUrl; aDown.style.display='inline-block'; }
-      localStorage.setItem('result_url', u);
-    }
-    function renderIframe(viewUrl, downloadUrl){
-      box.innerHTML = `<iframe src="${viewUrl}"></iframe>
-        <div style="margin-top:8px">
-          <a href="${viewUrl}" target="_blank" rel="noopener">Відкрити у Drive</a>
-          ${downloadUrl ? ' | <a href="'+downloadUrl+'">Завантажити</a>' : ''}
-        </div>`;
-      setStatus('✅ Макет готовий (через превʼю Drive)');
+    function setPreview(url){
+      box.innerHTML = `<img src="${url}" alt="Готовий макет">`;
+      localStorage.setItem('result_url', url);
+      status.textContent = '✅ Макет готовий!';
     }
 
-    async function askStatus(){
-      const r = await fetch(`${STATUS_URL}?action=status&job_id=${encodeURIComponent(job)}&ts=${Date.now()}`, { cache:'no-store' });
-      if (!r.ok) throw new Error('HTTP '+r.status);
-      return r.json(); // {ok, ready, id, url, downloadUrl, viewUrl, ...}
+    async function askOnce(){
+      if (!expectName){
+        status.textContent = 'Не передано uuid. Поверніться на головну та завантажте фото ще раз.';
+        return { ok:false };
+      }
+      const url = `${STATUS_URL}?action=find_output&uuid=${encodeURIComponent(wantUuid)}&name=${encodeURIComponent(expectName)}&ts=${Date.now()}`;
+      const r = await fetch(url, { cache:'no-store' });
+      if (!r.ok) return { ok:false };
+      return r.json(); // {ok, ready, url?}
     }
 
-    async function run(timeoutMs=5*60*1000, stepMs=4000){
-      if (!job){ showError('Не передано job_id. Поверніться на головну і завантажте фото.'); return; }
+    async function loadResult(){
+      // миттєве відображення, якщо URL уже в кеші й uuid збігається
+      const cachedUrl  = localStorage.getItem('result_url');
+      const cachedUuid = localStorage.getItem('last_uuid');
+      if (cachedUrl && cachedUuid && wantUuid && cachedUuid === wantUuid){
+        setPreview(cachedUrl);
+        return;
+      }
 
-      // спроба з кешу
-      const cached = localStorage.getItem('result_url');
-      if (cached && await canLoadImg(cached)) { renderImg(cached, null, null); return; }
-
+      status.textContent = 'Очікуємо на макет…';
+      const timeoutMs  = 3 * 60 * 1000; // 3 хв
+      const intervalMs = 4000;
       const start = Date.now();
+
       while (Date.now() - start < timeoutMs){
         try{
-          const s = await askStatus();
-          console.log('[status]', s);
-          if (s.ok && s.ready){
-            // 1) прямий контент-url
-            if (s.url && await canLoadImg(s.url)) { renderImg(s.url, s.viewUrl, s.downloadUrl); return; }
-            // 2) завантажувальний url
-            if (s.downloadUrl && await canLoadImg(s.downloadUrl)) { renderImg(s.downloadUrl, s.viewUrl, s.downloadUrl); return; }
-            // 3) fallback — Drive-превʼю
-            if (s.viewUrl) { renderIframe(s.viewUrl, s.downloadUrl); return; }
-
-            showError('Файл знайдено, але не вдалось показати превʼю.');
+          const st = await askOnce();
+          if (st.ok && st.ready && st.url){
+            localStorage.setItem('last_uuid', wantUuid);
+            setPreview(st.url);
             return;
           }
-          setStatus('Обробляємо… (оновлення кожні 4 с)');
-        }catch(e){
-          setStatus('Очікуємо зʼєднання…');
+        }catch(err){
+          console.warn('status error:', err);
         }
-        await new Promise(r=>setTimeout(r, stepMs));
+        status.textContent = 'Обробляємо…';
+        await new Promise(r => setTimeout(r, intervalMs));
       }
-      showError('Поки що немає готового макету. Оновіть сторінку трохи пізніше.');
+
+      status.textContent = 'Поки що немає готового макету. Оновіть сторінку трохи пізніше.';
     }
 
-    retry && retry.addEventListener('click', ()=>{ setStatus('Перевіряємо…'); run(60*1000, 2000); });
-    run();
+    loadResult();
+
+    /* ======= Надсилання форми у Google Sheets ======= */
+    const formEl = document.getElementById('orderForm');
+    const msgEl  = document.getElementById('formMsg');
+    const sizeEl = document.getElementById('sizeSelect');
+
+    formEl.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      msgEl.textContent = 'Надсилаємо…';
+
+      const [size, price] = String(sizeEl.value||'').split('|');
+      const payload = {
+        order_id:   localStorage.getItem('order_id') || '',
+        uuid:       wantUuid || localStorage.getItem('last_uuid') || '',
+        input_url:  localStorage.getItem('input_url') || '',
+        result_url: localStorage.getItem('result_url') || '',
+        size_label: sizeEl.options[sizeEl.selectedIndex].text,
+        size_value: size,
+        price_uah:  price,
+        phone:      document.getElementById('phone').value.trim(),
+        last_name:  document.getElementById('lname').value.trim(),
+        first_name: document.getElementById('fname').value.trim(),
+        city:       document.getElementById('city').value.trim(),
+        np_branch:  document.getElementById('np').value.trim(),
+        comment:    document.getElementById('comment').value.trim(),
+        source:     'pillow-preview',
+        ts:         new Date().toISOString()
+      };
+
+      try{
+        await fetch(ORDER_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload), mode:'no-cors' });
+        msgEl.textContent = '✅ Заявку надіслано! Ми зв’яжемося з вами.';
+        formEl.reset();
+      }catch(err){
+        console.error('send error', err);
+        msgEl.textContent = '❌ Не вдалося надіслати. Спробуйте ще раз.';
+      }
+    });
   </script>
 </body>
 </html>
