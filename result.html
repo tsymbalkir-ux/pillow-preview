@@ -1,129 +1,159 @@
-<script>
-  /* ======= CONFIG ======= */
-  // JSONBin з мапою: { "<input_uuid>": "<result_uuid>" }
-  const BIN_ID     = "6914cead43b1c97be9a96b03";
-  // Твій Uploadcare CDN-домен:
-  const CDN_HOST   = "mt7stlfqcv.ucarecd.net";
-  // Розмір прев’ю для відображення:
-  const PREVIEW_SZ = "1000x1000";
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Результат — Подушка з фото</title>
+  <meta name="description" content="Готовий макет подушки з вашого фото."/>
+  <style>
+    :root{--bg:#0a0a0a;--card:#1a1a1a;--text:#ffffff;--muted:#b4b4b4;--line:#333;--accent:#0ea5e9;--radius:18px;}
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:var(--accent);text-decoration:none}
+    .wrap{max-width:760px;margin:0 auto;padding:24px}
+    header{text-align:center;margin-bottom:12px}
+    header h1{font-size:clamp(22px,4.6vw,34px);margin:0 0 6px}
+    header p{margin:0;color:var(--muted)}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:0 10px 30px rgba(255,255,255,.06)}
+    #status{margin:8px 0 12px;color:var(--muted);text-align:center}
+    #preview img{max-width:100%;display:block;margin:0 auto;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(255,255,255,.08)}
+    footer{margin:24px 0 8px;text-align:center;color:#888;font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Готовий макет</h1>
+      <p>Сторінка автоматично оновиться, щойно зʼявиться результат.</p>
+    </header>
 
-  // Якщо користуєшся Google Sheets для замовлень — залиш ORDER_URL
-  const ORDER_URL  = 'https://script.google.com/macros/s/___YOUR_ORDER_WEB_APP___/exec';
+    <section class="card">
+      <div id="status">Очікуємо на макет…</div>
+      <div id="preview"></div>
+      <div id="links" style="text-align:center;margin-top:10px"></div>
+    </section>
 
-  /* ======= Елементи ======= */
-  const box    = document.getElementById('preview');
-  const status = document.getElementById('status');
+    <footer>
+      © <span id="year"></span> Подушка з фото · <a href="index.html">на головну</a>
+    </footer>
+  </div>
 
-  /* ======= UUID, що шукаємо ======= */
-  const qs         = new URLSearchParams(location.search);
-  const inputUuid  = (qs.get('uuid') || localStorage.getItem('last_uuid') || '').trim();
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-  function previewUrl(resUuid){
-    return `https://${CDN_HOST}/${resUuid}/-/preview/${PREVIEW_SZ}/`;
-  }
-  function fullPngUrl(resUuid){
-    return `https://${CDN_HOST}/${resUuid}/-/format/png/`;
-  }
-  function setPreview(url){
-    box.innerHTML = `<img src="${url}" alt="Готовий макет">`;
-    localStorage.setItem('result_url', url);
-    status.textContent = '✅ Макет готовий!';
-  }
+    /* ======= CONFIG (залишено як у тебе) ======= */
+    // JSONBin з мапою: { "<input_uuid>": "<result_uuid>" }
+    const BIN_ID     = "6914cead43b1c97be9a96b03";
+    // Твій Uploadcare CDN-домен:
+    const CDN_HOST   = "mt7stlfqcv.ucarecd.net";
+    // Розмір прев’ю для відображення:
+    const PREVIEW_SZ = "1000x1000";
 
-  async function fetchMap(){
-    const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { cache:'no-store' });
-    if (!r.ok) throw new Error('jsonbin http ' + r.status);
-    const j = await r.json();
-    return j.record || {};
-  }
+    // Якщо користуєшся Google Sheets для замовлень — залиш ORDER_URL
+    const ORDER_URL  = 'https://script.google.com/macros/s/___YOUR_ORDER_WEB_APP___/exec';
 
-  async function loadResult(){
-    if (!inputUuid){
-      status.textContent = 'Не передано uuid. Поверніться на головну та завантажте фото ще раз.';
-      return;
+    /* ======= Елементи ======= */
+    const box    = document.getElementById('preview');
+    const status = document.getElementById('status');
+    const links  = document.getElementById('links');
+
+    /* ======= UUID, що шукаємо ======= */
+    const qs        = new URLSearchParams(location.search);
+    const inputUuid = (qs.get('uuid') || localStorage.getItem('last_uuid') || '').trim();
+
+    const previewUrlOf = resUuid => `https://${CDN_HOST}/${resUuid}/-/preview/${PREVIEW_SZ}/`;
+    const fullPngOf    = resUuid => `https://${CDN_HOST}/${resUuid}/-/format/png/`;
+
+    function setPreview(prevUrl, fullUrl){
+      box.innerHTML = `<img src="${prevUrl}" alt="Готовий макет">`;
+      status.textContent = '✅ Макет готовий!';
+      links.innerHTML = `<a href="${fullUrl}" target="_blank" rel="noopener">Завантажити PNG</a>`;
+      try { localStorage.setItem('result_url', fullUrl); } catch(e){}
     }
 
-    // миттєвий показ із кешу (якщо є)
-    const cachedUrl  = localStorage.getItem('result_url');
-    const cachedUuid = localStorage.getItem('last_uuid');
-    if (cachedUrl && cachedUuid === inputUuid){
-      setPreview(cachedUrl);
-      return;
+    async function fetchMap(){
+      const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { cache:'no-store' });
+      if (!r.ok) throw new Error('jsonbin http ' + r.status);
+      const j = await r.json();
+      return j.record || {};
     }
 
-    status.textContent = 'Очікуємо на макет…';
-    const timeoutMs  = 3 * 60 * 1000; // 3 хвилини очікування
-    const intervalMs = 4000;
-    const t0 = Date.now();
+    async function loadResult(){
+      if (!inputUuid){ status.textContent = 'Не передано uuid.'; return; }
 
-    while (Date.now() - t0 < timeoutMs){
-      try{
-        const map = await fetchMap();
-        const resUuid = map[inputUuid];
-        if (resUuid){
-          const prev = previewUrl(resUuid);
-          const full = fullPngUrl(resUuid);
-          setPreview(prev);
-          // запам’ятати посилання
-          try {
-            localStorage.setItem('last_uuid', inputUuid);
-            localStorage.setItem('result_url', full);
-          } catch(e){}
-          return;
-        }
-      }catch(e){
-        // тихо ідемо далі
-        console.warn('status error:', e);
+      // миттєвий показ із кешу (якщо є)
+      const cachedUrl  = localStorage.getItem('result_url');
+      const cachedUuid = localStorage.getItem('last_uuid');
+      if (cachedUrl && cachedUuid === inputUuid){
+        setPreview(cachedUrl, cachedUrl);
+        return;
       }
+
       status.textContent = 'Обробляємо…';
-      await new Promise(r => setTimeout(r, intervalMs));
+      const timeoutMs = 3*60*1000, step = 4000;
+      const t0 = Date.now();
+
+      while (Date.now() - t0 < timeoutMs){
+        try{
+          const map = await fetchMap();
+          const resUuid = map[inputUuid];
+          if (resUuid){
+            const prev = previewUrlOf(resUuid);
+            const full = fullPngOf(resUuid);
+            setPreview(prev, full);
+            return;
+          }
+        }catch(e){ /* тихо пробуємо далі */ }
+        status.textContent = 'Обробляємо…';
+        await new Promise(r => setTimeout(r, step));
+      }
+      status.textContent = 'Поки що немає готового макету. Оновіть сторінку трохи пізніше.';
     }
-    status.textContent = 'Поки що немає готового макету. Оновіть сторінку трохи пізніше.';
-  }
 
-  loadResult();
+    loadResult();
 
-  /* ======= Надсилання форми у Google Sheets (без змін у верстці) ======= */
-  const formEl = document.getElementById('orderForm');
-  const msgEl  = document.getElementById('formMsg');
-  const sizeEl = document.getElementById('sizeSelect');
+    /* ======= (опціонально) Надсилання форми у Google Sheets =======
+       Якщо у твоєму макеті є форма з id="orderForm" — цей блок її відправить.
+       Якщо форми немає — код нижче можна залишити, він не завадить. */
+    const formEl = document.getElementById('orderForm');
+    if (formEl){
+      const msgEl  = document.getElementById('formMsg') || ( ()=>{const s=document.createElement('div'); s.id='formMsg'; s.style.marginTop='8px'; formEl.appendChild(s); return s;} )();
+      const sizeEl = document.getElementById('sizeSelect');
 
-  formEl.addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    msgEl.textContent = 'Надсилаємо…';
+      formEl.addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        msgEl.textContent = 'Надсилаємо…';
 
-    const [size, price] = String(sizeEl.value||'').split('|');
+        const [size, price] = String((sizeEl && sizeEl.value) || '').split('|');
 
-    const payload = {
-      order_id:   localStorage.getItem('order_id') || '',
-      uuid:       inputUuid,
-      input_url:  localStorage.getItem('input_url') || '',
-      result_url: localStorage.getItem('result_url') || '',
-      size_label: sizeEl.options[sizeEl.selectedIndex].text,
-      size_value: size,
-      price_uah:  price,
-      phone:      document.getElementById('phone').value.trim(),
-      last_name:  document.getElementById('lname').value.trim(),
-      first_name: document.getElementById('fname').value.trim(),
-      city:       document.getElementById('city').value.trim(),
-      np_branch:  document.getElementById('np').value.trim(),
-      comment:    document.getElementById('comment').value.trim(),
-      source:     'pillow-preview',
-      ts:         new Date().toISOString()
-    };
+        const payload = {
+          order_id:   localStorage.getItem('order_id') || '',
+          uuid:       inputUuid,
+          input_url:  localStorage.getItem('input_url') || '',
+          result_url: localStorage.getItem('result_url') || '',
+          size_label: sizeEl ? sizeEl.options[sizeEl.selectedIndex].text : '',
+          size_value: size || '',
+          price_uah:  price || '',
+          phone:      (document.getElementById('phone')||{}).value?.trim() || '',
+          last_name:  (document.getElementById('lname')||{}).value?.trim() || '',
+          first_name: (document.getElementById('fname')||{}).value?.trim() || '',
+          city:       (document.getElementById('city')||{}).value?.trim() || '',
+          np_branch:  (document.getElementById('np')||{}).value?.trim() || '',
+          comment:    (document.getElementById('comment')||{}).value?.trim() || '',
+          source:     'pillow-preview',
+          ts:         new Date().toISOString()
+        };
 
-    try{
-      await fetch(ORDER_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        mode: 'no-cors'
+        try{
+          await fetch(ORDER_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload), mode:'no-cors' });
+          msgEl.textContent = '✅ Заявку надіслано! Ми звʼяжемося з вами.';
+          formEl.reset();
+        }catch(err){
+          console.error('send error', err);
+          msgEl.textContent = '❌ Не вдалося надіслати. Спробуйте ще раз.';
+        }
       });
-      msgEl.textContent = '✅ Заявку надіслано! Ми зв’яжемося з вами.';
-      formEl.reset();
-    }catch(err){
-      console.error('send error', err);
-      msgEl.textContent = '❌ Не вдалося надіслати. Спробуйте ще раз.';
     }
-  });
-</script>
+  </script>
+</body>
+</html>
