@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="ук">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -100,12 +100,10 @@
     async function startPipelineFromCdn(cdnUrl, uuid){
       const statusText=document.getElementById('statusText');
       const preview=document.getElementById('preview');
-      const finalImg=document.getElementById('finalPreview');
       try {
         statusText.textContent='Завантаження у чергу…';
-        finalImg.style.display='none';
 
-        // форсуємо PNG
+        // форсуємо PNG (для уніфікації)
         let cdnPng = cdnUrl;
         if (cdnPng.includes('ucarecdn.com') && !cdnPng.includes('/-/')) {
           cdnPng = cdnPng.replace(/\/?$/, '/-/format/png/');
@@ -113,43 +111,28 @@
           cdnPng = cdnPng.replace(/\/?$/, '/format/png/');
         }
 
-        // кешуємо для result.html
+        // кеш для result.html
         try {
           localStorage.setItem('last_uuid', uuid);
           localStorage.setItem('input_url', cdnUrl);
         } catch(e){}
 
-        // надсилаємо в GAS (вже з uuid та ім’ям input-<uuid>.png)
-        const upRes = await fetch(WEB_APP_URL,{
+        // надсилаємо у GAS тільки для постановки в чергу
+        const upRes = await fetch(WEB_APP_URL, {
           method:'POST',
           headers:{'Content-Type':'text/plain;charset=utf-8'},
           body: JSON.stringify({ uuid, filename: `input-${uuid}.png`, cdnUrl: cdnPng })
         }).then(r=>r.json());
 
         if(!upRes.ok) throw new Error(upRes.error||'Помилка завантаження');
-        const jobId = upRes.job_id || makeOrderId();
-        statusText.textContent = 'Фото у черзі. Обробка…';
 
+        // показати прев’ю вхідного фото (не результат)
         preview.innerHTML = `<img src="${cdnPng}-/preview/800x800/" alt="Ваше фото">`;
+        statusText.textContent='Переходимо на сторінку результату…';
 
-        // пулінг статусу
-        const start = Date.now();
-        const timeoutMs = 180000, intervalMs = 3000;
-        while (Date.now()-start < timeoutMs){
-          await new Promise(r=>setTimeout(r, intervalMs));
-          const st = await fetch(`${WEB_APP_URL}?action=status&job_id=${encodeURIComponent(jobId)}&uuid=${encodeURIComponent(uuid)}`).then(r=>r.json());
-          if(st.ready){
-            statusText.textContent='Готово ✔';
-            if (st.url) {
-              finalImg.src = st.url;    // CDN Uploadcare для результату
-              finalImg.style.display='block';
-              try { localStorage.setItem('result_url', st.url); } catch(e){}
-            }
-            return;
-          }
-          statusText.textContent='Обробляємо…';
-        }
-        statusText.textContent='⏳ Перевищено час очікування.';
+        // негайно переходимо на result.html і чекаємо там
+        location.href = `result.html?uuid=${encodeURIComponent(uuid)}`;
+
       } catch (err){
         console.error(err);
         statusText.textContent = '❌ Помилка: ' + err.message;
@@ -165,10 +148,9 @@
           try{
             if(!info.cdnUrl) throw new Error('Uploadcare не повернув cdnUrl');
             if(!info.uuid)   throw new Error('Uploadcare не повернув uuid');
-            await startPipelineFromCdn(info.cdnUrl, info.uuid);
 
-            // Якщо хочеш показувати на окремій сторінці:
-            location.href = `result.html?uuid=${encodeURIComponent(info.uuid)}`;
+            await startPipelineFromCdn(info.cdnUrl, info.uuid);
+            // більше нічого тут не робимо — редірект відбувається в startPipelineFromCdn()
 
           }catch(err){
             console.error(err);
