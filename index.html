@@ -89,7 +89,7 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz57JS9-1dULwr6UJKhdGKhJUJg-QCJ4RDwFOmnqxv7f_jlplvkWwCGFh0YvP3iR7Zj/exec';
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx_l-Xx9jaQVvRzMxF-PugmBEGxW2VM5RgxfP6Xxx1i9Uj2oIgS4IWOcZ7sqGXnVVFE/exec';
 
     // опційно для логів
     function makeOrderId(){
@@ -122,7 +122,7 @@
         // надсилаємо в GAS (вже з uuid та ім’ям input-<uuid>.png)
         const upRes = await fetch(WEB_APP_URL,{
           method:'POST',
-          headers:{'Content-Type':'application/json;charset=utf-8'},
+          headers:{'Content-Type':'text/plain;charset=utf-8'},
           body: JSON.stringify({ uuid, filename: `input-${uuid}.png`, cdnUrl: cdnPng })
         }).then(r=>r.json());
 
