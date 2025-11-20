@@ -14,39 +14,77 @@
   </script>
   <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 
-  <style>
-    :root {
-      --bg:#0a0a0a;
-      --card:#1a1a1a;
-      --text:#ffffff;
-      --muted:#b4b4b4;
-      --line:#333333;
-      --accent:#0ea5e9;
-      --radius:18px;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
-    a{color:var(--accent);text-decoration:none}
-    .wrap{max-width:760px;margin:0 auto;padding:24px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:0 10px 30px rgba(255,255,255,0.05)}
-    header{padding:28px 0 10px;text-align:center}
-    header h1{font-size:clamp(22px,4.6vw,34px);margin:0 0 8px}
-    header p{margin:0 auto;color:var(--muted);max-width:640px;font-size:14px}
-    .video-card{margin-top:16px;padding:14px}
-    .video-wrap{position:relative;width:100%;max-width:900px;margin:0 auto;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000;border:1px solid var(--line);box-shadow:0 12px 30px rgba(255,255,255,0.08)}
-    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-    @media (max-width:560px){.wrap{padding:16px}.video-card{padding:10px}.video-wrap{border-radius:10px}}
-    .uploader{border:2px dashed #444;border-radius:14px;background:#111;padding:20px;text-align:center}
-    .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer;transition:opacity .2s ease}
-    .btn.primary{background:linear-gradient(135deg,var(--accent),#60a5fa);color:#fff}
-    .btn:hover{opacity:.9}
-    .muted{color:var(--muted);font-size:14px}
-    .preview img{max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(255,255,255,0.08)}
-    .status-row{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:10px;color:var(--muted)}
-    .dot{width:10px;height:10px;border-radius:50%;background:#666;animation:pulse 1.2s infinite}
-    @keyframes pulse{0%{opacity:.4}50%{opacity:1}100%{opacity:.4}}
-    #finalPreview{display:none;margin-top:14px;max-width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(255,255,255,0.08)}
-  </style>
+  <style> 
+  :root {
+    --bg:#ffffff;       /* білий фон */
+    --card:#ffffff;
+    --text:#000000;     /* чорний текст */
+    --muted:#333333;
+    --line:#dddddd;
+    --accent:#0ea5e9;
+    --radius:18px;
+  }
+
+  *{box-sizing:border-box}
+
+  html,body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+  }
+
+  a{color:var(--accent);text-decoration:none}
+
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+    padding:24px;
+  }
+
+  header{
+    padding:28px 0 10px;
+    text-align:center;
+  }
+  header h1{
+    font-size:clamp(22px,4.6vw,34px);
+    margin:0 0 8px;
+  }
+  header p{
+    margin:0 auto;
+    color:var(--muted);
+    max-width:640px;
+    font-size:14px;
+  }
+
+  /* ---- ВІДЕО VERTICAL (Shorts) ---- */
+  .video-wrap{
+    position:relative;
+    width:100%;
+    max-width:420px;           /* натуральний розмір вертикального відео */
+    margin:0 auto;
+    aspect-ratio:9/16;         /* вертикально */
+    border-radius:14px;
+    overflow:hidden;
+    background:#000;
+    border:none;               /* прибрані рамки */
+    box-shadow:none;           /* прибрані тіні */
+  }
+
+  .video-wrap iframe{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    border:0;
+  }
+
+  @media (max-width:560px){
+    .wrap{padding:16px}
+    .video-wrap{border-radius:10px;max-width:100%}
+  }
+</style>
+
 </head>
 <body>
   <div class="wrap">
@@ -58,14 +96,15 @@
     </header>
 
     <section class="card video-card">
-      <div class="video-wrap">
-        <iframe
-  title="Подушка з фото — коротке відео"
-  src="https://www.youtube.com/embed/LehEl6JxkaY?autoplay=1&mute=1&playsinline=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1&fs=0&iv_load_policy=3&playlist=LehEl6JxkaY"
-  allow="autoplay; encrypted-media; picture-in-picture; clipboard-write; web-share"
-  allowfullscreen
-        ></iframe>
-      </div>
+     <div class="video-wrap">
+  <iframe
+    title="Подушка з фото — коротке відео"
+    src="https://www.youtube.com/embed/LehEl6JxkaY?autoplay=1&mute=1&playsinline=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1&fs=0&iv_load_policy=3&playlist=LehEl6JxkaY"
+    allow="autoplay; encrypted-media; picture-in-picture; clipboard-write; web-share"
+    allowfullscreen
+  ></iframe>
+</div>
+
     </section>
 
     <section class="card" style="margin-top:16px">
