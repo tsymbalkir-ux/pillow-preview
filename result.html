@@ -121,12 +121,12 @@
       <!-- Випадаючий список "Оберіть розмір" -->
       <div class="controls">
         <div class="form-row">
-          <label for="sizeSelect">Оберіть розмір</label>
+          <label for="sizeSelect" style="display:block; text-align:center;">Оберіть розмір</label>
           <select id="sizeSelect" name="size">
             <option value="33x100|950">33 на 100 см — 950 грн</option>
-            <option value="40x120|1190">40 на 120 см — 1190 грн</option>
-            <option value="50x150|1490">50 на 150 см — 1490 грн</option>
-            <option value="60x180|1890">60 на 180 см — 1890 грн</option>
+            <option value="40x120|1190">40 на 120 см — 1290 грн</option>
+            <option value="50x150|1490">50 на 150 см — 1590 грн</option>
+            <option value="60x180|1890">60 на 180 см — 1950 грн</option>
           </select>
         </div>
       </div>
@@ -143,7 +143,7 @@
 
     <!-- ОФОРМЛЕННЯ ЗАМОВЛЕННЯ -->
     <section class="card order" aria-label="Оформлення замовлення">
-      <h3>Оформлення замовлення</h3>
+      <h3 style="text-align:center;">Оформлення замовлення</h3>
       <form id="orderForm">
         <div class="grid">
           <div class="full">
@@ -166,13 +166,6 @@
             <label for="np">Номер Нової Пошти*</label>
             <input id="np" name="np_branch" required />
           </div>
-
-          <!-- НОВЕ: Коментар -->
-          <div class="full">
-            <label for="comment">Коментар (необов’язково)</label>
-            <input id="comment" name="comment" placeholder="Наприклад: двосторонній друк, інші побажання…" />
-          </div>
-        </div>
 
         <div class="submit-row">
           <button class="btn primary" type="submit">✅ Підтвердити замовлення</button>
