@@ -102,6 +102,31 @@
   background:#CC1C39;          /* бордовий */
   color:#fff;
 }
+    .gallery-section{
+  margin-top:40px;
+  text-align:center;
+}
+
+.gallery-title{
+  font-size:20px;
+  margin-bottom:14px;
+}
+
+.carousel{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  padding:10px 0;
+  scroll-snap-type:x mandatory;
+}
+
+.carousel img{
+  width:180px;            /* на мобільних виглядає ідеально */
+  height:auto;
+  border-radius:12px;
+  scroll-snap-align:center;
+  flex-shrink:0;
+}
 
 </style>
 
@@ -140,6 +165,30 @@
         <img id="finalPreview" alt="Готовий результат">
       </div>
     </section>
+    <section class="gallery-section">
+  <h2 class="gallery-title">Галерея прикладів</h2>
+
+  <div class="carousel">
+    <img src="reviews/111.webp" alt="Приклад готової подушки з фото">
+    <img src="reviews/222.webp" alt="Фото клієнта на подушці">
+    <img src="reviews/333.webp" alt="Готова подушка зі своїм дизайном">
+  
+  </div>
+</section>
+    <section class="card" style="margin-top:16px">
+      <h2 style="margin-top:4px;color:#fff">Завантажте ваше фото</h2>
+      <p class="muted">Найкраще підходять зображення у повний зріст або від пояса. Час очікування: ~30–90 сек.</p>
+      <div class="uploader" style="margin-top:10px">
+        <button id="openUpload" class="btn primary">📸 Завантажити фото</button>
+        <div id="status" class="status-row">
+          <span class="dot"></span>
+          <span id="statusText" class="muted">Готові, коли ви готові 🙂</span>
+        </div>
+        <div id="preview" class="preview" style="margin-top:14px"></div>
+        <img id="finalPreview" alt="Готовий результат">
+      </div>
+    </section>
+
 
     <footer style="margin:28px 0 16px;color:#888;font-size:13px;text-align:center">
       © <span id="year"></span> Подушка з фото
