@@ -132,6 +132,9 @@ header h2 {
   scroll-snap-align:center;
   flex-shrink:0;
 }
+    .wrap > * + * {
+  margin-top: 10px;
+}
 
 </style>
 
@@ -157,7 +160,7 @@ header h2 {
 
     </section>
 
-    <section class="card" style="margin-top:16px">
+    <section class="card">
       <h2 style="margin-top:4px;color:#fff">Завантажте ваше фото</h2>
       <p class="muted">Найкраще підходять зображення у повний зріст або від пояса. Час очікування: ~45–60 сек.</p>
       <div class="uploader" style="margin-top:10px">
@@ -178,7 +181,7 @@ header h2 {
   
   </div>
 </section>
-    <section class="card" style="margin-top:16px">
+    <section class="card">
       <h2 style="margin-top:4px;color:#fff">Завантажте ваше фото</h2>
       <div class="uploader" style="margin-top:10px">
         <button id="openUpload" class="btn primary">📸 Завантажити фото</button>
