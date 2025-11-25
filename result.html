@@ -21,10 +21,15 @@
     .muted{color:var(--muted);font-size:14px;text-align:center;margin-top:8px}
     .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
     .btn.ghost{background:#edf2f7;color:#0f172a;border:1px solid #dbe3ee}
-    .btn.primary{background:#CC1C39;color:#fff;}
+    .btn.primary{display:inline-block;background:#CC1C39;color:#fff;}
     .note{font-size:12px;color:var(--muted)}
     .success{color:#16a34a}
     .error{color:#dc2626}
+    .center-btn {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
 
     /* селектор розміру */
     .controls{margin-top:14px;display:flex;justify-content:center}
@@ -250,11 +255,12 @@
       <details>
         <summary>Конфіденційність</summary>
         <div>Фото використовуємо <b>лише для виготовлення</b> замовлення. Не публікуємо. За запитом видаляємо файли після відправки.</div>
-      </details>
+      </details> 
     </section>
-  <a href="#orderBlock" class="btn primary" style="display:inline-block; text-align:center;">
-  🔽 Оформити замовлення
-</a>  
+     <div class="center-btn">
+  <a href="#orderBlock" class="btn primary">Оформити замовлення</a>
+</div>
+ 
  <footer>
   <a href="privacy.html">Політика конфіденційності</a> ·
   <a href="offer.html">Публічна оферта</a> ·
