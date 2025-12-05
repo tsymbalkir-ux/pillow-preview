@@ -357,6 +357,11 @@ if (ld) ld.style.display = "none";
 // показуємо картинку
 box.innerHTML = `<img src="${url}" alt="result">`;
 status.textContent = "✅ Макет готовий!";
+if (window.fbq) {
+  fbq('trackCustom', 'MockupGenerated', {
+    uuid: origId
+  });
+}
 
             localStorage.setItem('result_url', url);
             return;
