@@ -184,8 +184,7 @@
       <p class="muted">Найкраще підходять зображення у повний зріст або від пояса. Час очікування: ~45–60 сек.</p>
 
       <div class="uploader" style="margin-top:10px">
-        <button class="btn primary open-upload">📸 Завантажити фото</button>
-
+        <button id="openUpload" class="btn primary">📸 Завантажити фото</button>
 
         <div id="status" class="status-row">
           <span class="dot"></span>
@@ -251,13 +250,6 @@
     </section>
   
 </div>
-
-    <section class="card">
-  <div class="uploader" style="margin-top:10px">
-    <button class="btn primary open-upload">📸 Завантажити фото</button>
-  </div>
-</section>
-
 
     <footer>
       <a href="privacy.html">Політика конфіденційності</a> ·
@@ -335,23 +327,23 @@
       }
     }
 
-document.getElementById('openUpload').addEventListener('click', () => {
-  const dialog = uploadcare.openDialog(null, null, { imagesOnly:true, systemDialog:true });
-  dialog.done(file => {
-    file.done(async info => {
-      const statusText=document.getElementById('statusText');
-      try{
-        if(!info.cdnUrl) throw new Error('Uploadcare не повернув cdnUrl');
-        if(!info.uuid)   throw new Error('Uploadcare не повернув uuid');
+    document.getElementById('openUpload').addEventListener('click', () => {
+      const dialog = uploadcare.openDialog(null, null, { imagesOnly:true, systemDialog:true });
+      dialog.done(file => {
+        file.done(async info => {
+          const statusText=document.getElementById('statusText');
+          try{
+            if(!info.cdnUrl) throw new Error('Uploadcare не повернув cdnUrl');
+            if(!info.uuid)   throw new Error('Uploadcare не повернув uuid');
 
-        await startPipelineFromCdn(info.cdnUrl, info.uuid);
-      }catch(err){
-        console.error(err);
-        statusText.textContent = '❌ ' + err.message;
-      }
+            await startPipelineFromCdn(info.cdnUrl, info.uuid);
+          }catch(err){
+            console.error(err);
+            statusText.textContent = '❌ ' + err.message;
+          }
+        });
+      });
     });
-  });
-});
   </script>
 </body>
 </html>
