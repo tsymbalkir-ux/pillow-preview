@@ -343,24 +343,35 @@
         statusText.textContent = '❌ ' + err.message;
       }
     }
+document.getElementById('openUpload').addEventListener('click', () => {
+  const dialog = uploadcare.openDialog(null, null, { imagesOnly: true, systemDialog: true });
 
-    document.getElementById('openUpload').addEventListener('click', () => {
-      const dialog = uploadcare.openDialog(null, null, { imagesOnly:true, systemDialog:true });
-      dialog.done(file => {
-        file.done(async info => {
-          const statusText=document.getElementById('statusText');
-          try{
-            if(!info.cdnUrl) throw new Error('Uploadcare не повернув cdnUrl');
-            if(!info.uuid)   throw new Error('Uploadcare не повернув uuid');
+  dialog.done(file => {
+    file.done(async info => {
+      const statusText = document.getElementById('statusText');
 
-            await startPipelineFromCdn(info.cdnUrl, info.uuid);
-          }catch(err){
-            console.error(err);
-            statusText.textContent = '❌ ' + err.message;
-          }
-        });
-      });
+      try {
+        if (!info.cdnUrl) throw new Error('Uploadcare не повернув cdnUrl');
+        if (!info.uuid) throw new Error('Uploadcare не повернув uuid');
+
+        // Запускаємо pipeline
+        await startPipelineFromCdn(info.cdnUrl, info.uuid);
+
+        // 🔥 FB EVENT — Користувач завантажив фото (ViewContent)
+        if (window.fbq) {
+          fbq('track', 'ViewContent', {
+            content_name: 'Photo uploaded',
+            uuid: info.uuid
+          });
+        }
+
+      } catch (err) {
+        console.error(err);
+        statusText.textContent = '❌ ' + err.message;
+      }
     });
-  </script>
+  });
+});
+</script>
 </body>
 </html>
