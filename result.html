@@ -407,6 +407,14 @@ if (window.fbq) {
   });
 
   msgEl.textContent = '✅ Заявку надіслано! Ми зв’яжемося з вами.';
+  if (window.fbq) {
+  fbq('track', 'Lead', {
+    value: Number(price) || 0,
+    currency: 'UAH',
+    uuid: localStorage.getItem('last_uuid')
+  });
+}
+
   msgEl.className = 'success';
   formEl.reset();
 
