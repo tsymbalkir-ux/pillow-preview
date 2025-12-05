@@ -148,6 +148,16 @@
   .wrap > * + *{
     margin-top:10px;
   }
+    /* FAQ */
+    .faq{
+      max-width:760px;
+      margin-left:auto;margin-right:auto;
+    }
+    .faq details{padding:10px 2px;border-top:1px solid var(--line)}
+    .faq details:first-of-type{border-top:none}
+    .faq summary{cursor:pointer;list-style:none;font-weight:600;color:var(--text)}
+    .faq summary::-webkit-details-marker{display:none}
+    .faq details>div{margin-top:6px;color:var(--muted);line-height:1.6;font-size:14px}
   </style>
 </head>
 <body>
@@ -192,6 +202,67 @@
         <img src="reviews/111.webp" alt="Приклад готової подушки з фото">
         <img src="reviews/222.webp" alt="Фото клієнта на подушці">
         <img src="reviews/333.webp" alt="Готова подушка зі своїм дизайном">
+      </div>
+    </section>
+
+    <!-- FAQ (без заголовка) -->
+    <section class="card faq" aria-label="Питання та відповіді">
+      <details>
+        <summary>Принт двосторонній?</summary>
+        <div>Так, якщо ви бажаєте інше фото на другу сторону, попередьте нас, коли ми зв'яжемося з вами після оформлення замовлення. Ціна не змінюється.</div>
+      </details>
+      <details>
+        <summary>Скільки триває виготовлення і доставка?</summary>
+        <div>Виготовлення <b>2 робочих дні</b> + доставка Новою Поштою 1-2 дні.</div>
+      </details>
+      <details>
+        <summary>Чи потрібна передоплата?</summary>
+        <div><b>Ні.</b> Оплата при отриманні на Новій Пошті. За бажанням — можемо надіслати посилання на онлайн-оплату.</div>
+      </details>
+      <details>
+        <summary>Яке фото підійде найкраще?</summary>
+        <div>Зображення у повний зріст або від пояса, бажано у хорошому світлі, <b>1100&nbsp;px+</b> по довгій стороні.</div>
+      </details>
+      <details>
+        <summary>Чи видаляєте фон?</summary>
+        <div>Так, можемо прибрати фон і підкоригувати зображення</div>
+      </details>
+      <details>
+        <summary>Чи побачу макет перед друком?</summary>
+        <div>Так, макет відображається на цій сторінці. За потреби правок - відправимо вам вручну скорегований макет.</div>
+      </details>
+      <details>
+        <summary>Матеріали</summary>
+        <div>Наволочка — <b>габардин</b>, подушка — <b>бязь</b>, наповнювач — <b>холофайбер</b>.</div>
+      </details>
+      <details>
+        <summary>Догляд</summary>
+        <div>Прання при <b>30°C</b> (делікатний режим), без відбілювачів; прасувати на низькій температурі.</div>
+      </details>
+      <details>
+        <summary>Повернення/гарантія</summary>
+        <div>Якщо є виробничий брак або помилка друку — переробимо або повернемо кошти. Напишіть нам.</div>
+      </details>
+      <details>
+        <summary>Конфіденційність</summary>
+        <div>Фото використовуємо <b>лише для виготовлення</b> замовлення. Не публікуємо. За запитом видаляємо файли після відправки.</div>
+      </details> 
+    </section>
+     <div class="center-btn">
+  <a href="#orderBlock" class="btn primary">Оформити замовлення</a>
+</div>
+
+    <section class="card">
+      <div class="uploader" style="margin-top:10px">
+        <button id="openUpload" class="btn primary">📸 Завантажити фото</button>
+
+        <div id="status" class="status-row">
+          <span class="dot"></span>
+          <span id="statusText" class="muted">Чекаємо на ваше фото 🙂</span>
+        </div>
+
+        <!-- Прев’ю завантаженого фото -->
+        <div id="preview" style="margin-top:12px;"></div>
       </div>
     </section>
 
