@@ -351,21 +351,23 @@
         ts:new Date().toISOString()
       };
 
-      try{
-        await fetch(GAS_URL,{
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify(payload),
-          mode:'cors'
-        });
-        msgEl.textContent='✅ Заявку надіслано! Ми зв’яжемося з вами.';
-        msgEl.className='success';
-        formEl.reset();
-      }catch(err){
-        console.error('send error',err);
-        msgEl.textContent='❌ Не вдалося надіслати. Спробуйте ще раз.';
-        msgEl.className='error';
-      }
+      try {
+  await fetch(GAS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    mode: 'no-cors'   // ← КЛЮЧОВА ЗМІНА
+  });
+
+  msgEl.textContent = '✅ Заявку надіслано! Ми зв’яжемося з вами.';
+  msgEl.className = 'success';
+  formEl.reset();
+
+} catch (err) {
+  console.error('send error', err);
+  msgEl.textContent = '❌ Не вдалося надіслати. Спробуйте ще раз.';
+  msgEl.className = 'error';
+}
     });
 
    
