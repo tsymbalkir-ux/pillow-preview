@@ -128,6 +128,66 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       border:1px solid var(--line);
       box-shadow:0 12px 30px rgba(255,255,255,0.08);
     }
+    .reminder-box {
+  margin-top: 10px;
+  text-align: center;
+  color: #ccc;
+}
+
+.reminder-title {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.reminder-sub {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 10px;
+}
+
+.reminder-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+#phoneInput {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #666;
+  background: #111;
+  color: white;
+  width: 140px;
+}
+
+#messengerSelect {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #666;
+  background: #111;
+  color: white;
+}
+
+.reminder-btn {
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: none;
+  background: #8E1737;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.reminder-btn:hover {
+  background: #CC1C39;
+}
+
+.reminder-status {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #66ff99;
+}
   </style>
 </head>
 <body>
@@ -140,7 +200,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <header>
       <h1>Створи подушку-обіймашку за 20 секунд</h1>
       <h1>Завантаж фото — і одразу побачиш свій готовий макет</h1>
-      <p>Немає фото під рукою? Залиши свій телефон — і ми надішлемо посилання, щоб зробити це пізніше.</p>
+      <div class="reminder-box">
+  <p class="reminder-title">Немає фото під рукою?</p>
+  <p class="reminder-sub">Залиши свій телефон — ми надішлемо посилання, щоб зробити це пізніше.</p>
+
+  <form id="reminderForm">
+    <div class="reminder-row">
+      <input type="tel" id="phoneInput" name="phone" placeholder="+380..." required>
+      
+      <select id="messengerSelect" name="messenger">
+        <option value="Viber">Viber</option>
+        <option value="WhatsApp">WhatsApp</option>
+        <option value="Telegram">Telegram</option>
+      </select>
+
+      <button type="submit" class="reminder-btn">Надіслати</button>
+    </div>
+  </form>
+
+  <p id="reminderStatus" class="reminder-status"></p>
+</div>
+
     </header>
 
     <!-- ВІДЕО: після рядка з кроками -->
@@ -269,5 +349,30 @@ document.getElementById('openUpload').addEventListener('click', () => {
   });
 });
 </script>
+  <script>
+const scriptURL = 'https://script.google.com/macros/s/AKfycbyHhiQfJk9BE6YX-glvF0bD_at19D7ITNPxy8kvvTKw_UzxvPDe8UCoW3YPBm5FICHT/exec';
+
+document.getElementById('reminderForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const phone = document.getElementById('phoneInput').value.trim();
+    const messenger = document.getElementById('messengerSelect').value;
+
+    const response = await fetch(scriptURL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            phone: phone,
+            messenger: messenger,
+            time: new Date().toLocaleString("uk-UA")
+        })
+    });
+
+    document.getElementById('reminderStatus').textContent = '✔ Збережено! Ми надішлемо посилання.';
+    document.getElementById('reminderForm').reset();
+});
+</script>
+
 </body>
 </html>
