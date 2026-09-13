@@ -64,7 +64,7 @@ function fail(msg, err) {
 window.addEventListener('error', e => fail('Помилка: ' + e.message, e.error));
 window.addEventListener('unhandledrejection', e => fail('Помилка: ' + (e.reason?.message || e.reason)));
 
-const pm = new PillowMockup({ canvas: $('cv'), config: 'assets/pillow.json' });
+const pm = new PillowMockup({ canvas: $('cv'), config: 'pillow.json' });
 let ready = false;
 
 /* --- обробники чіпляємо ОДРАЗУ, ще до завантаження ассетів ------------- */
