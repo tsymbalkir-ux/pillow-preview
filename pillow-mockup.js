@@ -23,7 +23,7 @@ export class PillowMockup {
     this.subject = null;          // що саме малюємо: cutout ?? photo
     this.subjectBox = null;       // {x,y,w,h} корисної частини в пікселях subject
 
-    this.background = { type: 'blur', blur: 22 };
+    this.background = { type: 'color', color: '#ffffff' };
     this.transform = { margin: 0.045, scale: 1, dx: 0, dy: 0 };
   }
 
@@ -53,9 +53,17 @@ export class PillowMockup {
     // createImageBitmap сам застосовує EXIF-поворот — інакше фото з айфона лягає боком
     const blob = source instanceof Blob ? source : await fetch(source).then(r => r.blob());
     this.photo = await createImageBitmap(blob, { imageOrientation: 'from-image' });
+
+    // якщо у файлі є прозорість — це вже вирізана фігура, її треба вписувати,
+    // а не розтягувати на всю панель
+    const info = probeAlpha(this.photo);
+    this.photoBox = info.box;
+    this.photoFit = info.transparent ? 'contain' : 'cover';
+
     this.cutout = null;
     this.subject = this.photo;
-    this.subjectBox = { x: 0, y: 0, w: this.photo.width, h: this.photo.height };
+    this.subjectBox = info.box;
+    this.fitMode = this.photoFit;
     this.transform.scale = 1;
     this.transform.dx = this.transform.dy = 0;
     this.render();
@@ -84,6 +92,7 @@ export class PillowMockup {
     this.cutoutBox = bmp.box;
     this.subject = this.cutout;
     this.subjectBox = bmp.box;
+    this.fitMode = 'contain';
     this.render();
     return this;
   }
@@ -91,9 +100,8 @@ export class PillowMockup {
   useCutout(on = true) {
     if (on && !this.cutout) return this;
     this.subject = on ? this.cutout : this.photo;
-    this.subjectBox = on
-      ? this.cutoutBox
-      : { x: 0, y: 0, w: this.photo.width, h: this.photo.height };
+    this.subjectBox = on ? this.cutoutBox : this.photoBox;
+    this.fitMode = on ? 'contain' : this.photoFit;
     return this.render();
   }
 
@@ -127,12 +135,12 @@ export class PillowMockup {
 
     this._paintBackground(c, pw, ph);
     if (this.subject) {
-      const hasCutout = this.subject === this.cutout;
-      const m = hasCutout ? this.transform.margin : 0;
+      const contain = this.fitMode === 'contain';
+      const m = contain ? this.transform.margin : 0;
       const box = this.subjectBox;
 
       let dh, dw;
-      if (hasCutout) {
+      if (contain) {
         // вписуємо фігуру по висоті з полем
         dh = ph * (1 - 2 * m) * this.transform.scale;
         dw = dh * (box.w / box.h);
@@ -142,7 +150,7 @@ export class PillowMockup {
         dw = box.w * k; dh = box.h * k;
       }
       const dx = (pw - dw) / 2 + this.transform.dx * pw;
-      const dy = (hasCutout ? ph * m : (ph - dh) / 2) + this.transform.dy * ph;
+      const dy = (contain ? ph * m : (ph - dh) / 2) + this.transform.dy * ph;
       c.drawImage(this.subject, box.x, box.y, box.w, box.h, dx, dy, dw, dh);
     }
     return cv;
@@ -150,6 +158,9 @@ export class PillowMockup {
 
   _paintBackground(c, pw, ph) {
     const bg = this.background;
+    // біла основа під усім: інакше крізь прозорий PNG світить чорнота мокапу
+    c.fillStyle = '#ffffff';
+    c.fillRect(0, 0, pw, ph);
     if (bg.type === 'color') {
       c.fillStyle = bg.color; c.fillRect(0, 0, pw, ph); return;
     }
@@ -167,7 +178,6 @@ export class PillowMockup {
       c.restore();
       return;
     }
-    c.fillStyle = '#e8e2da'; c.fillRect(0, 0, pw, ph);
   }
 
   render() {
@@ -288,6 +298,37 @@ function trimAndDeFringe(bmp) {
   return {
     bitmap: soft,
     box: { x: minX, y: minY, w: maxX - minX + 1, h: maxY - minY + 1 },
+  };
+}
+
+/** Чи є у зображенні прозорість, і де саме лежить непорожня частина. */
+function probeAlpha(bmp) {
+  const full = { x: 0, y: 0, w: bmp.width, h: bmp.height };
+  const S = 240;
+  const k = Math.min(1, S / Math.max(bmp.width, bmp.height));
+  const w = Math.max(1, Math.round(bmp.width * k));
+  const h = Math.max(1, Math.round(bmp.height * k));
+  const cv = makeCanvas(w, h);
+  const c = cv.getContext('2d', { willReadFrequently: true });
+  c.drawImage(bmp, 0, 0, w, h);
+  let d;
+  try { d = c.getImageData(0, 0, w, h).data; } catch { return { transparent: false, box: full }; }
+
+  let clear = 0, minX = w, minY = h, maxX = -1, maxY = -1;
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      if (d[(y * w + x) * 4 + 3] < 24) { clear++; continue; }
+      if (x < minX) minX = x; if (x > maxX) maxX = x;
+      if (y < minY) minY = y; if (y > maxY) maxY = y;
+    }
+  }
+  if (maxX < 0 || clear / (w * h) < 0.02) return { transparent: false, box: full };
+  return {
+    transparent: true,
+    box: {
+      x: Math.floor(minX / k), y: Math.floor(minY / k),
+      w: Math.ceil((maxX - minX + 1) / k), h: Math.ceil((maxY - minY + 1) / k),
+    },
   };
 }
 
