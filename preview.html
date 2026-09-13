@@ -58,6 +58,15 @@ a{color:var(--ink)}
 }
 .btn-go:hover:not(:disabled){background:#8F3A5D;border-color:#8F3A5D}
 .tools{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.stage.adjusting canvas{cursor:grab;touch-action:none;
+  box-shadow:0 0 0 2px var(--accent);border-radius:var(--r)}
+.stage.adjusting canvas:active{cursor:grabbing}
+.fit{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:12px;
+  padding:14px 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+.fit label{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--dim);flex:1;min-width:200px}
+.fit input[type=range]{flex:1;accent-color:var(--accent);height:22px;padding:0;background:none;border:none}
+.fit .btn{padding:10px 15px;font-size:14px}
+.fit .hint{width:100%;margin:0;font-size:13px;color:var(--dim)}
 .note{font-size:13.5px;color:var(--dim);margin:11px 0 0}
 .note.err{color:var(--bad)}
 
@@ -149,7 +158,16 @@ footer a:hover{color:var(--ink)}
     <button class="btn" id="pick">Вибрати фото</button>
     <button class="btn" id="cut" disabled>Прибрати фон</button>
     <button class="btn" id="orig" hidden>Повернути фон</button>
+    <button class="btn" id="adjust" disabled>Підігнати</button>
     <button class="btn" id="save" disabled>Зберегти картинку</button>
+  </div>
+
+  <div class="fit" id="fit" hidden>
+    <label>Масштаб
+      <input type="range" id="zoom" min="0.5" max="2.6" step="0.01" value="1" aria-label="Масштаб фото">
+    </label>
+    <button class="btn" type="button" id="reset">У центр</button>
+    <p class="hint">Тягни фото прямо по подушці. На телефоні двома пальцями можна змінювати масштаб.</p>
   </div>
 
   <div class="looks">
@@ -310,7 +328,8 @@ $('file').onchange = async e => {
     $('cv').hidden = false;
     $('stage').classList.add('is-fresh');
     hasPhoto = true;
-    $('cut').disabled = false; $('save').disabled = false;
+    $('cut').disabled = false; $('save').disabled = false; $('adjust').disabled = false;
+    zoomEl.value = 1;
     refreshSubmit();
     say(DEFAULT_NOTE);
   } catch (err) { fail('Не вдалося прочитати це фото. Спробуй інше.', err); }
@@ -336,6 +355,58 @@ $('orig').onclick = () => {
   pm.useCutout(cutOn);
   $('orig').textContent = cutOn ? 'Повернути фон' : 'Прибрати фон';
 };
+
+/* ---------- ручна підгонка ---------- */
+const stage = $('stage'), cv = $('cv'), zoomEl = $('zoom');
+let adjusting = false;
+const pts = new Map();
+let pinch = 0;
+
+const spread = () => {
+  const [a, b] = [...pts.values()];
+  return Math.hypot(a.x - b.x, a.y - b.y);
+};
+
+$('adjust').onclick = () => {
+  adjusting = !adjusting;
+  stage.classList.toggle('adjusting', adjusting);
+  $('fit').hidden = !adjusting;
+  $('adjust').textContent = adjusting ? 'Готово' : 'Підігнати';
+  if (adjusting) say('Пересунь фото так, як хочеш бачити на подушці.');
+  else say(DEFAULT_NOTE);
+};
+
+cv.addEventListener('pointerdown', e => {
+  if (!adjusting) return;
+  cv.setPointerCapture(e.pointerId);
+  pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (pts.size === 2) pinch = spread();
+});
+
+cv.addEventListener('pointermove', e => {
+  if (!adjusting || !pts.has(e.pointerId)) return;
+  const prev = pts.get(e.pointerId);
+  pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  const box = pm.cfg.box;
+
+  if (pts.size === 1) {
+    // переводимо рух пальця в частки панелі
+    const k = cv.width / cv.getBoundingClientRect().width;
+    pm.nudge((e.clientX - prev.x) * k / box.w, (e.clientY - prev.y) * k / box.h);
+  } else if (pts.size === 2 && pinch > 0) {
+    const d = spread();
+    pm.setScale(pm.transform.scale * d / pinch);
+    pinch = d;
+    zoomEl.value = pm.transform.scale;
+  }
+});
+
+const drop = e => { pts.delete(e.pointerId); if (pts.size < 2) pinch = 0; };
+cv.addEventListener('pointerup', drop);
+cv.addEventListener('pointercancel', drop);
+
+zoomEl.oninput = () => { if (ready && hasPhoto) pm.setScale(+zoomEl.value); };
+$('reset').onclick = () => { pm.resetFit(); zoomEl.value = 1; };
 
 $('save').onclick = async () => {
   const a = document.createElement('a');

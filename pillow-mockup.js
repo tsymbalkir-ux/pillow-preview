@@ -100,8 +100,23 @@ export class PillowMockup {
   /* ---------------------------------------------------------- appearance */
 
   setBackground(bg) { this.background = bg; return this.render(); }
-  nudge(dx, dy)     { this.transform.dx += dx; this.transform.dy += dy; return this.render(); }
-  zoom(f)           { this.transform.scale = clamp(this.transform.scale * f, 0.4, 4); return this.render(); }
+
+  /** Зсув у частках панелі, з обмеженням — щоб фото не поїхало зовсім геть. */
+  nudge(dx, dy) {
+    this.transform.dx = clamp(this.transform.dx + dx, -0.7, 0.7);
+    this.transform.dy = clamp(this.transform.dy + dy, -0.7, 0.7);
+    return this.render();
+  }
+
+  setScale(v) { this.transform.scale = clamp(v, 0.5, 2.6); return this.render(); }
+  zoom(f)     { return this.setScale(this.transform.scale * f); }
+
+  /** Повертає фото у вихідне положення. */
+  resetFit() {
+    this.transform.scale = 1;
+    this.transform.dx = this.transform.dy = 0;
+    return this.render();
+  }
 
   /* -------------------------------------------------------------- render */
 
