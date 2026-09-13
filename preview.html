@@ -80,15 +80,6 @@ a{color:var(--ink)}
 .note{font-size:13.5px;color:var(--dim);margin:11px 0 0}
 .note.err{color:var(--bad)}
 
-/* ---------- swatches ---------- */
-.looks{margin-top:18px}
-.looks p{font-size:14px;color:var(--dim);margin:0 0 9px}
-.chips{display:flex;gap:9px;flex-wrap:wrap}
-.chip{
-  width:42px;height:42px;border-radius:11px;cursor:pointer;
-  border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);
-}
-.chip[aria-pressed="true"]{border-color:var(--accent)}
 progress{width:100%;height:5px;margin-top:10px;display:none;accent-color:var(--accent)}
 
 /* ---------- sections ---------- */
@@ -183,11 +174,6 @@ footer a:hover{color:var(--ink)}
     <button class="btn" type="button" id="zin">+ Більше</button>
     <button class="btn" type="button" id="reset">У центр</button>
     <span>Стрілками посунь фото, як зручно</span>
-  </div>
-
-  <div class="looks">
-    <p>Фон подушки</p>
-    <div class="chips" id="chips"></div>
   </div>
 
   <p class="note" id="note">Фото залишається на твоєму пристрої. На сервер воно піде лише тоді, коли ти підтвердиш замовлення.</p>
@@ -308,28 +294,6 @@ function refreshSubmit() {
     : 'Спочатку обери фото';
 }
 refreshSubmit();
-
-/* ---------- фони ---------- */
-const LOOKS = [
-  { t:'Білий',             sw:'#ffffff',                                 bg:{type:'color',color:'#ffffff'} },
-  { t:'Розмитий оригінал', sw:'linear-gradient(160deg,#5b7d46,#2b3a2b)', bg:{type:'blur',blur:22} },
-  { t:'Нічний синій',      sw:'linear-gradient(180deg,#3e4a58,#161a22)', bg:{type:'gradient',from:'#3e4a58',to:'#161a22'} },
-  { t:'Пудровий',          sw:'linear-gradient(180deg,#f3d6ce,#b08082)', bg:{type:'gradient',from:'#f3d6ce',to:'#b08082'} },
-  { t:'Молочний',          sw:'linear-gradient(180deg,#f7f3ed,#cec2b5)', bg:{type:'gradient',from:'#f7f3ed',to:'#cec2b5'} },
-  { t:'Чорний',            sw:'#121212',                                 bg:{type:'color',color:'#121212'} },
-];
-LOOKS.forEach((l, i) => {
-  const b = document.createElement('button');
-  b.type = 'button'; b.className = 'chip'; b.style.background = l.sw;
-  b.title = l.t; b.setAttribute('aria-label', l.t);
-  b.setAttribute('aria-pressed', i === 0);
-  b.onclick = () => {
-    if (!ready) return;
-    pm.setBackground(l.bg);
-    [...$('chips').children].forEach(c => c.setAttribute('aria-pressed', c === b));
-  };
-  $('chips').appendChild(b);
-});
 
 /* ---------- фото ---------- */
 $('pick').onclick = () => ready ? $('file').click() : fail('Шаблон ще вантажиться, зачекай секунду.');
