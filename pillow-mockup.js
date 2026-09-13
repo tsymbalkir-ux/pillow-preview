@@ -30,9 +30,11 @@ export class PillowMockup {
   /* ---------------------------------------------------------------- load */
 
   async load() {
-    const cfg = await fetch(this.configUrl, { cache: 'force-cache' }).then(r => r.json());
+    // no-cache, бо інакше браузер тримає старий конфіг разом із новими картинками
+    const cfg = await fetch(this.configUrl, { cache: 'no-cache' }).then(r => r.json());
     const dir = this.configUrl.replace(/[^/]*$/, '');
-    const rel = p => loadImage(dir + p.replace(/^assets\//, ''));
+    const tag = cfg.v ? '?v=' + cfg.v : '';
+    const rel = p => loadImage(dir + p.replace(/^assets\//, '') + tag);
     const [mockup, mask, shade] = await Promise.all([
       rel(cfg.mockup), rel(cfg.mask),
       cfg.shade ? rel(cfg.shade) : null,
@@ -43,6 +45,10 @@ export class PillowMockup {
     this.shade = shade;        // складки тканини, накладаються множенням
     this.canvas.width = cfg.mockupSize[0];
     this.canvas.height = cfg.mockupSize[1];
+    if (mockup.naturalWidth !== cfg.mockupSize[0]) {
+      console.warn('mockup.jpg має ширину', mockup.naturalWidth,
+                   'а конфіг очікує', cfg.mockupSize[0], '— файли з різних збірок');
+    }
     this.render();
     return this;
   }
@@ -184,7 +190,9 @@ export class PillowMockup {
     const { ctx, cfg } = this;
     const { x, y, w, h } = cfg.box;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    ctx.drawImage(this.mockup, 0, 0);
+    // малюємо під розмір полотна, а не в натуральну величину:
+    // так розбіжність версій файлів не з'їжджає всю картинку
+    ctx.drawImage(this.mockup, 0, 0, this.canvas.width, this.canvas.height);
     if (!this.photo) return this;
 
     const q = this.quality;
