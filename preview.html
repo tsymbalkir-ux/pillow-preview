@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -56,47 +57,35 @@ import { PillowMockup } from './pillow-mockup.js';
 const $ = id => document.getElementById(id);
 const status = $('status'), bar = $('bar');
 
+function fail(msg, err) {
+  console.error(err || msg);
+  status.innerHTML = '<span style="color:#f87171">⚠️ ' + msg + '</span>';
+}
+// будь-яка помилка тепер видно на сторінці, а не тільки в консолі
+window.addEventListener('error', e => fail('Помилка: ' + e.message, e.error));
+window.addEventListener('unhandledrejection', e => fail('Помилка: ' + (e.reason?.message || e.reason)));
+
 const pm = new PillowMockup({ canvas: $('cv'), config: 'assets/pillow.json' });
-await pm.load();
+let ready = false;
 
-/* --- фони ------------------------------------------------------------- */
-const BACKGROUNDS = [
-  { name:'Розмитий оригінал', swatch:'linear-gradient(160deg,#4a6b3a,#2b3a2b)', bg:{type:'blur', blur:22} },
-  { name:'Глибокий синій',    swatch:'linear-gradient(180deg,#3e4a58,#161a22)', bg:{type:'gradient', from:'#3e4a58', to:'#161a22'} },
-  { name:'Пудровий',          swatch:'linear-gradient(180deg,#f3d6ce,#b08082)', bg:{type:'gradient', from:'#f3d6ce', to:'#b08082'} },
-  { name:'Молочний',          swatch:'linear-gradient(180deg,#f7f3ed,#cec2b5)', bg:{type:'gradient', from:'#f7f3ed', to:'#cec2b5'} },
-  { name:'Чорний',            swatch:'#111',                                    bg:{type:'color', color:'#111111'} },
-];
-
-BACKGROUNDS.forEach((b, i) => {
-  const el = document.createElement('button');
-  el.className = 'sw';
-  el.style.background = b.swatch;
-  el.title = b.name;
-  el.setAttribute('aria-pressed', i === 0);
-  el.onclick = () => {
-    pm.setBackground(b.bg);
-    [...$('swatches').children].forEach(c => c.setAttribute('aria-pressed', c === el));
-  };
-  $('swatches').appendChild(el);
-});
-
-/* --- вибір фото ------------------------------------------------------- */
-$('pick').onclick = () => $('file').click();
+/* --- обробники чіпляємо ОДРАЗУ, ще до завантаження ассетів ------------- */
+$('pick').onclick = () => {
+  if (!ready) { fail('Ассети ще не завантажились — дивись повідомлення вище.'); return; }
+  $('file').click();
+};
 
 $('file').onchange = async e => {
   const f = e.target.files[0];
   if (!f) return;
-  status.textContent = 'Готуємо макет…';
-  await pm.setPhoto(f);
-  status.textContent = '✅ Макет готовий. Можеш прибрати фон або змінити колір.';
-  $('cut').disabled = false;
-  $('save').disabled = false;
-  // фото лишається в пам'яті вкладки — на сервер піде тільки при замовленні
-  window.__photoFile = f;
+  try {
+    status.textContent = 'Готуємо макет…';
+    await pm.setPhoto(f);
+    status.textContent = '✅ Макет готовий. Можеш прибрати фон або змінити колір.';
+    $('cut').disabled = false;
+    $('save').disabled = false;
+  } catch (err) { fail('Не вдалося прочитати фото.', err); }
 };
 
-/* --- видалення фону --------------------------------------------------- */
 $('cut').onclick = async () => {
   $('cut').disabled = true;
   bar.style.display = 'block';
@@ -109,12 +98,9 @@ $('cut').onclick = async () => {
     status.textContent = '✅ Фон прибрано.';
     $('orig').hidden = false; $('orig').disabled = false;
   } catch (err) {
-    console.error(err);
-    status.textContent = '⚠️ Не вдалося прибрати фон. Макет із фоном лишається доступним.';
+    fail('Не вдалося прибрати фон. Макет із фоном лишається доступним.', err);
     $('cut').disabled = false;
-  } finally {
-    bar.style.display = 'none';
-  }
+  } finally { bar.style.display = 'none'; }
 };
 
 let cutOn = true;
@@ -124,7 +110,6 @@ $('orig').onclick = () => {
   $('orig').textContent = cutOn ? '↩︎ Повернути фон' : '✂️ Без фону';
 };
 
-/* --- збереження ------------------------------------------------------- */
 $('save').onclick = async () => {
   const blob = await pm.exportPreview();
   const a = document.createElement('a');
@@ -134,16 +119,37 @@ $('save').onclick = async () => {
   URL.revokeObjectURL(a.href);
 };
 
-/* --- що робити при підтвердженні замовлення ---------------------------
- * Саме тут — і тільки тут — щось іде на сервер:
- *
- *   const print   = await pm.exportPanel(1772);   // панель під друк
- *   const preview = await pm.exportPreview();     // картинка для менеджера
- *   const fd = new FormData();
- *   fd.append('print', print, `order-${orderId}.jpg`);
- *   fd.append('preview', preview, `preview-${orderId}.jpg`);
- *   await fetch(UPLOAD_URL, { method:'POST', body: fd });
- * -------------------------------------------------------------------- */
+/* --- фони ------------------------------------------------------------- */
+const BACKGROUNDS = [
+  { name:'Розмитий оригінал', swatch:'linear-gradient(160deg,#4a6b3a,#2b3a2b)', bg:{type:'blur', blur:22} },
+  { name:'Глибокий синій',    swatch:'linear-gradient(180deg,#3e4a58,#161a22)', bg:{type:'gradient', from:'#3e4a58', to:'#161a22'} },
+  { name:'Пудровий',          swatch:'linear-gradient(180deg,#f3d6ce,#b08082)', bg:{type:'gradient', from:'#f3d6ce', to:'#b08082'} },
+  { name:'Молочний',          swatch:'linear-gradient(180deg,#f7f3ed,#cec2b5)', bg:{type:'gradient', from:'#f7f3ed', to:'#cec2b5'} },
+  { name:'Чорний',            swatch:'#111',                                    bg:{type:'color', color:'#111111'} },
+];
+BACKGROUNDS.forEach((b, i) => {
+  const el = document.createElement('button');
+  el.className = 'sw';
+  el.style.background = b.swatch;
+  el.title = b.name;
+  el.setAttribute('aria-pressed', i === 0);
+  el.onclick = () => {
+    if (!ready) return;
+    pm.setBackground(b.bg);
+    [...$('swatches').children].forEach(c => c.setAttribute('aria-pressed', c === el));
+  };
+  $('swatches').appendChild(el);
+});
+
+/* --- і лише тепер вантажимо ассети ------------------------------------ */
+status.textContent = 'Завантажуємо шаблон подушки…';
+try {
+  await pm.load();
+  ready = true;
+  status.textContent = 'Готово. Обери фото.';
+} catch (err) {
+  fail('Не завантажився шаблон. Перевір, що поруч із preview.html лежить папка assets із трьома файлами. Деталі у консолі (F12).', err);
+}
 </script>
 </body>
 </html>
