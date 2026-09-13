@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Макет подушки — прев'ю в браузері</title>
+<style>
+  :root{ --bg:#0a0a0a; --card:#1a1a1a; --text:#fff; --muted:#b4b4b4;
+         --line:#333; --accent:#0ea5e9; --radius:18px; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+       font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+  .wrap{max-width:760px;margin:0 auto;padding:24px}
+  .card{background:var(--card);border:1px solid var(--line);
+        border-radius:var(--radius);padding:22px;margin-top:16px}
+  h1{font-size:clamp(20px,4.4vw,30px);margin:0 0 6px}
+  p.muted{color:var(--muted);font-size:14px;margin:6px 0}
+  canvas{width:100%;height:auto;display:block;border-radius:12px;background:#111}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  button{font:inherit;padding:11px 16px;border-radius:12px;cursor:pointer;
+         border:1px solid var(--line);background:#222;color:var(--text)}
+  button.primary{background:var(--accent);border-color:var(--accent);color:#04212e;font-weight:600}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  .swatches{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .sw{width:38px;height:38px;border-radius:10px;border:2px solid transparent;cursor:pointer}
+  .sw[aria-pressed="true"]{border-color:var(--accent)}
+  #status{font-size:14px;color:var(--muted);margin-top:12px;min-height:20px}
+  progress{width:100%;height:6px;margin-top:8px;display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Завантаж фото — макет з'явиться одразу</h1>
+  <p class="muted">Нічого не надсилається на сервер, поки ти не підтвердиш замовлення.</p>
+
+  <section class="card">
+    <canvas id="cv" width="1200" height="1200"></canvas>
+
+    <div class="row">
+      <button id="pick" class="primary">📸 Вибрати фото</button>
+      <button id="cut" disabled>✂️ Прибрати фон</button>
+      <button id="orig" disabled hidden>↩︎ Повернути фон</button>
+      <button id="save" disabled>⬇️ Зберегти макет</button>
+    </div>
+
+    <div class="swatches" id="swatches"></div>
+    <div id="status"></div>
+    <progress id="bar" max="1" value="0"></progress>
+    <input type="file" id="file" accept="image/*" hidden>
+  </section>
+</div>
+
+<script type="module">
+import { PillowMockup } from './pillow-mockup.js';
+
+const $ = id => document.getElementById(id);
+const status = $('status'), bar = $('bar');
+
+const pm = new PillowMockup({ canvas: $('cv'), config: 'assets/pillow.json' });
+await pm.load();
+
+/* --- фони ------------------------------------------------------------- */
+const BACKGROUNDS = [
+  { name:'Розмитий оригінал', swatch:'linear-gradient(160deg,#4a6b3a,#2b3a2b)', bg:{type:'blur', blur:22} },
+  { name:'Глибокий синій',    swatch:'linear-gradient(180deg,#3e4a58,#161a22)', bg:{type:'gradient', from:'#3e4a58', to:'#161a22'} },
+  { name:'Пудровий',          swatch:'linear-gradient(180deg,#f3d6ce,#b08082)', bg:{type:'gradient', from:'#f3d6ce', to:'#b08082'} },
+  { name:'Молочний',          swatch:'linear-gradient(180deg,#f7f3ed,#cec2b5)', bg:{type:'gradient', from:'#f7f3ed', to:'#cec2b5'} },
+  { name:'Чорний',            swatch:'#111',                                    bg:{type:'color', color:'#111111'} },
+];
+
+BACKGROUNDS.forEach((b, i) => {
+  const el = document.createElement('button');
+  el.className = 'sw';
+  el.style.background = b.swatch;
+  el.title = b.name;
+  el.setAttribute('aria-pressed', i === 0);
+  el.onclick = () => {
+    pm.setBackground(b.bg);
+    [...$('swatches').children].forEach(c => c.setAttribute('aria-pressed', c === el));
+  };
+  $('swatches').appendChild(el);
+});
+
+/* --- вибір фото ------------------------------------------------------- */
+$('pick').onclick = () => $('file').click();
+
+$('file').onchange = async e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  status.textContent = 'Готуємо макет…';
+  await pm.setPhoto(f);
+  status.textContent = '✅ Макет готовий. Можеш прибрати фон або змінити колір.';
+  $('cut').disabled = false;
+  $('save').disabled = false;
+  // фото лишається в пам'яті вкладки — на сервер піде тільки при замовленні
+  window.__photoFile = f;
+};
+
+/* --- видалення фону --------------------------------------------------- */
+$('cut').onclick = async () => {
+  $('cut').disabled = true;
+  bar.style.display = 'block';
+  status.textContent = 'Завантажуємо модель (перший раз ~40 МБ)…';
+  try {
+    await pm.removeBackground(p => {
+      bar.value = p;
+      if (p > 0.99) status.textContent = 'Обробляємо фото…';
+    });
+    status.textContent = '✅ Фон прибрано.';
+    $('orig').hidden = false; $('orig').disabled = false;
+  } catch (err) {
+    console.error(err);
+    status.textContent = '⚠️ Не вдалося прибрати фон. Макет із фоном лишається доступним.';
+    $('cut').disabled = false;
+  } finally {
+    bar.style.display = 'none';
+  }
+};
+
+let cutOn = true;
+$('orig').onclick = () => {
+  cutOn = !cutOn;
+  pm.useCutout(cutOn);
+  $('orig').textContent = cutOn ? '↩︎ Повернути фон' : '✂️ Без фону';
+};
+
+/* --- збереження ------------------------------------------------------- */
+$('save').onclick = async () => {
+  const blob = await pm.exportPreview();
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'makeup-podushka.jpg';
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+
+/* --- що робити при підтвердженні замовлення ---------------------------
+ * Саме тут — і тільки тут — щось іде на сервер:
+ *
+ *   const print   = await pm.exportPanel(1772);   // панель під друк
+ *   const preview = await pm.exportPreview();     // картинка для менеджера
+ *   const fd = new FormData();
+ *   fd.append('print', print, `order-${orderId}.jpg`);
+ *   fd.append('preview', preview, `preview-${orderId}.jpg`);
+ *   await fetch(UPLOAD_URL, { method:'POST', body: fd });
+ * -------------------------------------------------------------------- */
+</script>
+</body>
+</html>

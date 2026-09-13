@@ -1,0 +1,15 @@
+{
+  "mockup": "assets/mockup.jpg",
+  "mask": "assets/pillow-mask.png",
+  "mockupSize": [
+    1200,
+    1200
+  ],
+  "box": {
+    "x": 416,
+    "y": 168,
+    "w": 309,
+    "h": 970
+  },
+  "ratio": 3.1365
+}
