@@ -10,9 +10,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,600&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#17121A; --surface:#201925; --raised:#2A2131;
-  --line:#33283A; --ink:#F4EDE6; --dim:#A9998F;
-  --accent:#F2A65A; --accent-ink:#2A1B08; --bad:#F08A7E;
+  --bg:#FFFFFF; --surface:#F8F5F7; --raised:#F2EDF0;
+  --line:#E7DFE4; --ink:#1A1216; --dim:#6B5F66;
+  --accent:#7A2E4E; --accent-ink:#FFFFFF; --bad:#B3261E;
   --r:14px;
 }
 *{box-sizing:border-box}
@@ -39,17 +39,10 @@ a{color:var(--ink)}
 
 /* ---------- stage ---------- */
 .stage{margin:26px 0 0;position:relative}
-.stage canvas{
-  width:100%;height:auto;display:block;border-radius:var(--r);
-  background:var(--surface);
-}
+.stage canvas,.stage img{width:100%;height:auto;display:block;border-radius:var(--r)}
+.stage [hidden]{display:none}
 .stage.is-fresh canvas{animation:pop .5s cubic-bezier(.2,.8,.3,1)}
 @keyframes pop{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:none}}
-.empty{
-  position:absolute;inset:0;display:grid;place-content:center;
-  text-align:center;color:var(--dim);font-size:14px;padding:20px;
-  pointer-events:none;
-}
 
 /* ---------- buttons ---------- */
 .btn{
@@ -57,13 +50,13 @@ a{color:var(--ink)}
   border:1px solid var(--line);background:var(--raised);color:var(--ink);
   cursor:pointer;transition:background .15s,border-color .15s;
 }
-.btn:hover:not(:disabled){border-color:#4a3c55}
+.btn:hover:not(:disabled){border-color:#C9BCC4;background:#EDE6EA}
 .btn:disabled{opacity:.4;cursor:not-allowed}
 .btn-go{
   background:var(--accent);border-color:var(--accent);color:var(--accent-ink);
   font-weight:600;width:100%;padding:17px 22px;font-size:17px;
 }
-.btn-go:hover:not(:disabled){background:#f7b571;border-color:#f7b571}
+.btn-go:hover:not(:disabled){background:#8F3A5D;border-color:#8F3A5D}
 .tools{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
 .note{font-size:13.5px;color:var(--dim);margin:11px 0 0}
 .note.err{color:var(--bad)}
@@ -74,7 +67,7 @@ a{color:var(--ink)}
 .chips{display:flex;gap:9px;flex-wrap:wrap}
 .chip{
   width:42px;height:42px;border-radius:11px;cursor:pointer;
-  border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);
+  border:2px solid transparent;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);
 }
 .chip[aria-pressed="true"]{border-color:var(--accent)}
 progress{width:100%;height:5px;margin-top:10px;display:none;accent-color:var(--accent)}
@@ -92,7 +85,7 @@ h2{font:600 clamp(22px,4.6vw,27px)/1.25 Literata,Georgia,serif;
   border:1px solid var(--line);background:var(--surface);color:var(--ink);
   font:400 16px/1.3 Onest,sans-serif;transition:border-color .15s;
 }
-.size:hover{border-color:#4a3c55}
+.size:hover{border-color:#C9BCC4}
 .size[aria-pressed="true"]{border-color:var(--accent);background:var(--raised)}
 .size b{font-weight:500}
 .size .uah{margin-left:auto;font-weight:600;white-space:nowrap}
@@ -105,7 +98,7 @@ input{
   width:100%;padding:15px 16px;border-radius:12px;background:var(--surface);
   border:1px solid var(--line);color:var(--ink);font:400 16px Onest,sans-serif;
 }
-input::placeholder{color:#6f6272}
+input::placeholder{color:#A2949B}
 input:focus{border-color:var(--accent);outline:none}
 .legal{font-size:12.5px;color:var(--dim);margin:2px 0 0}
 
@@ -148,8 +141,8 @@ footer a:hover{color:var(--ink)}
   </div>
 
   <div class="stage" id="stage">
-    <canvas id="cv" width="1200" height="1200"></canvas>
-    <div class="empty" id="empty">Тут з'явиться твій макет</div>
+    <img id="ph" src="placeholder.jpg" alt="Подушка, на якій ще немає фото" width="1100" height="1100">
+    <canvas id="cv" width="1100" height="1100" hidden></canvas>
   </div>
 
   <div class="tools">
@@ -313,7 +306,8 @@ $('file').onchange = async e => {
   try {
     say('Готуємо макет…');
     await pm.setPhoto(f);
-    $('empty').hidden = true;
+    $('ph').hidden = true;
+    $('cv').hidden = false;
     $('stage').classList.add('is-fresh');
     hasPhoto = true;
     $('cut').disabled = false; $('save').disabled = false;

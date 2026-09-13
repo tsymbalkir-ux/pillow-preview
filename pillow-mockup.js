@@ -32,13 +32,15 @@ export class PillowMockup {
   async load() {
     const cfg = await fetch(this.configUrl, { cache: 'force-cache' }).then(r => r.json());
     const dir = this.configUrl.replace(/[^/]*$/, '');
-    const [mockup, mask] = await Promise.all([
-      loadImage(dir + cfg.mockup.replace(/^assets\//, '')),
-      loadImage(dir + cfg.mask.replace(/^assets\//, '')),
+    const rel = p => loadImage(dir + p.replace(/^assets\//, ''));
+    const [mockup, mask, shade] = await Promise.all([
+      rel(cfg.mockup), rel(cfg.mask),
+      cfg.shade ? rel(cfg.shade) : null,
     ]);
     this.cfg = cfg;
     this.mockup = mockup;
     this.mask = mask;
+    this.shade = shade;        // складки тканини, накладаються множенням
     this.canvas.width = cfg.mockupSize[0];
     this.canvas.height = cfg.mockupSize[1];
     this.render();
@@ -163,8 +165,15 @@ export class PillowMockup {
     const q = this.quality;
     const panel = this.drawPanel(w * q, h * q);
 
-    // обрізаємо панель за формою подушки
     const pc = panel.getContext('2d');
+
+    // складки справжньої подушки лягають поверх фото
+    if (this.shade) {
+      pc.globalCompositeOperation = 'multiply';
+      pc.drawImage(this.shade, 0, 0, w * q, h * q);
+    }
+
+    // і тільки потім обрізаємо панель за силуетом
     pc.globalCompositeOperation = 'destination-in';
     pc.drawImage(this.mask, 0, 0, w * q, h * q);
     pc.globalCompositeOperation = 'source-over';
