@@ -160,6 +160,9 @@ h2{font:600 clamp(22px,4.6vw,27px)/1.25 Literata,Georgia,serif;
 /* ---------- sizes ---------- */
 .sizebar{position:relative;width:100%;aspect-ratio:172/155;margin-top:4px}
 .sizebar>svg{position:absolute;inset:0;width:100%;height:100%}
+.sizebar .girl{position:absolute;display:block;pointer-events:none}
+.sizebar .hlab{position:absolute;text-align:center;white-space:nowrap;
+  font:600 clamp(11px,2.1vw,14px)/1.2 Onest,sans-serif;color:var(--accent)}
 .pz{position:absolute;padding:0;border:none;background:none;cursor:pointer;
   display:flex;flex-direction:column;align-items:center}
 .pz canvas{width:100%;flex:none;display:block;border-radius:3px;
@@ -262,9 +265,9 @@ footer a:hover{color:var(--ink)}
   <input type="file" id="file" accept="image/*" hidden>
 
   <section>
-    <h2>Розмір</h2>
+    <h2>Оберіть розмір</h2>
     <div class="sizebar" id="sizebar"></div>
-    <p class="legal" style="margin-top:10px">Натисни на подушку, щоб обрати. Силует — людина зростом 170 см.</p>
+    <p class="legal" style="margin-top:10px">Натисни на подушку, щоб обрати.</p>
   </section>
 
   <section>
@@ -355,21 +358,29 @@ let size = SIZES[0];
 
 /* Спільна шкала: людина 170 см і всі подушки в одних одиницях.
    VW×VH — система координат композиції, BASE — лінія підлоги. */
-const PERSON_CM = 170, UNIT = 111 / PERSON_CM, BASE = 128, VW = 172, VH = 155;
+// UNIT фіксований: подушки лишаються такими самими, як були
+const UNIT = 111 / 170, BASE = 128, VW = 172, VH = 155;
+const GIRL_CM = 165, GIRL_AR = 0.391;      // пропорція ш/в вирізаної ілюстрації
 const GAP = 10, START = 48;
 
 function buildSizes() {
   const host = $('sizebar');
+  const gh = GIRL_CM * UNIT, gw = gh * GIRL_AR;   // дівчина = 165 см у тій самій шкалі
+  const gtop = BASE - gh, gx = 6;
+  const rx = 1.8;                                 // лінійка зросту
+
   host.innerHTML = `<svg viewBox="0 0 ${VW} ${VH}" aria-hidden="true">
     <line x1="2" y1="${BASE + 2}" x2="${VW - 2}" y2="${BASE + 2}"
           stroke="var(--line)" stroke-width="1.2"/>
-    <g stroke="#D9D1D6" fill="none" stroke-linecap="round">
-      <circle cx="26" cy="24" r="7" fill="#D9D1D6" stroke="none"/>
-      <path d="M26 33 V 78" stroke-width="13"/>
-      <path d="M26 45 L 15 67 M26 45 L 37 67" stroke-width="5"/>
-      <path d="M26 76 L 19 ${BASE} M26 76 L 33 ${BASE}" stroke-width="6"/>
+    <g stroke="var(--accent)" stroke-width="1" opacity=".55">
+      <line x1="${rx}" y1="${gtop}" x2="${rx}" y2="${BASE}" stroke-dasharray="3 2.5"/>
+      <line x1="${rx - 2.2}" y1="${gtop}" x2="${rx + 2.2}" y2="${gtop}"/>
+      <line x1="${rx - 2.2}" y1="${BASE}" x2="${rx + 2.2}" y2="${BASE}"/>
     </g>
-  </svg>`;
+  </svg>
+  <img class="girl" src="girl.webp?v=${(root && root.v) || ''}" alt="Дівчина зростом 165 см обіймає подушку"
+       style="left:${gx / VW * 100}%;top:${gtop / VH * 100}%;width:${gw / VW * 100}%;height:${gh / VH * 100}%">
+  <span class="hlab" style="left:0;width:${(gx + gw) / VW * 100}%;top:${(BASE + 5) / VH * 100}%">165 см</span>`;
 
   let x = START;
   SIZES.forEach(s => {
