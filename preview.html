@@ -120,8 +120,19 @@ a{color:var(--ink)}
   font-weight:600;width:100%;padding:17px 22px;font-size:17px;
 }
 .btn-go:hover:not(:disabled){background:#8F3A5D;border-color:#8F3A5D}
-.tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.tools .btn{flex:1;min-width:118px;padding:12px 8px;font-size:14.5px}
+/* один сегментований блок: без зазорів, розділювачі в 1 px */
+.seg{display:flex;margin-top:10px;border:1px solid var(--line);border-radius:12px;
+  overflow:hidden;background:var(--surface)}
+.seg button{
+  flex:1;min-width:0;border:none;border-left:1px solid var(--line);background:transparent;
+  padding:13px 4px;font:500 13.5px/1.2 Onest,sans-serif;color:var(--ink);
+  cursor:pointer;white-space:nowrap;transition:background .12s;
+}
+.seg button:first-child{border-left:none;flex:1.45}
+.seg button:hover:not(:disabled){background:var(--raised)}
+.seg button:active:not(:disabled){background:#E8DFE5}
+.seg button:disabled{opacity:.38;cursor:not-allowed}
+@media (min-width:561px){ .seg button{font-size:15px;padding:14px 8px} }
 
 /* ---------- колір подушки ---------- */
 .colors{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px}
@@ -234,11 +245,11 @@ footer a:hover{color:var(--ink)}
 
   <div class="sides" id="sides"></div>
 
-  <div class="tools">
-    <button class="btn" id="cut" disabled>Прибрати фон</button>
-    <button class="btn" id="zin" disabled>Збільшити</button>
-    <button class="btn" id="zout" disabled>Зменшити</button>
-    <button class="btn" id="reset" disabled>Скинути</button>
+  <div class="seg">
+    <button type="button" id="cut" disabled>Прибрати фон</button>
+    <button type="button" id="zin" disabled>Збільшити</button>
+    <button type="button" id="zout" disabled>Зменшити</button>
+    <button type="button" id="reset" disabled>Скинути</button>
   </div>
 
   <div class="colors" id="swatches"></div>
