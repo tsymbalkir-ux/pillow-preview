@@ -586,6 +586,7 @@ $('cut').onclick = async () => {
   document.querySelectorAll('[data-mini]').forEach(cv => { cv.width = 1; cv.height = 1; });
   views.forEach(v => v.release());
 
+  const fails = [];
   let lastErr = null;
   for (const plan of plans) {
     try {
@@ -600,6 +601,7 @@ $('cut').onclick = async () => {
       break;
     } catch (err) {
       console.error('спроба не вдалася:', plan.label, err);
+      fails.push(plan.label.replace(/[.…]+$/, '') + ' → ' + (err?.message || err));
       lastErr = err;
       bar.value = 0;
     }
@@ -609,9 +611,9 @@ $('cut').onclick = async () => {
   repaint();
 
   if (lastErr) {
-    const why = (lastErr.name ? lastErr.name + ': ' : '') + (lastErr.message || lastErr);
+    // показуємо ВСІ спроби: раніше було видно лише останню, і причина першої губилась
     fail('Фон прибрати не вийшло — ми доведемо макет вручну перед друком. ' +
-         'Технічна причина: ' + why + ' [' + M.envInfo() + ']', lastErr);
+         fails.map((f, i) => `(${i + 1}) ${f}`).join('  ') + ' [' + M.envInfo() + ']', lastErr);
   }
   bar.style.display = 'none';
   $('cut').disabled = false;
