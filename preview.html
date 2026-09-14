@@ -19,13 +19,13 @@
 html{-webkit-text-size-adjust:100%}
 /* декоративний контур подушки з руками — фон, не заважає читати */
 .deco{
-  position:fixed;right:-10vw;top:50%;transform:translateY(-50%);
-  width:min(74vw,560px);color:var(--ink);opacity:.055;
+  position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:min(128vw,1000px);color:var(--ink);opacity:.07;
   pointer-events:none;z-index:0;
 }
 .deco svg{width:100%;height:auto;display:block}
 .shell{position:relative;z-index:1}
-@media (max-width:760px){ .deco{right:-24vw;width:92vw;opacity:.045} }
+@media (max-width:760px){ .deco{width:150vw;opacity:.055} }
 @media (prefers-reduced-motion:no-preference){
   .deco{transition:opacity .4s}
 }
@@ -69,6 +69,41 @@ a{color:var(--ink)}
 .nav.prev{left:6px} .nav.next{right:6px}
 .slide canvas{transition:opacity .25s}
 @keyframes pop{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:none}}
+
+/* ---------- вкладки сторін ---------- */
+.sides{display:flex;gap:8px;margin-top:22px}
+.sides button{
+  flex:1;font:500 15px/1.25 Onest,sans-serif;padding:12px 10px;border-radius:12px;cursor:pointer;
+  border:1px solid var(--line);background:var(--surface);color:var(--dim);
+  transition:border-color .15s,color .15s,background .15s;
+}
+.sides button[aria-selected="true"]{
+  border-color:var(--accent);color:var(--accent);background:#fff;
+  box-shadow:inset 0 0 0 1px var(--accent);font-weight:600;
+}
+.sides button small{display:block;font-size:11.5px;font-weight:400;margin-top:3px;opacity:.75}
+
+.dots{display:flex;gap:6px;justify-content:center;margin-top:10px}
+.dots i{width:6px;height:6px;border-radius:50%;background:var(--line);transition:background .15s}
+.dots i.on{background:var(--accent)}
+
+.both{display:flex;align-items:center;gap:9px;margin-top:14px;font-size:14px;color:var(--dim);cursor:pointer}
+.both input{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
+
+/* ---------- підгонка фото ---------- */
+.editbox{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:14px;
+  padding:14px 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+.dpad{display:grid;grid-template-columns:repeat(3,34px);grid-template-rows:repeat(3,34px);gap:4px}
+.dpad button{border:1px solid var(--line);background:#fff;border-radius:9px;cursor:pointer;
+  font-size:14px;line-height:1;color:var(--ink);display:grid;place-content:center;padding:0}
+.dpad button:hover{background:var(--raised)}
+.dpad button:active{transform:scale(.9)}
+.dpad .c{border:none;background:none}
+.dpad [data-mv="0,-1"]{grid-area:1/2} .dpad [data-mv="-1,0"]{grid-area:2/1}
+.dpad [data-mv="1,0"]{grid-area:2/3}  .dpad [data-mv="0,1"]{grid-area:3/2}
+.editbox .col{display:flex;flex-direction:column;gap:7px;flex:1;min-width:160px}
+.editbox .btn{padding:10px 14px;font-size:14px}
+.editbox .hint{font-size:13px;color:var(--dim);width:100%;margin:0}
 
 /* ---------- buttons ---------- */
 .btn{
