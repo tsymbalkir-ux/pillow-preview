@@ -30,6 +30,7 @@ export class PhotoSide {
     this.photoFit = 'cover';
     this.file = null;
     this.bg = '#ffffff';      // колір подушки під фото
+    this.cutOn = false;       // чи показана зараз вирізана версія (у кожної сторони своя)
     this.transform = { margin: 0.045, scale: 1, dx: 0, dy: 0 };
     this.onChange = null;
   }
@@ -61,6 +62,7 @@ export class PhotoSide {
     this.photoBox = info.box;
     this.photoFit = info.transparent ? 'contain' : 'cover';
     this.cutout = null;
+    this.cutOn = false;
     this.subject = this.photo;
     this.box = info.box;
     this.fitMode = this.photoFit;
@@ -75,6 +77,7 @@ export class PhotoSide {
     this.photo = o.photo; this.file = o.file;
     this.cutout = o.cutout; this.cutoutBox = o.cutoutBox;
     this.photoBox = o.photoBox; this.photoFit = o.photoFit; this.bg = o.bg;
+    this.cutOn = o.cutOn;
     this.subject = o.subject; this.box = o.box; this.fitMode = o.fitMode;
     this.transform = { ...o.transform };
     return this._changed();
@@ -104,6 +107,7 @@ export class PhotoSide {
 
     const cut = await removeBackground(src, cfg);
     const trimmed = trimAndDeFringe(await createImageBitmap(cut));
+    this.cutOn = true;
     this.cutout = trimmed.bitmap;
     this.cutoutBox = trimmed.box;
     this.subject = this.cutout;
@@ -183,6 +187,7 @@ export class PhotoSide {
     }
 
     const trimmed = trimAndDeFringe(alphaCv);
+    this.cutOn = true;
     this.cutout = trimmed.bitmap;
     this.cutoutBox = trimmed.box;
     this.subject = this.cutout;
@@ -193,6 +198,7 @@ export class PhotoSide {
 
   useCutout(on = true) {
     if (on && !this.cutout) return this;
+    this.cutOn = on;
     this.subject = on ? this.cutout : this.photo;
     this.box = on ? this.cutoutBox : this.photoBox;
     this.fitMode = on ? 'contain' : this.photoFit;

@@ -327,7 +327,6 @@ addEventListener('error', e => fail('Щось пішло не так: ' + e.mess
 addEventListener('unhandledrejection', e => fail('Щось пішло не так: ' + (e.reason?.message || e.reason)));
 
 let ready = false, root = null, mini = null, views = [], A = null, B = null, cur = 'A';
-let cutOn = false;                  // чи показуємо зараз вирізану версію
 let M = null;                       // модуль, підвантажується на старті
 const side = () => (cur === 'A' ? A : B);
 const hasAny = () => A?.filled || B?.filled;
@@ -430,6 +429,7 @@ function buildTabs() {
       cur = id;
       [...$('sides').children].forEach(x => x.setAttribute('aria-selected', x.dataset.side === id));
       $('pick').textContent = pickLabel();
+      syncCutButton();
       syncSwatches();
       // підводимо карусель до мокапа, де ця сторона видима
       const i = views.findIndex(v => v.cfg.zones.some(z => z.side === id));
@@ -480,7 +480,12 @@ $('file').onchange = async e => {
     await side().setPhoto(f);
     if ($('both').checked) other().copyFrom(side());
     afterPhoto();
-  } catch (err) { fail('Не вдалося прочитати це фото. Спробуй інше.', err); }
+  } catch (err) {
+    fail('Не вдалося прочитати це фото. Спробуй інше.', err);
+  } finally {
+    // без цього повторний вибір того самого файлу не викликає подію
+    e.target.value = '';
+  }
 };
 
 const other = () => (cur === 'A' ? B : A);
@@ -491,6 +496,8 @@ function afterPhoto() {
   refreshSubmit();
   buildTabs();
   $('pick').textContent = pickLabel();
+  syncCutButton();
+  syncSwatches();
   say(DEFAULT_NOTE);
 }
 
@@ -540,8 +547,14 @@ COLORS.forEach((col, i) => {
 });
 syncSwatches();
 
-/** Колір панелі помітний лише тоді, коли фон фото прибрано. */
-function colorsUsable() { return !!(side()?.cutout && cutOn); }
+/** Колір панелі помітний лише тоді, коли фон цієї сторони прибрано. */
+function colorsUsable() { return !!(side()?.cutout && side()?.cutOn); }
+
+/** Стан кнопки залежить від активної сторони, а не від сторінки загалом. */
+function syncCutButton() {
+  const sd = side();
+  $('cut').textContent = (sd?.cutout && sd.cutOn) ? 'Повернути фон' : 'Прибрати фон';
+}
 function syncSwatches() {
   const on = colorsUsable();
   [...$('swatches').children].forEach(b => {
@@ -555,10 +568,9 @@ $('cut').onclick = async () => {
   if (!side().filled) return fail('Спочатку завантаж фото для цієї сторони.');
 
   if (side().cutout) {                     // модель уже відпрацювала — просто перемикаємо
-    cutOn = !cutOn;
-    side().useCutout(cutOn);
+    side().useCutout(!side().cutOn);
     if ($('both').checked) other().copyFrom(side());
-    $('cut').textContent = cutOn ? 'Повернути фон' : 'Прибрати фон';
+    syncCutButton();
     syncSwatches();
     return;
   }
@@ -593,8 +605,7 @@ $('cut').onclick = async () => {
       say(plan.label);
       await plan.run();
       if ($('both').checked) other().copyFrom(side());
-      cutOn = true;
-      $('cut').textContent = 'Повернути фон';
+      syncCutButton();
       syncSwatches();
       say('');
       lastErr = null;
