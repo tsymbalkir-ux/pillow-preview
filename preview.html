@@ -80,8 +80,13 @@ a{color:var(--ink)}
 .slide canvas{transition:opacity .25s}
 @keyframes pop{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:none}}
 
+/* ---------- головна дія ---------- */
+.cta{margin-top:26px}
+.cta .btn-go{width:100%}
+.ctasub{margin:9px 0 0;font-size:13.5px;color:var(--dim);text-align:center}
+
 /* ---------- вкладки сторін ---------- */
-.sides{display:flex;gap:8px;margin-top:22px}
+.sides{display:flex;gap:8px;margin-top:14px}
 .sides button{
   flex:1;font:500 15px/1.25 Onest,sans-serif;padding:12px 10px;border-radius:12px;cursor:pointer;
   border:1px solid var(--line);background:var(--surface);color:var(--dim);
@@ -198,7 +203,10 @@ footer a:hover{color:var(--ink)}
     <p class="lead">Завантаж будь-яке фото — макет з'явиться тут за секунду. Далі можна прибрати фон і підібрати колір, поки не сподобається.</p>
   </div>
 
-  <div class="sides" id="sides"></div>
+  <div class="cta">
+    <button class="btn btn-go" id="pick">Приміряти своє фото</button>
+    <p class="ctasub">Безкоштовно й без реєстрації — просто подивись, як вийде.</p>
+  </div>
 
   <div class="carousel">
     <div class="track" id="track"></div>
@@ -219,8 +227,9 @@ footer a:hover{color:var(--ink)}
   <label class="both"><input type="checkbox" id="both">
     З обох боків те саме фото</label>
 
+  <div class="sides" id="sides"></div>
+
   <div class="tools">
-    <button class="btn" id="pick">Вибрати фото</button>
     <button class="btn" id="cut" disabled>Прибрати фон</button>
     <button class="btn" id="orig" hidden>Повернути фон</button>
     <button class="btn" id="save" disabled>Зберегти картинку</button>
@@ -396,7 +405,13 @@ function repaint() {
   });
 }
 
-/* ---------- вкладки сторін ---------- */
+/** Напис на головній кнопці залежить від того, що вже завантажено. */
+function pickLabel() {
+  if (!hasAny()) return 'Приміряти своє фото';
+  const name = cur === 'A' ? 'Сторона А' : 'Сторона B';
+  return side().filled ? `Змінити фото — ${name}` : `Додати фото — ${name}`;
+}
+
 function buildTabs() {
   $('sides').innerHTML = '';
   [['A', 'Сторона А', 'лицьовий бік'], ['B', 'Сторона B', 'зворот']].forEach(([id, name, sub]) => {
@@ -408,7 +423,7 @@ function buildTabs() {
     b.onclick = () => {
       cur = id;
       [...$('sides').children].forEach(x => x.setAttribute('aria-selected', x.dataset.side === id));
-      $('pick').textContent = side().filled ? `Змінити фото (${name})` : `Вибрати фото (${name})`;
+      $('pick').textContent = pickLabel();
       // підводимо карусель до мокапа, де ця сторона видима
       const i = views.findIndex(v => v.cfg.zones.some(z => z.side === id));
       if (i >= 0) scrollToSlide(i);
@@ -468,6 +483,7 @@ function afterPhoto() {
   $('editbox').hidden = false; $('pad').hidden = false;
   refreshSubmit();
   buildTabs();
+  $('pick').textContent = pickLabel();
   say(DEFAULT_NOTE);
 }
 
