@@ -1,5 +1,5 @@
 {
-  "v": "202609140249",
+  "v": "202609141151",
   "mini": {
     "empty": "mini-empty.png",
     "mask": "mini-mask.png",
@@ -64,7 +64,8 @@
             "w": 284,
             "h": 889
           },
-          "ratio": 3.136
+          "ratio": 3.136,
+          "shade": "held-shade.jpg"
         }
       ]
     },
