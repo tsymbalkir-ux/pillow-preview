@@ -112,6 +112,85 @@ export class PhotoSide {
     return this._changed();
   }
 
+  /**
+   * Легке вирізання через MediaPipe Selfie Segmenter.
+   * Модель ~250 КБ проти десятків мегабайт в isnet, тому на iOS, де
+   * onnxruntime падає з Out of memory ще на створенні сесії, працює саме вона.
+   */
+  async removeBackgroundLite(onProgress) {
+    if (!this.photo) throw new Error('Спочатку setPhoto()');
+    const BASE = 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14';
+    onProgress?.(0.1);
+    const vision = await import(BASE + '/vision_bundle.mjs');
+    onProgress?.(0.35);
+    const files = await vision.FilesetResolver.forVisionTasks(BASE + '/wasm');
+    onProgress?.(0.6);
+    const seg = await vision.ImageSegmenter.createFromOptions(files, {
+      baseOptions: { modelAssetPath:
+        'https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_segmenter/float16/latest/selfie_segmenter.tflite' },
+      runningMode: 'IMAGE', outputCategoryMask: true, outputConfidenceMasks: false,
+    });
+    onProgress?.(0.8);
+
+    const cap = 720;
+    const k = Math.min(1, cap / Math.max(this.photo.width, this.photo.height));
+    const w = Math.round(this.photo.width * k), h = Math.round(this.photo.height * k);
+    const work = domCanvas(w, h);                 // MediaPipe не приймає OffscreenCanvas
+    work.getContext('2d').drawImage(this.photo, 0, 0, w, h);
+
+    let alphaCv;
+    try {
+      const res = seg.segment(work);
+      const cm = res.categoryMask;
+      const mw = cm.width, mh = cm.height, arr = cm.getAsUint8Array();
+
+      // індекси категорій бувають 0/1 або 0/255 — визначаємо поріг за даними
+      let maxv = 0;
+      for (let i = 0; i < arr.length; i++) if (arr[i] > maxv) maxv = arr[i];
+      const thr = maxv > 1 ? maxv / 2 : 0;
+
+      // і перевіряємо, чи не переплутані передній план із тлом
+      let all = 0, mid = 0, midN = 0;
+      const x0 = mw >> 2, x1 = mw - x0, y0 = mh >> 2, y1 = mh - y0;
+      for (let y = 0; y < mh; y++) for (let x = 0; x < mw; x++) {
+        const on = arr[y * mw + x] > thr ? 1 : 0;
+        all += on;
+        if (x >= x0 && x < x1 && y >= y0 && y < y1) { mid += on; midN++; }
+      }
+      const invert = (mid / midN) < (all / (mw * mh));
+
+      const mc = domCanvas(mw, mh);
+      const mctx = mc.getContext('2d');
+      const img = mctx.createImageData(mw, mh);
+      for (let i = 0; i < mw * mh; i++) {
+        let on = arr[i] > thr;
+        if (invert) on = !on;
+        img.data[i * 4] = img.data[i * 4 + 1] = img.data[i * 4 + 2] = 255;
+        img.data[i * 4 + 3] = on ? 255 : 0;
+      }
+      mctx.putImageData(img, 0, 0);
+      cm.close?.(); res.close?.();
+
+      alphaCv = domCanvas(w, h);
+      const oc = alphaCv.getContext('2d');
+      oc.drawImage(work, 0, 0);
+      oc.imageSmoothingQuality = 'high';
+      oc.globalCompositeOperation = 'destination-in';
+      oc.drawImage(mc, 0, 0, w, h);
+      oc.globalCompositeOperation = 'source-over';
+    } finally {
+      seg.close?.();
+    }
+
+    const trimmed = trimAndDeFringe(alphaCv);
+    this.cutout = trimmed.bitmap;
+    this.cutoutBox = trimmed.box;
+    this.subject = this.cutout;
+    this.box = trimmed.box;
+    this.fitMode = 'contain';
+    return this._changed();
+  }
+
   useCutout(on = true) {
     if (on && !this.cutout) return this;
     this.subject = on ? this.cutout : this.photo;
@@ -282,6 +361,10 @@ export class MiniPillow {
 
 /* ============================== helpers ================================ */
 
+/** Полотно саме в DOM: деякі бібліотеки не приймають OffscreenCanvas. */
+function domCanvas(w, h) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h; return c;
+}
 function makeCanvas(w, h) {
   if (typeof OffscreenCanvas !== 'undefined') return new OffscreenCanvas(w, h);
   const c = document.createElement('canvas'); c.width = w; c.height = h; return c;

@@ -568,11 +568,18 @@ $('cut').onclick = async () => {
 
   // три спроби: звичайна → без воркера → зовсім легка.
   // Мобільні браузери обмежують пам'ять вкладки, і важкий режим там гине мовчки.
-  const plans = [
-    { label: 'Вантажимо модель…', opts: {} },
-    { label: 'Не вийшло, пробуємо легший режим…', opts: { worker: false } },
-    { label: 'Ще легший режим…', opts: { worker: false, model: 'isnet_quint8', maxSide: 640 } },
-  ];
+  // На iOS onnxruntime падає з Out of memory ще на створенні сесії,
+  // тому там першою йде легка MediaPipe-модель (~250 КБ).
+  const cb = p => { bar.value = p; if (p > .99) say('Обробляємо фото…'); };
+  const lite = { label: 'Готуємо модель…', run: () => side().removeBackgroundLite(cb) };
+  const full = (opts, label) => ({ label, run: () => side().removeBackground(cb, opts) });
+
+  const plans = M.isMobile()
+    ? [lite,
+       full({ worker: false, maxSide: 640 }, 'Пробуємо точнішу модель…')]
+    : [full({}, 'Вантажимо модель…'),
+       full({ worker: false }, 'Не вийшло, пробуємо легший режим…'),
+       lite];
 
   // віддаємо пам'ять: WASM-сесія падає з Out of memory саме тому,
   // що полотна вже з'їли бюджет вкладки
@@ -583,8 +590,7 @@ $('cut').onclick = async () => {
   for (const plan of plans) {
     try {
       say(plan.label);
-      await side().removeBackground(
-        p => { bar.value = p; if (p > .99) say('Обробляємо фото…'); }, plan.opts);
+      await plan.run();
       if ($('both').checked) other().copyFrom(side());
       cutOn = true;
       $('cut').textContent = 'Повернути фон';
@@ -593,7 +599,7 @@ $('cut').onclick = async () => {
       lastErr = null;
       break;
     } catch (err) {
-      console.error('спроба не вдалася', plan.opts, err);
+      console.error('спроба не вдалася:', plan.label, err);
       lastErr = err;
       bar.value = 0;
     }
