@@ -10,6 +10,12 @@
 
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 
+/** Мобільні браузери жорстко обмежують і пам'ять вкладки, і сумарну площу полотен. */
+export const isMobile = () =>
+  matchMedia('(max-width: 820px)').matches ||
+  (navigator.deviceMemory && navigator.deviceMemory <= 4) ||
+  /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
 /* ============================ PhotoSide ================================= */
 
 export class PhotoSide {
@@ -34,7 +40,20 @@ export class PhotoSide {
   async setPhoto(source) {
     const blob = source instanceof Blob ? source : await fetch(source).then(r => r.blob());
     // createImageBitmap сам застосовує EXIF-поворот — інакше фото з телефона лягає боком
-    this.photo = await createImageBitmap(blob, { imageOrientation: 'from-image' });
+    let bmp = await createImageBitmap(blob, { imageOrientation: 'from-image' });
+    // 12-мегапіксельне фото з телефона — це ~48 МБ у пам'яті. Тримати його
+    // цілим немає сенсу: друк усе одно йде з панелі, а бюджет вкладки скінченний.
+    const cap = isMobile() ? 2200 : 3200;
+    const side0 = Math.max(bmp.width, bmp.height);
+    if (side0 > cap) {
+      const k = cap / side0;
+      const cv = makeCanvas(Math.round(bmp.width * k), Math.round(bmp.height * k));
+      cv.getContext('2d').drawImage(bmp, 0, 0, cv.width, cv.height);
+      const small = await createImageBitmap(cv);
+      bmp.close?.();
+      bmp = small;
+    }
+    this.photo = bmp;
     this.file = source instanceof Blob ? source : null;
 
     // прозорий PNG — це вже вирізана фігура, її вписуємо, а не розтягуємо
@@ -115,9 +134,12 @@ export class PhotoSide {
   }
 
   /** Панель принта заданого розміру: біла основа + фото. Без маски й складок. */
-  drawPanel(pw, ph) {
-    const cv = makeCanvas(pw, ph);
+  drawPanel(pw, ph, reuse) {
+    // reuse — полотно, яке можна перемалювати замість того, щоб плодити нові:
+    // на мобільних сумарна площа полотен обмежена, і кожен зайвий кадр коштує пам'яті
+    const cv = (reuse && reuse.width === pw && reuse.height === ph) ? reuse : makeCanvas(pw, ph);
     const c = cv.getContext('2d');
+    c.clearRect(0, 0, pw, ph);
     c.fillStyle = this.bg;          // інакше крізь прозорий PNG світить мокап
     c.fillRect(0, 0, pw, ph);
     if (!this.subject) return cv;
@@ -171,7 +193,20 @@ export class MockupView {
     this.cfg = cfg;
     this.dir = dir;
     this.sides = sides;             // { A: PhotoSide, B: PhotoSide }
-    this.quality = quality;
+    this.quality = quality ?? (isMobile() ? 1 : 2);
+    this._panels = [];              // кеш полотен по зонах
+  }
+
+  /** Звільняє полотно й кеш — щоб віддати пам'ять перед важкою операцією. */
+  release() {
+    this._panels = [];
+    this._w = this.canvas.width; this._h = this.canvas.height;
+    this.canvas.width = 1; this.canvas.height = 1;
+  }
+  restore() {
+    if (!this._w) return this;
+    this.canvas.width = this._w; this.canvas.height = this._h;
+    return this.render();
   }
 
   async load(tag = '') {
@@ -195,11 +230,12 @@ export class MockupView {
     // файлів не з'їжджає всю картинку
     ctx.drawImage(this.image, 0, 0, canvas.width, canvas.height);
 
-    for (const z of this.zones) {
+    this.zones.forEach((z, i) => {
       const side = this.sides[z.side];
-      if (!side?.filled) continue;
+      if (!side?.filled) return;
       const q = this.quality, { x, y, w, h } = z.box;
-      const panel = side.drawPanel(w * q, h * q);
+      const panel = side.drawPanel(w * q, h * q, this._panels[i]);
+      this._panels[i] = panel;
       const pc = panel.getContext('2d');
       if (z.shadeImg) {             // складки справжньої тканини
         pc.globalCompositeOperation = 'multiply';
@@ -209,7 +245,7 @@ export class MockupView {
       pc.drawImage(z.maskImg, 0, 0, w * q, h * q);
       pc.globalCompositeOperation = 'source-over';
       ctx.drawImage(panel, x, y, w, h);
-    }
+    });
     return this;
   }
 
@@ -234,7 +270,8 @@ export class MiniPillow {
   draw(side) {
     if (!side?.filled) return this.empty;
     const { w, h } = this;
-    const panel = side.drawPanel(w, h);
+    const panel = side.drawPanel(w, h, this._panel);
+    this._panel = panel;
     const c = panel.getContext('2d');
     c.globalCompositeOperation = 'multiply'; c.drawImage(this.shade, 0, 0, w, h);
     c.globalCompositeOperation = 'destination-in'; c.drawImage(this.mask, 0, 0, w, h);

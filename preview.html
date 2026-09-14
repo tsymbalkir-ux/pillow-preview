@@ -399,11 +399,14 @@ function repaint() {
     views.forEach(v => v.render());
     if (!mini) return;
     const src = mini.draw(A?.filled ? A : B);
+    // на телефоні дев'ять полотен у повній роздільності — зайві мегабайти
+    const k = M?.isMobile?.() ? 0.5 : 1;
+    const w = Math.round(mini.w * k), h = Math.round(mini.h * k);
     document.querySelectorAll('[data-mini]').forEach(cv => {
-      if (cv.width !== mini.w || cv.height !== mini.h) { cv.width = mini.w; cv.height = mini.h; }
+      if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
       const c = cv.getContext('2d');
-      c.clearRect(0, 0, mini.w, mini.h);
-      c.drawImage(src, 0, 0, mini.w, mini.h);
+      c.clearRect(0, 0, w, h);
+      c.drawImage(src, 0, 0, w, h);
     });
   });
 }
@@ -571,6 +574,11 @@ $('cut').onclick = async () => {
     { label: 'Ще легший режим…', opts: { worker: false, model: 'isnet_quint8', maxSide: 640 } },
   ];
 
+  // віддаємо пам'ять: WASM-сесія падає з Out of memory саме тому,
+  // що полотна вже з'їли бюджет вкладки
+  document.querySelectorAll('[data-mini]').forEach(cv => { cv.width = 1; cv.height = 1; });
+  views.forEach(v => v.release());
+
   let lastErr = null;
   for (const plan of plans) {
     try {
@@ -590,6 +598,9 @@ $('cut').onclick = async () => {
       bar.value = 0;
     }
   }
+
+  views.forEach(v => v.restore());
+  repaint();
 
   if (lastErr) {
     const why = (lastErr.name ? lastErr.name + ': ' : '') + (lastErr.message || lastErr);
