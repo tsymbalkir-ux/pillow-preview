@@ -1,5 +1,5 @@
 {
-  "v": "20260914174815",
+  "v": "20260914180050",
   "mini": {
     "empty": "mini-empty.png",
     "mask": "mini-mask.png",
@@ -25,10 +25,10 @@
           "mask": "pair-a-mask.png",
           "shade": "pair-a-shade.jpg",
           "box": {
-            "x": 2,
-            "y": 61,
-            "w": 369,
-            "h": 1078
+            "x": 20,
+            "y": 131,
+            "w": 354,
+            "h": 1034
           },
           "ratio": 2.474
         },
@@ -37,10 +37,10 @@
           "mask": "pair-b-mask.png",
           "shade": "pair-b-shade.jpg",
           "box": {
-            "x": 371,
-            "y": 69,
-            "w": 418,
-            "h": 1066
+            "x": 374,
+            "y": 139,
+            "w": 401,
+            "h": 1023
           },
           "ratio": 2.16
         }
