@@ -35,10 +35,15 @@ export class PillowMockup {
     const dir = this.configUrl.replace(/[^/]*$/, '');
     const tag = cfg.v ? '?v=' + cfg.v : '';
     const rel = p => loadImage(dir + p.replace(/^assets\//, '') + tag);
-    const [mockup, mask, shade] = await Promise.all([
+    const [mockup, mask, shade, mEmpty, mMask, mShade] = await Promise.all([
       rel(cfg.mockup), rel(cfg.mask),
       cfg.shade ? rel(cfg.shade) : null,
+      cfg.mini ? rel(cfg.mini.empty) : null,
+      cfg.mini ? rel(cfg.mini.mask)  : null,
+      cfg.mini ? rel(cfg.mini.shade) : null,
     ]);
+    this.mini = cfg.mini ? { empty: mEmpty, mask: mMask, shade: mShade,
+                             w: cfg.mini.size[0], h: cfg.mini.size[1] } : null;
     this.cfg = cfg;
     this.mockup = mockup;
     this.mask = mask;
@@ -212,7 +217,25 @@ export class PillowMockup {
     pc.globalCompositeOperation = 'source-over';
 
     ctx.drawImage(panel, x, y, w, h);
+    if (this.onRender) this.onRender();
     return this;
+  }
+
+  /**
+   * Маленька подушка з тим самим фото — для схем розміру.
+   * Пропорції ті самі (1:3), тому один рендер годиться для всіх чотирьох карток.
+   */
+  renderMini() {
+    if (!this.mini) return null;
+    const { w, h, mask, shade } = this.mini;
+    if (!this.photo) return this.mini.empty;
+    const panel = this.drawPanel(w, h);
+    const c = panel.getContext('2d');
+    if (shade) { c.globalCompositeOperation = 'multiply'; c.drawImage(shade, 0, 0, w, h); }
+    c.globalCompositeOperation = 'destination-in';
+    c.drawImage(mask, 0, 0, w, h);
+    c.globalCompositeOperation = 'source-over';
+    return panel;
   }
 
   /* -------------------------------------------------------------- export */

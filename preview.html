@@ -98,7 +98,10 @@ h2{font:600 clamp(22px,4.6vw,27px)/1.25 Literata,Georgia,serif;
 .size:hover{border-color:#C9BCC4}
 .size[aria-pressed="true"]{border-color:var(--accent);background:#fff;
   box-shadow:inset 0 0 0 1px var(--accent)}
-.size svg{display:block;width:100%;height:auto}
+.scale{position:relative;width:100%;aspect-ratio:104/140}
+.scale svg{position:absolute;inset:0;width:100%;height:100%}
+.scale canvas{position:absolute;left:55.8%;bottom:8.6%;width:auto;
+  filter:drop-shadow(0 2px 5px rgba(0,0,0,.13))}
 .size .cap{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
 .size b{font-weight:600;font-size:16px}
 .size .uah{margin-left:auto;font-weight:600;white-space:nowrap}
@@ -278,21 +281,22 @@ const SIZES = [
 ];
 let size = SIZES[1];
 
-/* Схема масштабу: людина 170 см поряд із подушкою, все в одних одиницях. */
-const PERSON_CM = 170, BASE = 128, UNIT = 111 / PERSON_CM;
+/* Схема масштабу: людина 170 см поряд зі справжньою подушкою в тій самій шкалі. */
+const PERSON_CM = 170, BASE = 128, UNIT = 111 / PERSON_CM, VB = 140;
 function scheme(s) {
-  const ph = s.len * UNIT, pw = s.cm * UNIT;
-  return `<svg viewBox="0 0 104 140" role="img" aria-label="Подушка ${s.label} см поруч із людиною зростом 170 см">
-    <line x1="4" y1="${BASE + 3}" x2="100" y2="${BASE + 3}" stroke="var(--line)" stroke-width="1.5"/>
-    <g stroke="#D9D1D6" fill="none" stroke-linecap="round">
-      <circle cx="26" cy="24" r="7" fill="#D9D1D6" stroke="none"/>
-      <path d="M26 33 V 78" stroke-width="13"/>
-      <path d="M26 45 L 15 67 M26 45 L 37 67" stroke-width="5"/>
-      <path d="M26 76 L 19 ${BASE} M26 76 L 33 ${BASE}" stroke-width="6"/>
-    </g>
-    <rect x="58" y="${BASE - ph}" width="${pw}" height="${ph}" rx="4"
-          fill="var(--accent)" fill-opacity=".14" stroke="var(--accent)" stroke-width="1.5"/>
-  </svg>`;
+  const ph = s.len * UNIT;
+  return `<div class="scale">
+    <svg viewBox="0 0 104 140" role="img" aria-label="Подушка ${s.label} см поруч із людиною зростом 170 см">
+      <line x1="4" y1="${BASE + 3}" x2="100" y2="${BASE + 3}" stroke="var(--line)" stroke-width="1.5"/>
+      <g stroke="#D9D1D6" fill="none" stroke-linecap="round">
+        <circle cx="26" cy="24" r="7" fill="#D9D1D6" stroke="none"/>
+        <path d="M26 33 V 78" stroke-width="13"/>
+        <path d="M26 45 L 15 67 M26 45 L 37 67" stroke-width="5"/>
+        <path d="M26 76 L 19 ${BASE} M26 76 L 33 ${BASE}" stroke-width="6"/>
+      </g>
+    </svg>
+    <canvas class="mini" data-mini style="height:${(ph / VB * 100).toFixed(2)}%"></canvas>
+  </div>`;
 }
 
 SIZES.forEach(s => {
@@ -358,6 +362,21 @@ $('orig').onclick = () => {
   pm.useCutout(cutOn);
   $('orig').textContent = cutOn ? 'Повернути фон' : 'Прибрати фон';
 };
+
+/* ---------- маленькі подушки в схемах ---------- */
+function paintMinis() {
+  const src = pm.renderMini();
+  if (!src) return;
+  const w = pm.mini.w, h = pm.mini.h;
+  document.querySelectorAll('[data-mini]').forEach(cv => {
+    if (cv.width !== w) { cv.width = w; cv.height = h; }
+    const c = cv.getContext('2d');
+    c.clearRect(0, 0, w, h);
+    c.drawImage(src, 0, 0, w, h);
+  });
+}
+let miniRaf = 0;
+pm.onRender = () => { cancelAnimationFrame(miniRaf); miniRaf = requestAnimationFrame(paintMinis); };
 
 /* ---------- підгонка стрілками ---------- */
 const STEP = 0.035;   // частка панелі за одне натискання
@@ -427,6 +446,7 @@ $('order').onsubmit = async e => {
 try {
   await pm.load();
   ready = true;
+  paintMinis();
 } catch (err) {
   fail('Не завантажився шаблон подушки. Перевір, що поруч із preview.html лежать pillow.json, mockup.jpg і pillow-mask.png.', err);
 }

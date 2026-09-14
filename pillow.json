@@ -12,5 +12,15 @@
     "h": 889
   },
   "ratio": 3.1365,
-  "v": "202609132034"
+  "v": "202609140129",
+  "mini": {
+    "empty": "mini-empty.png",
+    "mask": "mini-mask.png",
+    "shade": "mini-shade.jpg",
+    "size": [
+      300,
+      909
+    ],
+    "ratio": 3.03
+  }
 }
