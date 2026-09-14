@@ -38,28 +38,22 @@ a{color:var(--ink)}
 .hero .lead{color:var(--dim);font-size:17px;margin:0;max-width:52ch}
 
 /* ---------- stage ---------- */
-.stage{margin:14px 0 0;position:relative;touch-action:pan-y}
-.stage canvas[hidden]{display:none}
-
-/* вкладки сторін */
-.sides{display:flex;gap:8px;margin-top:22px}
-.sides button{
-  flex:1;font:500 15px/1 Onest,sans-serif;padding:13px 10px;border-radius:12px;cursor:pointer;
-  border:1px solid var(--line);background:var(--surface);color:var(--dim);
-  transition:border-color .15s,color .15s,background .15s;
-}
-.sides button[aria-selected="true"]{
-  border-color:var(--accent);color:var(--accent);background:#fff;
-  box-shadow:inset 0 0 0 1px var(--accent);font-weight:600;
-}
-.sides button small{display:block;font-size:11.5px;font-weight:400;margin-top:3px;opacity:.75}
-.dots{display:flex;gap:6px;justify-content:center;margin-top:10px}
-.dots i{width:6px;height:6px;border-radius:50%;background:var(--line);transition:background .15s}
-.dots i.on{background:var(--accent)}
-.both{display:flex;align-items:center;gap:9px;margin-top:12px;font-size:14px;color:var(--dim)}
-.both input{width:18px;height:18px;accent-color:var(--accent)}
-.stage canvas{width:100%;height:auto;display:block;border-radius:var(--r)}
-.stage.is-fresh canvas{animation:pop .5s cubic-bezier(.2,.8,.3,1)}
+.carousel{position:relative;margin:14px -20px 0}
+.track{display:flex;gap:10px;overflow-x:auto;scroll-behavior:smooth;
+  scroll-snap-type:x proximity;padding:0 20px;
+  scrollbar-width:none;-ms-overflow-style:none}
+.track::-webkit-scrollbar{display:none}
+.slide{flex:0 0 82%;scroll-snap-align:center;position:relative}
+.slide canvas{width:100%;height:auto;display:block;border-radius:var(--r);background:var(--surface)}
+.slide .cap{position:absolute;left:10px;top:10px;background:rgba(255,255,255,.88);
+  border-radius:8px;padding:4px 9px;font-size:12.5px;color:var(--ink);backdrop-filter:blur(3px)}
+.nav{position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+  width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:#fff;
+  cursor:pointer;font-size:17px;line-height:1;display:grid;place-content:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.nav.prev{left:4px} .nav.next{right:4px}
+.nav:disabled{opacity:.3;cursor:default}
+.slide canvas{transition:opacity .25s}
 @keyframes pop{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:none}}
 
 /* ---------- buttons ---------- */
@@ -177,21 +171,15 @@ footer a:hover{color:var(--ink)}
 
   <div class="sides" id="sides"></div>
 
-  <div class="stage" id="stage">
-    <canvas id="cvA" width="1100" height="1100"></canvas>
-    <canvas id="cvB" width="1100" height="1100" hidden></canvas>
-
-    <div id="pad" hidden>
-      <button class="arrow up"    type="button" data-mv="0,-1" aria-label="Вище">↑</button>
-      <button class="arrow down"  type="button" data-mv="0,1"  aria-label="Нижче">↓</button>
-      <button class="arrow left"  type="button" data-mv="-1,0" aria-label="Ліворуч">←</button>
-      <button class="arrow right" type="button" data-mv="1,0"  aria-label="Праворуч">→</button>
-    </div>
+  <div class="carousel">
+    <button class="nav prev" id="prev" type="button" aria-label="Попередній мокап">‹</button>
+    <div class="track" id="track"></div>
+    <button class="nav next" id="next" type="button" aria-label="Наступний мокап">›</button>
   </div>
 
-  <div class="dots" id="dots"><i class="on"></i><i></i></div>
+  <div class="dots" id="dots"></div>
 
-  <label class="both"><input type="checkbox" id="both" checked>
+  <label class="both"><input type="checkbox" id="both">
     З обох боків те саме фото</label>
 
   <div class="tools">
@@ -282,22 +270,18 @@ const $ = id => document.getElementById(id);
 const note = $('note'), bar = $('bar');
 $('yr').textContent = new Date().getFullYear();
 
-/* Куди їдуть дані замовлення (той самий Apps Script, що й раніше) */
 const ORDER_URL = 'https://script.google.com/macros/s/AKfycbxXiNvBMP5xDAEw9fFBupXWXtauysjVp5RTIO1t47j3m79r-vEk7UPWMHyV_CiHf5ME/exec';
-/* Куди їдуть самі файли. Поки порожньо — див. пояснення нижче. */
-const FILES_URL = '';
+const FILES_URL = '';   // поки порожньо — самі файли нікуди не йдуть
 
 const DEFAULT_NOTE = 'Фото залишається на твоєму пристрої. На сервер воно піде лише тоді, коли ти підтвердиш замовлення.';
-function say(msg, bad) { note.textContent = msg; note.classList.toggle('err', !!bad); }
-function fail(msg, err) { console.error(err || msg); say(msg, true); }
+function say(m, bad) { note.textContent = m; note.classList.toggle('err', !!bad); }
+function fail(m, e) { console.error(e || m); say(m, true); }
 addEventListener('error', e => fail('Щось пішло не так: ' + e.message, e.error));
 addEventListener('unhandledrejection', e => fail('Щось пішло не так: ' + (e.reason?.message || e.reason)));
 
-let ready = false, hasPhoto = false;
-let root = null, SIDE = [], cur = 0;        // SIDE[i] = { cfg, pm, canvas, file }
-const pm = { get mini() { return SIDE[0]?.pm.mini; },
-             renderMini() { return SIDE[0]?.pm.renderMini(); } };
-const act = () => SIDE[cur];
+let ready = false, root = null, mini = null, views = [], A = null, B = null, cur = 'A';
+const side = () => (cur === 'A' ? A : B);
+const hasAny = () => A?.filled || B?.filled;
 
 /* ---------- розміри ---------- */
 const SIZES = [
@@ -308,7 +292,6 @@ const SIZES = [
 ];
 let size = SIZES[1];
 
-/* Схема масштабу: людина 170 см поряд зі справжньою подушкою в тій самій шкалі. */
 const PERSON_CM = 170, BASE = 128, UNIT = 111 / PERSON_CM, VB = 140;
 function scheme(s) {
   const ph = s.len * UNIT;
@@ -342,54 +325,119 @@ SIZES.forEach(s => {
 });
 
 function refreshSubmit() {
-  $('submit').disabled = !hasPhoto;
-  $('submit').textContent = hasPhoto
-    ? `Замовити за ${size.price} грн`
-    : 'Спочатку обери фото';
+  $('submit').disabled = !hasAny();
+  $('submit').textContent = hasAny() ? `Замовити за ${size.price} грн` : 'Спочатку обери фото';
 }
 refreshSubmit();
 
-/* ---------- фото ---------- */
-$('pick').onclick = () => ready ? $('file').click() : fail('Шаблон ще вантажиться, зачекай секунду.');
-
-/** Ставить файл на сторону i (і на другу, якщо ввімкнено «те саме фото»). */
-async function applyPhoto(file, i) {
-  await SIDE[i].pm.setPhoto(file);
-  SIDE[i].file = file;
-  if ($('both').checked) {
-    const j = 1 - i;
-    await SIDE[j].pm.setPhoto(file);
-    SIDE[j].file = file;
-  }
+/* ---------- перемалювання ---------- */
+let raf = 0;
+function repaint() {
+  cancelAnimationFrame(raf);
+  raf = requestAnimationFrame(() => {
+    views.forEach(v => v.render());
+    if (!mini) return;
+    const src = mini.draw(A?.filled ? A : B);
+    document.querySelectorAll('[data-mini]').forEach(cv => {
+      if (cv.width !== mini.w || cv.height !== mini.h) { cv.width = mini.w; cv.height = mini.h; }
+      const c = cv.getContext('2d');
+      c.clearRect(0, 0, mini.w, mini.h);
+      c.drawImage(src, 0, 0, mini.w, mini.h);
+    });
+  });
 }
+
+/* ---------- вкладки сторін ---------- */
+function buildTabs() {
+  $('sides').innerHTML = '';
+  [['A', 'Сторона А', 'лицьовий бік'], ['B', 'Сторона B', 'зворот']].forEach(([id, name, sub]) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.dataset.side = id;
+    b.setAttribute('aria-selected', id === cur);
+    b.innerHTML = `${name}<small>${sub}</small>`;
+    b.onclick = () => {
+      cur = id;
+      [...$('sides').children].forEach(x => x.setAttribute('aria-selected', x.dataset.side === id));
+      $('pick').textContent = side().filled ? `Змінити фото (${name})` : `Вибрати фото (${name})`;
+      // підводимо карусель до мокапа, де ця сторона видима
+      const i = views.findIndex(v => v.cfg.zones.some(z => z.side === id));
+      if (i >= 0) scrollToSlide(i);
+    };
+    $('sides').appendChild(b);
+  });
+}
+
+/* ---------- карусель стрічкою ---------- */
+function scrollToSlide(i) {
+  const sl = $('track').children[i];
+  if (sl) $('track').scrollTo({ left: sl.offsetLeft - $('track').offsetLeft, behavior: 'smooth' });
+}
+function step(dir) {
+  // зсув на ~55% ширини: сусідній кадр заходить частково, стрічка не «перестрибує»
+  $('track').scrollBy({ left: dir * $('track').clientWidth * 0.55, behavior: 'smooth' });
+}
+$('prev').onclick = () => step(-1);
+$('next').onclick = () => step(1);
+
+function syncNav() {
+  const t = $('track');
+  $('prev').disabled = t.scrollLeft < 8;
+  $('next').disabled = t.scrollLeft > t.scrollWidth - t.clientWidth - 8;
+  const mid = t.scrollLeft + t.clientWidth / 2;
+  let best = 0, bd = 1e9;
+  [...t.children].forEach((sl, i) => {
+    const d = Math.abs(sl.offsetLeft - t.offsetLeft + sl.offsetWidth / 2 - mid);
+    if (d < bd) { bd = d; best = i; }
+  });
+  [...$('dots').children].forEach((d, i) => d.classList.toggle('on', i === best));
+}
+$('track').addEventListener('scroll', syncNav, { passive: true });
+
+/* ---------- вибір фото ---------- */
+$('pick').onclick = () => ready ? $('file').click() : fail('Мокапи ще вантажаться, зачекай секунду.');
 
 $('file').onchange = async e => {
   const f = e.target.files[0];
   if (!f) return;
   try {
     say('Готуємо макет…');
-    await applyPhoto(f, cur);
-    $('stage').classList.add('is-fresh');
-    hasPhoto = true;
-    $('cut').disabled = false; $('save').disabled = false;
-    $('pad').hidden = false; $('zoomrow').hidden = false;
-    showSide(cur);
-    refreshSubmit();
-    say(DEFAULT_NOTE);
+    await side().setPhoto(f);
+    if ($('both').checked) other().copyFrom(side());
+    afterPhoto();
   } catch (err) { fail('Не вдалося прочитати це фото. Спробуй інше.', err); }
 };
 
+const other = () => (cur === 'A' ? B : A);
+
+function afterPhoto() {
+  $('cut').disabled = false; $('save').disabled = false;
+  $('pad').hidden = false; $('zoomrow').hidden = false;
+  refreshSubmit();
+  buildTabs();
+  say(DEFAULT_NOTE);
+}
+
+/* «те саме з обох боків»: A має пріоритет, якщо заповнені обидві */
+$('both').onchange = () => {
+  if (!$('both').checked) { say('Тепер для звороту можна вибрати інше фото.'); return; }
+  const src = A.filled ? A : (B.filled ? B : null);
+  if (!src) { say('Спочатку обери фото — воно піде на обидві сторони.'); return; }
+  (src === A ? B : A).copyFrom(src);
+  say(`Фото сторони ${src === A ? 'А' : 'B'} пішло на обидві сторони.`);
+  buildTabs();
+  refreshSubmit();
+};
+
+/* ---------- прибирання фону ---------- */
 $('cut').onclick = async () => {
+  if (!side().filled) return fail('Спочатку обери фото для цієї сторони.');
   $('cut').disabled = true;
   bar.style.display = 'block';
   say('Перший раз вантажиться модель, це близько 40 МБ…');
   try {
-    await act().pm.removeBackground(p => { bar.value = p; if (p > .99) say('Прибираємо фон…'); });
-    if ($('both').checked) {
-      const o = SIDE[1 - cur].pm;
-      o.cutout = act().pm.cutout; o.cutoutBox = act().pm.cutoutBox;
-      o.subject = o.cutout; o.subjectBox = o.cutoutBox; o.fitMode = 'contain'; o.render();
-    }
+    await side().removeBackground(p => { bar.value = p; if (p > .99) say('Прибираємо фон…'); });
+    if ($('both').checked) other().copyFrom(side());
     say('Фон прибрано. Стрілками можна підігнати положення.');
     $('orig').hidden = false;
   } catch (err) {
@@ -401,72 +449,32 @@ $('cut').onclick = async () => {
 let cutOn = true;
 $('orig').onclick = () => {
   cutOn = !cutOn;
-  SIDE.forEach(s2 => s2.pm.useCutout(cutOn));
+  side().useCutout(cutOn);
+  if ($('both').checked) other().copyFrom(side());
   $('orig').textContent = cutOn ? 'Повернути фон' : 'Прибрати фон';
 };
 
-/* ---------- перемикання сторін ---------- */
-function buildTabs() {
-  $('sides').innerHTML = '';
-  SIDE.forEach((sd, i) => {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.setAttribute('aria-selected', i === cur);
-    b.innerHTML = `${sd.cfg.name}<small>${sd.cfg.sub || ''}</small>`;
-    b.onclick = () => showSide(i);
-    $('sides').appendChild(b);
-  });
-}
-
-function showSide(i) {
-  cur = i;
-  SIDE.forEach((sd, j) => { sd.canvas.hidden = j !== i; });
-  [...$('sides').children].forEach((b, j) => b.setAttribute('aria-selected', j === i));
-  [...$('dots').children].forEach((d, j) => d.classList.toggle('on', j === i));
-  $('pick').textContent = hasPhoto ? `Змінити фото (${SIDE[i].cfg.name})` : 'Вибрати фото';
-}
-
-// горизонтальний свайп по мокапу гортає сторони
-let sx = 0, sy = 0;
-$('stage').addEventListener('pointerdown', e => { sx = e.clientX; sy = e.clientY; });
-$('stage').addEventListener('pointerup', e => {
-  const dx = e.clientX - sx, dy = e.clientY - sy;
-  if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.8)
-    showSide(dx < 0 ? Math.min(cur + 1, SIDE.length - 1) : Math.max(cur - 1, 0));
-});
-
-$('both').onchange = async () => {
-  if ($('both').checked && SIDE[cur].file) await applyPhoto(SIDE[cur].file, cur);
-  say($('both').checked ? 'Обидві сторони однакові.' : 'Тепер для звороту можна вибрати інше фото.');
-};
-
-/* ---------- маленькі подушки в схемах ---------- */
-function paintMinis() {
-  const src = pm.renderMini();
-  if (!src) return;
-  const w = pm.mini.w, h = pm.mini.h;
-  document.querySelectorAll('[data-mini]').forEach(cv => {
-    if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
-    const c = cv.getContext('2d');
-    c.clearRect(0, 0, w, h);
-    c.drawImage(src, 0, 0, w, h);
-  });
-}
-let miniRaf = 0;
-
-/* ---------- підгонка стрілками ---------- */
-const STEP = 0.035;   // частка панелі за одне натискання
+/* ---------- підгонка ---------- */
+const STEP = 0.035;
+const targets = () => ($('both').checked ? [A, B].filter(s => s.filled) : [side()].filter(s => s.filled));
 document.querySelectorAll('[data-mv]').forEach(b => {
   const [mx, my] = b.dataset.mv.split(',').map(Number);
-  b.onclick = () => { if (hasPhoto) act().pm.nudge(mx * STEP, my * STEP); };
+  b.onclick = () => targets().forEach(s => s.nudge(mx * STEP, my * STEP));
 });
-$('zin').onclick   = () => { if (hasPhoto) act().pm.zoom(1.08); };
-$('zout').onclick  = () => { if (hasPhoto) act().pm.zoom(1 / 1.08); };
-$('reset').onclick = () => { if (hasPhoto) act().pm.resetFit(); };
+$('zin').onclick   = () => targets().forEach(s => s.zoom(1.08));
+$('zout').onclick  = () => targets().forEach(s => s.zoom(1 / 1.08));
+$('reset').onclick = () => targets().forEach(s => s.resetFit());
 
 $('save').onclick = async () => {
+  const t = $('track');
+  const mid = t.scrollLeft + t.clientWidth / 2;
+  let best = 0, bd = 1e9;
+  [...t.children].forEach((sl, i) => {
+    const d = Math.abs(sl.offsetLeft - t.offsetLeft + sl.offsetWidth / 2 - mid);
+    if (d < bd) { bd = d; best = i; }
+  });
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(await act().pm.exportPreview());
+  a.href = URL.createObjectURL(await views[best].exportPreview());
   a.download = 'moya-podushka.jpg';
   a.click();
   URL.revokeObjectURL(a.href);
@@ -480,39 +488,38 @@ const orderId = () => {
 
 $('order').onsubmit = async e => {
   e.preventDefault();
-  if (!hasPhoto) return;
+  if (!hasAny()) return;
   const btn = $('submit');
   btn.disabled = true; btn.textContent = 'Надсилаємо…';
   const id = orderId();
-
   try {
-    // панель під друк: ~90 px на сантиметр ширини
     const wpx = Math.round(size.cm * 35.4);
-    const print = await SIDE[0].pm.exportPanel(wpx);
-    const printB = await SIDE[1].pm.exportPanel(wpx);
-    const shot  = await SIDE[0].pm.exportPreview();
+    const files = [];
+    if (A.filled) files.push(['print_a', await A.exportPanel(wpx, size.len / size.cm), `print-${id}-A.jpg`]);
+    if (B.filled) files.push(['print_b', await B.exportPanel(wpx, size.len / size.cm), `print-${id}-B.jpg`]);
+    const shot = await views[0].exportPreview();
 
     if (FILES_URL) {
       const fd = new FormData();
       fd.append('order_id', id);
-      fd.append('print_a', print, `print-${id}-A.jpg`);
-      fd.append('print_b', printB, `print-${id}-B.jpg`);
+      files.forEach(([k, blob, name]) => fd.append(k, blob, name));
       fd.append('preview', shot, `preview-${id}.jpg`);
-      const r = await fetch(FILES_URL, { method:'POST', body: fd });
+      const r = await fetch(FILES_URL, { method: 'POST', body: fd });
       if (!r.ok) throw new Error('files ' + r.status);
     }
 
     await fetch(ORDER_URL, {
-      method:'POST', mode:'no-cors',
-      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({
-        order_id:id, size_value:size.v, size_label:size.label, price_uah:size.price,
-        first_name:$('fname').value.trim(), last_name:$('lname').value.trim(),
-        phone:$('phone').value.trim(), city:$('city').value.trim(),
-        np_branch:$('np').value.trim(), source:'preview', ts:new Date().toISOString(),
+        order_id: id, size_value: size.v, size_label: size.label, price_uah: size.price,
+        sides: (A.filled ? 'A' : '') + (B.filled ? 'B' : ''),
+        same_both: $('both').checked,
+        first_name: $('fname').value.trim(), last_name: $('lname').value.trim(),
+        phone: $('phone').value.trim(), city: $('city').value.trim(),
+        np_branch: $('np').value.trim(), source: 'preview', ts: new Date().toISOString(),
       }),
     });
-
     $('orderNote').textContent = `Замовлення ${id} прийнято. Зателефонуємо найближчим часом, щоб підтвердити макет.`;
     btn.textContent = 'Прийнято';
   } catch (err) {
@@ -522,45 +529,51 @@ $('order').onsubmit = async e => {
 };
 
 /* ---------- старт ---------- */
-let step = 'старт';
+let step_ = 'старт';
 say('Завантажуємо мокапи…');
 try {
-  step = 'читання pillow.json';
+  step_ = 'читання pillow.json';
   const res = await fetch('pillow.json', { cache: 'no-cache' });
   if (!res.ok) throw new Error('pillow.json віддав ' + res.status);
   root = await res.json();
-  if (!root.sides?.length) throw new Error('у pillow.json немає масиву sides');
+  if (!root.slides?.length) throw new Error('у pillow.json немає масиву slides');
+  const tag = '?v=' + (root.v || Date.now());
 
-  step = 'завантаження модуля';
-  // ?v= обов'язковий: інакше браузер віддає старий модуль із кешу,
-  // і він розходиться з новим конфігом
-  const { PillowMockup } = await import('./pillow-mockup.js?v=' + (root.v || Date.now()));
+  step_ = 'завантаження модуля';
+  const M = await import('./pillow-mockup.js' + tag);
 
-  step = 'пошук canvas на сторінці';
-  SIDE = root.sides.map((sd, i) => {
-    const id = i === 0 ? 'cvA' : 'cvB';
-    const canvas = $(id);
-    if (!canvas) throw new Error('на сторінці немає <canvas id="' + id + '">');
-    const cfg = { ...sd, v: root.v, mini: root.mini };
-    return { cfg, canvas, file: null,
-             pm: new PillowMockup({ canvas, config: { cfg, dir: '' } }) };
+  step_ = 'підготовка сторін';
+  A = new M.PhotoSide('A'); B = new M.PhotoSide('B');
+  A.onChange = B.onChange = repaint;
+
+  step_ = 'побудова каруселі';
+  $('track').innerHTML = ''; $('dots').innerHTML = '';
+  views = root.slides.map(sd => {
+    const wrap = document.createElement('div');
+    wrap.className = 'slide';
+    const cv = document.createElement('canvas');
+    wrap.append(cv);
+    const cap = document.createElement('span');
+    cap.className = 'cap'; cap.textContent = sd.name;
+    wrap.append(cap);
+    $('track').append(wrap);
+    $('dots').append(document.createElement('i'));
+    return new M.MockupView({ canvas: cv, cfg: sd, dir: '', sides: { A, B } });
   });
 
-  step = 'завантаження картинок';
-  await Promise.all(SIDE.map(sd => sd.pm.load()));
-  SIDE[0].pm.onRender = () => {
-    cancelAnimationFrame(miniRaf); miniRaf = requestAnimationFrame(paintMinis);
-  };
-  step = 'побудова вкладок';
+  step_ = 'завантаження картинок';
+  await Promise.all(views.map(v => v.load(tag)));
+
+  step_ = 'міні-подушка для схем';
+  mini = await new M.MiniPillow({ cfg: root.mini, dir: '' }).load(tag);
+
   buildTabs();
-
-  step = 'малювання схем розміру';
-  paintMinis();
-
+  syncNav();
+  repaint();
   ready = true;
   say(DEFAULT_NOTE);
 } catch (err) {
-  fail('Збій на кроці «' + step + '»: ' + (err?.message || err), err);
+  fail('Збій на кроці «' + step_ + '»: ' + (err?.message || err), err);
 }
 </script>
 </body>

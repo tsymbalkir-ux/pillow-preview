@@ -1,5 +1,5 @@
 {
-  "v": "202609140203",
+  "v": "202609140228",
   "mini": {
     "empty": "mini-empty.png",
     "mask": "mini-mask.png",
@@ -10,44 +10,86 @@
     ],
     "ratio": 3.03
   },
-  "sides": [
+  "slides": [
     {
-      "id": "A",
-      "name": "Сторона А",
-      "sub": "лицьовий бік",
-      "mockup": "mockup-a.jpg",
-      "mask": "mask-a.png",
-      "shade": "shade-a.jpg",
-      "mockupSize": [
+      "id": "pair",
+      "name": "Обидві сторони",
+      "image": "m-pair.jpg",
+      "size": [
         1100,
         1100
       ],
-      "box": {
-        "x": 549,
-        "y": 139,
-        "w": 413,
-        "h": 893
-      },
-      "ratio": 2.1597
+      "zones": [
+        {
+          "side": "A",
+          "mask": "pair-a-mask.png",
+          "shade": "pair-a-shade.jpg",
+          "box": {
+            "x": 184,
+            "y": 132,
+            "w": 365,
+            "h": 903
+          },
+          "ratio": 2.474
+        },
+        {
+          "side": "B",
+          "mask": "pair-b-mask.png",
+          "shade": "pair-b-shade.jpg",
+          "box": {
+            "x": 549,
+            "y": 139,
+            "w": 413,
+            "h": 893
+          },
+          "ratio": 2.16
+        }
+      ]
     },
     {
-      "id": "B",
-      "name": "Сторона B",
-      "sub": "зворот, в обіймах",
-      "mockup": "mockup-b.jpg",
-      "mask": "mask-b.png",
-      "shade": "shade-b.jpg",
-      "mockupSize": [
+      "id": "held",
+      "name": "У руках",
+      "image": "m-held.jpg",
+      "size": [
         1100,
         1100
       ],
-      "box": {
-        "x": 286,
-        "y": 263,
-        "w": 501,
-        "h": 1503
-      },
-      "ratio": 3.0
+      "zones": [
+        {
+          "side": "A",
+          "mask": "held-mask.png",
+          "box": {
+            "x": 382,
+            "y": 154,
+            "w": 284,
+            "h": 889
+          },
+          "ratio": 3.136
+        }
+      ]
+    },
+    {
+      "id": "hug",
+      "name": "В обіймах",
+      "image": "m-hug.jpg",
+      "size": [
+        1100,
+        1100
+      ],
+      "zones": [
+        {
+          "side": "B",
+          "mask": "hug-mask.png",
+          "shade": "hug-shade.jpg",
+          "box": {
+            "x": 286,
+            "y": 263,
+            "w": 501,
+            "h": 1503
+          },
+          "ratio": 3.0
+        }
+      ]
     }
   ]
 }
