@@ -50,13 +50,33 @@ a{color:var(--ink)}
 .slide canvas{width:100%;height:auto;display:block;border-radius:var(--r);background:var(--surface)}
 .slide .cap{position:absolute;left:10px;top:10px;background:rgba(255,255,255,.88);
   border-radius:8px;padding:4px 9px;font-size:12.5px;color:var(--ink);backdrop-filter:blur(3px)}
-.nav{position:absolute;top:50%;transform:translateY(-50%);z-index:3;
-  width:34px;height:34px;border-radius:50%;border:none;
-  background:rgba(255,255,255,.82);backdrop-filter:blur(4px);
-  cursor:pointer;font-size:20px;line-height:1;color:var(--dim);
-  display:grid;place-content:center;box-shadow:0 1px 6px rgba(0,0,0,.10)}
-.nav:hover{color:var(--ink);background:#fff}
-.nav.prev{left:6px} .nav.next{right:6px}
+/* навігація каруселі — під малюнком, разом із крапками */
+.carnav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:12px}
+.nav{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);
+  background:#fff;cursor:pointer;font-size:18px;line-height:1;color:var(--dim);
+  display:grid;place-content:center;padding:0;transition:color .15s,border-color .15s}
+.nav:hover{color:var(--ink);border-color:#C9BCC4}
+
+/* стрілки редагування — поверх самого мокапа */
+/* панель завширшки як сам слайд (82%), щоб стрілки сідали на краї кадру */
+.pad{position:absolute;top:0;bottom:0;left:50%;transform:translateX(-50%);
+  width:calc((100% - 40px) * .82);pointer-events:none;z-index:4}
+.pad .ar{position:absolute;pointer-events:auto;width:38px;height:38px;border-radius:50%;
+  border:1px solid rgba(0,0,0,.07);background:rgba(255,255,255,.92);backdrop-filter:blur(3px);
+  cursor:pointer;font-size:15px;line-height:1;color:var(--ink);
+  display:grid;place-content:center;padding:0;box-shadow:0 2px 8px rgba(0,0,0,.13);
+  transition:background .12s,transform .12s}
+.pad .ar:hover{background:#fff}
+.pad .ar:active{transform:scale(.9)}
+.ar.up{top:12px;left:50%;transform:translateX(-50%)}
+.ar.dn{bottom:12px;left:50%;transform:translateX(-50%)}
+.ar.lf{left:10px;top:50%;transform:translateY(-50%)}
+.ar.rt{right:10px;top:50%;transform:translateY(-50%)}
+.ar.up:active{transform:translateX(-50%) scale(.9)}
+.ar.dn:active{transform:translateX(-50%) scale(.9)}
+.ar.lf:active,.ar.rt:active{transform:translateY(-50%) scale(.9)}
+@media (max-width:560px){ .pad .ar{width:34px;height:34px}
+  .ar.lf{left:6px} .ar.rt{right:6px} }
 .slide canvas{transition:opacity .25s}
 @keyframes pop{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:none}}
 
@@ -81,17 +101,9 @@ a{color:var(--ink)}
 .both input{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
 
 /* ---------- підгонка фото ---------- */
-.editbox{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:14px;
+.editbox{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:14px;
   padding:14px 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
-.dpad{display:grid;grid-template-columns:repeat(3,34px);grid-template-rows:repeat(3,34px);gap:4px}
-.dpad button{border:1px solid var(--line);background:#fff;border-radius:9px;cursor:pointer;
-  font-size:14px;line-height:1;color:var(--ink);display:grid;place-content:center;padding:0}
-.dpad button:hover{background:var(--raised)}
-.dpad button:active{transform:scale(.9)}
-.dpad .c{border:none;background:none}
-.dpad [data-mv="0,-1"]{grid-area:1/2} .dpad [data-mv="-1,0"]{grid-area:2/1}
-.dpad [data-mv="1,0"]{grid-area:2/3}  .dpad [data-mv="0,1"]{grid-area:3/2}
-.editbox .col{display:flex;flex-direction:column;gap:7px;flex:1;min-width:160px}
+.editbox .btn{flex:1;min-width:130px}
 .editbox .btn{padding:10px 14px;font-size:14px}
 .editbox .hint{font-size:13px;color:var(--dim);width:100%;margin:0}
 
@@ -189,12 +201,20 @@ footer a:hover{color:var(--ink)}
   <div class="sides" id="sides"></div>
 
   <div class="carousel">
-    <button class="nav prev" id="prev" type="button" aria-label="Попередній мокап">‹</button>
     <div class="track" id="track"></div>
-    <button class="nav next" id="next" type="button" aria-label="Наступний мокап">›</button>
+    <div class="pad" id="pad" hidden>
+      <button class="ar up" type="button" data-mv="0,-1" aria-label="Посунути фото вище">↑</button>
+      <button class="ar lf" type="button" data-mv="-1,0" aria-label="Посунути фото ліворуч">←</button>
+      <button class="ar rt" type="button" data-mv="1,0" aria-label="Посунути фото праворуч">→</button>
+      <button class="ar dn" type="button" data-mv="0,1" aria-label="Посунути фото нижче">↓</button>
+    </div>
   </div>
 
-  <div class="dots" id="dots"></div>
+  <div class="carnav">
+    <button class="nav" id="prev" type="button" aria-label="Попередній мокап">‹</button>
+    <div class="dots" id="dots"></div>
+    <button class="nav" id="next" type="button" aria-label="Наступний мокап">›</button>
+  </div>
 
   <label class="both"><input type="checkbox" id="both">
     З обох боків те саме фото</label>
@@ -207,19 +227,10 @@ footer a:hover{color:var(--ink)}
   </div>
 
   <div class="editbox" id="editbox" hidden>
-    <div class="dpad">
-      <button type="button" data-mv="0,-1" aria-label="Вище">↑</button>
-      <button type="button" data-mv="-1,0" aria-label="Ліворуч">←</button>
-      <span class="c"></span>
-      <button type="button" data-mv="1,0" aria-label="Праворуч">→</button>
-      <button type="button" data-mv="0,1" aria-label="Нижче">↓</button>
-    </div>
-    <div class="col">
       <button class="btn" type="button" id="zin">Збільшити фото</button>
       <button class="btn" type="button" id="zout">Зменшити фото</button>
       <button class="btn" type="button" id="reset">Повернути як було</button>
-    </div>
-    <p class="hint">Стрілки посувають фото по подушці, не по каруселі.</p>
+    <p class="hint">Стрілками просто на подушці посунь фото, як зручно.</p>
   </div>
 
   <p class="note" id="note">Фото залишається на твоєму пристрої. На сервер воно піде лише тоді, коли ти підтвердиш замовлення.</p>
@@ -454,7 +465,7 @@ const other = () => (cur === 'A' ? B : A);
 
 function afterPhoto() {
   $('cut').disabled = false; $('save').disabled = false;
-  $('editbox').hidden = false;
+  $('editbox').hidden = false; $('pad').hidden = false;
   refreshSubmit();
   buildTabs();
   say(DEFAULT_NOTE);
