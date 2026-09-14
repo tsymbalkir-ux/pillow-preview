@@ -265,10 +265,9 @@ footer a:hover{color:var(--ink)}
   <input type="file" id="file" accept="image/*" hidden>
 
   <section>
-    <h2>Оберіть розмір</h2>
-    <div class="sizebar" id="sizebar"></div>
-    <p class="legal" style="margin-top:10px">Натисни на подушку, щоб обрати.</p>
-  </section>
+  <h2>Оберіть розмір</h2>
+  <div class="sizebar" id="sizebar"></div>
+</section>
 
   <section>
     <h2>Куди привезти</h2>
@@ -350,9 +349,9 @@ const hasAny = () => A?.filled || B?.filled;
 
 /* ---------- розміри ---------- */
 const SIZES = [
-  { v:'120x40', cm:40, len:120, label:'120 × 40', price:1290, hint:'Найчастіше' },
-  { v:'150x50', cm:50, len:150, label:'150 × 50', price:1640, hint:'Для фото людини' },
-  { v:'180x60', cm:60, len:180, label:'180 × 60', price:2390, hint:'У людський зріст' },
+  { v:'120x40', cm:40, len:120, label:'120 × 40', price:1290, hint:'Найпопулярніший' },
+  { v:'150x50', cm:50, len:150, label:'150 × 50', price:1640, hint:'Для фото в повний зріст' },
+  { v:'180x60', cm:60, len:180, label:'180 × 60', price:2390, hint:'Майже як справжній' },
 ];
 let size = SIZES[0];
 
