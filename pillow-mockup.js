@@ -61,23 +61,29 @@ export class PhotoSide {
     return this._changed();
   }
 
-  async removeBackground(onProgress) {
+  /**
+   * Вирізання фону. opts дозволяє відкотитись на легший режим:
+   *   { maxSide, model, worker }
+   * Мобільні браузери жорстко обмежують пам'ять вкладки, тому повна isnet
+   * (~40 МБ ваг плюс стільки ж під час обробки) там часто вбиває процес.
+   */
+  async removeBackground(onProgress, opts = {}) {
     if (!this.photo) throw new Error('Спочатку setPhoto()');
+    const mobile = matchMedia('(max-width: 820px)').matches ||
+                   (navigator.deviceMemory && navigator.deviceMemory <= 4) ||
+                   /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const maxSide = opts.maxSide ?? (mobile ? 1024 : 1600);
+    const model   = opts.model   ?? (mobile ? 'isnet_quint8' : 'isnet');
+
     const { removeBackground } = await import(
       'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm');
 
-    // На телефоні беремо квантовану модель і менший вхід: повна isnet важить
-    // ~40 МБ і під час обробки тримає стільки ж у пам'яті, а мобільні браузери
-    // обмежують пам'ять вкладки і просто вбивають процес.
-    const small = matchMedia('(max-width: 820px)').matches ||
-                  navigator.deviceMemory <= 4 ||
-                  /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    const src = await bitmapToBlob(this.photo, small ? 1024 : 1600);
-    const cut = await removeBackground(src, {
-      model: small ? 'isnet_quint8' : 'isnet',
-      output: { format: 'image/png' },
-      progress: (k, c, t) => onProgress?.(c / t, k),
-    });
+    const src = await bitmapToBlob(this.photo, maxSide);
+    const cfg = { model, output: { format: 'image/png' },
+                  progress: (k, c, t) => onProgress?.(c / t, k) };
+    if (opts.worker === false) cfg.proxyToWorker = false;
+
+    const cut = await removeBackground(src, cfg);
     const trimmed = trimAndDeFringe(await createImageBitmap(cut));
     this.cutout = trimmed.bitmap;
     this.cutoutBox = trimmed.box;
@@ -139,6 +145,24 @@ export class PhotoSide {
 }
 
 /* ============================ MockupView ================================ */
+
+/** Коротка довідка про браузер — щоб зрозуміти, чому впало вирізання фону. */
+export function envInfo() {
+  const ua = navigator.userAgent;
+  const bits = [];
+  bits.push(/iPhone|iPad|iPod/.test(ua) ? 'iOS' : /Android/.test(ua) ? 'Android' : 'desktop');
+  if (navigator.deviceMemory) bits.push(navigator.deviceMemory + 'GB');
+  bits.push('OffscreenCanvas:' + (typeof OffscreenCanvas !== 'undefined' ? '+' : '−'));
+  bits.push('WASM:' + (typeof WebAssembly !== 'undefined' ? '+' : '−'));
+  bits.push('SAB:' + (typeof SharedArrayBuffer !== 'undefined' ? '+' : '−'));
+  bits.push('isolated:' + (self.crossOriginIsolated ? '+' : '−'));
+  try {
+    const c = document.createElement('canvas').getContext('2d');
+    c.filter = 'blur(1px)';
+    bits.push('ctx.filter:' + (c.filter === 'blur(1px)' ? '+' : '−'));
+  } catch { bits.push('ctx.filter:?'); }
+  return bits.join(' · ');
+}
 
 export class MockupView {
   constructor({ canvas, cfg, dir = '', sides, quality = 2 }) {

@@ -52,10 +52,12 @@ a{color:var(--ink)}
   border-radius:8px;padding:4px 9px;font-size:12.5px;color:var(--ink);backdrop-filter:blur(3px)}
 /* навігація каруселі — під малюнком, разом із крапками */
 .carnav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:12px}
-.nav{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);
-  background:#fff;cursor:pointer;font-size:18px;line-height:1;color:var(--dim);
-  display:grid;place-content:center;padding:0;transition:color .15s,border-color .15s}
-.nav:hover{color:var(--ink);border-color:#C9BCC4}
+.nav{width:40px;height:40px;border-radius:50%;border:none;
+  background:var(--accent);cursor:pointer;font-size:20px;line-height:1;color:#fff;
+  display:grid;place-content:center;padding:0;font-weight:600;
+  box-shadow:0 2px 8px rgba(122,46,78,.28);transition:background .15s,transform .12s}
+.nav:hover{background:#8F3A5D}
+.nav:active{transform:scale(.92)}
 
 /* стрілки редагування — поверх самого мокапа */
 /* панель завширшки як сам слайд (82%), щоб стрілки сідали на краї кадру */
@@ -83,7 +85,6 @@ a{color:var(--ink)}
 /* ---------- головна дія ---------- */
 .cta{margin-top:26px}
 .cta .btn-go{width:100%}
-.ctasub{margin:9px 0 0;font-size:13.5px;color:var(--dim);text-align:center}
 
 /* ---------- вкладки сторін ---------- */
 .sides{display:flex;gap:8px;margin-top:14px}
@@ -99,7 +100,7 @@ a{color:var(--ink)}
 .sides button small{display:block;font-size:11.5px;font-weight:400;margin-top:3px;opacity:.75}
 
 .dots{display:flex;gap:6px;justify-content:center;margin-top:10px}
-.dots i{width:6px;height:6px;border-radius:50%;background:var(--line);transition:background .15s}
+.dots i{width:7px;height:7px;border-radius:50%;background:#D8CFD4;transition:background .15s}
 .dots i.on{background:var(--accent)}
 
 .both{display:flex;align-items:center;gap:9px;margin-top:14px;font-size:14px;color:var(--dim);cursor:pointer}
@@ -210,7 +211,6 @@ footer a:hover{color:var(--ink)}
 
   <div class="cta">
     <button class="btn btn-go" id="pick">Завантажити своє фото</button>
-    <p class="ctasub">Безкоштовно й без реєстрації — просто подивись, як вийде.</p>
   </div>
 
   <div class="carousel">
@@ -328,6 +328,7 @@ addEventListener('unhandledrejection', e => fail('Щось пішло не та�
 
 let ready = false, root = null, mini = null, views = [], A = null, B = null, cur = 'A';
 let cutOn = false;                  // чи показуємо зараз вирізану версію
+let M = null;                       // модуль, підвантажується на старті
 const side = () => (cur === 'A' ? A : B);
 const hasAny = () => A?.filled || B?.filled;
 
@@ -502,18 +503,15 @@ $('both').onchange = () => {
 
 /* ---------- колір подушки ---------- */
 const COLORS = [
-  { n:'Білий',        c:'#FFFFFF' },
-  { n:'Молочний',     c:'#F3EDE3' },
-  { n:'Пісочний',     c:'#E3D3B8' },
-  { n:'Пудровий',     c:'#EAC9CB' },
-  { n:'Лавандовий',   c:'#CFC6E0' },
-  { n:'Мʼятний',      c:'#BFD8D2' },
-  { n:'Шавлієвий',    c:'#C2CFBC' },
-  { n:'Теракотовий',  c:'#C08063' },
-  { n:'Бордовий',     c:'#7A2E4E' },
-  { n:'Нічний синій', c:'#2C3A4F' },
-  { n:'Графітовий',   c:'#4A4A50' },
-  { n:'Чорний',       c:'#111111' },
+  { n:'Білий',            c:'#FFFFFF' },
+  { n:'Світло-сірий',     c:'#E9E9E9' },
+  { n:'Кремово-бежевий',  c:'#EFE1CE' },
+  { n:'Ніжно-рожевий',    c:'#F6D7DF' },
+  { n:'Лавандовий',       c:'#D9D0F2' },
+  { n:'Світло-блакитний', c:'#CFE5F4' },
+  { n:'Мʼятний',          c:'#D2E9DF' },
+  { n:'Темно-синій',      c:'#263650' },
+  { n:'Чорний',           c:'#161616' },
 ];
 /* колір стосується самої подушки, тож коли жодну сторону ще не заповнено,
    запам'ятовуємо його одразу для обох */
@@ -564,20 +562,42 @@ $('cut').onclick = async () => {
 
   $('cut').disabled = true;
   bar.style.display = 'block';
-  say('Перший раз вантажиться модель, це близько 40 МБ…');
-  try {
-    await side().removeBackground(p => { bar.value = p; if (p > .99) say('Прибираємо фон…'); });
-    if ($('both').checked) other().copyFrom(side());
-    cutOn = true;
-    $('cut').textContent = 'Повернути фон';
-    syncSwatches();
-    say('');
-  } catch (err) {
-    fail('Фон прибрати не вийшло. Макет із фоном лишається — ми доведемо його вручну перед друком.', err);
-  } finally {
-    bar.style.display = 'none';
-    $('cut').disabled = false;
+
+  // три спроби: звичайна → без воркера → зовсім легка.
+  // Мобільні браузери обмежують пам'ять вкладки, і важкий режим там гине мовчки.
+  const plans = [
+    { label: 'Вантажимо модель…', opts: {} },
+    { label: 'Не вийшло, пробуємо легший режим…', opts: { worker: false } },
+    { label: 'Ще легший режим…', opts: { worker: false, model: 'isnet_quint8', maxSide: 640 } },
+  ];
+
+  let lastErr = null;
+  for (const plan of plans) {
+    try {
+      say(plan.label);
+      await side().removeBackground(
+        p => { bar.value = p; if (p > .99) say('Обробляємо фото…'); }, plan.opts);
+      if ($('both').checked) other().copyFrom(side());
+      cutOn = true;
+      $('cut').textContent = 'Повернути фон';
+      syncSwatches();
+      say('');
+      lastErr = null;
+      break;
+    } catch (err) {
+      console.error('спроба не вдалася', plan.opts, err);
+      lastErr = err;
+      bar.value = 0;
+    }
   }
+
+  if (lastErr) {
+    const why = (lastErr.name ? lastErr.name + ': ' : '') + (lastErr.message || lastErr);
+    fail('Фон прибрати не вийшло — ми доведемо макет вручну перед друком. ' +
+         'Технічна причина: ' + why + ' [' + M.envInfo() + ']', lastErr);
+  }
+  bar.style.display = 'none';
+  $('cut').disabled = false;
 };
 
 /* ---------- підгонка ---------- */
@@ -651,7 +671,7 @@ try {
   const tag = '?v=' + (root.v || Date.now());
 
   step_ = 'завантаження модуля';
-  const M = await import('./pillow-mockup.js' + tag);
+  M = await import('./pillow-mockup.js' + tag);
 
   step_ = 'підготовка сторін';
   A = new M.PhotoSide('A'); B = new M.PhotoSide('B');
