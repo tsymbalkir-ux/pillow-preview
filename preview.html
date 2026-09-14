@@ -19,20 +19,6 @@
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;overflow-x:clip}
 body{overflow-x:clip}
-/* декоративний контур подушки з руками — фон, не заважає читати */
-/* контур обгорнутий у обрізаний контейнер на весь екран:
-   інакше він вилазить за край і на телефоні з'являється горизонтальний скрол */
-.deco{
-  position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0;
-  color:var(--ink);opacity:.07;
-}
-.deco svg{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:min(128vw,1000px);height:auto;display:block}
-.shell{position:relative;z-index:1}
-@media (max-width:760px){ .deco{opacity:.055} .deco svg{width:155vw} }
-@media (prefers-reduced-motion:no-preference){
-  .deco{transition:opacity .4s}
-}
 
 body{
   margin:0; background:var(--bg); color:var(--ink);
@@ -191,7 +177,6 @@ footer a:hover{color:var(--ink)}
 </style>
 </head>
 <body>
-<div class="deco" id="deco" aria-hidden="true"></div>
 <div class="shell">
 
   <p class="mark">print<span>me</span></p>
@@ -584,10 +569,6 @@ $('order').onsubmit = async e => {
     btn.disabled = false; refreshSubmit();
   }
 };
-
-/* ---------- декоративний контур ---------- */
-fetch('hug-line.svg').then(r => r.ok ? r.text() : '').then(t => { if (t) $('deco').innerHTML = t; })
-  .catch(() => {});
 
 /* ---------- старт ---------- */
 let step_ = 'старт';
