@@ -1,18 +1,5 @@
 {
-  "mockup": "mockup.jpg",
-  "mask": "pillow-mask.png",
-  "mockupSize": [
-    1100,
-    1100
-  ],
-  "box": {
-    "x": 549,
-    "y": 139,
-    "w": 413,
-    "h": 893
-  },
-  "ratio": 2.1597,
-  "v": "202609140149",
+  "v": "202609140203",
   "mini": {
     "empty": "mini-empty.png",
     "mask": "mini-mask.png",
@@ -23,5 +10,44 @@
     ],
     "ratio": 3.03
   },
-  "shade": "pillow-shade.jpg"
+  "sides": [
+    {
+      "id": "A",
+      "name": "Сторона А",
+      "sub": "лицьовий бік",
+      "mockup": "mockup-a.jpg",
+      "mask": "mask-a.png",
+      "shade": "shade-a.jpg",
+      "mockupSize": [
+        1100,
+        1100
+      ],
+      "box": {
+        "x": 549,
+        "y": 139,
+        "w": 413,
+        "h": 893
+      },
+      "ratio": 2.1597
+    },
+    {
+      "id": "B",
+      "name": "Сторона B",
+      "sub": "зворот, в обіймах",
+      "mockup": "mockup-b.jpg",
+      "mask": "mask-b.png",
+      "shade": "shade-b.jpg",
+      "mockupSize": [
+        1100,
+        1100
+      ],
+      "box": {
+        "x": 286,
+        "y": 263,
+        "w": 501,
+        "h": 1503
+      },
+      "ratio": 3.0
+    }
+  ]
 }

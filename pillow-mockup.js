@@ -30,9 +30,16 @@ export class PillowMockup {
   /* ---------------------------------------------------------------- load */
 
   async load() {
-    // no-cache, бо інакше браузер тримає старий конфіг разом із новими картинками
-    const cfg = await fetch(this.configUrl, { cache: 'no-cache' }).then(r => r.json());
-    const dir = this.configUrl.replace(/[^/]*$/, '');
+    // config може бути адресою JSON або вже готовим об'єктом {cfg, dir}
+    let cfg, dir;
+    if (typeof this.configUrl === 'string') {
+      // no-cache, бо інакше браузер тримає старий конфіг разом із новими картинками
+      cfg = await fetch(this.configUrl, { cache: 'no-cache' }).then(r => r.json());
+      dir = this.configUrl.replace(/[^/]*$/, '');
+    } else {
+      cfg = this.configUrl.cfg;
+      dir = this.configUrl.dir || '';
+    }
     const tag = cfg.v ? '?v=' + cfg.v : '';
     const rel = p => loadImage(dir + p.replace(/^assets\//, '') + tag);
     const [mockup, mask, shade, mEmpty, mMask, mShade] = await Promise.all([

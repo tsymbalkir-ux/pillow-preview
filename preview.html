@@ -38,7 +38,26 @@ a{color:var(--ink)}
 .hero .lead{color:var(--dim);font-size:17px;margin:0;max-width:52ch}
 
 /* ---------- stage ---------- */
-.stage{margin:26px 0 0;position:relative}
+.stage{margin:14px 0 0;position:relative;touch-action:pan-y}
+.stage canvas[hidden]{display:none}
+
+/* вкладки сторін */
+.sides{display:flex;gap:8px;margin-top:22px}
+.sides button{
+  flex:1;font:500 15px/1 Onest,sans-serif;padding:13px 10px;border-radius:12px;cursor:pointer;
+  border:1px solid var(--line);background:var(--surface);color:var(--dim);
+  transition:border-color .15s,color .15s,background .15s;
+}
+.sides button[aria-selected="true"]{
+  border-color:var(--accent);color:var(--accent);background:#fff;
+  box-shadow:inset 0 0 0 1px var(--accent);font-weight:600;
+}
+.sides button small{display:block;font-size:11.5px;font-weight:400;margin-top:3px;opacity:.75}
+.dots{display:flex;gap:6px;justify-content:center;margin-top:10px}
+.dots i{width:6px;height:6px;border-radius:50%;background:var(--line);transition:background .15s}
+.dots i.on{background:var(--accent)}
+.both{display:flex;align-items:center;gap:9px;margin-top:12px;font-size:14px;color:var(--dim)}
+.both input{width:18px;height:18px;accent-color:var(--accent)}
 .stage canvas{width:100%;height:auto;display:block;border-radius:var(--r)}
 .stage.is-fresh canvas{animation:pop .5s cubic-bezier(.2,.8,.3,1)}
 @keyframes pop{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:none}}
@@ -156,8 +175,11 @@ footer a:hover{color:var(--ink)}
     <p class="lead">Завантаж будь-яке фото — макет з'явиться тут за секунду. Далі можна прибрати фон і підібрати колір, поки не сподобається.</p>
   </div>
 
+  <div class="sides" id="sides"></div>
+
   <div class="stage" id="stage">
-    <canvas id="cv" width="1100" height="1100"></canvas>
+    <canvas id="cvA" width="1100" height="1100"></canvas>
+    <canvas id="cvB" width="1100" height="1100" hidden></canvas>
 
     <div id="pad" hidden>
       <button class="arrow up"    type="button" data-mv="0,-1" aria-label="Вище">↑</button>
@@ -166,6 +188,11 @@ footer a:hover{color:var(--ink)}
       <button class="arrow right" type="button" data-mv="1,0"  aria-label="Праворуч">→</button>
     </div>
   </div>
+
+  <div class="dots" id="dots"><i class="on"></i><i></i></div>
+
+  <label class="both"><input type="checkbox" id="both" checked>
+    З обох боків те саме фото</label>
 
   <div class="tools">
     <button class="btn" id="pick">Вибрати фото</button>
@@ -268,8 +295,11 @@ function fail(msg, err) { console.error(err || msg); say(msg, true); }
 addEventListener('error', e => fail('Щось пішло не так: ' + e.message, e.error));
 addEventListener('unhandledrejection', e => fail('Щось пішло не так: ' + (e.reason?.message || e.reason)));
 
-const pm = new PillowMockup({ canvas: $('cv'), config: 'pillow.json' });
 let ready = false, hasPhoto = false;
+let root = null, SIDE = [], cur = 0;        // SIDE[i] = { cfg, pm, canvas, file }
+const pm = { get mini() { return SIDE[0]?.pm.mini; },
+             renderMini() { return SIDE[0]?.pm.renderMini(); } };
+const act = () => SIDE[cur];
 
 /* ---------- розміри ---------- */
 const SIZES = [
@@ -324,16 +354,28 @@ refreshSubmit();
 /* ---------- фото ---------- */
 $('pick').onclick = () => ready ? $('file').click() : fail('Шаблон ще вантажиться, зачекай секунду.');
 
+/** Ставить файл на сторону i (і на другу, якщо ввімкнено «те саме фото»). */
+async function applyPhoto(file, i) {
+  await SIDE[i].pm.setPhoto(file);
+  SIDE[i].file = file;
+  if ($('both').checked) {
+    const j = 1 - i;
+    await SIDE[j].pm.setPhoto(file);
+    SIDE[j].file = file;
+  }
+}
+
 $('file').onchange = async e => {
   const f = e.target.files[0];
   if (!f) return;
   try {
     say('Готуємо макет…');
-    await pm.setPhoto(f);
+    await applyPhoto(f, cur);
     $('stage').classList.add('is-fresh');
     hasPhoto = true;
     $('cut').disabled = false; $('save').disabled = false;
     $('pad').hidden = false; $('zoomrow').hidden = false;
+    showSide(cur);
     refreshSubmit();
     say(DEFAULT_NOTE);
   } catch (err) { fail('Не вдалося прочитати це фото. Спробуй інше.', err); }
@@ -344,7 +386,12 @@ $('cut').onclick = async () => {
   bar.style.display = 'block';
   say('Перший раз вантажиться модель, це близько 40 МБ…');
   try {
-    await pm.removeBackground(p => { bar.value = p; if (p > .99) say('Прибираємо фон…'); });
+    await act().pm.removeBackground(p => { bar.value = p; if (p > .99) say('Прибираємо фон…'); });
+    if ($('both').checked) {
+      const o = SIDE[1 - cur].pm;
+      o.cutout = act().pm.cutout; o.cutoutBox = act().pm.cutoutBox;
+      o.subject = o.cutout; o.subjectBox = o.cutoutBox; o.fitMode = 'contain'; o.render();
+    }
     say('Фон прибрано. Стрілками можна підігнати положення.');
     $('orig').hidden = false;
   } catch (err) {
@@ -356,8 +403,43 @@ $('cut').onclick = async () => {
 let cutOn = true;
 $('orig').onclick = () => {
   cutOn = !cutOn;
-  pm.useCutout(cutOn);
+  SIDE.forEach(s2 => s2.pm.useCutout(cutOn));
   $('orig').textContent = cutOn ? 'Повернути фон' : 'Прибрати фон';
+};
+
+/* ---------- перемикання сторін ---------- */
+function buildTabs() {
+  $('sides').innerHTML = '';
+  SIDE.forEach((sd, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-selected', i === cur);
+    b.innerHTML = `${sd.cfg.name}<small>${sd.cfg.sub || ''}</small>`;
+    b.onclick = () => showSide(i);
+    $('sides').appendChild(b);
+  });
+}
+
+function showSide(i) {
+  cur = i;
+  SIDE.forEach((sd, j) => { sd.canvas.hidden = j !== i; });
+  [...$('sides').children].forEach((b, j) => b.setAttribute('aria-selected', j === i));
+  [...$('dots').children].forEach((d, j) => d.classList.toggle('on', j === i));
+  $('pick').textContent = hasPhoto ? `Змінити фото (${SIDE[i].cfg.name})` : 'Вибрати фото';
+}
+
+// горизонтальний свайп по мокапу гортає сторони
+let sx = 0, sy = 0;
+$('stage').addEventListener('pointerdown', e => { sx = e.clientX; sy = e.clientY; });
+$('stage').addEventListener('pointerup', e => {
+  const dx = e.clientX - sx, dy = e.clientY - sy;
+  if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.8)
+    showSide(dx < 0 ? Math.min(cur + 1, SIDE.length - 1) : Math.max(cur - 1, 0));
+});
+
+$('both').onchange = async () => {
+  if ($('both').checked && SIDE[cur].file) await applyPhoto(SIDE[cur].file, cur);
+  say($('both').checked ? 'Обидві сторони однакові.' : 'Тепер для звороту можна вибрати інше фото.');
 };
 
 /* ---------- маленькі подушки в схемах ---------- */
@@ -373,21 +455,20 @@ function paintMinis() {
   });
 }
 let miniRaf = 0;
-pm.onRender = () => { cancelAnimationFrame(miniRaf); miniRaf = requestAnimationFrame(paintMinis); };
 
 /* ---------- підгонка стрілками ---------- */
 const STEP = 0.035;   // частка панелі за одне натискання
 document.querySelectorAll('[data-mv]').forEach(b => {
   const [mx, my] = b.dataset.mv.split(',').map(Number);
-  b.onclick = () => { if (hasPhoto) pm.nudge(mx * STEP, my * STEP); };
+  b.onclick = () => { if (hasPhoto) act().pm.nudge(mx * STEP, my * STEP); };
 });
-$('zin').onclick   = () => { if (hasPhoto) pm.zoom(1.08); };
-$('zout').onclick  = () => { if (hasPhoto) pm.zoom(1 / 1.08); };
-$('reset').onclick = () => { if (hasPhoto) pm.resetFit(); };
+$('zin').onclick   = () => { if (hasPhoto) act().pm.zoom(1.08); };
+$('zout').onclick  = () => { if (hasPhoto) act().pm.zoom(1 / 1.08); };
+$('reset').onclick = () => { if (hasPhoto) act().pm.resetFit(); };
 
 $('save').onclick = async () => {
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(await pm.exportPreview());
+  a.href = URL.createObjectURL(await act().pm.exportPreview());
   a.download = 'moya-podushka.jpg';
   a.click();
   URL.revokeObjectURL(a.href);
@@ -408,13 +489,16 @@ $('order').onsubmit = async e => {
 
   try {
     // панель під друк: ~90 px на сантиметр ширини
-    const print = await pm.exportPanel(Math.round(size.cm * 35.4));
-    const shot  = await pm.exportPreview();
+    const wpx = Math.round(size.cm * 35.4);
+    const print = await SIDE[0].pm.exportPanel(wpx);
+    const printB = await SIDE[1].pm.exportPanel(wpx);
+    const shot  = await SIDE[0].pm.exportPreview();
 
     if (FILES_URL) {
       const fd = new FormData();
       fd.append('order_id', id);
-      fd.append('print', print, `print-${id}.jpg`);
+      fd.append('print_a', print, `print-${id}-A.jpg`);
+      fd.append('print_b', printB, `print-${id}-B.jpg`);
       fd.append('preview', shot, `preview-${id}.jpg`);
       const r = await fetch(FILES_URL, { method:'POST', body: fd });
       if (!r.ok) throw new Error('files ' + r.status);
@@ -440,12 +524,25 @@ $('order').onsubmit = async e => {
 };
 
 /* ---------- старт ---------- */
+say('Завантажуємо мокапи…');
 try {
-  await pm.load();
+  root = await fetch('pillow.json', { cache: 'no-cache' }).then(r => r.json());
+  SIDE = root.sides.map((sd, i) => {
+    const canvas = $(i === 0 ? 'cvA' : 'cvB');
+    const cfg = { ...sd, v: root.v, mini: root.mini };
+    return { cfg, canvas, file: null,
+             pm: new PillowMockup({ canvas, config: { cfg, dir: '' } }) };
+  });
+  await Promise.all(SIDE.map(sd => sd.pm.load()));
+  SIDE[0].pm.onRender = () => {
+    cancelAnimationFrame(miniRaf); miniRaf = requestAnimationFrame(paintMinis);
+  };
+  buildTabs();
   ready = true;
   paintMinis();
+  say(DEFAULT_NOTE);
 } catch (err) {
-  fail('Не завантажився шаблон подушки. Перевір, що поруч із preview.html лежать pillow.json, mockup.jpg і pillow-mask.png.', err);
+  fail('Не завантажилися мокапи. Перевір, що поруч із preview.html лежить pillow.json і всі картинки з нього.', err);
 }
 </script>
 </body>
