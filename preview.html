@@ -105,12 +105,6 @@ a{color:var(--ink)}
 .both{display:flex;align-items:center;gap:9px;margin-top:14px;font-size:14px;color:var(--dim);cursor:pointer}
 .both input{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
 
-/* ---------- підгонка фото ---------- */
-.editbox{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:14px;
-  padding:14px 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
-.editbox .btn{flex:1;min-width:130px}
-.editbox .btn{padding:10px 14px;font-size:14px}
-.editbox .hint{font-size:13px;color:var(--dim);width:100%;margin:0}
 
 /* ---------- buttons ---------- */
 .btn{
@@ -125,7 +119,8 @@ a{color:var(--ink)}
   font-weight:600;width:100%;padding:17px 22px;font-size:17px;
 }
 .btn-go:hover:not(:disabled){background:#8F3A5D;border-color:#8F3A5D}
-.tools{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tools .btn{flex:1;min-width:118px;padding:12px 8px;font-size:14.5px}
 
 .note{font-size:13.5px;color:var(--dim);margin:11px 0 0}
 .note.err{color:var(--bad)}
@@ -204,7 +199,7 @@ footer a:hover{color:var(--ink)}
   </div>
 
   <div class="cta">
-    <button class="btn btn-go" id="pick">Приміряти своє фото</button>
+    <button class="btn btn-go" id="pick">Завантажити своє фото</button>
     <p class="ctasub">Безкоштовно й без реєстрації — просто подивись, як вийде.</p>
   </div>
 
@@ -231,18 +226,12 @@ footer a:hover{color:var(--ink)}
 
   <div class="tools">
     <button class="btn" id="cut" disabled>Прибрати фон</button>
-    <button class="btn" id="orig" hidden>Повернути фон</button>
-    <button class="btn" id="save" disabled>Зберегти картинку</button>
+    <button class="btn" id="zin" disabled>Збільшити</button>
+    <button class="btn" id="zout" disabled>Зменшити</button>
+    <button class="btn" id="reset" disabled>Скинути</button>
   </div>
 
-  <div class="editbox" id="editbox" hidden>
-      <button class="btn" type="button" id="zin">Збільшити фото</button>
-      <button class="btn" type="button" id="zout">Зменшити фото</button>
-      <button class="btn" type="button" id="reset">Повернути як було</button>
-    <p class="hint">Стрілками просто на подушці посунь фото, як зручно.</p>
-  </div>
-
-  <p class="note" id="note">Фото залишається на твоєму пристрої. На сервер воно піде лише тоді, коли ти підтвердиш замовлення.</p>
+  <p class="note" id="note"></p>
   <progress id="bar" max="1" value="0"></progress>
   <input type="file" id="file" accept="image/*" hidden>
 
@@ -319,7 +308,7 @@ $('yr').textContent = new Date().getFullYear();
 const ORDER_URL = 'https://script.google.com/macros/s/AKfycbxXiNvBMP5xDAEw9fFBupXWXtauysjVp5RTIO1t47j3m79r-vEk7UPWMHyV_CiHf5ME/exec';
 const FILES_URL = '';   // поки порожньо — самі файли нікуди не йдуть
 
-const DEFAULT_NOTE = 'Фото залишається на твоєму пристрої. На сервер воно піде лише тоді, коли ти підтвердиш замовлення.';
+const DEFAULT_NOTE = '';
 function say(m, bad) { note.textContent = m; note.classList.toggle('err', !!bad); }
 function fail(m, e) { console.error(e || m); say(m, true); }
 addEventListener('error', e => fail('Щось пішло не так: ' + e.message, e.error));
@@ -407,7 +396,7 @@ function repaint() {
 
 /** Напис на головній кнопці залежить від того, що вже завантажено. */
 function pickLabel() {
-  if (!hasAny()) return 'Приміряти своє фото';
+  if (!hasAny()) return 'Завантажити своє фото';
   const name = cur === 'A' ? 'Сторона А' : 'Сторона B';
   return side().filled ? `Змінити фото — ${name}` : `Додати фото — ${name}`;
 }
@@ -479,8 +468,8 @@ $('file').onchange = async e => {
 const other = () => (cur === 'A' ? B : A);
 
 function afterPhoto() {
-  $('cut').disabled = false; $('save').disabled = false;
-  $('editbox').hidden = false; $('pad').hidden = false;
+  ['cut','zin','zout','reset'].forEach(id => { $(id).disabled = false; });
+  $('pad').hidden = false;
   refreshSubmit();
   buildTabs();
   $('pick').textContent = pickLabel();
@@ -498,29 +487,34 @@ $('both').onchange = () => {
   refreshSubmit();
 };
 
-/* ---------- прибирання фону ---------- */
+/* ---------- прибирання фону (кнопка-перемикач) ---------- */
+let cutOn = false;
 $('cut').onclick = async () => {
-  if (!side().filled) return fail('Спочатку обери фото для цієї сторони.');
+  if (!side().filled) return fail('Спочатку завантаж фото для цієї сторони.');
+
+  if (side().cutout) {                     // модель уже відпрацювала — просто перемикаємо
+    cutOn = !cutOn;
+    side().useCutout(cutOn);
+    if ($('both').checked) other().copyFrom(side());
+    $('cut').textContent = cutOn ? 'Повернути фон' : 'Прибрати фон';
+    return;
+  }
+
   $('cut').disabled = true;
   bar.style.display = 'block';
   say('Перший раз вантажиться модель, це близько 40 МБ…');
   try {
     await side().removeBackground(p => { bar.value = p; if (p > .99) say('Прибираємо фон…'); });
     if ($('both').checked) other().copyFrom(side());
-    say('Фон прибрано. Стрілками можна підігнати положення.');
-    $('orig').hidden = false;
+    cutOn = true;
+    $('cut').textContent = 'Повернути фон';
+    say('');
   } catch (err) {
     fail('Фон прибрати не вийшло. Макет із фоном лишається — ми доведемо його вручну перед друком.', err);
+  } finally {
+    bar.style.display = 'none';
     $('cut').disabled = false;
-  } finally { bar.style.display = 'none'; }
-};
-
-let cutOn = true;
-$('orig').onclick = () => {
-  cutOn = !cutOn;
-  side().useCutout(cutOn);
-  if ($('both').checked) other().copyFrom(side());
-  $('orig').textContent = cutOn ? 'Повернути фон' : 'Прибрати фон';
+  }
 };
 
 /* ---------- підгонка ---------- */
@@ -533,21 +527,6 @@ document.querySelectorAll('[data-mv]').forEach(b => {
 $('zin').onclick   = () => targets().forEach(s => s.zoom(1.08));
 $('zout').onclick  = () => targets().forEach(s => s.zoom(1 / 1.08));
 $('reset').onclick = () => targets().forEach(s => s.resetFit());
-
-$('save').onclick = async () => {
-  const t = $('track');
-  const mid = t.scrollLeft + t.clientWidth / 2;
-  let best = 0, bd = 1e9;
-  [...t.children].forEach((sl, i) => {
-    const d = Math.abs(sl.offsetLeft - t.offsetLeft + sl.offsetWidth / 2 - mid);
-    if (d < bd) { bd = d; best = i; }
-  });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(await views[best].exportPreview());
-  a.download = 'moya-podushka.jpg';
-  a.click();
-  URL.revokeObjectURL(a.href);
-};
 
 /* ---------- замовлення ---------- */
 const orderId = () => {
