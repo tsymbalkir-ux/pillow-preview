@@ -278,8 +278,6 @@ footer a:hover{color:var(--ink)}
 </div>
 
 <script type="module">
-import { PillowMockup } from './pillow-mockup.js';
-
 const $ = id => document.getElementById(id);
 const note = $('note'), bar = $('bar');
 $('yr').textContent = new Date().getFullYear();
@@ -532,6 +530,11 @@ try {
   if (!res.ok) throw new Error('pillow.json віддав ' + res.status);
   root = await res.json();
   if (!root.sides?.length) throw new Error('у pillow.json немає масиву sides');
+
+  step = 'завантаження модуля';
+  // ?v= обов'язковий: інакше браузер віддає старий модуль із кешу,
+  // і він розходиться з новим конфігом
+  const { PillowMockup } = await import('./pillow-mockup.js?v=' + (root.v || Date.now()));
 
   step = 'пошук canvas на сторінці';
   SIDE = root.sides.map((sd, i) => {
