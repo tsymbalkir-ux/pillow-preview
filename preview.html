@@ -123,13 +123,14 @@ a{color:var(--ink)}
 .tools .btn{flex:1;min-width:118px;padding:12px 8px;font-size:14.5px}
 
 /* ---------- колір подушки ---------- */
-.colors{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:14px}
-.colors .cl{font-size:13.5px;color:var(--dim);margin-right:2px}
+.colors{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px}
 .sw{width:34px;height:34px;border-radius:9px;cursor:pointer;padding:0;
   border:1px solid rgba(0,0,0,.14);transition:outline-color .12s;
   outline:2px solid transparent;outline-offset:2px}
 .sw:hover{border-color:rgba(0,0,0,.3)}
 .sw[aria-pressed="true"]{outline-color:var(--accent)}
+.sw.off{opacity:.35;cursor:help}
+.sw.off[aria-pressed="true"]{outline-color:transparent}
 
 .note{font-size:13.5px;color:var(--dim);margin:11px 0 0}
 .note.err{color:var(--bad)}
@@ -240,10 +241,7 @@ footer a:hover{color:var(--ink)}
     <button class="btn" id="reset" disabled>Скинути</button>
   </div>
 
-  <div class="colors">
-    <span class="cl">Колір подушки</span>
-    <div id="swatches" style="display:flex;gap:8px;flex-wrap:wrap"></div>
-  </div>
+  <div class="colors" id="swatches"></div>
 
   <p class="note" id="note"></p>
   <progress id="bar" max="1" value="0"></progress>
@@ -329,6 +327,7 @@ addEventListener('error', e => fail('Щось пішло не так: ' + e.mess
 addEventListener('unhandledrejection', e => fail('Щось пішло не так: ' + (e.reason?.message || e.reason)));
 
 let ready = false, root = null, mini = null, views = [], A = null, B = null, cur = 'A';
+let cutOn = false;                  // чи показуємо зараз вирізану версію
 const side = () => (cur === 'A' ? A : B);
 const hasAny = () => A?.filled || B?.filled;
 
@@ -427,6 +426,7 @@ function buildTabs() {
       cur = id;
       [...$('sides').children].forEach(x => x.setAttribute('aria-selected', x.dataset.side === id));
       $('pick').textContent = pickLabel();
+      syncSwatches();
       // підводимо карусель до мокапа, де ця сторона видима
       const i = views.findIndex(v => v.cfg.zones.some(z => z.side === id));
       if (i >= 0) scrollToSlide(i);
@@ -492,23 +492,28 @@ function afterPhoto() {
 
 /* «те саме з обох боків»: A має пріоритет, якщо заповнені обидві */
 $('both').onchange = () => {
-  if (!$('both').checked) { say('Тепер для звороту можна вибрати інше фото.'); return; }
+  if (!$('both').checked) return;
   const src = A.filled ? A : (B.filled ? B : null);
   if (!src) { say('Спочатку обери фото — воно піде на обидві сторони.'); return; }
   (src === A ? B : A).copyFrom(src);
-  say(`Фото сторони ${src === A ? 'А' : 'B'} пішло на обидві сторони.`);
   buildTabs();
   refreshSubmit();
 };
 
 /* ---------- колір подушки ---------- */
 const COLORS = [
-  { n:'Білий',         c:'#FFFFFF' },
-  { n:'Молочний',      c:'#F3EDE3' },
-  { n:'Пудровий',      c:'#EAC9CB' },
-  { n:'Шавлієвий',     c:'#C8D3C4' },
-  { n:'Нічний синій',  c:'#2C3A4F' },
-  { n:'Чорний',        c:'#111111' },
+  { n:'Білий',        c:'#FFFFFF' },
+  { n:'Молочний',     c:'#F3EDE3' },
+  { n:'Пісочний',     c:'#E3D3B8' },
+  { n:'Пудровий',     c:'#EAC9CB' },
+  { n:'Лавандовий',   c:'#CFC6E0' },
+  { n:'Мʼятний',      c:'#BFD8D2' },
+  { n:'Шавлієвий',    c:'#C2CFBC' },
+  { n:'Теракотовий',  c:'#C08063' },
+  { n:'Бордовий',     c:'#7A2E4E' },
+  { n:'Нічний синій', c:'#2C3A4F' },
+  { n:'Графітовий',   c:'#4A4A50' },
+  { n:'Чорний',       c:'#111111' },
 ];
 /* колір стосується самої подушки, тож коли жодну сторону ще не заповнено,
    запам'ятовуємо його одразу для обох */
@@ -518,17 +523,33 @@ COLORS.forEach((col, i) => {
   const b = document.createElement('button');
   b.type = 'button'; b.className = 'sw';
   b.style.background = col.c;
-  b.title = col.n; b.setAttribute('aria-label', 'Колір: ' + col.n);
+  b.dataset.name = col.n;
+  b.title = 'Спочатку прибери фон';
+  b.setAttribute('aria-label', 'Колір: ' + col.n);
   b.setAttribute('aria-pressed', i === 0);
   b.onclick = () => {
+    if (!colorsUsable()) {
+      say('Колір видно тільки після «Прибрати фон» — інакше фото закриває подушку повністю.');
+      return;
+    }
     bgTargets().forEach(sd => sd.setBg(col.c));
     [...$('swatches').children].forEach(o => o.setAttribute('aria-pressed', o === b));
   };
   $('swatches').appendChild(b);
 });
+syncSwatches();
+
+/** Колір панелі помітний лише тоді, коли фон фото прибрано. */
+function colorsUsable() { return !!(side()?.cutout && cutOn); }
+function syncSwatches() {
+  const on = colorsUsable();
+  [...$('swatches').children].forEach(b => {
+    b.classList.toggle('off', !on);
+    b.title = on ? b.dataset.name : 'Спочатку прибери фон';
+  });
+}
 
 /* ---------- прибирання фону (кнопка-перемикач) ---------- */
-let cutOn = false;
 $('cut').onclick = async () => {
   if (!side().filled) return fail('Спочатку завантаж фото для цієї сторони.');
 
@@ -537,6 +558,7 @@ $('cut').onclick = async () => {
     side().useCutout(cutOn);
     if ($('both').checked) other().copyFrom(side());
     $('cut').textContent = cutOn ? 'Повернути фон' : 'Прибрати фон';
+    syncSwatches();
     return;
   }
 
@@ -548,6 +570,7 @@ $('cut').onclick = async () => {
     if ($('both').checked) other().copyFrom(side());
     cutOn = true;
     $('cut').textContent = 'Повернути фон';
+    syncSwatches();
     say('');
   } catch (err) {
     fail('Фон прибрати не вийшло. Макет із фоном лишається — ми доведемо його вручну перед друком.', err);

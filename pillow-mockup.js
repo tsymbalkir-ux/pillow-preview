@@ -65,9 +65,17 @@ export class PhotoSide {
     if (!this.photo) throw new Error('Спочатку setPhoto()');
     const { removeBackground } = await import(
       'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm');
-    const src = await bitmapToBlob(this.photo, 1600);
+
+    // На телефоні беремо квантовану модель і менший вхід: повна isnet важить
+    // ~40 МБ і під час обробки тримає стільки ж у пам'яті, а мобільні браузери
+    // обмежують пам'ять вкладки і просто вбивають процес.
+    const small = matchMedia('(max-width: 820px)').matches ||
+                  navigator.deviceMemory <= 4 ||
+                  /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const src = await bitmapToBlob(this.photo, small ? 1024 : 1600);
     const cut = await removeBackground(src, {
-      model: 'isnet', output: { format: 'image/png' },
+      model: small ? 'isnet_quint8' : 'isnet',
+      output: { format: 'image/png' },
       progress: (k, c, t) => onProgress?.(c / t, k),
     });
     const trimmed = trimAndDeFringe(await createImageBitmap(cut));
