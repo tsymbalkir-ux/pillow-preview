@@ -17,6 +17,19 @@
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
+/* декоративний контур подушки з руками — фон, не заважає читати */
+.deco{
+  position:fixed;right:-10vw;top:50%;transform:translateY(-50%);
+  width:min(74vw,560px);color:var(--ink);opacity:.055;
+  pointer-events:none;z-index:0;
+}
+.deco svg{width:100%;height:auto;display:block}
+.shell{position:relative;z-index:1}
+@media (max-width:760px){ .deco{right:-24vw;width:92vw;opacity:.045} }
+@media (prefers-reduced-motion:no-preference){
+  .deco{transition:opacity .4s}
+}
+
 body{
   margin:0; background:var(--bg); color:var(--ink);
   font:400 16px/1.6 Onest,system-ui,Segoe UI,Roboto,sans-serif;
@@ -143,6 +156,7 @@ footer a:hover{color:var(--ink)}
 </style>
 </head>
 <body>
+<div class="deco" id="deco" aria-hidden="true"></div>
 <div class="shell">
 
   <p class="mark">print<span>me</span></p>
@@ -523,6 +537,10 @@ $('order').onsubmit = async e => {
     btn.disabled = false; refreshSubmit();
   }
 };
+
+/* ---------- декоративний контур ---------- */
+fetch('hug-line.svg').then(r => r.ok ? r.text() : '').then(t => { if (t) $('deco').innerHTML = t; })
+  .catch(() => {});
 
 /* ---------- старт ---------- */
 let step_ = 'старт';
