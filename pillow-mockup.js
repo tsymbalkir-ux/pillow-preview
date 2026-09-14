@@ -276,7 +276,7 @@ function loadImage(src) {
     const i = new Image();
     i.crossOrigin = 'anonymous';
     i.onload = () => res(i);
-    i.onerror = () => rej(new Error('Не завантажився ' + src));
+    i.onerror = () => rej(new Error('Не завантажився файл: ' + src));
     i.src = src;
   });
 }

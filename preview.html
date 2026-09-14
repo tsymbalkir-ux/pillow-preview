@@ -524,25 +524,40 @@ $('order').onsubmit = async e => {
 };
 
 /* ---------- старт ---------- */
+let step = 'старт';
 say('Завантажуємо мокапи…');
 try {
-  root = await fetch('pillow.json', { cache: 'no-cache' }).then(r => r.json());
+  step = 'читання pillow.json';
+  const res = await fetch('pillow.json', { cache: 'no-cache' });
+  if (!res.ok) throw new Error('pillow.json віддав ' + res.status);
+  root = await res.json();
+  if (!root.sides?.length) throw new Error('у pillow.json немає масиву sides');
+
+  step = 'пошук canvas на сторінці';
   SIDE = root.sides.map((sd, i) => {
-    const canvas = $(i === 0 ? 'cvA' : 'cvB');
+    const id = i === 0 ? 'cvA' : 'cvB';
+    const canvas = $(id);
+    if (!canvas) throw new Error('на сторінці немає <canvas id="' + id + '">');
     const cfg = { ...sd, v: root.v, mini: root.mini };
     return { cfg, canvas, file: null,
              pm: new PillowMockup({ canvas, config: { cfg, dir: '' } }) };
   });
+
+  step = 'завантаження картинок';
   await Promise.all(SIDE.map(sd => sd.pm.load()));
   SIDE[0].pm.onRender = () => {
     cancelAnimationFrame(miniRaf); miniRaf = requestAnimationFrame(paintMinis);
   };
+  step = 'побудова вкладок';
   buildTabs();
-  ready = true;
+
+  step = 'малювання схем розміру';
   paintMinis();
+
+  ready = true;
   say(DEFAULT_NOTE);
 } catch (err) {
-  fail('Не завантажилися мокапи. Перевір, що поруч із preview.html лежить pillow.json і всі картинки з нього.', err);
+  fail('Збій на кроці «' + step + '»: ' + (err?.message || err), err);
 }
 </script>
 </body>
