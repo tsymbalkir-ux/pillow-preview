@@ -23,6 +23,7 @@ export class PhotoSide {
     this.photoBox = null;
     this.photoFit = 'cover';
     this.file = null;
+    this.bg = '#ffffff';      // колір подушки під фото
     this.transform = { margin: 0.045, scale: 1, dx: 0, dy: 0 };
     this.onChange = null;
   }
@@ -54,7 +55,7 @@ export class PhotoSide {
     if (!o.filled) return this;
     this.photo = o.photo; this.file = o.file;
     this.cutout = o.cutout; this.cutoutBox = o.cutoutBox;
-    this.photoBox = o.photoBox; this.photoFit = o.photoFit;
+    this.photoBox = o.photoBox; this.photoFit = o.photoFit; this.bg = o.bg;
     this.subject = o.subject; this.box = o.box; this.fitMode = o.fitMode;
     this.transform = { ...o.transform };
     return this._changed();
@@ -91,6 +92,7 @@ export class PhotoSide {
     this.transform.dy = clamp(this.transform.dy + dy, -0.7, 0.7);
     return this._changed();
   }
+  setBg(color) { this.bg = color; return this._changed(); }
   setScale(v) { this.transform.scale = clamp(v, 0.5, 2.6); return this._changed(); }
   zoom(f) { return this.setScale(this.transform.scale * f); }
   resetFit() {
@@ -102,7 +104,7 @@ export class PhotoSide {
   drawPanel(pw, ph) {
     const cv = makeCanvas(pw, ph);
     const c = cv.getContext('2d');
-    c.fillStyle = '#ffffff';        // інакше крізь прозорий PNG світить мокап
+    c.fillStyle = this.bg;          // інакше крізь прозорий PNG світить мокап
     c.fillRect(0, 0, pw, ph);
     if (!this.subject) return cv;
 

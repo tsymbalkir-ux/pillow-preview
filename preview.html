@@ -122,6 +122,15 @@ a{color:var(--ink)}
 .tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .tools .btn{flex:1;min-width:118px;padding:12px 8px;font-size:14.5px}
 
+/* ---------- колір подушки ---------- */
+.colors{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:14px}
+.colors .cl{font-size:13.5px;color:var(--dim);margin-right:2px}
+.sw{width:34px;height:34px;border-radius:9px;cursor:pointer;padding:0;
+  border:1px solid rgba(0,0,0,.14);transition:outline-color .12s;
+  outline:2px solid transparent;outline-offset:2px}
+.sw:hover{border-color:rgba(0,0,0,.3)}
+.sw[aria-pressed="true"]{outline-color:var(--accent)}
+
 .note{font-size:13.5px;color:var(--dim);margin:11px 0 0}
 .note.err{color:var(--bad)}
 
@@ -229,6 +238,11 @@ footer a:hover{color:var(--ink)}
     <button class="btn" id="zin" disabled>Збільшити</button>
     <button class="btn" id="zout" disabled>Зменшити</button>
     <button class="btn" id="reset" disabled>Скинути</button>
+  </div>
+
+  <div class="colors">
+    <span class="cl">Колір подушки</span>
+    <div id="swatches" style="display:flex;gap:8px;flex-wrap:wrap"></div>
   </div>
 
   <p class="note" id="note"></p>
@@ -486,6 +500,32 @@ $('both').onchange = () => {
   buildTabs();
   refreshSubmit();
 };
+
+/* ---------- колір подушки ---------- */
+const COLORS = [
+  { n:'Білий',         c:'#FFFFFF' },
+  { n:'Молочний',      c:'#F3EDE3' },
+  { n:'Пудровий',      c:'#EAC9CB' },
+  { n:'Шавлієвий',     c:'#C8D3C4' },
+  { n:'Нічний синій',  c:'#2C3A4F' },
+  { n:'Чорний',        c:'#111111' },
+];
+/* колір стосується самої подушки, тож коли жодну сторону ще не заповнено,
+   запам'ятовуємо його одразу для обох */
+const bgTargets = () => { const t = targets(); return t.length ? t : [A, B]; };
+
+COLORS.forEach((col, i) => {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'sw';
+  b.style.background = col.c;
+  b.title = col.n; b.setAttribute('aria-label', 'Колір: ' + col.n);
+  b.setAttribute('aria-pressed', i === 0);
+  b.onclick = () => {
+    bgTargets().forEach(sd => sd.setBg(col.c));
+    [...$('swatches').children].forEach(o => o.setAttribute('aria-pressed', o === b));
+  };
+  $('swatches').appendChild(b);
+});
 
 /* ---------- прибирання фону (кнопка-перемикач) ---------- */
 let cutOn = false;
