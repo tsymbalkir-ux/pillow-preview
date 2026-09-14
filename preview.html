@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
 <title>Подушка з твоїм фото — макет за секунду | printme</title>
 <meta name="description" content="Завантаж фото — і одразу побачиш готовий макет подушки-обіймашки. Оплата при отриманні, виготовлення 2 дні, доставка Новою Поштою.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,16 +17,19 @@
   --r:14px;
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
+body{overflow-x:clip}
 /* декоративний контур подушки з руками — фон, не заважає читати */
+/* контур обгорнутий у обрізаний контейнер на весь екран:
+   інакше він вилазить за край і на телефоні з'являється горизонтальний скрол */
 .deco{
-  position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:min(128vw,1000px);color:var(--ink);opacity:.07;
-  pointer-events:none;z-index:0;
+  position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0;
+  color:var(--ink);opacity:.07;
 }
-.deco svg{width:100%;height:auto;display:block}
+.deco svg{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:min(128vw,1000px);height:auto;display:block}
 .shell{position:relative;z-index:1}
-@media (max-width:760px){ .deco{width:150vw;opacity:.055} }
+@media (max-width:760px){ .deco{opacity:.055} .deco svg{width:155vw} }
 @media (prefers-reduced-motion:no-preference){
   .deco{transition:opacity .4s}
 }
@@ -131,25 +135,21 @@ h2{font:600 clamp(22px,4.6vw,27px)/1.25 Literata,Georgia,serif;
    letter-spacing:-.015em;margin:0 0 16px}
 
 /* ---------- sizes ---------- */
-.sizes{display:grid;gap:10px;grid-template-columns:repeat(2,1fr)}
-.size{
-  display:flex;flex-direction:column;align-items:stretch;gap:10px;
-  padding:14px 14px 16px;border-radius:var(--r);cursor:pointer;text-align:left;
-  border:1px solid var(--line);background:var(--surface);color:var(--ink);
-  font:400 15px/1.3 Onest,sans-serif;transition:border-color .15s,background .15s;
-}
-.size:hover{border-color:#C9BCC4}
-.size[aria-pressed="true"]{border-color:var(--accent);background:#fff;
-  box-shadow:inset 0 0 0 1px var(--accent)}
-.scale{position:relative;width:100%;aspect-ratio:104/140}
-.scale svg{position:absolute;inset:0;width:100%;height:100%}
-.scale canvas{position:absolute;left:55.8%;bottom:8.6%;
-  width:auto;aspect-ratio:300/909;
-  filter:drop-shadow(0 2px 5px rgba(0,0,0,.13))}
-.size .cap{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
-.size b{font-weight:600;font-size:16px}
-.size .uah{margin-left:auto;font-weight:600;white-space:nowrap}
-.size .tag{width:100%;font-size:12.5px;color:var(--accent);margin-top:-4px}
+.sizebar{position:relative;width:100%;aspect-ratio:172/155;margin-top:4px}
+.sizebar>svg{position:absolute;inset:0;width:100%;height:100%}
+.pz{position:absolute;padding:0;border:none;background:none;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center}
+.pz canvas{width:100%;flex:none;display:block;border-radius:3px;
+  transition:filter .15s,opacity .15s;opacity:.72}
+.pz:hover canvas{opacity:.9}
+.pz[aria-pressed="true"] canvas{opacity:1;outline:1.5px solid var(--accent);
+  outline-offset:3px;filter:drop-shadow(0 3px 9px rgba(122,46,78,.22))}
+.pz .lab{margin-top:5%;text-align:center;white-space:nowrap;
+  font:500 clamp(10px,1.9vw,13px)/1.35 Onest,sans-serif;color:var(--dim)}
+.pz .lab b{display:block;font-weight:600;color:var(--ink)}
+.pz[aria-pressed="true"] .lab,.pz[aria-pressed="true"] .lab b{color:var(--accent)}
+.pz .tag{display:block;font-size:.82em;color:var(--dim);opacity:.85}
+.pz[aria-pressed="true"] .tag{color:var(--accent);opacity:1}
 
 /* ---------- form ---------- */
 .form{display:grid;gap:11px}
@@ -243,8 +243,8 @@ footer a:hover{color:var(--ink)}
 
   <section>
     <h2>Розмір</h2>
-    <div class="sizes" id="sizes"></div>
-    <p class="legal" style="margin-top:12px">Силует для порівняння — людина зростом 170 см.</p>
+    <div class="sizebar" id="sizebar"></div>
+    <p class="legal" style="margin-top:10px">Натисни на подушку, щоб обрати. Силует — людина зростом 170 см.</p>
   </section>
 
   <section>
@@ -326,44 +326,56 @@ const hasAny = () => A?.filled || B?.filled;
 
 /* ---------- розміри ---------- */
 const SIZES = [
-  { v:'100x33', cm:33, len:100, label:'100 × 33', price:1100, hint:'' },
-  { v:'120x40', cm:40, len:120, label:'120 × 40', price:1290, hint:'Беруть найчастіше' },
-  { v:'150x50', cm:50, len:150, label:'150 × 50', price:1640, hint:'Найкраще для фото людини' },
+  { v:'120x40', cm:40, len:120, label:'120 × 40', price:1290, hint:'Найчастіше' },
+  { v:'150x50', cm:50, len:150, label:'150 × 50', price:1640, hint:'Для фото людини' },
   { v:'180x60', cm:60, len:180, label:'180 × 60', price:2390, hint:'У людський зріст' },
 ];
-let size = SIZES[1];
+let size = SIZES[0];
 
-const PERSON_CM = 170, BASE = 128, UNIT = 111 / PERSON_CM, VB = 140;
-function scheme(s) {
-  const ph = s.len * UNIT;
-  return `<div class="scale">
-    <svg viewBox="0 0 104 140" role="img" aria-label="Подушка ${s.label} см поруч із людиною зростом 170 см">
-      <line x1="4" y1="${BASE + 3}" x2="100" y2="${BASE + 3}" stroke="var(--line)" stroke-width="1.5"/>
-      <g stroke="#D9D1D6" fill="none" stroke-linecap="round">
-        <circle cx="26" cy="24" r="7" fill="#D9D1D6" stroke="none"/>
-        <path d="M26 33 V 78" stroke-width="13"/>
-        <path d="M26 45 L 15 67 M26 45 L 37 67" stroke-width="5"/>
-        <path d="M26 76 L 19 ${BASE} M26 76 L 33 ${BASE}" stroke-width="6"/>
-      </g>
-    </svg>
-    <canvas class="mini" data-mini style="height:${(ph / VB * 100).toFixed(2)}%"></canvas>
-  </div>`;
+/* Спільна шкала: людина 170 см і всі подушки в одних одиницях.
+   VW×VH — система координат композиції, BASE — лінія підлоги. */
+const PERSON_CM = 170, UNIT = 111 / PERSON_CM, BASE = 128, VW = 172, VH = 155;
+const GAP = 10, START = 48;
+
+function buildSizes() {
+  const host = $('sizebar');
+  host.innerHTML = `<svg viewBox="0 0 ${VW} ${VH}" aria-hidden="true">
+    <line x1="2" y1="${BASE + 2}" x2="${VW - 2}" y2="${BASE + 2}"
+          stroke="var(--line)" stroke-width="1.2"/>
+    <g stroke="#D9D1D6" fill="none" stroke-linecap="round">
+      <circle cx="26" cy="24" r="7" fill="#D9D1D6" stroke="none"/>
+      <path d="M26 33 V 78" stroke-width="13"/>
+      <path d="M26 45 L 15 67 M26 45 L 37 67" stroke-width="5"/>
+      <path d="M26 76 L 19 ${BASE} M26 76 L 33 ${BASE}" stroke-width="6"/>
+    </g>
+  </svg>`;
+
+  let x = START;
+  SIZES.forEach(s => {
+    const pw = s.cm * UNIT, ph = s.len * UNIT;
+    const top = BASE - ph, boxH = VH - top - 3;
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'pz';
+    b.setAttribute('aria-pressed', s === size);
+    b.setAttribute('aria-label', `${s.label} см, ${s.price} грн`);
+    b.style.left = `${x / VW * 100}%`;
+    b.style.width = `${pw / VW * 100}%`;
+    b.style.top = `${top / VH * 100}%`;
+    b.style.height = `${boxH / VH * 100}%`;
+    b.innerHTML =
+      `<canvas data-mini style="height:${ph / boxH * 100}%"></canvas>` +
+      `<span class="lab"><b>${s.label}</b>${s.price} грн` +
+      (s.hint ? `<span class="tag">${s.hint}</span>` : '') + `</span>`;
+    b.onclick = () => {
+      size = s;
+      [...host.querySelectorAll('.pz')].forEach(o => o.setAttribute('aria-pressed', o === b));
+      refreshSubmit();
+    };
+    host.appendChild(b);
+    x += pw + GAP;
+  });
 }
-
-SIZES.forEach(s => {
-  const b = document.createElement('button');
-  b.type = 'button'; b.className = 'size';
-  b.setAttribute('aria-pressed', s === size);
-  b.innerHTML = scheme(s) +
-    `<span class="cap"><b>${s.label} см</b><span class="uah">${s.price} грн</span></span>` +
-    (s.hint ? `<span class="tag">${s.hint}</span>` : '');
-  b.onclick = () => {
-    size = s;
-    [...$('sizes').children].forEach(c => c.setAttribute('aria-pressed', c === b));
-    refreshSubmit();
-  };
-  $('sizes').appendChild(b);
-});
+buildSizes();
 
 function refreshSubmit() {
   $('submit').disabled = !hasAny();
