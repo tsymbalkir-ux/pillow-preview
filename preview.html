@@ -100,7 +100,8 @@ h2{font:600 clamp(22px,4.6vw,27px)/1.25 Literata,Georgia,serif;
   box-shadow:inset 0 0 0 1px var(--accent)}
 .scale{position:relative;width:100%;aspect-ratio:104/140}
 .scale svg{position:absolute;inset:0;width:100%;height:100%}
-.scale canvas{position:absolute;left:55.8%;bottom:8.6%;width:auto;
+.scale canvas{position:absolute;left:55.8%;bottom:8.6%;
+  width:auto;aspect-ratio:300/909;
   filter:drop-shadow(0 2px 5px rgba(0,0,0,.13))}
 .size .cap{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
 .size b{font-weight:600;font-size:16px}
@@ -348,7 +349,7 @@ $('cut').onclick = async () => {
   say('Перший раз вантажиться модель, це близько 40 МБ…');
   try {
     await pm.removeBackground(p => { bar.value = p; if (p > .99) say('Прибираємо фон…'); });
-    say('Фон прибрано. Тепер можна підібрати колір.');
+    say('Фон прибрано. Стрілками можна підігнати положення.');
     $('orig').hidden = false;
   } catch (err) {
     fail('Фон прибрати не вийшло. Макет із фоном лишається — ми доведемо його вручну перед друком.', err);
@@ -369,7 +370,7 @@ function paintMinis() {
   if (!src) return;
   const w = pm.mini.w, h = pm.mini.h;
   document.querySelectorAll('[data-mini]').forEach(cv => {
-    if (cv.width !== w) { cv.width = w; cv.height = h; }
+    if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
     const c = cv.getContext('2d');
     c.clearRect(0, 0, w, h);
     c.drawImage(src, 0, 0, w, h);
