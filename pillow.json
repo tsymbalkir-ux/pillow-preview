@@ -1,5 +1,5 @@
 {
-  "v": "20260914165131",
+  "v": "20260914173233",
   "mini": {
     "empty": "mini-empty.png",
     "mask": "mini-mask.png",
@@ -16,8 +16,8 @@
       "name": "Обидві сторони",
       "image": "m-pair.jpg",
       "size": [
-        1100,
-        1100
+        900,
+        1200
       ],
       "zones": [
         {
@@ -25,10 +25,10 @@
           "mask": "pair-a-mask.png",
           "shade": "pair-a-shade.jpg",
           "box": {
-            "x": 184,
-            "y": 132,
-            "w": 365,
-            "h": 903
+            "x": 43,
+            "y": 185,
+            "w": 336,
+            "h": 830
           },
           "ratio": 2.474
         },
@@ -37,10 +37,10 @@
           "mask": "pair-b-mask.png",
           "shade": "pair-b-shade.jpg",
           "box": {
-            "x": 549,
-            "y": 139,
-            "w": 413,
-            "h": 893
+            "x": 379,
+            "y": 191,
+            "w": 380,
+            "h": 821
           },
           "ratio": 2.16
         }
@@ -51,18 +51,18 @@
       "name": "У руках",
       "image": "m-held.jpg",
       "size": [
-        1100,
-        1100
+        900,
+        1200
       ],
       "zones": [
         {
           "side": "A",
           "mask": "held-mask.png",
           "box": {
-            "x": 382,
-            "y": 154,
-            "w": 284,
-            "h": 889
+            "x": 296,
+            "y": 208,
+            "w": 282,
+            "h": 882
           },
           "ratio": 3.136,
           "shade": "held-shade.jpg"
@@ -74,8 +74,8 @@
       "name": "В обіймах",
       "image": "m-hug.jpg",
       "size": [
-        1100,
-        1100
+        900,
+        1200
       ],
       "zones": [
         {
@@ -83,10 +83,10 @@
           "mask": "hug-mask.png",
           "shade": "hug-shade.jpg",
           "box": {
-            "x": 286,
-            "y": 263,
-            "w": 501,
-            "h": 1503
+            "x": 202,
+            "y": 291,
+            "w": 512,
+            "h": 1535
           },
           "ratio": 3.0
         }
