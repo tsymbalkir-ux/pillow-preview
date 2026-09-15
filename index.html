@@ -3,6 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="72uJR7Xqw4x-b5N5zB7xdqQzxS0KBbiBxqQUoha-GsE">
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-M52SP5TP');</script>
+<!-- End Google Tag Manager -->
+
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2233263877061328');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel -->
 <!-- ================= SEO ================= -->
 <title>Подушка з фото на замовлення — обіймашка від 1290 грн | printme</title>
 <meta name="description" content="Подушка-обіймашка з твоїм фото: завантаж знімок і одразу побач макет. Розміри 120–180 см, від 1290 грн, виготовлення 2 дні, оплата при отриманні, Нова Пошта.">
@@ -305,6 +326,11 @@ footer a:hover{color:var(--ink)}
 </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M52SP5TP"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript><img height="1" width="1" style="display:none" alt=""
+src="https://www.facebook.com/tr?id=2233263877061328&ev=PageView&noscript=1"></noscript>
 <div class="shell">
 
   <p class="mark">print<span>me</span></p>
@@ -441,9 +467,39 @@ $('yr').textContent = new Date().getFullYear();
 const ORDER_URL = 'https://script.google.com/macros/s/AKfycbzRgonaetNukZ1PA-RU6eBPyIxy2CkMQfJ5QGggDyob2uF1cV0gxoKAg5nhRn0ZrTdv/exec';
 
 const DEFAULT_NOTE = '';
+
+/* ---------- аналітика: GTM (dataLayer) + Meta Pixel ----------
+   Події для тригерів у GTM:
+     photo_uploaded — завантажив перше фото
+     select_size    — обрав розмір
+     begin_checkout — почав заповнювати форму доставки
+     purchase       — замовлення відправлено (з сумою і номером)          */
+window.dataLayer = window.dataLayer || [];
+const sent = new Set();
+function track(event, data = {}, fb, fbData, fbOpts) {
+  try {
+    if (data.ecommerce) dataLayer.push({ ecommerce: null });
+    dataLayer.push({ event, ...data });
+    if (fb && window.fbq) fbq('track', fb, fbData || {}, fbOpts || {});
+  } catch (err) { console.warn('tracking', err); }
+}
+function trackOnce(key, ...args) { if (sent.has(key)) return; sent.add(key); track(...args); }
+const itemFor = s => ({ item_id: s.v, item_name: `Подушка з фото ${s.label} см`,
+                        price: s.price, quantity: 1 });
+const phoneE164 = raw => {
+  const d = String(raw).replace(/\D/g, '');
+  if (d.startsWith('380')) return '+' + d;
+  if (d.startsWith('0') && d.length === 10) return '+38' + d;
+  return d ? '+' + d : undefined;
+};
 function say(m, bad) { note.textContent = m; note.classList.toggle('err', !!bad); }
 function fail(m, e) { console.error(e || m); say(m, true); }
-addEventListener('error', e => fail('Щось пішло не так: ' + e.message, e.error));
+// помилки чужих скриптів (GTM, пікселі, розширення) не показуємо покупцю
+addEventListener('error', e => {
+  if (e.filename && !e.filename.startsWith(location.origin)) return;
+  if (!e.error && /^Script error/i.test(e.message || '')) return;
+  fail('Щось пішло не так: ' + e.message, e.error);
+});
 addEventListener('unhandledrejection', e => fail('Щось пішло не так: ' + (e.reason?.message || e.reason)));
 
 let ready = false, root = null, mini = null, views = [], A = null, B = null, cur = 'A';
@@ -503,6 +559,7 @@ function buildSizes() {
       (s.hint ? `<span class="tag">${s.hint}</span>` : '') + `</span>`;
     b.onclick = () => {
       size = s;
+      track('select_size', { size: s.v, value: s.price, currency: 'UAH' });
       [...host.querySelectorAll('.pz')].forEach(o => o.setAttribute('aria-pressed', o === b));
       refreshSubmit();
     };
@@ -608,6 +665,7 @@ $('file').onchange = async e => {
     await side().setPhoto(f);
     if ($('both').checked) other().copyFrom(side());
     afterPhoto();
+    trackOnce('photo', 'photo_uploaded', {}, 'ViewContent', { content_name: 'Photo uploaded' });
   } catch (err) {
     fail('Не вдалося прочитати це фото. Спробуй інше.', err);
   } finally {
@@ -793,6 +851,12 @@ const blobToBase64 = blob => new Promise((res, rej) => {
   r.readAsDataURL(blob);
 });
 
+$('order').addEventListener('focusin', () => {
+  trackOnce('checkout', 'begin_checkout',
+    { ecommerce: { currency: 'UAH', value: size.price, items: [itemFor(size)] } },
+    'InitiateCheckout', { value: size.price, currency: 'UAH' });
+});
+
 $('order').onsubmit = async e => {
   e.preventDefault();
   if (!hasAny()) return;
@@ -839,6 +903,18 @@ $('order').onsubmit = async e => {
       const r = await fetch(`${ORDER_URL}?check=${id}&t=${Date.now()}`, { cache: 'no-store' });
       ok = r.ok && (await r.json()).found;
     } catch { /* перевірка не критична */ }
+
+    trackOnce('order-' + id, 'purchase', {
+      ecommerce: { transaction_id: id, currency: 'UAH', value: size.price,
+                   items: [itemFor(size)] },
+      // для «розширених конверсій» Google Ads (тег сам хешує дані)
+      user_data: {
+        phone_number: phoneE164($('phone').value),
+        address: { first_name: $('fname').value.trim(), last_name: $('lname').value.trim(),
+                   city: $('city').value.trim(), country: 'UA' },
+      },
+    }, 'Purchase', { value: size.price, currency: 'UAH', content_ids: [size.v],
+                     content_type: 'product' }, { eventID: id });
 
     $('orderNote').textContent = ok
       ? `Замовлення ${id} прийнято. Зателефонуємо найближчим часом, щоб підтвердити макет.`
