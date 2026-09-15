@@ -194,9 +194,40 @@ input:focus{border-color:var(--accent);outline:none}
 .fact b{display:block;font:600 16px Onest,sans-serif;margin-bottom:3px}
 .fact span{color:var(--dim);font-size:14.5px}
 
-/* ---------- gallery ---------- */
-.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
-.shots img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:11px;display:block}
+/* ---------- gallery carousel ---------- */
+.shots-wrap{
+  margin-right:-20px;
+  overflow:hidden;
+}
+
+.shots{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  scroll-snap-type:x proximity;
+  padding-right:20px;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+
+.shots::-webkit-scrollbar{
+  display:none;
+}
+
+.shots img{
+  flex:0 0 62%;
+  aspect-ratio:3/4;
+  object-fit:cover;
+  border-radius:11px;
+  display:block;
+  scroll-snap-align:start;
+}
+
+@media (min-width:561px){
+  .shots img{
+    flex-basis:42%;
+  }
+}
 
 /* ---------- faq ---------- */
 details{border-bottom:1px solid var(--line);padding:15px 0}
@@ -308,14 +339,20 @@ footer a:hover{color:var(--ink)}
   </div>
 </section>
 
-  <section>
-    <h2>Як виходить у роботі</h2>
+<section>
+  <h2>Так виглядає наживо</h2>
+
+  <div class="shots-wrap">
     <div class="shots">
       <img src="reviews/111.webp" alt="Готова подушка з фото клієнта" loading="lazy">
       <img src="reviews/222.webp" alt="Подушка-обіймашка у повний зріст" loading="lazy">
-      <img src="reviews/333.webp" alt="Приклад друку на габардині" loading="lazy">
+      <img src="reviews/333.webp" alt="Готова подушка з індивідуальним принтом" loading="lazy">
+
+      <!-- просто додавай сюди ще фото -->
+      <!-- <img src="reviews/444.webp" alt="..." loading="lazy"> -->
     </div>
-  </section>
+  </div>
+</section>
 
   <section>
     <h2>Питання, які ставлять найчастіше</h2>
