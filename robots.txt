@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /*?check=
+
+Sitemap: https://printme.world/sitemap.xml
