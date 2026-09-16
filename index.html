@@ -297,6 +297,12 @@ input{
 input::placeholder{color:#A2949B}
 input:focus{border-color:var(--accent);outline:none}
 .legal{font-size:12.5px;color:var(--dim);margin:2px 0 0}
+.ship{display:flex;align-items:center;gap:10px;margin:2px 0 0;padding:11px 14px;
+  border-radius:12px;background:var(--surface);border:1px solid var(--line);
+  font-size:14.5px;line-height:1.4;color:var(--ink)}
+.ship[hidden]{display:none}
+.ship svg{flex:none;color:var(--accent)}
+.ship b{font-weight:600;color:var(--accent);white-space:nowrap}
 
 /* ---------- facts ---------- */
 .facts{display:grid;gap:1px;background:var(--line);border-radius:var(--r);overflow:hidden}
@@ -397,7 +403,10 @@ src="https://www.facebook.com/tr?id=2233263877061328&ev=PageView&noscript=1"></n
         <input id="np" placeholder="№ відділення Нової Пошти" required>
       </div>
       <button class="btn btn-go" id="submit" type="submit" disabled>Спочатку обери фото</button>
-      <p class="legal">Оплата при отриманні. Підтверджуючи, ти погоджуєшся на обробку даних для доставки.</p>
+      <p class="ship" id="ship" hidden>
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="7" cy="17.5" r="1.8" fill="#fff" stroke="currentColor" stroke-width="1.7"/><circle cx="17" cy="17.5" r="1.8" fill="#fff" stroke="currentColor" stroke-width="1.7"/></svg>
+        <span>При замовленні сьогодні відправка буде <b id="shipDate"></b></span>
+      </p>
       <p class="note" id="orderNote"></p>
     </form>
   </section>
@@ -458,6 +467,17 @@ src="https://www.facebook.com/tr?id=2233263877061328&ev=PageView&noscript=1"></n
     <div>© <span id="yr"></span> printme.world</div>
   </footer>
 </div>
+
+<script src="shipping.js"></script>
+<script>
+/* дата відправки — редагується у файлі shipping.js */
+(function(){
+  var d = (window.SHIP_DATE || '').trim();
+  if (!d) return;
+  document.getElementById('shipDate').textContent = d;
+  document.getElementById('ship').hidden = false;
+})();
+</script>
 
 <script type="module">
 const $ = id => document.getElementById(id);
