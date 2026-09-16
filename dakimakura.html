@@ -28,7 +28,7 @@ fbq('track', 'PageView');
 </script>
 <!-- End Meta Pixel -->
 <!-- ================= SEO ================= -->
-<title>Дакімакура на замовлення з твоїм принтом чи фото — від 1290 грн | printme</title>
+<title>Дакімакура на замовлення з твоїм принтом — від 1290 грн | printme</title>
 <meta name="description" content="Дакімакура з твоїм артом, малюнком чи фото. Макет онлайн за секунду, 120–180 см, друк з обох боків, виготовлення 2 дні, оплата при отриманні.">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://printme.world/dakimakura">
@@ -305,12 +305,6 @@ input{
 input::placeholder{color:#A2949B}
 input:focus{border-color:var(--accent);outline:none}
 .legal{font-size:12.5px;color:var(--dim);margin:2px 0 0}
-.ship{display:flex;align-items:center;gap:10px;margin:2px 0 0;padding:11px 14px;
-  border-radius:12px;background:var(--surface);border:1px solid var(--line);
-  font-size:14.5px;line-height:1.4;color:var(--ink)}
-.ship[hidden]{display:none}
-.ship svg{flex:none;color:var(--accent)}
-.ship b{font-weight:600;color:var(--accent);white-space:nowrap}
 .about p{color:var(--dim);font-size:15.5px;max-width:60ch;margin:0 0 12px}
 .about a{color:var(--accent)}
 
@@ -413,10 +407,7 @@ src="https://www.facebook.com/tr?id=2233263877061328&ev=PageView&noscript=1"></n
         <input id="np" placeholder="№ відділення Нової Пошти" required>
       </div>
       <button class="btn btn-go" id="submit" type="submit" disabled>Спочатку обери зображення</button>
-      <p class="ship" id="ship" hidden>
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="7" cy="17.5" r="1.8" fill="#fff" stroke="currentColor" stroke-width="1.7"/><circle cx="17" cy="17.5" r="1.8" fill="#fff" stroke="currentColor" stroke-width="1.7"/></svg>
-        <span>При замовленні сьогодні відправка буде <b id="shipDate"></b></span>
-      </p>
+      <p class="legal">Оплата при отриманні. Підтверджуючи, ти погоджуєшся на обробку даних для доставки.</p>
       <p class="note" id="orderNote"></p>
     </form>
   </section>
@@ -460,14 +451,19 @@ src="https://www.facebook.com/tr?id=2233263877061328&ev=PageView&noscript=1"></n
 <section class="about">
   <h2>Що таке дакімакура</h2>
   <p>Дакімакура — це довга подушка для обіймів, яка прийшла з Японії. У нас вона буває 120, 150 або 180 см завдовжки, а принт друкується з обох боків: можна поставити одне зображення на дві сторони або різні.</p>
+  <p>Друкуємо власні малюнки, арти, замовлені в художника, і фото. Не друкуємо зображення 18+ та те, на що в тебе немає прав. Хочеш подушку з фото людини? Для цього є <a href="/">подушка-обіймашка з фото</a>.</p>
 </section>
 
 <section>
   <h2>Питання, які ставлять найчастіше</h2>
+    <details><summary>Чим дакімакура відрізняється від подушки-обіймашки?</summary>
+      <div>Нічим — це одна й та сама довга подушка для обіймів. Слово «дакімакура» прийшло з Японії. Ми друкуємо на ній арти, малюнки або фото.</div></details>
     <details><summary>Яке зображення підійде?</summary>
-      <div>Підійде будь-яке зображення, бажано вертикальне, від 1000 пікселей у висоту</div></details>
+      <div>Вертикальне і якомога більше: для 120 см бажано від 1400 px по ширині, для 180 см — від 2100 px. Маленька картинка з пошуку на такому розмірі розмиється. Ми перевіряємо якість перед друком і скажемо, якщо зображення замале.</div></details>
     <details><summary>Можна різні зображення з двох боків?</summary>
       <div>Так. Зніми галочку «З обох боків те саме зображення» і завантаж окреме для кожної сторони.</div></details>
+    <details><summary>Що ми не друкуємо?</summary>
+      <div>Зображення 18+ і те, на що в тебе немає прав: чужих персонажів, логотипи, чужі арти без дозволу автора. Власні малюнки, арти, замовлені в художника, і фото — друкуємо.</div></details>
     <details><summary>Чи можна оплатити онлайн?</summary>
       <div>Можна — надішлемо посилання на оплату, якщо так зручніше. За замовчуванням оплата при отриманні.</div></details>
     <details><summary>Як прати?</summary>
@@ -481,17 +477,6 @@ src="https://www.facebook.com/tr?id=2233263877061328&ev=PageView&noscript=1"></n
     <div>© <span id="yr"></span> printme.world</div>
   </footer>
 </div>
-
-<script src="shipping.js"></script>
-<script>
-/* дата відправки — редагується у файлі shipping.js */
-(function(){
-  var d = (window.SHIP_DATE || '').trim();
-  if (!d) return;
-  document.getElementById('shipDate').textContent = d;
-  document.getElementById('ship').hidden = false;
-})();
-</script>
 
 <script type="module">
 const $ = id => document.getElementById(id);
@@ -958,7 +943,7 @@ $('order').onsubmit = async e => {
     btn.textContent = 'Прийнято';
   } catch (err) {
     bar.style.display = 'none';
-    fail('Не вдалося надіслати замовлення. Спробуй ще раз або напиши нам у Viber.', err);
+    fail('Не вдалося надіслати замовлення. Спробуй ще раз або напиши нам у Telegram.', err);
     btn.disabled = false; refreshSubmit();
   }
 };
@@ -1010,6 +995,41 @@ try {
 } catch (err) {
   fail('Збій на кроці «' + step_ + '»: ' + (err?.message || err), err);
 }
+</script>
+<!-- ---------- плаваюча кнопка Telegram ---------- -->
+<style>
+.tg-float{position:fixed;right:18px;bottom:18px;z-index:50;width:56px;height:56px;
+  border-radius:50%;background:#229ED9;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 18px rgba(34,158,217,.35);transition:transform .15s,opacity .2s}
+.tg-float:hover{transform:scale(1.06)}
+.tg-float:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.tg-float svg{width:28px;height:28px;margin-left:-2px}
+.tg-float.is-hidden{opacity:0;pointer-events:none}
+@media (max-width:600px){.tg-float{right:14px;bottom:14px;width:52px;height:52px}}
+@media (prefers-reduced-motion:reduce){.tg-float{transition:none}}
+</style>
+
+<a class="tg-float" href="https://t.me/Masterform_ua" target="_blank" rel="noopener"
+   aria-label="Написати нам у Telegram" title="Написати нам у Telegram">
+  <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
+    <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
+  </svg>
+</a>
+
+<script>
+(() => {
+  const btn = document.querySelector('.tg-float');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    window.dataLayer = window.dataLayer || [];
+    dataLayer.push({ event: 'contact_click', messenger: 'telegram', page: location.pathname });
+    if (window.fbq) fbq('track', 'Contact', { content_name: 'telegram' });
+  });
+  document.addEventListener('focusin', e => {
+    if (e.target.matches('input, textarea')) btn.classList.add('is-hidden');
+  });
+  document.addEventListener('focusout', () => btn.classList.remove('is-hidden'));
+})();
 </script>
 </body>
 </html>
