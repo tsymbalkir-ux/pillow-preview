@@ -124,6 +124,7 @@ fbq('track', 'PageView');
   --bg:#FFFFFF; --surface:#F8F5F7; --raised:#F2EDF0;
   --line:#E7DFE4; --ink:#1A1216; --dim:#6B5F66;
   --accent:#7A2E4E; --accent-ink:#FFFFFF; --bad:#B3261E;
+  --go:#2F7D4F; --go-hover:#256B42; --go-soft:#EAF4EE; --go-line:#BFDCCB;
   --r:14px;
 }
 *{box-sizing:border-box}
@@ -230,6 +231,22 @@ a{color:var(--ink)}
   font-weight:600;width:100%;padding:17px 22px;font-size:17px;
 }
 .btn-go:hover:not(:disabled){background:#8F3A5D;border-color:#8F3A5D}
+/* кнопка завантаження — зелена, щоб відрізнялась від «Замовити» */
+#pick{background:var(--go);border-color:var(--go)}
+#pick:hover:not(:disabled){background:var(--go-hover);border-color:var(--go-hover)}
+#pick:focus-visible{outline-color:var(--go)}
+.cta{scroll-margin-top:24px}
+
+/* анкори «назад до завантаження» — видимі лише до першого фото */
+.to-pick{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:18px;
+  text-decoration:none;text-align:center;line-height:1.25;
+  background:var(--go-soft);border-color:var(--go-line);color:var(--go);font-weight:600}
+.to-pick:hover{background:#DDEEE3;border-color:var(--go)}
+.to-pick:focus-visible{outline-color:var(--go)}
+.to-pick svg{flex:none}
+.to-pick[hidden]{display:none}
+.form .to-pick{margin-top:0}
+
 /* один сегментований блок: без зазорів, розділювачі в 1 px */
 .seg{display:flex;margin-top:10px;border:1px solid var(--line);border-radius:12px;
   overflow:hidden;background:var(--surface)}
@@ -346,7 +363,7 @@ src="https://www.facebook.com/tr?id=2233263877061328&ev=PageView&noscript=1"></n
     <p class="lead">Завантаж будь-яке фото — макет з'явиться тут за секунду. Далі можна прибрати фон і підібрати колір, поки не сподобається.</p>
   </div>
 
-  <div class="cta">
+  <div class="cta" id="upload">
     <button class="btn btn-go" id="pick">Завантажити своє фото</button>
   </div>
 
@@ -403,6 +420,7 @@ src="https://www.facebook.com/tr?id=2233263877061328&ev=PageView&noscript=1"></n
         <input id="np" placeholder="№ відділення Нової Пошти" required>
       </div>
       <button class="btn btn-go" id="submit" type="submit" disabled>Спочатку обери фото</button>
+      <a class="btn to-pick" href="#upload"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Завантажити своє фото</a>
       <p class="ship" id="ship" hidden>
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="7" cy="17.5" r="1.8" fill="#fff" stroke="currentColor" stroke-width="1.7"/><circle cx="17" cy="17.5" r="1.8" fill="#fff" stroke="currentColor" stroke-width="1.7"/></svg>
         <span>При замовленні сьогодні відправка буде <b id="shipDate"></b></span>
@@ -429,6 +447,7 @@ src="https://www.facebook.com/tr?id=2233263877061328&ev=PageView&noscript=1"></n
       <span>Наволочка — з габардину, на блискавці. Основа тримає форму, всередині — гіпоалергенний холофайбер. Перед відправкою подушку компактно пакуємо в плівку та коробку.</span>
     </div>
   </div>
+  <a class="btn to-pick" href="#upload"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Завантажити своє фото</a>
 </section>
 
 <section>
@@ -444,6 +463,7 @@ src="https://www.facebook.com/tr?id=2233263877061328&ev=PageView&noscript=1"></n
       <!-- <img src="reviews/444.webp" alt="..." loading="lazy"> -->
     </div>
   </div>
+  <a class="btn to-pick" href="#upload"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Завантажити своє фото</a>
 </section>
 
   <section>
@@ -458,6 +478,7 @@ src="https://www.facebook.com/tr?id=2233263877061328&ev=PageView&noscript=1"></n
       <div>Делікатний режим при 30 °C, без відбілювачів. Прасувати з вивороту на низькій температурі.</div></details>
     <details><summary>Що з поверненням?</summary>
       <div>Виробничий брак чи помилка друку — переробляємо або повертаємо гроші. Пиши нам, розберемось.</div></details>
+    <a class="btn to-pick" href="#upload"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Завантажити своє фото</a>
   </section>
 
   <footer>
@@ -674,6 +695,15 @@ function syncNav() {
 }
 $('track').addEventListener('scroll', syncNav, { passive: true });
 
+/* ---------- анкори до кнопки завантаження ---------- */
+const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.querySelectorAll('.to-pick').forEach(a => a.addEventListener('click', e => {
+  e.preventDefault();
+  $('upload').scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center' });
+  $('pick').focus({ preventScroll: true });
+}));
+const hideAnchors = () => document.querySelectorAll('.to-pick').forEach(a => { a.hidden = true; });
+
 /* ---------- вибір фото ---------- */
 $('pick').onclick = () => ready ? $('file').click() : fail('Мокапи ще вантажаться, зачекай секунду.');
 
@@ -697,6 +727,7 @@ $('file').onchange = async e => {
 const other = () => (cur === 'A' ? B : A);
 
 function afterPhoto() {
+  hideAnchors();
   ['cut','zin','zout','reset'].forEach(id => { $(id).disabled = false; });
   $('pad').hidden = false;
   refreshSubmit();
