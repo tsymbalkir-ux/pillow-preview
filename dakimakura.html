@@ -321,6 +321,8 @@ input:focus{border-color:var(--accent);outline:none}
 .fact span{color:var(--dim);font-size:14.5px}
 
 /* ---------- gallery ---------- */ 
+.video{position:relative;aspect-ratio:16/9;border-radius:11px;overflow:hidden;background:var(--raised);margin:0 0 9px}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .shots{display:grid;grid-template-columns:repeat(3,1fr);gap:9px} .shots img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:11px;display:block}
 
 /* ---------- faq ---------- */
@@ -443,6 +445,15 @@ src="https://www.facebook.com/tr?id=2233263877061328&ev=PageView&noscript=1"></n
 
 <section>
   <h2>Так виглядає наживо</h2>
+
+  <div class="video">
+    <iframe src="https://www.youtube-nocookie.com/embed/7BE97wyBWi4?rel=0"
+      title="Дакімакура з індивідуальним принтом — відео"
+      loading="lazy"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen></iframe>
+  </div>
 
   <div class="shots-wrap">
     <div class="shots">
