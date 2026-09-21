@@ -447,8 +447,15 @@ footer a:hover{color:var(--ink)}
   <section>
     <h2>Швидке замовлення</h2>
     <form class="form" id="order">
-      <input id="fname" placeholder="Ім'я" autocomplete="given-name" required>
+      <div class="pair">
+        <input id="fname" placeholder="Ім'я" autocomplete="given-name" required>
+        <input id="lname" placeholder="Прізвище" autocomplete="family-name" required>
+      </div>
       <input id="phone" type="tel" placeholder="+380" autocomplete="tel" required>
+      <div class="pair">
+        <input id="city" placeholder="Місто" autocomplete="address-level2" required>
+        <input id="np" placeholder="№ відділення Нової Пошти" required>
+      </div>
       <button class="btn btn-go" id="submit" type="submit" disabled>Спочатку обери зображення</button>
       <a class="btn to-pick" href="#upload"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Завантажити своє зображення</a>
       <p class="ship" id="ship" hidden>
@@ -1030,9 +1037,9 @@ $('order').onsubmit = async e => {
       size_value: size.v, size_label: size.label, price_uah: size.price,
       sides: (A.filled ? 'A' : '') + (B.filled ? 'B' : ''),
       same_both: $('both').checked,
-      first_name: $('fname').value.trim(), last_name: '',
-      phone: $('phone').value.trim(), city: '',
-      np_branch: '', source: 'dakimakura', ts: new Date().toISOString(),
+      first_name: $('fname').value.trim(), last_name: $('lname').value.trim(),
+      phone: $('phone').value.trim(), city: $('city').value.trim(),
+      np_branch: $('np').value.trim(), source: 'dakimakura', ts: new Date().toISOString(),
     });
 
     // 2) файли по одному: великий спільний запит на мобільному інтернеті
@@ -1060,7 +1067,8 @@ $('order').onsubmit = async e => {
       // для «розширених конверсій» Google Ads (тег сам хешує дані)
       user_data: {
         phone_number: phoneE164($('phone').value),
-        address: { first_name: $('fname').value.trim(), country: 'UA' },
+        address: { first_name: $('fname').value.trim(), last_name: $('lname').value.trim(),
+                   city: $('city').value.trim(), country: 'UA' },
       },
     }, 'Purchase', { value: size.price, currency: 'UAH', content_ids: [size.v],
                      content_type: 'product' }, { eventID: id });
