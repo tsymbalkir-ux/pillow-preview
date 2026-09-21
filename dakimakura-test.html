@@ -260,8 +260,8 @@ a{color:var(--ink)}
   outline:2px solid transparent;outline-offset:2px}
 .sw:hover{border-color:rgba(0,0,0,.3)}
 .sw[aria-pressed="true"]{outline-color:var(--accent)}
-.sw.off{opacity:.35;cursor:help}
-.sw.off[aria-pressed="true"]{outline-color:transparent}
+/* кольори показуємо лише після «Прибрати фон»; display:flex вище перебиває атрибут hidden */
+.colors[hidden]{display:none}
 
 .note{font-size:13.5px;color:var(--dim);margin:11px 0 0}
 .note.err{color:var(--bad)}
@@ -432,7 +432,7 @@ footer a:hover{color:var(--ink)}
     <button type="button" id="reset" disabled>Скинути</button>
   </div>
 
-  <div class="colors" id="swatches"></div>
+  <div class="colors" id="swatches" hidden></div>
 
   <p class="note" id="note"></p>
   <progress id="bar" max="1" value="0"></progress>
@@ -819,14 +819,11 @@ COLORS.forEach((col, i) => {
   b.type = 'button'; b.className = 'sw';
   b.style.background = col.c;
   b.dataset.name = col.n;
-  b.title = 'Спочатку прибери фон';
+  b.title = col.n;
   b.setAttribute('aria-label', 'Колір: ' + col.n);
   b.setAttribute('aria-pressed', i === 0);
   b.onclick = () => {
-    if (!colorsUsable()) {
-      say('Колір видно тільки після «Прибрати фон» — інакше зображення закриває подушку повністю.');
-      return;
-    }
+    if (!colorsUsable()) return;           // панель і так схована, це лише страховка
     bgTargets().forEach(sd => sd.setBg(col.c));
     [...$('swatches').children].forEach(o => o.setAttribute('aria-pressed', o === b));
   };
@@ -842,12 +839,9 @@ function syncCutButton() {
   const sd = side();
   $('cut').textContent = (sd?.cutout && sd.cutOn) ? 'Повернути фон' : 'Прибрати фон';
 }
+/** Панель кольорів з'являється лише тоді, коли фон активної сторони прибрано. */
 function syncSwatches() {
-  const on = colorsUsable();
-  [...$('swatches').children].forEach(b => {
-    b.classList.toggle('off', !on);
-    b.title = on ? b.dataset.name : 'Спочатку прибери фон';
-  });
+  $('swatches').hidden = !colorsUsable();
 }
 
 /* ---------- прибирання фону (кнопка-перемикач) ---------- */
