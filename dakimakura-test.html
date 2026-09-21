@@ -92,7 +92,7 @@
         { "@type": "Question", "name": "Яке зображення підійде?",
           "acceptedAnswer": { "@type": "Answer", "text": "Вертикальне і якомога більше: для 120 см бажано від 1400 px по ширині, для 180 см — від 2100 px. Маленька картинка з пошуку на такому розмірі розмиється. Ми перевіряємо якість перед друком і скажемо, якщо зображення замале." } },
         { "@type": "Question", "name": "Можна різні зображення з двох боків?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Так. Зніми галочку «З обох боків те саме зображення» і завантаж окреме для кожної сторони." } },
+          "acceptedAnswer": { "@type": "Answer", "text": "Так. Зніми галочку «Однакове зображення з обох боків» і завантаж окреме для кожної сторони." } },
         { "@type": "Question", "name": "Що ми не друкуємо?",
           "acceptedAnswer": { "@type": "Answer", "text": "Зображення 18+ і те, на що в тебе немає прав: чужих персонажів, логотипи, чужі арти без дозволу автора. Власні малюнки, арти, замовлені в художника, і фото — друкуємо." } },
         { "@type": "Question", "name": "Чи можна оплатити онлайн?",
@@ -150,8 +150,9 @@ a{color:var(--ink)}
 .track::-webkit-scrollbar{display:none}
 .slide{flex:0 0 82%;scroll-snap-align:center;position:relative}
 .slide canvas{width:100%;height:auto;display:block;border-radius:var(--r);background:var(--surface)}
-.slide .cap{position:absolute;left:10px;top:10px;background:rgba(255,255,255,.88);
-  border-radius:8px;padding:4px 9px;font-size:12.5px;color:var(--ink);backdrop-filter:blur(3px)}
+.slide .cap{position:absolute;left:10px;top:10px;background:var(--accent);
+  border-radius:999px;padding:6px 13px;font:600 13.5px/1.2 Onest,sans-serif;color:#fff;
+  box-shadow:0 2px 8px rgba(122,46,78,.3)}
 /* навігація каруселі — під малюнком, разом із крапками */
 .carnav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:10px}
 .nav{width:40px;height:40px;border-radius:50%;border:none;
@@ -250,6 +251,8 @@ a{color:var(--ink)}
 .seg button:hover:not(:disabled){background:var(--raised)}
 .seg button:active:not(:disabled){background:#E8DFE5}
 .seg button:disabled{opacity:.38;cursor:not-allowed}
+#cut.is-hl{background:var(--go-soft);color:var(--go);font-weight:600}
+#cut.is-hl:hover:not(:disabled){background:#DDEEE3}
 @media (min-width:561px){ .seg button{font-size:15px;padding:14px 8px} }
 
 /* ---------- колір подушки ---------- */
@@ -341,10 +344,10 @@ footer a:hover{color:var(--ink)}
 
 /* ---------- 3D-превʼю ---------- */
 .open3d{display:flex;align-items:center;justify-content:center;gap:8px;margin:12px auto 0;
-  padding:10px 18px;border-radius:999px;border:1px solid var(--line);background:#fff;
-  font:500 14.5px/1 Onest,sans-serif;color:var(--accent);cursor:pointer;
+  padding:10px 18px;border-radius:999px;border:1px solid var(--go-line);background:var(--go-soft);
+  font:600 14.5px/1 Onest,sans-serif;color:var(--go);cursor:pointer;
   transition:border-color .15s,background .15s}
-.open3d:hover{border-color:var(--accent);background:var(--surface)}
+.open3d:hover{border-color:var(--go);background:#DDEEE3}
 .open3d svg{flex:none}
 .v3d{padding:0;border:none;border-radius:18px;background:var(--surface);color:var(--ink);
   width:min(560px,100vw - 24px);height:min(860px,100dvh - 24px);max-width:none;max-height:none;
@@ -420,13 +423,14 @@ footer a:hover{color:var(--ink)}
     </div>
   </dialog>
 
+
   <label class="both"><input type="checkbox" id="both">
-    З обох боків те саме зображення</label>
+    Однакове зображення з обох боків</label>
 
   <div class="sides" id="sides"></div>
 
   <div class="seg">
-    <button type="button" id="cut" disabled>Прибрати фон</button>
+    <button type="button" id="cut" class="is-hl" disabled>Прибрати фон</button>
     <button type="button" id="zin" disabled>Збільшити</button>
     <button type="button" id="zout" disabled>Зменшити</button>
     <button type="button" id="reset" disabled>Скинути</button>
@@ -444,6 +448,45 @@ footer a:hover{color:var(--ink)}
     <p class="legal" style="margin-top:10px">Натисни на подушку, щоб обрати.</p>
   </section>
 
+<section>
+  <h2>Наші роботи: фото та відео</h2>
+
+  <div class="video">
+    <iframe src="https://www.youtube-nocookie.com/embed/7BE97wyBWi4?rel=0"
+      title="Дакімакура з індивідуальним принтом — відео"
+      loading="lazy"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen></iframe>
+  </div>
+
+  <div class="shots-wrap">
+    <div class="shots">
+      <!-- заміни на фото готових дакімакур з артами (без чужих персонажів) -->
+      <img src="reviews/111.webp" alt="Готова дакімакура з принтом клієнта" loading="lazy">
+      <img src="reviews/222.webp" alt="Дакімакура у повний зріст" loading="lazy">
+      <img src="reviews/333.webp" alt="Готова дакімакура з індивідуальним принтом" loading="lazy">
+
+      <!-- просто додавай сюди ще фото -->
+      <!-- <img src="reviews/444.webp" alt="..." loading="lazy"> -->
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Питання, які ставлять найчастіше</h2>
+    <details><summary>Яке зображення підійде?</summary>
+      <div>Підійде майже будь-яке зображення, бажано вертикальне, вертикальна сторона від 1000 px</div></details>
+    <details><summary>Можна різні зображення з двох боків?</summary>
+      <div>Так. Зніми галочку «Однакове зображення з обох боків» і завантаж окреме для кожної сторони.</div></details>
+    <details><summary>Чи можна оплатити онлайн?</summary>
+      <div>Можна — надішлемо посилання на оплату, якщо так зручніше. За замовчуванням оплата при отриманні.</div></details>
+    <details><summary>Як прати?</summary>
+      <div>Делікатний режим при 30 °C, без відбілювачів. Прасувати з вивороту на низькій температурі.</div></details>
+    <details><summary>Що з поверненням?</summary>
+      <div>Виробничий брак чи помилка друку — переробляємо або повертаємо гроші. Пиши нам, розберемось.</div></details>
+  </section>
+
   <section>
     <h2>Швидке замовлення</h2>
     <form class="form" id="order">
@@ -457,7 +500,6 @@ footer a:hover{color:var(--ink)}
         <input id="np" placeholder="№ відділення Нової Пошти" required>
       </div>
       <button class="btn btn-go" id="submit" type="submit" disabled>Спочатку обери зображення</button>
-      <a class="btn to-pick" href="#upload"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Завантажити своє зображення</a>
       <p class="ship" id="ship" hidden>
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="7" cy="17.5" r="1.8" fill="#fff" stroke="currentColor" stroke-width="1.7"/><circle cx="17" cy="17.5" r="1.8" fill="#fff" stroke="currentColor" stroke-width="1.7"/></svg>
         <span>При замовленні сьогодні відправка буде <b id="shipDate"></b></span>
@@ -484,49 +526,7 @@ footer a:hover{color:var(--ink)}
       <span>Наволочка — з габардину, на блискавці. Основа тримає форму, всередині — гіпоалергенний холофайбер. Перед відправкою дакімакуру компактно пакуємо в плівку та коробку.</span>
     </div>
   </div>
-  <a class="btn to-pick" href="#upload"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Завантажити своє зображення</a>
 </section>
-
-<section>
-  <h2>Так виглядає наживо</h2>
-
-  <div class="video">
-    <iframe src="https://www.youtube-nocookie.com/embed/7BE97wyBWi4?rel=0"
-      title="Дакімакура з індивідуальним принтом — відео"
-      loading="lazy"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerpolicy="strict-origin-when-cross-origin"
-      allowfullscreen></iframe>
-  </div>
-
-  <div class="shots-wrap">
-    <div class="shots">
-      <!-- заміни на фото готових дакімакур з артами (без чужих персонажів) -->
-      <img src="reviews/111.webp" alt="Готова дакімакура з принтом клієнта" loading="lazy">
-      <img src="reviews/222.webp" alt="Дакімакура у повний зріст" loading="lazy">
-      <img src="reviews/333.webp" alt="Готова дакімакура з індивідуальним принтом" loading="lazy">
-
-      <!-- просто додавай сюди ще фото -->
-      <!-- <img src="reviews/444.webp" alt="..." loading="lazy"> -->
-    </div>
-  </div>
-  <a class="btn to-pick" href="#upload"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Завантажити своє зображення</a>
-</section>
-
-<section>
-  <h2>Питання, які ставлять найчастіше</h2>
-    <details><summary>Яке зображення підійде?</summary>
-      <div>Підійде майже будь-яке зображення, бажано вертикальне, вертикальна сторона від 1000 px</div></details>
-    <details><summary>Можна різні зображення з двох боків?</summary>
-      <div>Так. Зніми галочку «З обох боків те саме зображення» і завантаж окреме для кожної сторони.</div></details>
-    <details><summary>Чи можна оплатити онлайн?</summary>
-      <div>Можна — надішлемо посилання на оплату, якщо так зручніше. За замовчуванням оплата при отриманні.</div></details>
-    <details><summary>Як прати?</summary>
-      <div>Делікатний режим при 30 °C, без відбілювачів. Прасувати з вивороту на низькій температурі.</div></details>
-    <details><summary>Що з поверненням?</summary>
-      <div>Виробничий брак чи помилка друку — переробляємо або повертаємо гроші. Пиши нам, розберемось.</div></details>
-    <a class="btn to-pick" href="#upload"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Завантажити своє зображення</a>
-  </section>
 
   <footer>
     <a href="privacy.html">Конфіденційність</a><a href="offer.html">Оферта</a><a href="payment.html">Оплата</a><a href="delivery.html">Доставка</a><a href="returns.html">Повернення</a><a href="contacts.html">Контакти</a>
@@ -598,9 +598,9 @@ const hasAny = () => A?.filled || B?.filled;
 
 /* ---------- розміри ---------- */
 const SIZES = [
-  { v:'120x40', cm:40, len:120, label:'120 × 40', price:1290, hint:'Найчастіше' },
-  { v:'150x50', cm:50, len:150, label:'150 × 50', price:1640, hint:'Для малюнка на весь зріст' },
-  { v:'180x60', cm:60, len:180, label:'180 × 60', price:2390, hint:'У людський зріст' },
+  { v:'120x40', cm:40, len:120, label:'120 × 40', price:1290, hint:'Компактний формат' },
+  { v:'150x50', cm:50, len:150, label:'150 × 50', price:1640, hint:'Оптимальний розмір' },
+  { v:'180x60', cm:60, len:180, label:'180 × 60', price:2390, hint:'У повний зріст' },
 ];
 let size = null;               // розмір не обрано, поки людина сама не натисне
 
@@ -644,7 +644,7 @@ function buildSizes() {
     b.style.height = `${boxH / VH * 100}%`;
     b.innerHTML =
       `<canvas data-mini style="height:${ph / boxH * 100}%"></canvas>` +
-      `<span class="lab"><b>${s.label}</b>${s.price} грн` +
+      `<span class="lab"><b>${s.label} см</b>${s.price} грн` +
       (s.hint ? `<span class="tag">${s.hint}</span>` : '') + `</span>`;
     b.onclick = () => {
       size = s;
@@ -846,6 +846,7 @@ function colorsUsable() { return !!(side()?.cutout && side()?.cutOn); }
 function syncCutButton() {
   const sd = side();
   $('cut').textContent = (sd?.cutout && sd.cutOn) ? 'Повернути фон' : 'Прибрати фон';
+  $('cut').classList.toggle('is-hl', !(sd?.cutout && sd.cutOn));
 }
 /** Панель кольорів з'являється лише тоді, коли фон активної сторони прибрано. */
 function syncSwatches() {
@@ -875,7 +876,7 @@ $('cut').onclick = async () => {
   const lite = { label: 'Готуємо модель…', run: () => side().removeBackgroundLite(cb) };
   const full = (opts, label) => ({ label, run: () => side().removeBackground(cb, opts) });
 
-  // ТЕСТ: спершу серверна модель BiRefNet (/api/cutout → fal.ai).
+  // ТЕСТ: спершу сервер (/api/cutout), браузерні моделі — запасний варіант.
   // Параметри адреси для порівняння:
   //   ?cut=local           — старий режим у браузері, без сервера
   //   ?model=Matting       — інша модель BiRefNet (Portrait | Matting | General Use (Heavy))
@@ -1167,17 +1168,83 @@ try {
   document.addEventListener('focusout', () => btn.classList.remove('is-hidden'));
 })();
 </script>
+<!-- ---------- перегляд фото «Наші роботи» ---------- -->
+<style>
+.shots img{cursor:zoom-in}
+.lb{padding:0;border:none;background:transparent;width:100vw;height:100dvh;max-width:100vw;max-height:100dvh;margin:0}
+.lb::backdrop{background:rgba(20,12,16,.92)}
+.lb-inner{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.lb img{max-width:92vw;max-height:86dvh;object-fit:contain;border-radius:10px;display:block}
+.lb button{position:absolute;border:none;border-radius:50%;width:48px;height:48px;cursor:pointer;
+  background:rgba(255,255,255,.14);color:#fff;font-size:24px;line-height:1;display:grid;place-content:center}
+.lb button:hover{background:rgba(255,255,255,.26)}
+.lb-x{top:max(14px, env(safe-area-inset-top));right:14px}
+.lb-prev{left:12px;top:50%;transform:translateY(-50%)}
+.lb-next{right:12px;top:50%;transform:translateY(-50%)}
+.lb-count{position:absolute;bottom:max(16px, env(safe-area-inset-bottom));left:0;right:0;text-align:center;
+  color:rgba(255,255,255,.8);font-size:14px}
+.lb [hidden]{display:none}
+</style>
+<dialog class="lb" id="lb" aria-label="Перегляд фото">
+  <div class="lb-inner">
+    <img id="lbImg" alt="">
+    <button type="button" class="lb-x" id="lbX" aria-label="Закрити">✕</button>
+    <button type="button" class="lb-prev" id="lbPrev" aria-label="Попереднє фото">‹</button>
+    <button type="button" class="lb-next" id="lbNext" aria-label="Наступне фото">›</button>
+    <div class="lb-count" id="lbCount"></div>
+  </div>
+</dialog>
+<script>
+(() => {
+  const dlg = document.getElementById('lb'), img = document.getElementById('lbImg');
+  const shots = () => [...document.querySelectorAll('.shots img')];
+  let i = 0;
+  const show = n => {
+    const list = shots(); if (!list.length) return;
+    i = (n + list.length) % list.length;
+    img.src = list[i].currentSrc || list[i].src; img.alt = list[i].alt;
+    document.getElementById('lbCount').textContent = list.length > 1 ? `${i + 1} / ${list.length}` : '';
+    document.getElementById('lbPrev').hidden = document.getElementById('lbNext').hidden = list.length < 2;
+  };
+  const open = el => { show(shots().indexOf(el)); dlg.showModal(); };
+  shots().forEach(el => {
+    el.tabIndex = 0; el.setAttribute('role', 'button');
+    el.setAttribute('aria-label', 'Відкрити фото: ' + (el.alt || ''));
+  });
+  document.addEventListener('click', e => { if (e.target.matches('.shots img')) open(e.target); });
+  document.addEventListener('keydown', e => {
+    if (e.target.matches('.shots img') && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); open(e.target); }
+    if (dlg.open && e.key === 'ArrowLeft') show(i - 1);
+    if (dlg.open && e.key === 'ArrowRight') show(i + 1);
+  });
+  document.getElementById('lbX').onclick = () => dlg.close();
+  document.getElementById('lbPrev').onclick = () => show(i - 1);
+  document.getElementById('lbNext').onclick = () => show(i + 1);
+  // клік повз фото закриває
+  dlg.addEventListener('click', e => { if (e.target === dlg || e.target.classList.contains('lb-inner')) dlg.close(); });
+  // свайп на телефоні
+  let x0 = null;
+  dlg.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+  dlg.addEventListener('touchend', e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 40) show(i + (dx < 0 ? 1 : -1));
+  });
+})();
+</script>
 <!-- ---------- липка кнопка замовлення ---------- -->
 <style>
 .sticky-order{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--bg);
   border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom))}
 .sticky-order .btn{display:block;width:100%;max-width:620px;margin:0 auto;text-align:center;text-decoration:none;cursor:pointer;opacity:1}
+.sticky-order .btn[data-stage="upload"]{background:var(--go-soft);border-color:var(--go-line);color:var(--go)}
+.sticky-order .btn[data-stage="upload"]:hover{background:#DDEEE3;border-color:var(--go)}
 body{padding-bottom:84px}
 .tg-float{bottom:92px}
 @media (max-width:600px){.tg-float{bottom:88px}}
 </style>
 <div class="sticky-order">
-  <button class="btn btn-go" id="stickySubmit" type="button">Завантажити своє зображення</button>
+  <button class="btn btn-go" id="stickySubmit" type="button" data-stage="upload">Завантажити своє зображення</button>
 </div>
 <script>
 (() => {
