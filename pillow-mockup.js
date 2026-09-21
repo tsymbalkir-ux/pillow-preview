@@ -138,15 +138,21 @@ export class PhotoSide {
       r = await fetch('/api/cutout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: dataUrl, model: opts.model }),
+        body: JSON.stringify({ image: dataUrl, model: opts.model, engine: opts.engine }),
       });
     } finally { clearInterval(tick); }
     if (!r.ok) throw new Error('сервер: ' + r.status + ' ' + (await r.text()).slice(0, 200));
 
     console.info('cutout:', r.headers.get('x-cutout-model'), r.headers.get('x-cutout-ms') + ' мс');
-    const cut = await createImageBitmap(await r.blob());
+    let blob;
+    if ((r.headers.get('content-type') || '').includes('json')) {
+      const { url } = await r.json();               // великий PNG — беремо напряму з CDN fal
+      blob = await (await fetch(url)).blob();
+    } else blob = await r.blob();
+    const cut = await createImageBitmap(blob);
     onProgress?.(1);
-    const trimmed = trimAndDeFringe(cut);
+    // серверні моделі вже дають чисті краї — не підрізаємо і не розмиваємо їх
+    const trimmed = trimOnly(cut);
     this.cutOn = true;
     this.cutout = trimmed.bitmap;
     this.cutoutBox = trimmed.box;
@@ -507,6 +513,23 @@ function probeAlpha(bmp) {
  * Звужує альфу на 1 px і трохи розмиває назад: інакше по краю вирізаної
  * фігури лишається світла кайма з кольорів старого фону.
  */
+/** Лише обрізає прозорі поля, не чіпаючи ні альфу, ні кольори. */
+function trimOnly(bmp) {
+  const cv = makeCanvas(bmp.width, bmp.height);
+  const c = cv.getContext('2d', { willReadFrequently: true });
+  c.drawImage(bmp, 0, 0);
+  const d = c.getImageData(0, 0, cv.width, cv.height).data, W = cv.width, H = cv.height;
+  let minX = W, minY = H, maxX = -1, maxY = -1;
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    if (d[(y * W + x) * 4 + 3] > 20) {
+      if (x < minX) minX = x; if (x > maxX) maxX = x;
+      if (y < minY) minY = y; if (y > maxY) maxY = y;
+    }
+  }
+  if (maxX < 0) { minX = minY = 0; maxX = W - 1; maxY = H - 1; }
+  return { bitmap: cv, box: { x: minX, y: minY, w: maxX - minX + 1, h: maxY - minY + 1 } };
+}
+
 function trimAndDeFringe(bmp) {
   const cv = makeCanvas(bmp.width, bmp.height);
   const c = cv.getContext('2d', { willReadFrequently: true });

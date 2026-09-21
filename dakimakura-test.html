@@ -877,9 +877,13 @@ $('cut').onclick = async () => {
   // Параметри адреси для порівняння:
   //   ?cut=local           — старий режим у браузері, без сервера
   //   ?model=Matting       — інша модель BiRefNet (Portrait | Matting | General Use (Heavy))
+  //   ?engine=bria         — Bria RMBG 2.0 (~$0.018 за фото)
+  //   ?engine=ideogram     — Ideogram remove-background (~$0.01 за фото)
   const qs = new URLSearchParams(location.search);
   const server = { label: 'Прибираємо фон…',
-                   run: () => side().removeBackgroundServer(cb, { model: qs.get('model') || undefined }) };
+                   run: () => side().removeBackgroundServer(cb, {
+                     model: qs.get('model') || undefined,
+                     engine: qs.get('engine') || undefined }) };
   const local = M.isMobile()
     ? [lite,
        full({ worker: false, maxSide: 640 }, 'Пробуємо точнішу модель…')]

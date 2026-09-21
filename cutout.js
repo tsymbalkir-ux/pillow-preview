@@ -30,40 +30,48 @@ module.exports = async (req, res) => {
   if (!image.startsWith("data:image/")) return res.status(400).send("Очікую data:image/...");
   if (image.length > 4_000_000) return res.status(413).send("Фото завелике, зменш до 2000 px");
 
-  // лише дозволені моделі, щоб не передавати в fal що завгодно
+  // Рушії: birefnet (дешевий, з варіантами моделей), bria (RMBG 2.0), ideogram.
   const MODELS = ["Portrait", "Matting", "General Use (Heavy)", "General Use (Light)", "General Use (Light 2K)"];
+  const engine = ["birefnet", "bria", "ideogram"].includes(body.engine) ? body.engine : "birefnet";
   const model = MODELS.includes(body.model) ? body.model : "Portrait";
+
+  let endpoint, input;
+  if (engine === "bria") {
+    endpoint = "fal-ai/bria/background/remove";
+    input = { image_url: image };
+  } else if (engine === "ideogram") {
+    endpoint = "fal-ai/ideogram/remove-background";
+    input = { image_url: image };
+  } else {
+    endpoint = "fal-ai/birefnet/v2";
+    input = { image_url: image, model, operating_resolution: "2048x2048",
+              refine_foreground: true, output_format: "webp" };
+  }
+  const label = engine === "birefnet" ? "birefnet/" + model : engine;
   const t0 = Date.now();
 
   try {
-    const r = await fetch("https://fal.run/fal-ai/birefnet/v2", {
+    const r = await fetch("https://fal.run/" + endpoint, {
       method: "POST",
-      headers: {
-        Authorization: "Key " + process.env.FAL_KEY,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        image_url: image,
-        model,
-        operating_resolution: "2048x2048",
-        refine_foreground: true,
-        output_format: "webp",
-      }),
+      headers: { Authorization: "Key " + process.env.FAL_KEY, "Content-Type": "application/json" },
+      body: JSON.stringify(input),
     });
-    if (!r.ok) return res.status(502).send("fal: " + r.status + " " + (await r.text()).slice(0, 300));
+    if (!r.ok) return res.status(502).send("fal " + label + ": " + r.status + " " + (await r.text()).slice(0, 300));
 
     const out = await r.json();
-    const url = out?.image?.url;
-    if (!url) return res.status(502).send("fal: немає image.url у відповіді");
+    const url = out?.image?.url || out?.images?.[0]?.url;
+    if (!url) return res.status(502).send("fal " + label + ": немає image.url у відповіді");
 
-    // віддаємо байти самі, щоб браузер не залежав від CORS на CDN fal
-    const img = await fetch(url);
-    const buf = Buffer.from(await img.arrayBuffer());
-    res.setHeader("Content-Type", img.headers.get("content-type") || "image/webp");
     res.setHeader("Cache-Control", "no-store");
-    res.setHeader("X-Cutout-Model", model);
+    res.setHeader("X-Cutout-Model", label);
     res.setHeader("X-Cutout-Ms", String(Date.now() - t0));
     res.setHeader("Access-Control-Expose-Headers", "X-Cutout-Model, X-Cutout-Ms");
+
+    // віддаємо байти самі; якщо PNG завеликий для ліміту Vercel (4.5 МБ) — віддаємо посилання
+    const img = await fetch(url);
+    const buf = Buffer.from(await img.arrayBuffer());
+    if (buf.length > 4_000_000) return res.status(200).json({ url });
+    res.setHeader("Content-Type", img.headers.get("content-type") || "image/png");
     return res.status(200).send(buf);
   } catch (e) {
     return res.status(500).send("cutout: " + (e?.message || e));
