@@ -883,7 +883,7 @@ $('cut').onclick = async () => {
   const server = { label: 'Прибираємо фон…',
                    run: () => side().removeBackgroundServer(cb, {
                      model: qs.get('model') || undefined,
-                     engine: qs.get('engine') || undefined }) };
+                     engine: qs.get('engine') || 'ideogram' }) };
   const local = M.isMobile()
     ? [lite,
        full({ worker: false, maxSide: 640 }, 'Пробуємо точнішу модель…')]

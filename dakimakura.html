@@ -894,12 +894,16 @@ $('cut').onclick = async () => {
   const lite = { label: 'Готуємо модель…', run: () => side().removeBackgroundLite(cb) };
   const full = (opts, label) => ({ label, run: () => side().removeBackground(cb, opts) });
 
-  const plans = M.isMobile()
+  // спершу сервер (/api/cutout → Ideogram), браузерні моделі — запасний варіант
+  const server = { label: 'Прибираємо фон…',
+                   run: () => side().removeBackgroundServer(cb, { engine: 'ideogram' }) };
+  const local = M.isMobile()
     ? [lite,
        full({ worker: false, maxSide: 640 }, 'Пробуємо точнішу модель…')]
     : [full({}, 'Вантажимо модель…'),
        full({ worker: false }, 'Не вийшло, пробуємо легший режим…'),
        lite];
+  const plans = [server, ...local];
 
   // віддаємо пам'ять: WASM-сесія падає з Out of memory саме тому,
   // що полотна вже з'їли бюджет вкладки
