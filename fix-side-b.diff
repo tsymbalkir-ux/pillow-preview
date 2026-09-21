@@ -1,0 +1,107 @@
+diff --git a/pillow-mockup.js b/pillow-mockup.js
+index 6a86567..66ad741 100644
+--- a/pillow-mockup.js
++++ b/pillow-mockup.js
+@@ -272,19 +272,21 @@ export function envInfo() {
+ }
+ 
+ export class MockupView {
+-  constructor({ canvas, cfg, dir = '', sides, quality = 2 }) {
++  constructor({ canvas, cfg, dir = '', sides, quality = 2, printRatio = 3 }) {
+     this.canvas = canvas;
+     this.ctx = canvas.getContext('2d');
+     this.cfg = cfg;
+     this.dir = dir;
+     this.sides = sides;             // { A: PhotoSide, B: PhotoSide }
+     this.quality = quality ?? (isMobile() ? 1 : 2);
++    this.printRatio = printRatio;   // висота/ширина друкованої панелі — однакова для A і B
+     this._panels = [];              // кеш полотен по зонах
++    this._prints = [];              // кеш панелей принта по зонах
+   }
+ 
+   /** Звільняє полотно й кеш — щоб віддати пам'ять перед важкою операцією. */
+   release() {
+-    this._panels = [];
++    this._panels = []; this._prints = [];
+     this._w = this.canvas.width; this._h = this.canvas.height;
+     this.canvas.width = 1; this.canvas.height = 1;
+   }
+@@ -302,6 +304,11 @@ export class MockupView {
+       maskImg: await rel(z.mask),
+       shadeImg: z.shade ? await rel(z.shade) : null,
+     })));
++    // Де в зоні справді лежить подушка (без тіні й порожніх полів).
++    // Фото треба вписувати сюди, а не в box: у зон A і B box різного розміру
++    // і подушка стоїть у ньому не по центру, тому однаковий transform
++    // давав на B більше й правіше фото.
++    this.zones.forEach(z => { z.body = z.body || maskBody(z.maskImg, z.box); });
+     this.canvas.width = this.cfg.size[0];
+     this.canvas.height = this.cfg.size[1];
+     this.render();
+@@ -318,16 +325,32 @@ export class MockupView {
+     this.zones.forEach((z, i) => {
+       const side = this.sides[z.side];
+       if (!side?.filled) return;
+-      const q = this.quality, { x, y, w, h } = z.box;
+-      const panel = side.drawPanel(w * q, h * q, this._panels[i]);
++      const q = this.quality, { x, y, w, h } = z.box, bd = z.body;
++      const W = Math.round(w * q), H = Math.round(h * q);
++
++      // 1) панель принта в пропорції друку — та сама картинка, що піде у файл
++      const pw = Math.max(1, Math.round(bd.w * q));
++      const ph = Math.max(1, Math.round(pw * this.printRatio));
++      const print = side.drawPanel(pw, ph, this._prints[i]);
++      this._prints[i] = print;
++
++      // 2) кладемо її рівно на тіло подушки всередині зони
++      let panel = this._panels[i];
++      if (!panel || panel.width !== W || panel.height !== H) panel = makeCanvas(W, H);
+       this._panels[i] = panel;
+       const pc = panel.getContext('2d');
++      pc.globalCompositeOperation = 'source-over';
++      pc.clearRect(0, 0, W, H);
++      pc.fillStyle = side.bg;
++      pc.fillRect(0, 0, W, H);
++      pc.drawImage(print, bd.x * q, bd.y * q, bd.w * q, bd.h * q);
++
+       if (z.shadeImg) {             // складки справжньої тканини
+         pc.globalCompositeOperation = 'multiply';
+-        pc.drawImage(z.shadeImg, 0, 0, w * q, h * q);
++        pc.drawImage(z.shadeImg, 0, 0, W, H);
+       }
+       pc.globalCompositeOperation = 'destination-in';
+-      pc.drawImage(z.maskImg, 0, 0, w * q, h * q);
++      pc.drawImage(z.maskImg, 0, 0, W, H);
+       pc.globalCompositeOperation = 'source-over';
+       ctx.drawImage(panel, x, y, w, h);
+     });
+@@ -395,6 +418,29 @@ async function bitmapToBlob(bmp, maxSide) {
+   return canvasToBlob(cv, 'image/png', 1);
+ }
+ 
++/** Прямокутник непрозорої частини маски, у координатах box зони. */
++function maskBody(img, box) {
++  const iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
++  const full = { x: 0, y: 0, w: box.w, h: box.h };
++  const k = Math.min(1, 400 / Math.max(iw, ih));
++  const w = Math.max(1, Math.round(iw * k)), h = Math.max(1, Math.round(ih * k));
++  const cv = makeCanvas(w, h);
++  const c = cv.getContext('2d', { willReadFrequently: true });
++  c.drawImage(img, 0, 0, w, h);
++  let d;
++  try { d = c.getImageData(0, 0, w, h).data; } catch { return full; }
++  let minX = w, minY = h, maxX = -1, maxY = -1;
++  for (let yy = 0; yy < h; yy++) for (let xx = 0; xx < w; xx++) {
++    if (d[(yy * w + xx) * 4 + 3] < 128) continue;
++    if (xx < minX) minX = xx; if (xx > maxX) maxX = xx;
++    if (yy < minY) minY = yy; if (yy > maxY) maxY = yy;
++  }
++  if (maxX < 0) return full;
++  const sx = box.w / w, sy = box.h / h;   // маска розтягується на весь box
++  return { x: minX * sx, y: minY * sy,
++           w: (maxX - minX + 1) * sx, h: (maxY - minY + 1) * sy };
++}
++
+ /** Чи є прозорість і де лежить непорожня частина. */
+ function probeAlpha(bmp) {
+   const full = { x: 0, y: 0, w: bmp.width, h: bmp.height };
