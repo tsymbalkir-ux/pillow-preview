@@ -656,7 +656,10 @@ function refreshSubmit() {
   $('submit').disabled = !hasAny();
   $('submit').textContent = hasAny() ? `Замовити за ${size.price} грн` : 'Спочатку обери зображення';
   const st = document.getElementById('stickySubmit');
-  if (st) st.textContent = `Замовити за ${size.price} грн`;
+  if (st) {
+    st.dataset.ready = hasAny() ? '1' : '';
+    st.textContent = hasAny() ? `Замовити за ${size.price} грн` : 'Завантажити своє зображення';
+  }
 }
 refreshSubmit();
 
@@ -1161,7 +1164,7 @@ body{padding-bottom:84px}
 @media (max-width:600px){.tg-float{bottom:88px}}
 </style>
 <div class="sticky-order">
-  <button class="btn btn-go" id="stickySubmit" type="button">Замовити</button>
+  <button class="btn btn-go" id="stickySubmit" type="button">Завантажити своє зображення</button>
 </div>
 <script>
 (() => {
@@ -1169,8 +1172,10 @@ body{padding-bottom:84px}
   st.addEventListener('click', e => {
     e.preventDefault();
     const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
-    document.getElementById('upload').scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center' });
-    document.getElementById('pick').focus({ preventScroll: true });
+    const target = st.dataset.ready ? 'order' : 'upload';
+    const focusEl = st.dataset.ready ? 'fname' : 'pick';
+    document.getElementById(target).scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center' });
+    document.getElementById(focusEl).focus({ preventScroll: true });
   });
 })();
 </script>
