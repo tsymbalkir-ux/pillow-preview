@@ -656,7 +656,7 @@ function refreshSubmit() {
   $('submit').disabled = !hasAny();
   $('submit').textContent = hasAny() ? `Замовити за ${size.price} грн` : 'Спочатку обери зображення';
   const st = document.getElementById('stickySubmit');
-  if (st) { st.disabled = $('submit').disabled; st.textContent = $('submit').textContent; }
+  if (st) st.textContent = `Замовити за ${size.price} грн`;
 }
 refreshSubmit();
 
@@ -1155,18 +1155,23 @@ try {
 <style>
 .sticky-order{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--bg);
   border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom))}
-.sticky-order .btn{display:block;width:100%;max-width:620px;margin:0 auto}
+.sticky-order .btn{display:block;width:100%;max-width:620px;margin:0 auto;text-align:center;text-decoration:none;cursor:pointer;opacity:1}
 body{padding-bottom:84px}
 .tg-float{bottom:92px}
 @media (max-width:600px){.tg-float{bottom:88px}}
 </style>
 <div class="sticky-order">
-  <button class="btn btn-go" id="stickySubmit" type="submit" form="order" disabled>Спочатку обери зображення</button>
+  <a class="btn btn-go" id="stickySubmit" href="#upload">Замовити</a>
 </div>
 <script>
 (() => {
-  const main = document.getElementById('submit'), st = document.getElementById('stickySubmit');
-  st.disabled = main.disabled; st.textContent = main.textContent;
+  const st = document.getElementById('stickySubmit');
+  st.addEventListener('click', e => {
+    e.preventDefault();
+    const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.getElementById('upload').scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center' });
+    document.getElementById('pick').focus({ preventScroll: true });
+  });
 })();
 </script>
 </body>
