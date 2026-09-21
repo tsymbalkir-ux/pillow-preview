@@ -438,7 +438,7 @@ footer a:hover{color:var(--ink)}
   <progress id="bar" max="1" value="0"></progress>
   <input type="file" id="file" accept="image/*" hidden>
 
-  <section>
+  <section id="sizes">
     <h2>Оберіть розмір</h2>
     <div class="sizebar" id="sizebar"></div>
     <p class="legal" style="margin-top:10px">Натисни на подушку, щоб обрати.</p>
@@ -595,7 +595,7 @@ const SIZES = [
   { v:'150x50', cm:50, len:150, label:'150 × 50', price:1640, hint:'Для малюнка на весь зріст' },
   { v:'180x60', cm:60, len:180, label:'180 × 60', price:2390, hint:'У людський зріст' },
 ];
-let size = SIZES[0];
+let size = null;               // розмір не обрано, поки людина сама не натисне
 
 /* Спільна шкала: людина 170 см і всі подушки в одних одиницях.
    VW×VH — система координат композиції, BASE — лінія підлоги. */
@@ -653,12 +653,15 @@ function buildSizes() {
 buildSizes();
 
 function refreshSubmit() {
-  $('submit').disabled = !hasAny();
-  $('submit').textContent = hasAny() ? `Замовити за ${size.price} грн` : 'Спочатку обери зображення';
+  const stage = !hasAny() ? 'upload' : !size ? 'size' : 'order';
+  $('submit').disabled = stage !== 'order';
+  $('submit').textContent = stage === 'upload' ? 'Спочатку обери зображення'
+    : stage === 'size' ? 'Оберіть розмір' : `Замовити за ${size.price} грн`;
   const st = document.getElementById('stickySubmit');
   if (st) {
-    st.dataset.ready = hasAny() ? '1' : '';
-    st.textContent = hasAny() ? `Замовити за ${size.price} грн` : 'Завантажити своє зображення';
+    st.dataset.stage = stage;
+    st.textContent = stage === 'upload' ? 'Завантажити своє зображення'
+      : stage === 'size' ? 'Оберіть розмір' : `Замовити за ${size.price} грн`;
   }
 }
 refreshSubmit();
@@ -930,18 +933,19 @@ const markSide = id => [...$('v3dSides').children]
 
 $('open3d').onclick = async () => {
   if (!ready) return fail('Мокапи ще вантажаться, зачекай секунду.');
-  $('v3dSize').textContent = `${size.label} см`;
+  const sz = size || SIZES[0];
+  $('v3dSize').textContent = `${sz.label} см`;
   dlg.showModal();
-  track('open_3d', { size: size.v, has_photo: !!hasAny() });
+  track('open_3d', { size: sz.v, has_photo: !!hasAny() });
   try {
     if (!v3d) {
       const { Dakimakura3D } = await import('./dakimakura-3d.js?v=' + (root.v || ''));
-      v3d = new Dakimakura3D({ host: $('v3dStage'), sides: { A, B }, size, mobile: M.isMobile() });
+      v3d = new Dakimakura3D({ host: $('v3dStage'), sides: { A, B }, size: sz, mobile: M.isMobile() });
       v3d.onTurn = markSide;
       await v3d.init();
       $('v3dLoad').remove();
     }
-    v3d.setSize(size);
+    v3d.setSize(sz);
     v3d.refresh();
     // відкриваємо ту сторону, з якою людина зараз працює
     v3d.show(cur);
@@ -993,6 +997,7 @@ const blobToBase64 = blob => new Promise((res, rej) => {
 });
 
 $('order').addEventListener('focusin', () => {
+  if (!size) return;
   trackOnce('checkout', 'begin_checkout',
     { ecommerce: { currency: 'UAH', value: size.price, items: [itemFor(size)] } },
     'InitiateCheckout', { value: size.price, currency: 'UAH' });
@@ -1000,7 +1005,7 @@ $('order').addEventListener('focusin', () => {
 
 $('order').onsubmit = async e => {
   e.preventDefault();
-  if (!hasAny()) return;
+  if (!hasAny() || !size) return;
   if (TEST_PAGE) {                         // тестова сторінка: нічого не шлемо в таблицю
     $('orderNote').textContent = 'Це тестова сторінка 3D-превʼю — замовлення не надсилається.';
     return;
@@ -1172,10 +1177,12 @@ body{padding-bottom:84px}
   st.addEventListener('click', e => {
     e.preventDefault();
     const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const target = st.dataset.ready ? 'order' : 'upload';
-    const focusEl = st.dataset.ready ? 'fname' : 'pick';
+    const stage = st.dataset.stage || 'upload';
+    const target = { upload: 'upload', size: 'sizes', order: 'order' }[stage];
     document.getElementById(target).scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center' });
-    document.getElementById(focusEl).focus({ preventScroll: true });
+    const focusEl = stage === 'upload' ? document.getElementById('pick')
+      : stage === 'size' ? document.querySelector('#sizebar .pz') : document.getElementById('fname');
+    focusEl?.focus({ preventScroll: true });
   });
 })();
 </script>
