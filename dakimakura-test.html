@@ -873,12 +873,20 @@ $('cut').onclick = async () => {
   const lite = { label: 'Готуємо модель…', run: () => side().removeBackgroundLite(cb) };
   const full = (opts, label) => ({ label, run: () => side().removeBackground(cb, opts) });
 
-  const plans = M.isMobile()
+  // ТЕСТ: спершу серверна модель BiRefNet (/api/cutout → fal.ai).
+  // Параметри адреси для порівняння:
+  //   ?cut=local           — старий режим у браузері, без сервера
+  //   ?model=Matting       — інша модель BiRefNet (Portrait | Matting | General Use (Heavy))
+  const qs = new URLSearchParams(location.search);
+  const server = { label: 'Прибираємо фон…',
+                   run: () => side().removeBackgroundServer(cb, { model: qs.get('model') || undefined }) };
+  const local = M.isMobile()
     ? [lite,
        full({ worker: false, maxSide: 640 }, 'Пробуємо точнішу модель…')]
     : [full({}, 'Вантажимо модель…'),
        full({ worker: false }, 'Не вийшло, пробуємо легший режим…'),
        lite];
+  const plans = qs.get('cut') === 'local' ? local : [server, ...local];
 
   // віддаємо пам'ять: WASM-сесія падає з Out of memory саме тому,
   // що полотна вже з'їли бюджет вкладки

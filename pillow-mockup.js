@@ -117,6 +117,46 @@ export class PhotoSide {
   }
 
   /**
+   * Вирізання фону на сервері (/api/cutout → fal.ai BiRefNet).
+   * Браузер нічого важкого не вантажить, тому працює однаково і на iPhone, і на ПК.
+   */
+  async removeBackgroundServer(onProgress, opts = {}) {
+    if (!this.photo) throw new Error('Спочатку setPhoto()');
+    const maxSide = opts.maxSide ?? 2000;
+    const k = Math.min(1, maxSide / Math.max(this.photo.width, this.photo.height));
+    const cv = domCanvas(Math.round(this.photo.width * k), Math.round(this.photo.height * k));
+    cv.getContext('2d').drawImage(this.photo, 0, 0, cv.width, cv.height);
+    const dataUrl = cv.toDataURL('image/jpeg', 0.9);   // JPEG, щоб влізти в ліміт 4.5 МБ Vercel
+    cv.width = cv.height = 1;
+    onProgress?.(0.2);
+
+    // плавний «фейковий» прогрес, поки сервер думає (зазвичай 2–6 с)
+    let p = 0.2;
+    const tick = setInterval(() => { p = Math.min(0.95, p + 0.05); onProgress?.(p); }, 400);
+    let r;
+    try {
+      r = await fetch('/api/cutout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: dataUrl, model: opts.model }),
+      });
+    } finally { clearInterval(tick); }
+    if (!r.ok) throw new Error('сервер: ' + r.status + ' ' + (await r.text()).slice(0, 200));
+
+    console.info('cutout:', r.headers.get('x-cutout-model'), r.headers.get('x-cutout-ms') + ' мс');
+    const cut = await createImageBitmap(await r.blob());
+    onProgress?.(1);
+    const trimmed = trimAndDeFringe(cut);
+    this.cutOn = true;
+    this.cutout = trimmed.bitmap;
+    this.cutoutBox = trimmed.box;
+    this.subject = this.cutout;
+    this.box = trimmed.box;
+    this.fitMode = 'contain';
+    return this._changed();
+  }
+
+  /**
    * Легке вирізання через MediaPipe Selfie Segmenter.
    * Модель ~250 КБ проти десятків мегабайт в isnet, тому на iOS, де
    * onnxruntime падає з Out of memory ще на створенні сесії, працює саме вона.
