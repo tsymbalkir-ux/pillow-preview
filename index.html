@@ -593,9 +593,9 @@ const hasAny = () => A?.filled || B?.filled;
 
 /* ---------- розміри ---------- */
 const SIZES = [
-  { v:'120x40', cm:40, len:120, label:'120 × 40', price:1290, hint:'Найчастіше' },
-  { v:'150x50', cm:50, len:150, label:'150 × 50', price:1640, hint:'Для фото людини' },
-  { v:'180x60', cm:60, len:180, label:'180 × 60', price:2390, hint:'У людський зріст' },
+  { v:'120x40', cm:40, len:120, label:'120 × 40', price:1290, hint:'Компактний формат' },
+  { v:'150x50', cm:50, len:150, label:'150 × 50', price:1640, hint:'Оптимальний розмір' },
+  { v:'180x60', cm:60, len:180, label:'180 × 60', price:2390, hint:'У повний зріст' },
 ];
 let size = null;               // розмір не обрано, поки людина сама не натисне
 
@@ -639,7 +639,7 @@ function buildSizes() {
     b.style.height = `${boxH / VH * 100}%`;
     b.innerHTML =
       `<canvas data-mini style="height:${ph / boxH * 100}%"></canvas>` +
-      `<span class="lab"><b>${s.label}</b>${s.price} грн` +
+      `<span class="lab"><b>${s.label} см</b>${s.price} грн` +
       (s.hint ? `<span class="tag">${s.hint}</span>` : '') + `</span>`;
     b.onclick = () => {
       size = s;
