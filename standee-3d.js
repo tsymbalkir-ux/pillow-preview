@@ -58,7 +58,9 @@ function fillBetweenLegs(F, W, H) {
   if (yF < 0) return;
   const low = new Int32Array(W).fill(-1);
   for (let x = 0; x < W; x++) for (let y = yF; y >= 0; y--) if (F[y * W + x] > 0) { low[x] = y; break; }
-  const near = yF - (yF - yT) * 0.03;
+  // «опорні» стовпці — ті, що доходять до нижніх 12% фігури: так враховуються обидві ноги,
+  // навіть якщо одна стоїть вище (поза, ракурс, перспектива)
+  const near = yF - (yF - yT) * 0.12;
   let g0 = -1, g1 = -1;
   for (let x = 0; x < W; x++) if (low[x] >= near) { if (g0 < 0) g0 = x; g1 = x; }
   if (g0 < 0) return;
