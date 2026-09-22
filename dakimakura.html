@@ -1261,6 +1261,13 @@ body{padding-bottom:84px}
     e.preventDefault();
     const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
     const stage = st.dataset.stage || 'upload';
+    // фото ще нема — одразу відкриваємо вибір файлу (той самий обробник, що й у кнопки
+    // «Завантажити» у редакторі), а сторінку підкручуємо до редактора, щоб було видно результат
+    if (stage === 'upload') {
+      document.getElementById('upload')?.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+      document.getElementById('pick')?.click();   // синхронно в межах кліку — інакше браузер заблокує вікно вибору
+      return;
+    }
     const target = { upload: 'upload', size: 'sizes', order: 'order' }[stage];
     document.getElementById(target).scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center' });
     const focusEl = stage === 'upload' ? document.getElementById('pick')
