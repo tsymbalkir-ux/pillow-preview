@@ -122,12 +122,22 @@ export class PhotoSide {
    */
   async removeBackgroundServer(onProgress, opts = {}) {
     if (!this.photo) throw new Error('Спочатку setPhoto()');
-    const maxSide = opts.maxSide ?? 2000;
-    const k = Math.min(1, maxSide / Math.max(this.photo.width, this.photo.height));
-    const cv = domCanvas(Math.round(this.photo.width * k), Math.round(this.photo.height * k));
-    cv.getContext('2d').drawImage(this.photo, 0, 0, cv.width, cv.height);
-    const dataUrl = cv.toDataURL('image/jpeg', 0.9);   // JPEG, щоб влізти в ліміт 4.5 МБ Vercel
-    cv.width = cv.height = 1;
+    // JPEG, щоб влізти в ліміт Vercel (сервер приймає до 4 000 000 символів).
+    // Safari на iPhone кодує JPEG помітно «важче» за Chrome, і те саме фото 2000 px
+    // могло не влізти → 413 → тихий перехід на грубу модель у браузері.
+    // Тому поступово знижуємо якість, а далі розмір, доки не влізе.
+    const LIMIT = 3_600_000;
+    let side = opts.maxSide ?? 2000, q = 0.9, dataUrl = '';
+    for (let i = 0; i < 8; i++) {
+      const k = Math.min(1, side / Math.max(this.photo.width, this.photo.height));
+      const cv = domCanvas(Math.round(this.photo.width * k), Math.round(this.photo.height * k));
+      cv.getContext('2d').drawImage(this.photo, 0, 0, cv.width, cv.height);
+      dataUrl = cv.toDataURL('image/jpeg', q);
+      cv.width = cv.height = 1;
+      if (dataUrl.length <= LIMIT) break;
+      console.info('cutout: фото завелике', Math.round(dataUrl.length / 1e6 * 10) / 10, 'млн символів, стискаємо');
+      if (q > 0.76) q -= 0.07; else side = Math.round(side * 0.85);
+    }
     onProgress?.(0.2);
 
     // плавний «фейковий» прогрес, поки сервер думає (зазвичай 2–6 с)
