@@ -362,8 +362,6 @@ footer a:hover{color:var(--ink)}
 .fig-row{display:flex;justify-content:space-between;align-items:baseline;font:500 14.5px/1.3 Onest,sans-serif}
 .fig-row output{color:var(--dim);font-variant-numeric:tabular-nums}
 .fig-opt input[type=range]{width:100%;margin:8px 0 0;accent-color:var(--accent)}
-.fig-backs{display:grid;grid-template-columns:1fr 1fr}
-@media (min-width:560px){.fig-backs{grid-template-columns:repeat(4,1fr)}}
 .fig-stage canvas:focus-visible,.fig-views button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 </style>
 </head>
@@ -401,18 +399,14 @@ footer a:hover{color:var(--ink)}
   <div class="fig-opt">
     <div class="fig-row"><span>Обводка</span><output id="outlineVal">2 см</output></div>
     <input type="range" id="outline" min="0" max="6" step="0.5" value="2" aria-label="Ширина обводки, см">
-    <div class="colors" id="outlineColors"></div>
   </div>
 
   <div class="fig-opt">
     <div class="fig-row"><span>Зворотний бік</span></div>
     <div class="sides fig-backs" id="backs">
-      <button type="button" data-back="board" aria-selected="true">Пластик<small>з підпіркою</small></button>
-      <button type="button" data-back="silhouette" aria-selected="false">Силует<small>однотонний</small></button>
-      <button type="button" data-back="same" aria-selected="false">Те саме фото<small>з двох боків</small></button>
-      <button type="button" data-back="ghost" aria-selected="false">«Спина»<small>експеримент</small></button>
+      <button type="button" data-back="plastic" aria-selected="true">Пластик<small>білий</small></button>
+      <button type="button" data-back="cardboard" aria-selected="false">Картон<small>крафтовий</small></button>
     </div>
-    <div class="colors" id="silColors" hidden></div>
   </div>
 
   <p class="note" id="note"></p>
@@ -572,7 +566,6 @@ let ready = false, root = null, M = null, S = null, fig = null;
 let side = null;                    // PhotoSide: фото, прибирання фону (як на дакімакурі)
 let hasPhoto = false;
 const hasAny = () => hasPhoto;
-const BACK_PARTS = { board: '', silhouette: 'B', same: 'B', ghost: 'B' };
 
 /* ---------- розміри ---------- */
 const SIZES = [
@@ -703,36 +696,6 @@ $('file').onchange = async e => {
 };
 
 /* ---------- обводка ---------- */
-const OUTLINE = [
-  { n:'Біла',      c:'#FFFFFF' },
-  { n:'Жовта',     c:'#F6D34A' },
-  { n:'Рожева',    c:'#F29BB8' },
-  { n:'Блакитна',  c:'#7FC4E8' },
-  { n:'Чорна',     c:'#161616' },
-];
-const SIL = [
-  { n:'Бордовий',    c:'#7A2E4E' },
-  { n:'Темно-синій', c:'#263650' },
-  { n:'Зелений',     c:'#2F7D4F' },
-  { n:'Гірчичний',   c:'#E3A72F' },
-  { n:'Чорний',      c:'#161616' },
-];
-function swatches(host, list, key) {
-  list.forEach((col, i) => {
-    const b = document.createElement('button');
-    b.type = 'button'; b.className = 'sw';
-    b.style.background = col.c; b.title = col.n;
-    b.setAttribute('aria-label', col.n);
-    b.setAttribute('aria-pressed', i === 0);
-    b.onclick = () => {
-      fig?.set({ [key]: col.c });
-      [...host.children].forEach(o => o.setAttribute('aria-pressed', o === b));
-    };
-    host.appendChild(b);
-  });
-}
-swatches($('outlineColors'), OUTLINE, 'outlineColor');
-swatches($('silColors'), SIL, 'silColor');
 $('outline').oninput = e => {
   const v = +e.target.value;
   $('outlineVal').textContent = `${v} см`;
@@ -743,7 +706,6 @@ $('outline').oninput = e => {
 const markView = w => [...$('figViews').children].forEach(b => b.setAttribute('aria-pressed', b.dataset.view === w));
 [...$('backs').children].forEach(b => b.onclick = () => {
   [...$('backs').children].forEach(o => o.setAttribute('aria-selected', o === b));
-  $('silColors').hidden = b.dataset.back !== 'silhouette';
   fig?.set({ back: b.dataset.back });
   fig?.show('back'); markView('back');            // одразу показуємо, що змінилось
 });
@@ -872,9 +834,7 @@ $('order').onsubmit = async e => {
     await postGAS({
       kind: 'order', order_id: id,
       size_value: size.v, size_label: size.label, price_uah: size.price,
-      sides: 'A' + BACK_PARTS[back], back,
-      outline_cm: fig.opts.outlineCm, outline_color: fig.opts.outlineColor,
-      same_both: back === 'same',
+      sides: 'A', back, outline_cm: fig.opts.outlineCm,
       first_name: $('fname').value.trim(), last_name: $('lname').value.trim(),
       phone: $('phone').value.trim(), city: $('city').value.trim(),
       np_branch: $('np').value.trim(), source: 'dakimakura', ts: new Date().toISOString(),

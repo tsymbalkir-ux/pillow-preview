@@ -11,6 +11,10 @@ const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module
 const BOARD_MM = 5;       // товщина пластику
 const MASK_H = 760;       // роздільність маски для контуру (по висоті обʼєкта)
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+const MATERIAL = {              // колір звороту, торців і ніжок
+  plastic:   { back: '#F1F0EC', edge: 0xF1EFEA, noise: 5 },
+  cardboard: { back: '#C49B6C', edge: 0xB78D5F, noise: 10, flutes: true },
+};
 const canvas = (w, h) => { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; };
 
 /* ================= маска → поле відстаней → контур ================= */
@@ -43,6 +47,25 @@ function edt(on, W, H) {
     for (let x = 0; x < W; x++) out[y * W + x] = Math.sqrt(d[x]);
   }
   return out;
+}
+
+/** Проміжок між ногами не вирізаємо: від найнижчої точки кожного стовпця
+    між крайніми «опорними» стовпцями заливаємо до підлоги — низ стає суцільним. */
+function fillBetweenLegs(F, W, H) {
+  let yF = -1, yT = H;
+  for (let y = H - 1; y >= 0 && yF < 0; y--) for (let x = 0; x < W; x++) if (F[y * W + x] > 0) { yF = y; break; }
+  for (let y = 0; y < H && yT === H; y++) for (let x = 0; x < W; x++) if (F[y * W + x] > 0) { yT = y; break; }
+  if (yF < 0) return;
+  const low = new Int32Array(W).fill(-1);
+  for (let x = 0; x < W; x++) for (let y = yF; y >= 0; y--) if (F[y * W + x] > 0) { low[x] = y; break; }
+  const near = yF - (yF - yT) * 0.03;
+  let g0 = -1, g1 = -1;
+  for (let x = 0; x < W; x++) if (low[x] >= near) { if (g0 < 0) g0 = x; g1 = x; }
+  if (g0 < 0) return;
+  for (let x = g0; x <= g1; x++) {
+    if (low[x] < 0) continue;
+    for (let y = low[x] + 1; y <= yF; y++) if (F[y * W + x] <= 0) F[y * W + x] = 1;
+  }
 }
 
 /** Маленькі дірки (між рукою і тілом тощо) заливаємо — їх важко вирізати. */
@@ -141,11 +164,6 @@ function simplifyLoop(loop, eps) {
   const a = rdp(loop.slice(0, far + 1), eps), b = rdp(loop.slice(far).concat([loop[0]]), eps);
   return a.slice(0, -1).concat(b.slice(0, -1));
 }
-function shade(hex, amt) {
-  const n = parseInt(hex.slice(1), 16);
-  const ch = s => Math.round(Math.max(0, Math.min(255, ((n >> s) & 255) + 255 * amt)));
-  return `rgb(${ch(16)},${ch(8)},${ch(0)})`;
-}
 
 /** Обрізає прозорі поля навколо обʼєкта. Повертає полотно. */
 export function trimAlpha(img, max = 2400) {
@@ -174,8 +192,8 @@ export class Standee3D {
     this.host = host;
     this.mobile = mobile;
     this.threeUrl = threeUrl;
-    this.opts = { heightCm: 150, outlineCm: 2, outlineColor: '#FFFFFF',
-                  back: 'board', silColor: '#7A2E4E', strut: true };
+    // back: 'plastic' (білий ПВХ) | 'cardboard' (крафтовий картон)
+    this.opts = { heightCm: 150, outlineCm: 2, back: 'plastic', strut: true };
     this.src = null;
     this.yaw = 0.45; this.pitch = 0.06; this.dist = 1; this.vYaw = 0; this.target = null;
     this.auto = !reduced();
@@ -225,7 +243,7 @@ export class Standee3D {
 
   /** Новий обʼєкт: полотно чи bitmap з прозорістю (або без — тоді фігура прямокутна). */
   setSource(img) { this.src = trimAlpha(img); this._rebuild(); return this; }
-  /** Змінити налаштування: heightCm, outlineCm, outlineColor, back, silColor, strut. */
+  /** Змінити налаштування: heightCm, outlineCm, back, strut. */
   set(patch) { Object.assign(this.opts, patch); this._rebuild(); return this; }
   /** Повернути до ракурсу: 'front' | 'side' | 'back'. */
   show(which) {
@@ -280,6 +298,7 @@ export class Standee3D {
       const D2 = edt(notM, W, H);
       for (let i = 0; i < N; i++) F[i] = notM[i] ? -(D1[i] - R) : D2[i] - c;
     }
+    fillBetweenLegs(F, W, H);
     fillSmallHoles(F, W, H);
 
     const loops = contours(F, W, H);
@@ -313,41 +332,20 @@ export class Standee3D {
     const px = art.pad * q, pw = art.sw * q, ph = MASK_H * q;
 
     const front = canvas(tw, th), f = front.getContext('2d');
-    f.fillStyle = o.outlineColor; f.fillRect(0, 0, tw, th);
+    f.fillStyle = '#FFFFFF'; f.fillRect(0, 0, tw, th);   // обводка — білий фон друку
     f.imageSmoothingQuality = 'high';
     f.drawImage(src, px, px, pw, ph);
 
     const back = canvas(tw, th), b = back.getContext('2d');
-    const heightPx = (art.maxY - art.minY) * q, cxPx = (art.minX + art.maxX) / 2 * q;
-    const logo = (color, alpha) => {          // напис має читатись ззаду — дзеркалимо лише його
-      b.save(); b.translate(cxPx, art.maxY * q - heightPx * 0.06); b.scale(-1, 1);
-      b.globalAlpha = alpha; b.fillStyle = color;
-      b.font = `600 ${Math.round(heightPx * 0.022)}px Literata, Georgia, serif`;
-      b.textAlign = 'center'; b.textBaseline = 'middle'; b.fillText('printme', 0, 0); b.restore();
-    };
-    if (o.back === 'board') {
-      b.fillStyle = '#EEECE8'; b.fillRect(0, 0, tw, th);
-      const img = b.getImageData(0, 0, tw, th), d = img.data;   // легка фактура пластику
-      for (let i = 0; i < d.length; i += 4) { const n = (Math.random() - 0.5) * 7; d[i] += n; d[i + 1] += n; d[i + 2] += n; }
-      b.putImageData(img, 0, 0);
-      logo('#8C8580', 0.8);
-    } else if (o.back === 'silhouette') {
-      const g = b.createLinearGradient(0, art.minY * q, 0, art.maxY * q);
-      g.addColorStop(0, shade(o.silColor, 0.18)); g.addColorStop(1, shade(o.silColor, -0.12));
-      b.fillStyle = g; b.fillRect(0, 0, tw, th);
-      logo('#FFFFFF', 0.55);
-    } else if (o.back === 'same') {
-      b.drawImage(front, 0, 0);               // ззаду видно дзеркально — так і буде у виробі
-    } else {                                  // 'ghost': розмите знебарвлене фото (експеримент)
-      b.fillStyle = o.outlineColor; b.fillRect(0, 0, tw, th);
-      const tmp = canvas(tw, th), t = tmp.getContext('2d');
-      t.filter = `blur(${Math.max(6, heightPx * 0.012)}px) saturate(0.55) brightness(0.72)`;
-      t.drawImage(src, px, px, pw, ph);
-      t.filter = 'none';
-      t.globalCompositeOperation = 'destination-in';
-      t.drawImage(src, px, px, pw, ph);
-      b.drawImage(tmp, 0, 0);
+    const mat = MATERIAL[o.back] || MATERIAL.plastic;
+    b.fillStyle = mat.back; b.fillRect(0, 0, tw, th);
+    const img = b.getImageData(0, 0, tw, th), d = img.data, step = Math.max(3, Math.round(tw / 260));
+    for (let i = 0; i < d.length; i += 4) {
+      let n = (Math.random() - 0.5) * mat.noise;
+      if (mat.flutes && ((i / 4) % tw) % step === 0) n -= 5;     // ледь помітні хвилі гофрокартону
+      d[i] += n; d[i + 1] += n; d[i + 2] += n;
     }
+    b.putImageData(img, 0, 0);
     return { front, back };
   }
 
@@ -396,24 +394,14 @@ export class Standee3D {
                           t.anisotropy = this.renderer.capabilities.getMaxAnisotropy(); return t; };
     const mats = [
       new T.MeshStandardMaterial({ map: texOf(tex.back), roughness: 0.85 }),
-      new T.MeshStandardMaterial({ color: 0xF1EFEA, roughness: 0.9 }),
+      new T.MeshStandardMaterial({ color: (MATERIAL[o.back] || MATERIAL.plastic).edge, roughness: 0.9 }),
       new T.MeshStandardMaterial({ map: texOf(tex.front), roughness: 0.6 }),
     ];
     this.figure = new T.Group();
     this.figure.add(new T.Mesh(geo, mats));
 
     const wM = (art.maxX - art.minX) * s;
-    if (o.strut) {                            // підпірка: від ~55% висоти до підлоги позаду
-      const ay = heightM * 0.55, zf = -ay * 0.4, bz = -depth / 2;
-      const L = Math.hypot(ay, bz - zf), ws = Math.min(0.16, wM * 0.3);
-      const board = new T.MeshStandardMaterial({ color: 0xE8E5DF, roughness: 0.9 });
-      const strut = new T.Mesh(new T.BoxGeometry(ws, L, depth), board);
-      strut.position.set((art.strutX - cx) * s, ay / 2, (bz + zf) / 2 - depth / 2);
-      strut.rotation.x = Math.atan2(bz - zf, ay);
-      const hinge = new T.Mesh(new T.BoxGeometry(ws * 1.1, 0.05, 0.002), board);
-      hinge.position.set(strut.position.x, ay, bz - 0.001);
-      this.figure.add(strut, hinge);
-    }
+    if (o.strut) this._legs(art, s, cx, heightM, depth, wM);
     this.scene.add(this.figure);
 
     this.shadow.scale.set(Math.max(0.5, wM * 1.3), Math.max(0.5, heightM * 0.55), 1);
@@ -421,6 +409,38 @@ export class Standee3D {
     this.fitH = heightM; this.fitW = wM;
     this._fit();
     this.onBuilt?.({ heightCm: o.heightCm, widthCm: Math.round(wM * 100) });
+  }
+
+  /* Ніжки як у виробі: два вертикальні «плавники» перпендикулярно до фігури
+     (вузькі вгорі, ширші внизу); у картону між ними ще дві поперечні планки. */
+  _legs(art, s, cx, heightM, depth, wM) {
+    const T = this.T, mat = MATERIAL[this.opts.back] || MATERIAL.plastic;
+    // зсув глибини: коли ніжка стоїть до камери ребром, деякі GPU малюють її крізь фігуру
+    const m = new T.MeshStandardMaterial({ color: mat.edge, roughness: 0.9,
+      polygonOffset: true, polygonOffsetFactor: 4, polygonOffsetUnits: 4 });
+    const top = heightM * 0.55;                        // до якої висоти доходять ніжки
+    const gap = Math.min(0.12, wM * 0.25);             // відстань між плавниками
+    const dTop = 0.05, dBot = Math.max(0.14, top * 0.24);
+    const x0 = (art.strutX - cx) * s, bz = -depth / 2;
+
+    const fin = new T.Shape([new T.Vector2(0, 0), new T.Vector2(dBot, 0),
+                             new T.Vector2(dTop, top), new T.Vector2(0, top)]);
+    const finGeo = new T.ExtrudeGeometry(fin, { depth, bevelEnabled: false });
+    finGeo.rotateY(Math.PI / 2);                       // x форми → назад (−z), товщина → по x
+    for (const sx of [-1, 1]) {
+      const f = new T.Mesh(finGeo, m);
+      f.position.set(x0 + sx * gap / 2 - depth / 2, 0, bz);
+      this.figure.add(f);
+    }
+    // поперечні планки — лише в картонному варіанті; пластикові ніжки без них
+    if (this.opts.back !== 'cardboard') return;
+    const tab = (y, dz) => {
+      const t = new T.Mesh(new T.BoxGeometry(gap + 0.05, depth, dz), m);
+      t.position.set(x0, y, bz - dz / 2);
+      this.figure.add(t);
+    };
+    tab(top - 0.12, Math.min(0.07, dTop + (dBot - dTop) * 0.12));
+    tab(0.06, dBot * 0.7);
   }
 
   /* ---------- камера і керування ---------- */
@@ -436,6 +456,11 @@ export class Standee3D {
     const t = Math.tan(this.T.MathUtils.degToRad(this.camera.fov / 2));
     this.fitD = Math.max(this.fitH * 0.58 / t, this.fitW * 0.7 / (t * this.camera.aspect)) + 0.2;
     this.cy = this.fitH * 0.5;
+    // ближня площина якомога далі: на телефонах буфер глибини буває 16-бітним,
+    // і з near = 5 см ніжки за 5 мм пластику «просвічують» крізь лицьовий бік
+    this.camera.near = this.fitD * 0.2;
+    this.camera.far = this.fitD * 4;
+    this.camera.updateProjectionMatrix();
   }
   _bind(el) {
     const pts = new Map(); let pinch0 = 0, dist0 = 1, lastX = 0, lastT = 0, horiz = null;
