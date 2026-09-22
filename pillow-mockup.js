@@ -11,6 +11,14 @@
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 
 /** Мобільні браузери жорстко обмежують і пам'ять вкладки, і сумарну площу полотен. */
+// Сервер прибирання фону живе на Vercel. printme.world віддає GitHub Pages,
+// де /api/cutout немає (POST → 405), тому звідти ходимо на повну адресу Vercel.
+// Сам сервер дозволяє запити з printme.world (список ALLOWED у api/cutout.js).
+const API_HOST = 'https://pillow-preview.vercel.app';
+export const cutoutUrl = () =>
+  /(^|\.)vercel\.app$|^localhost$|^127\.0\.0\.1$/.test(location.hostname)
+    ? '/api/cutout' : API_HOST + '/api/cutout';
+
 export const isMobile = () =>
   matchMedia('(max-width: 820px)').matches ||
   (navigator.deviceMemory && navigator.deviceMemory <= 4) ||
@@ -145,13 +153,16 @@ export class PhotoSide {
     const tick = setInterval(() => { p = Math.min(0.95, p + 0.05); onProgress?.(p); }, 400);
     let r;
     try {
-      r = await fetch('/api/cutout', {
+      r = await fetch(cutoutUrl(), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ image: dataUrl, model: opts.model, engine: opts.engine }),
       });
     } finally { clearInterval(tick); }
-    if (!r.ok) throw new Error('сервер: ' + r.status + ' ' + (await r.text()).slice(0, 200));
+    if (!r.ok) {                                      // без HTML-сторінок помилок у тексті
+      const t = (await r.text()).replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+      throw new Error('сервер ' + r.status + (t ? ': ' + t.slice(0, 120) : ''));
+    }
 
     console.info('cutout:', r.headers.get('x-cutout-model'), r.headers.get('x-cutout-ms') + ' мс');
     let blob;

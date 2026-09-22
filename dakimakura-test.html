@@ -811,7 +811,7 @@ async function removeBg() {
       // запасний варіант — показуємо і причину, чому сервер не впорався
       const used = plan === server ? engineLabel(key)
         : key === 'local' ? 'у браузері'
-        : `⚠ у браузері (сервер: ${String(fails[0] || '').split('→').pop().trim().slice(0, 80)})`;
+        : `⚠ у браузері (${String(fails[0] || '').split('→').pop().trim().slice(0, 80)})`;
       const info = `${used}, ${((performance.now() - t0) / 1000).toFixed(1)} с`;
       cutCache.set(key, { bmp: side.cutout, box: side.cutoutBox, info });
       $('engineInfo').textContent = info;
@@ -949,7 +949,7 @@ try {
   // у редактора фігури своя версія: pillow.json міняється рідко, і без цього
   // браузер та GitHub Pages віддають стару копію standee-3d.js.
   // ⚠ Після кожного оновлення standee-3d.js збільшуй FIG_V.
-  const FIG_V = '7';
+  const FIG_V = '8';
   [M, S] = await Promise.all([import('./pillow-mockup.js' + tag),
                               import('./standee-3d.js?v=' + FIG_V + '-' + (root.v || ''))]);
   console.info('standee-3d версія', FIG_V);
