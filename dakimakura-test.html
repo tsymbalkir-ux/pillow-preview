@@ -892,7 +892,13 @@ try {
   const tag = '?v=' + (root.v || Date.now());
 
   step_ = 'завантаження модулів';
-  [M, S] = await Promise.all([import('./pillow-mockup.js' + tag), import('./standee-3d.js' + tag)]);
+  // у редактора фігури своя версія: pillow.json міняється рідко, і без цього
+  // браузер та GitHub Pages віддають стару копію standee-3d.js.
+  // ⚠ Після кожного оновлення standee-3d.js збільшуй FIG_V.
+  const FIG_V = '4';
+  [M, S] = await Promise.all([import('./pillow-mockup.js' + tag),
+                              import('./standee-3d.js?v=' + FIG_V + '-' + (root.v || ''))]);
+  console.info('standee-3d версія', FIG_V);
   side = new M.PhotoSide('A');
 
   step_ = 'запуск 3D';
