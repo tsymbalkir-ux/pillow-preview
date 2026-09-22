@@ -361,6 +361,9 @@ footer a:hover{color:var(--ink)}
 .fig-opt{margin-top:16px}
 .fig-row{display:flex;justify-content:space-between;align-items:baseline;font:500 14.5px/1.3 Onest,sans-serif}
 .fig-row output{color:var(--dim);font-variant-numeric:tabular-nums}
+.fig-select{width:100%;margin-top:8px;padding:11px 12px;border-radius:12px;border:1px solid var(--line);
+  background:var(--surface);color:var(--ink);font:500 15px/1.2 Onest,sans-serif}
+.fig-select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .fig-opt input[type=range]{width:100%;margin:8px 0 0;accent-color:var(--accent)}
 .fig-stage canvas:focus-visible,.fig-views button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 </style>
@@ -394,6 +397,18 @@ footer a:hover{color:var(--ink)}
 
   <div class="seg">
     <button type="button" id="cut" class="is-hl" disabled>Прибрати фон</button>
+  </div>
+
+  <div class="fig-opt">
+    <div class="fig-row"><label for="engine">Модель для фону</label><output id="engineInfo"></output></div>
+    <select id="engine" class="fig-select">
+      <option value="ideogram">Ideogram</option>
+      <option value="bria">Bria RMBG 2.0</option>
+      <option value="birefnet:Portrait">BiRefNet — Portrait</option>
+      <option value="birefnet:Matting">BiRefNet — Matting</option>
+      <option value="birefnet:General Use (Heavy)">BiRefNet — General Heavy</option>
+      <option value="local">У браузері (без сервера)</option>
+    </select>
   </div>
 
   <div class="fig-opt">
@@ -675,6 +690,7 @@ $('file').onchange = async e => {
   try {
     say('Готуємо макет…');
     await side.setPhoto(f);
+    cutCache.clear(); $('engineInfo').textContent = '';
     hasPhoto = true;
     hideAnchors();
     $('cut').disabled = false;
@@ -730,6 +746,33 @@ $('cut').onclick = async () => {
   await removeBg();
 };
 
+/* ---------- вибір моделі для прибирання фону ----------
+   Результат кожної моделі запамʼятовуємо: перемикання назад — миттєве і безкоштовно.
+   Стара адреса ?engine=…&model=… / ?cut=local теж працює — задає стартовий вибір. */
+const cutCache = new Map();          // ключ моделі → { bmp, box, info }
+{
+  const qs = new URLSearchParams(location.search);
+  const key = qs.get('cut') === 'local' ? 'local'
+    : qs.get('engine') === 'birefnet' || qs.get('model') ? 'birefnet:' + (qs.get('model') || 'Portrait')
+    : qs.get('engine') || 'ideogram';
+  if ([...$('engine').options].some(o => o.value === key)) $('engine').value = key;
+}
+const engineLabel = k => $('engine').querySelector(`option[value="${CSS.escape(k)}"]`)?.textContent || k;
+
+$('engine').onchange = async () => {
+  const key = $('engine').value;
+  if (!hasPhoto) return;                   // запамʼятали вибір — спрацює на наступному фото
+  const hit = cutCache.get(key);
+  if (hit) {
+    side.cutout = hit.bmp; side.cutoutBox = hit.box; side.useCutout(true);
+    fig.setSource(hit.bmp);
+    $('engineInfo').textContent = hit.info;
+    syncCutButton();
+    return;
+  }
+  await removeBg();
+};
+
 async function removeBg() {
   $('cut').disabled = true;
   bar.style.display = 'block';
@@ -745,15 +788,17 @@ async function removeBg() {
   //   ?model=Matting       — інша модель BiRefNet (Portrait | Matting | General Use (Heavy))
   //   ?engine=bria         — Bria RMBG 2.0 (~$0.018 за фото)
   //   ?engine=ideogram     — Ideogram remove-background (~$0.01 за фото)
-  const qs = new URLSearchParams(location.search);
-  const server = { label: 'Прибираємо фон…',
-                   run: () => side.removeBackgroundServer(cb, {
-                     model: qs.get('model') || undefined,
-                     engine: qs.get('engine') || 'ideogram' }) };
+  const key = $('engine').value;
+  const [engine, model] = key.split(':');
+  const server = { label: `Прибираємо фон (${engineLabel(key)})…`,
+                   run: () => side.removeBackgroundServer(cb, { engine, model }) };
   const local = M.isMobile()
     ? [lite, full({ worker: false, maxSide: 640 }, 'Пробуємо точнішу модель…')]
     : [full({}, 'Вантажимо модель…'), full({ worker: false }, 'Не вийшло, пробуємо легший режим…'), lite];
-  const plans = qs.get('cut') === 'local' ? local : [server, ...local];
+  const plans = key === 'local' ? local : [server, ...local];
+  $('engine').disabled = true;
+  $('engineInfo').textContent = '';
+  const t0 = performance.now();
 
   const fails = [];
   let lastErr = null;
@@ -762,6 +807,11 @@ async function removeBg() {
       say(plan.label);
       await plan.run();
       fig.setSource(side.cutout);
+      // якщо сервер не впорався і спрацював запасний варіант — так і пишемо
+      const used = plan === server ? engineLabel(key) : 'у браузері';
+      const info = `${used}, ${((performance.now() - t0) / 1000).toFixed(1)} с`;
+      cutCache.set(key, { bmp: side.cutout, box: side.cutoutBox, info });
+      $('engineInfo').textContent = info;
       say(DEFAULT_NOTE);
       lastErr = null;
       break;
@@ -777,6 +827,7 @@ async function removeBg() {
          fails.map((f, i) => `(${i + 1}) ${f}`).join('  ') + ' [' + M.envInfo() + ']', lastErr);
   }
   bar.style.display = 'none';
+  $('engine').disabled = false;
   syncCutButton();
 }
 
@@ -895,7 +946,7 @@ try {
   // у редактора фігури своя версія: pillow.json міняється рідко, і без цього
   // браузер та GitHub Pages віддають стару копію standee-3d.js.
   // ⚠ Після кожного оновлення standee-3d.js збільшуй FIG_V.
-  const FIG_V = '5';
+  const FIG_V = '6';
   [M, S] = await Promise.all([import('./pillow-mockup.js' + tag),
                               import('./standee-3d.js?v=' + FIG_V + '-' + (root.v || ''))]);
   console.info('standee-3d версія', FIG_V);
