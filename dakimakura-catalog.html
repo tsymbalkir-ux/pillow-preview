@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Аніме дакімакури — Форм-Мастер</title>
+<link rel="preconnect" href="https://images.prom.ua">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
@@ -135,6 +136,11 @@ const SIZES = [100,120,150,180];
 let size = 120, cat = "all", q = "";
 const fmt = n => n.toLocaleString("uk-UA") + " ₴";
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+// Prom CDN віддає зменшені копії фото, якщо в назву файлу додати _wW_hH_
+const sized = (url, w, h) => url.replace(/(\/\d+)_/, `$1_w${w}_h${h}_`);
+const isPhone = () => matchMedia("(max-width: 820px)").matches;
+// якщо зменшена копія не відкрилась, підставляємо оригінал, а якщо і він ні, прибираємо фото
+window.imgFallback = img => { if (img.dataset.full && img.src !== img.dataset.full) { img.src = img.dataset.full; } else { img.remove(); } };
 const variant = (it, L) => it.sizes.find(s => s.L === L && !s.case);
 
 function renderSizes(){
@@ -165,12 +171,12 @@ function renderGrid(){
   const list = ITEMS.filter(i => (cat==="all" || i.cat===cat) && (!q || (i.character+" "+i.anime).toLowerCase().includes(q)));
   const el = document.getElementById("grid");
   if(!list.length){ el.innerHTML = `<p class="empty">Нічого не знайдено. Змініть запит або напишіть нам у Telegram, ми зробимо потрібного персонажа.</p>`; return; }
-  el.innerHTML = list.map(it => {
+  el.innerHTML = list.map((it, idx) => {
     const v = variant(it, size);
     return `<article class="card">
       <button class="pic" data-id="${it.id}" aria-label="Фото: ${esc(it.character)}">
         <span class="ph">${esc(it.character.split(" ").map(w=>w[0]).join(""))}</span>
-        <img src="${it.pics[0]}" alt="${esc(it.character)}, дакімакура" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+        <img src="${sized(it.pics[0],640,640)}" data-full="${it.pics[0]}" alt="${esc(it.character)}, дакімакура" loading="${idx<4?"eager":"lazy"}" fetchpriority="${idx<2?"high":"auto"}" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)">
       </button>
       <h3>${esc(it.character)}</h3>
       <p class="anime">${esc(SHORT[it.cat]||it.anime)}${it.variant?", "+it.variant:""}</p>
@@ -183,7 +189,7 @@ function renderGrid(){
 function openItem(id){
   const it = ITEMS.find(i => i.id===id), d = document.getElementById("dlg");
   d.innerHTML = `<div class="dlg">
-    <div class="shots">${it.pics.map(p=>`<img src="${p}" alt="${esc(it.character)}" referrerpolicy="no-referrer" loading="lazy">`).join("")}</div>
+    <div class="shots">${it.pics.map((p,i)=>`<img src="${isPhone()?sized(p,640,640):p}" data-full="${p}" alt="${esc(it.character)}, фото ${i+1}" referrerpolicy="no-referrer" loading="${i<2?"eager":"lazy"}" decoding="async" onerror="imgFallback(this)">`).join("")}</div>
     <div class="info">
       <button class="close" aria-label="Закрити">Закрити ✕</button>
       <h2>${esc(it.character)}</h2>
