@@ -386,7 +386,6 @@ footer a:hover{color:var(--ink)}
   <div class="fig">
     <div class="fig-stage" id="figStage">
       <p class="fig-load" id="figLoad">Готуємо 3D…</p>
-      <span class="fig-dims" id="figDims" hidden></span>
       <div class="fig-views" id="figViews" role="group" aria-label="Ракурс">
         <button type="button" data-view="front" aria-pressed="false">Спереду</button>
         <button type="button" data-view="side" aria-pressed="false">Збоку</button>
@@ -399,7 +398,7 @@ footer a:hover{color:var(--ink)}
     <button type="button" id="cut" class="is-hl" disabled>Прибрати фон</button>
   </div>
 
-  <div class="fig-opt">
+  <div class="fig-opt" hidden>
     <div class="fig-row"><label for="engine">Модель для фону</label><output id="engineInfo"></output></div>
     <select id="engine" class="fig-select">
       <option value="ideogram">Ideogram</option>
@@ -411,16 +410,16 @@ footer a:hover{color:var(--ink)}
     </select>
   </div>
 
-  <div class="fig-opt">
+  <div class="fig-opt" hidden>
     <div class="fig-row"><span>Обводка</span><output id="outlineVal">2 см</output></div>
     <input type="range" id="outline" min="0" max="6" step="0.5" value="2" aria-label="Ширина обводки, см">
   </div>
 
   <div class="fig-opt">
-    <div class="fig-row"><span>Зворотний бік</span></div>
+    <div class="fig-row"><span>Матеріал</span></div>
     <div class="sides fig-backs" id="backs">
-      <button type="button" data-back="plastic" aria-selected="true">Пластик<small>білий</small></button>
       <button type="button" data-back="cardboard" aria-selected="false">Картон<small>крафтовий</small></button>
+      <button type="button" data-back="plastic" aria-selected="true">Пластик<small>білий</small></button>
     </div>
   </div>
 
@@ -718,11 +717,14 @@ $('outline').oninput = e => {
   fig?.set({ outlineCm: v });
 };
 
-/* ---------- зворотний бік ---------- */
+/* ---------- матеріал ----------
+   Пластик — завжди з обводкою 2 см, картон — завжди без обводки. */
+const outlineFor = back => back === 'plastic' ? 2 : 0;
+const currentBack = () => document.querySelector('#backs [aria-selected="true"]').dataset.back;
 const markView = w => [...$('figViews').children].forEach(b => b.setAttribute('aria-pressed', b.dataset.view === w));
 [...$('backs').children].forEach(b => b.onclick = () => {
   [...$('backs').children].forEach(o => o.setAttribute('aria-selected', o === b));
-  fig?.set({ back: b.dataset.back });
+  fig?.set({ back: b.dataset.back, outlineCm: outlineFor(b.dataset.back) });
   fig?.show('back'); markView('back');            // одразу показуємо, що змінилось
 });
 [...$('figViews').children].forEach(b => b.onclick = () => { fig?.show(b.dataset.view); markView(b.dataset.view); });
@@ -755,7 +757,7 @@ const cutCache = new Map();          // ключ моделі → { bmp, box, in
   const key = qs.get('cut') === 'local' ? 'local'
     : qs.get('engine') === 'birefnet' || qs.get('model') ? 'birefnet:' + (qs.get('model') || 'Portrait')
     : qs.get('engine') || 'ideogram';
-  if ([...$('engine').options].some(o => o.value === key)) $('engine').value = key;
+  $('engine').value = 'ideogram';          // модель фіксована, вибір прибрано з інтерфейсу
 }
 const engineLabel = k => $('engine').querySelector(`option[value="${CSS.escape(k)}"]`)?.textContent || k;
 
@@ -957,11 +959,9 @@ try {
 
   step_ = 'запуск 3D';
   fig = new S.Standee3D({ host: $('figStage'), mobile: M.isMobile() });
-  fig.set({ heightCm: (size || SIZES[1]).len });
+  fig.set({ heightCm: (size || SIZES[1]).len, back: currentBack(), outlineCm: outlineFor(currentBack()) });
   fig.onUserTurn = () => markView(null);
   fig.onBuilt = ({ heightCm, widthCm }) => {
-    $('figDims').textContent = `${heightCm} × ${widthCm} см`;
-    $('figDims').hidden = false;
     repaint();
   };
   await fig.init();
