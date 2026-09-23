@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Аніме дакімакури — Форм-Мастер</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2F1F7; --surface:#FFFFFF; --ink:#1F1A3D; --muted:#6A6588;
+  --line:#DCD9EA; --accent:#E0457B; --accent-ink:#FFFFFF; --lilac:#C9C3EA;
+  --display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --body:"Onest",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#15122A; --surface:#211D3B; --ink:#EEEBFA; --muted:#A39FC0; --line:#342F55; --lilac:#4A4378;
+}}
+:root[data-theme="dark"]{--paper:#15122A; --surface:#211D3B; --ink:#EEEBFA; --muted:#A39FC0; --line:#342F55; --lilac:#4A4378;}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.5 var(--body);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+
+.top{display:flex;justify-content:space-between;align-items:center;padding:18px 0;font-size:15px}
+.brand{font:700 15px/1 var(--display);text-decoration:none;letter-spacing:.01em}
+.top a.tg{color:var(--muted);text-decoration:none}
+.top a.tg:hover{color:var(--ink)}
+
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:end;padding:28px 0 36px;border-bottom:1px solid var(--line)}
+h1{font:700 clamp(40px,7vw,84px)/.95 var(--display);margin:0;letter-spacing:-.02em}
+.lead{color:var(--muted);max-width:44ch;margin:18px 0 0}
+
+/* size ruler: the one memorable element */
+.ruler{display:flex;flex-direction:column;gap:10px}
+.ruler-title{font-size:14px;color:var(--muted);margin:0 0 4px}
+.size{all:unset;cursor:pointer;display:grid;grid-template-columns:1fr auto;align-items:center;gap:14px;border-radius:999px}
+.size .bar{height:34px;border-radius:999px;background:var(--lilac);display:flex;align-items:center;padding:0 14px;font:600 14px/1 var(--body);white-space:nowrap;transition:background .2s,color .2s}
+.size .p{font:500 15px/1 var(--display);min-width:92px;text-align:right}
+.size[aria-pressed="true"] .bar{background:var(--accent);color:var(--accent-ink)}
+.size:hover .bar{filter:brightness(.97)}
+
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:24px 0 8px}
+.chip{all:unset;cursor:pointer;padding:9px 16px;border:1px solid var(--line);border-radius:999px;font-size:15px;background:var(--surface)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip .n{color:var(--muted);margin-left:6px}
+.chip[aria-pressed="true"] .n{color:inherit;opacity:.7}
+.search{margin-left:auto;padding:9px 16px;border:1px solid var(--line);border-radius:999px;font:inherit;background:var(--surface);color:var(--ink);min-width:220px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:28px 20px;padding:20px 0 60px}
+.card{display:flex;flex-direction:column;gap:10px}
+.pic{all:unset;cursor:zoom-in;position:relative;aspect-ratio:1/2.3;border-radius:95px;overflow:hidden;background:var(--lilac);display:block}
+.pic img{width:100%;height:100%;object-fit:cover}
+.pic .ph{position:absolute;inset:0;display:grid;place-items:center;font:700 28px var(--display);color:var(--muted)}
+.card h3{font:500 17px/1.25 var(--display);margin:4px 0 0}
+.card .anime{font-size:14px;color:var(--muted);margin:0}
+.card .row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:auto}
+.price{font:600 18px/1 var(--body)}
+.buy{display:inline-block;padding:9px 14px;border-radius:999px;background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:600;font-size:14px}
+.buy:hover{filter:brightness(1.07)}
+.empty{grid-column:1/-1;padding:40px 0;color:var(--muted)}
+
+.custom{display:flex;flex-wrap:wrap;gap:16px 32px;justify-content:space-between;align-items:center;padding:32px;border-radius:28px;background:var(--surface);border:1px solid var(--line);margin-bottom:40px}
+.custom h2{font:700 24px/1.2 var(--display);margin:0 0 6px}
+.custom p{margin:0;color:var(--muted);max-width:52ch}
+footer{color:var(--muted);font-size:14px;padding:0 0 40px}
+
+/* gallery dialog */
+dialog{border:0;padding:0;max-width:min(980px,94vw);width:100%;border-radius:24px;background:var(--surface);color:var(--ink)}
+dialog::backdrop{background:rgba(15,12,35,.7)}
+.dlg{display:grid;grid-template-columns:1fr 320px;max-height:88vh}
+.shots{display:flex;gap:10px;overflow-x:auto;padding:16px;scroll-snap-type:x mandatory;background:var(--paper)}
+.shots img{height:min(72vh,640px);width:auto;border-radius:14px;scroll-snap-align:start;flex:none}
+.info{padding:24px;display:flex;flex-direction:column;gap:12px;overflow:auto}
+.info h2{font:700 22px/1.2 var(--display);margin:0}
+.info ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.info li a{display:flex;justify-content:space-between;padding:12px 2px;border-bottom:1px solid var(--line);text-decoration:none}
+.info li a:hover{color:var(--accent)}
+.info .spec{font-size:14px;color:var(--muted);margin:0}
+.close{all:unset;cursor:pointer;align-self:flex-end;font-size:14px;color:var(--muted);padding:4px 8px}
+
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr;gap:28px}
+  .search{margin-left:0;width:100%}
+  .dlg{grid-template-columns:1fr}
+  .shots img{height:52vh}
+}
+@media (max-width:480px){.grid{grid-template-columns:repeat(2,1fr);gap:22px 12px}.pic{border-radius:70px}.card h3{font-size:15px}.row{flex-direction:column;align-items:flex-start!important}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="https://masterform.com.ua/">Форм-Мастер</a>
+    <a class="tg" href="https://telegram.me/masterform_ua">Написати в Telegram</a>
+  </header>
+
+  <section class="hero">
+    <div>
+      <h1>Аніме дакімакури</h1>
+      <p class="lead">Подушки-обіймашки з персонажами. Наволочка з габардину на прихованій блискавці знімається для прання, всередині холофайбер.</p>
+    </div>
+    <div class="ruler" role="group" aria-label="Розмір подушки">
+      <p class="ruler-title">Оберіть розмір, і ціни в каталозі оновляться</p>
+      <div id="sizes"></div>
+    </div>
+  </section>
+
+  <div class="controls" id="filters"></div>
+  <main class="grid" id="grid" aria-live="polite"></main>
+
+  <section class="custom">
+    <div>
+      <h2>Немає вашого персонажа?</h2>
+      <p>Надішліть картинку чи ім'я персонажа, і ми надрукуємо дакімакуру під замовлення в будь-якому з розмірів.</p>
+    </div>
+    <a class="buy" href="https://telegram.me/masterform_ua">Надіслати в Telegram</a>
+  </section>
+  <footer>Ціни в гривнях. Оформлення замовлення і доставка на <a href="https://masterform.com.ua/">masterform.com.ua</a>.</footer>
+</div>
+
+<dialog id="dlg" aria-label="Фото товару"></dialog>
+
+<script>
+const ITEMS = [{"id": "2", "name": "Аніме Дакімакура Ако Тамакі А ти думав, що твоя дружина в онлайн-грі насправді не дівчина? (подушка)", "character": "Ако Тамакі", "anime": "А ти думав, що твоя дружина в онлайн-грі насправді не дівчина?", "cat": "104922176", "pics": ["https://images.prom.ua/6766693363_anime-dakimakura-ako.jpg", "https://images.prom.ua/3546472702_anime-dakimakura-ako.jpg", "https://images.prom.ua/4557260422_anime-dakimakura-ako.jpg", "https://images.prom.ua/4363779747_anime-dakimakura-ako.jpg", "https://images.prom.ua/4363779877_anime-dakimakura-ako.jpg"], "sizes": [{"label": "100×33", "L": 100, "case": false, "price": 1100, "avail": true, "url": "https://masterform.com.ua/ua/p2738043142-anime-dakimakura-ako.html"}, {"label": "120×40", "L": 120, "case": false, "price": 1290, "avail": true, "url": "https://masterform.com.ua/ua/p1545305149-anime-dakimakura-ako.html"}, {"label": "150×50", "L": 150, "case": false, "price": 1640, "avail": true, "url": "https://masterform.com.ua/ua/p1545316461-anime-dakimakura-ako.html"}, {"label": "180×60", "L": 180, "case": false, "price": 2390, "avail": true, "url": "https://masterform.com.ua/ua/p2738075471-anime-dakimakura-ako.html"}], "variant": "дизайн 1"}, {"id": "4", "name": "Аніме Дакімакура Ліліт Брістол Абсолютний дует (подушка обіймашка) 120*40 см", "character": "Ліліт Брістол", "anime": "Абсолютний дует", "cat": "104922203", "pics": ["https://images.prom.ua/6766695050_anime-dakimakura-lilit.jpg", "https://images.prom.ua/3546472704_anime-dakimakura-lilit.jpg", "https://images.prom.ua/4557260422_anime-dakimakura-lilit.jpg", "https://images.prom.ua/4363779747_anime-dakimakura-lilit.jpg", "https://images.prom.ua/4363779877_anime-dakimakura-lilit.jpg"], "sizes": [{"label": "100×33", "L": 100, "case": false, "price": 1100, "avail": true, "url": "https://masterform.com.ua/ua/p2738043144-anime-dakimakura-lilit.html"}, {"label": "120×40", "L": 120, "case": false, "price": 1290, "avail": true, "url": "https://masterform.com.ua/ua/p1545305151-anime-dakimakura-lilit.html"}, {"label": "150×50", "L": 150, "case": false, "price": 1640, "avail": true, "url": "https://masterform.com.ua/ua/p1545316463-anime-dakimakura-lilit.html"}, {"label": "180×60", "L": 180, "case": false, "price": 2390, "avail": true, "url": "https://masterform.com.ua/ua/p2738075473-anime-dakimakura-lilit.html"}], "variant": "дизайн 1"}, {"id": "5", "name": "Аніме Дакімакура Юлія Сігтуна Абсолютний дует (подушка обіймашка) 120*40 см", "character": "Юлія Сігтуна", "anime": "Абсолютний дует", "cat": "104922203", "pics": ["https://images.prom.ua/6766696936_anime-dakimakura-yuliya.jpg", "https://images.prom.ua/3546472706_anime-dakimakura-yuliya.jpg", "https://images.prom.ua/4557260422_anime-dakimakura-yuliya.jpg", "https://images.prom.ua/4363779747_anime-dakimakura-yuliya.jpg", "https://images.prom.ua/4363779877_anime-dakimakura-yuliya.jpg"], "sizes": [{"label": "100×33", "L": 100, "case": false, "price": 1100, "avail": true, "url": "https://masterform.com.ua/ua/p2738043145-anime-dakimakura-yuliya.html"}, {"label": "120×40", "L": 120, "case": false, "price": 1290, "avail": true, "url": "https://masterform.com.ua/ua/p1545305152-anime-dakimakura-yuliya.html"}, {"label": "150×50", "L": 150, "case": false, "price": 1640, "avail": true, "url": "https://masterform.com.ua/ua/p1545316464-anime-dakimakura-yuliya.html"}, {"label": "180×60", "L": 180, "case": false, "price": 2390, "avail": true, "url": "https://masterform.com.ua/ua/p2738075474-anime-dakimakura-yuliya.html"}], "variant": "дизайн 1"}, {"id": "7", "name": "Аніме Дакімакура Юлія Сігтуна Абсолютний дует (подушка обіймашка) 120*40 см", "character": "Юлія Сігтуна", "anime": "Абсолютний дует", "cat": "104922203", "pics": ["https://images.prom.ua/6766698818_anime-dakimakura-yuliya.jpg", "https://images.prom.ua/3546472708_anime-dakimakura-yuliya.jpg", "https://images.prom.ua/4557260422_anime-dakimakura-yuliya.jpg", "https://images.prom.ua/4363779747_anime-dakimakura-yuliya.jpg", "https://images.prom.ua/4363779877_anime-dakimakura-yuliya.jpg"], "sizes": [{"label": "100×33", "L": 100, "case": false, "price": 1100, "avail": true, "url": "https://masterform.com.ua/ua/p2738043146-anime-dakimakura-yuliya.html"}, {"label": "120×40", "L": 120, "case": false, "price": 1290, "avail": true, "url": "https://masterform.com.ua/ua/p1545305154-anime-dakimakura-yuliya.html"}, {"label": "150×50", "L": 150, "case": false, "price": 1640, "avail": true, "url": "https://masterform.com.ua/ua/p1545316466-anime-dakimakura-yuliya.html"}, {"label": "180×60", "L": 180, "case": false, "price": 2390, "avail": true, "url": "https://masterform.com.ua/ua/p2738075475-anime-dakimakura-yuliya.html"}], "variant": "дизайн 2"}, {"id": "8", "name": "Аніме Дакімакура Юлія Сігтуна Абсолютний дует (подушка обіймашка) 120*40 см", "character": "Юлія Сігтуна", "anime": "Абсолютний дует", "cat": "104922203", "pics": ["https://images.prom.ua/6766699982_anime-dakimakura-yuliya.jpg", "https://images.prom.ua/3546472709_anime-dakimakura-yuliya.jpg", "https://images.prom.ua/4557260422_anime-dakimakura-yuliya.jpg", "https://images.prom.ua/4363779747_anime-dakimakura-yuliya.jpg", "https://images.prom.ua/4363779877_anime-dakimakura-yuliya.jpg"], "sizes": [{"label": "100×33", "L": 100, "case": false, "price": 1100, "avail": true, "url": "https://masterform.com.ua/ua/p2738043148-anime-dakimakura-yuliya.html"}, {"label": "120×40", "L": 120, "case": false, "price": 1290, "avail": true, "url": "https://masterform.com.ua/ua/p1545305155-anime-dakimakura-yuliya.html"}, {"label": "150×50", "L": 150, "case": false, "price": 1640, "avail": true, "url": "https://masterform.com.ua/ua/p1545316467-anime-dakimakura-yuliya.html"}, {"label": "180×60", "L": 180, "case": false, "price": 2390, "avail": true, "url": "https://masterform.com.ua/ua/p2738075476-anime-dakimakura-yuliya.html"}], "variant": "дизайн 3"}, {"id": "350259", "name": "Ліліт Бристоль Абсолютний дует дакімакура, подушка обіймашка ростова 120*40 см", "character": "Ліліт Брістол", "anime": "Абсолютний дует", "cat": "104922203", "pics": ["https://images.prom.ua/6475428522_lilit-bristol-absolyutnij.jpg", "https://images.prom.ua/6475428523_lilit-bristol-absolyutnij.jpg", "https://images.prom.ua/6475428524_lilit-bristol-absolyutnij.jpg", "https://images.prom.ua/6475428525_lilit-bristol-absolyutnij.jpg"], "sizes": [{"label": "100×33", "L": 100, "case": false, "price": 1100, "avail": true, "url": "https://masterform.com.ua/ua/p2738048722-lilit-bristol-absolyutnij.html"}, {"label": "120×40", "L": 120, "case": false, "price": 1290, "avail": true, "url": "https://masterform.com.ua/ua/p2487327330-lilit-bristol-absolyutnij.html"}, {"label": "150×50", "L": 150, "case": false, "price": 1640, "avail": true, "url": "https://masterform.com.ua/ua/p2487328486-lilit-bristol-absolyutnij.html"}, {"label": "180×60", "L": 180, "case": false, "price": 2390, "avail": true, "url": "https://masterform.com.ua/ua/p2738083400-lilit-bristol-absolyutnij.html"}], "variant": "дизайн 2"}, {"id": "350260", "name": "Джулі Сігтуна Абсолютний дует дакімакура, подушка обіймашка ростова 120*40 см", "character": "Юлія Сігтуна", "anime": "Абсолютний дует", "cat": "104922203", "pics": ["https://images.prom.ua/6475428564_dzhuli-sigtuna-absolyutnij.jpg", "https://images.prom.ua/6475428565_dzhuli-sigtuna-absolyutnij.jpg", "https://images.prom.ua/6475428566_dzhuli-sigtuna-absolyutnij.jpg", "https://images.prom.ua/6475428567_dzhuli-sigtuna-absolyutnij.jpg"], "sizes": [{"label": "100×33", "L": 100, "case": false, "price": 1100, "avail": true, "url": "https://masterform.com.ua/ua/p2738048723-dzhuli-sigtuna-absolyutnij.html"}, {"label": "120×40", "L": 120, "case": false, "price": 1290, "avail": true, "url": "https://masterform.com.ua/ua/p2487327331-dzhuli-sigtuna-absolyutnij.html"}, {"label": "150×50", "L": 150, "case": false, "price": 1640, "avail": true, "url": "https://masterform.com.ua/ua/p2487328487-dzhuli-sigtuna-absolyutnij.html"}, {"label": "180×60", "L": 180, "case": false, "price": 2390, "avail": true, "url": "https://masterform.com.ua/ua/p2738083401-dzhuli-sigtuna-absolyutnij.html"}], "variant": "дизайн 4"}, {"id": "350254", "name": "Юріє Сігтуна Абсолютний дует дакімакура, подушка обіймашка ростова 120*40 см", "character": "Юлія Сігтуна", "anime": "Абсолютний дует", "cat": "104922203", "pics": ["https://images.prom.ua/6475428569_yuriye-sigtuna-absolyutnij.jpg", "https://images.prom.ua/6475428570_yuriye-sigtuna-absolyutnij.jpg", "https://images.prom.ua/6475428571_yuriye-sigtuna-absolyutnij.jpg"], "sizes": [{"label": "100×33", "L": 100, "case": false, "price": 1100, "avail": true, "url": "https://masterform.com.ua/ua/p2738049005-yuriye-sigtuna-absolyutnij.html"}, {"label": "120×40", "L": 120, "case": false, "price": 1290, "avail": true, "url": "https://masterform.com.ua/ua/p2487327332-yuriye-sigtuna-absolyutnij.html"}, {"label": "150×50", "L": 150, "case": false, "price": 1640, "avail": true, "url": "https://masterform.com.ua/ua/p2487328488-yuriye-sigtuna-absolyutnij.html"}, {"label": "180×60", "L": 180, "case": false, "price": 2390, "avail": true, "url": "https://masterform.com.ua/ua/p2738083402-yuriye-sigtuna-absolyutnij.html"}], "variant": "дизайн 5"}, {"id": "350261", "name": "Юріє Сігтуна Абсолютний дует дакімакура, подушка обіймашка ростова 120*40 см", "character": "Юлія Сігтуна", "anime": "Абсолютний дует", "cat": "104922203", "pics": ["https://images.prom.ua/6475428572_yuriye-sigtuna-absolyutnij.jpg", "https://images.prom.ua/6475428573_yuriye-sigtuna-absolyutnij.jpg", "https://images.prom.ua/6475428575_yuriye-sigtuna-absolyutnij.jpg"], "sizes": [{"label": "100×33", "L": 100, "case": false, "price": 1100, "avail": true, "url": "https://masterform.com.ua/ua/p2738049006-yuriye-sigtuna-absolyutnij.html"}, {"label": "120×40", "L": 120, "case": false, "price": 1290, "avail": true, "url": "https://masterform.com.ua/ua/p2487327333-yuriye-sigtuna-absolyutnij.html"}, {"label": "150×50", "L": 150, "case": false, "price": 1640, "avail": true, "url": "https://masterform.com.ua/ua/p2487328489-yuriye-sigtuna-absolyutnij.html"}, {"label": "180×60", "L": 180, "case": false, "price": 2390, "avail": true, "url": "https://masterform.com.ua/ua/p2738083403-yuriye-sigtuna-absolyutnij.html"}], "variant": "дизайн 6"}, {"id": "350476", "name": "Ако Тамаки А ти думав, що тут немає дівчат? дакімакура, подушка обіймашка ростова 120*40 см", "character": "Ако Тамакі", "anime": "А ти думав, що твоя дружина в онлайн-грі насправді не дівчина?", "cat": "104922176", "pics": ["https://images.prom.ua/6475429652_ako-tamaki-a.jpg", "https://images.prom.ua/6475429653_ako-tamaki-a.jpg", "https://images.prom.ua/6475429654_ako-tamaki-a.jpg", "https://images.prom.ua/6475429655_ako-tamaki-a.jpg", "https://images.prom.ua/6475429656_ako-tamaki-a.jpg", "https://images.prom.ua/6475429657_ako-tamaki-a.jpg", "https://images.prom.ua/6475429658_ako-tamaki-a.jpg"], "sizes": [{"label": "100×33", "L": 100, "case": false, "price": 1100, "avail": true, "url": "https://masterform.com.ua/ua/p2738049034-ako-tamaki-dumav.html"}, {"label": "120×40", "L": 120, "case": false, "price": 1290, "avail": true, "url": "https://masterform.com.ua/ua/p2487327361-ako-tamaki-dumav.html"}, {"label": "150×50", "L": 150, "case": false, "price": 1640, "avail": true, "url": "https://masterform.com.ua/ua/p2487328517-ako-tamaki-dumav.html"}, {"label": "180×60", "L": 180, "case": false, "price": 2390, "avail": true, "url": "https://masterform.com.ua/ua/p2738083431-ako-tamaki-dumav.html"}], "variant": "дизайн 2"}, {"id": "350475", "name": "Ако Тамаки А ти думав, що тут немає дівчат? дакімакура, подушка обіймашка ростова 120*40 см", "character": "Ако Тамакі", "anime": "А ти думав, що твоя дружина в онлайн-грі насправді не дівчина?", "cat": "104922176", "pics": ["https://images.prom.ua/6475429659_ako-tamaki-a.jpg", "https://images.prom.ua/6475429661_ako-tamaki-a.jpg", "https://images.prom.ua/6475429664_ako-tamaki-a.jpg", "https://images.prom.ua/6475429666_ako-tamaki-a.jpg", "https://images.prom.ua/6475429672_ako-tamaki-a.jpg", "https://images.prom.ua/6475429675_ako-tamaki-a.jpg", "https://images.prom.ua/6475429678_ako-tamaki-a.jpg"], "sizes": [{"label": "100×33", "L": 100, "case": false, "price": 1100, "avail": true, "url": "https://masterform.com.ua/ua/p2738049035-ako-tamaki-dumav.html"}, {"label": "120×40", "L": 120, "case": false, "price": 1290, "avail": true, "url": "https://masterform.com.ua/ua/p2487327362-ako-tamaki-dumav.html"}, {"label": "150×50", "L": 150, "case": false, "price": 1640, "avail": true, "url": "https://masterform.com.ua/ua/p2487328518-ako-tamaki-dumav.html"}, {"label": "180×60", "L": 180, "case": false, "price": 2390, "avail": true, "url": "https://masterform.com.ua/ua/p2738083432-ako-tamaki-dumav.html"}], "variant": "дизайн 3"}, {"id": "7183", "name": "Аі Енма Пекельна дівчина дакімакура, подушка обіймашка ростова 120*40 см", "character": "Ай Енма", "anime": "Пекельна дівчинка", "cat": "104922235", "pics": ["https://images.prom.ua/6475447331_ai-enma-pekelna.jpg", "https://images.prom.ua/6475447332_ai-enma-pekelna.jpg", "https://images.prom.ua/6475447333_ai-enma-pekelna.jpg", "https://images.prom.ua/6475447334_ai-enma-pekelna.jpg", "https://images.prom.ua/6475447335_ai-enma-pekelna.jpg", "https://images.prom.ua/6475447336_ai-enma-pekelna.jpg", "https://images.prom.ua/6475447337_ai-enma-pekelna.jpg"], "sizes": [{"label": "100×33", "L": 100, "case": false, "price": 1100, "avail": true, "url": "https://masterform.com.ua/ua/p2738052769-enma-pekelna-divchina.html"}, {"label": "120×40", "L": 120, "case": false, "price": 1290, "avail": true, "url": "https://masterform.com.ua/ua/p2487336866-enma-pekelna-divchina.html"}, {"label": "150×50", "L": 150, "case": false, "price": 1640, "avail": true, "url": "https://masterform.com.ua/ua/p2487343246-enma-pekelna-divchina.html"}, {"label": "180×60", "L": 180, "case": false, "price": 2390, "avail": true, "url": "https://masterform.com.ua/ua/p2738087058-enma-pekelna-divchina.html"}], "variant": "дизайн 1"}, {"id": "7187", "name": "Аі Енма Пекельна дівчина дакімакура, подушка обіймашка ростова 120*40 см", "character": "Ай Енма", "anime": "Пекельна дівчинка", "cat": "104922235", "pics": ["https://images.prom.ua/6475447342_ai-enma-pekelna.jpg", "https://images.prom.ua/6475447343_ai-enma-pekelna.jpg", "https://images.prom.ua/6475447344_ai-enma-pekelna.jpg", "https://images.prom.ua/6475447345_ai-enma-pekelna.jpg"], "sizes": [{"label": "100×33", "L": 100, "case": false, "price": 1100, "avail": true, "url": "https://masterform.com.ua/ua/p2738052771-enma-pekelna-divchina.html"}, {"label": "120×40", "L": 120, "case": false, "price": 1290, "avail": true, "url": "https://masterform.com.ua/ua/p2487336868-enma-pekelna-divchina.html"}, {"label": "150×50", "L": 150, "case": false, "price": 1640, "avail": true, "url": "https://masterform.com.ua/ua/p2487343248-enma-pekelna-divchina.html"}, {"label": "180×60", "L": 180, "case": false, "price": 2390, "avail": true, "url": "https://masterform.com.ua/ua/p2738087060-enma-pekelna-divchina.html"}], "variant": "дизайн 2"}];
+const SHORT = {"104922176":"Дружина з онлайн-гри","104922203":"Абсолютний дует","104922235":"Пекельна дівчинка"};
+const SIZES = [100,120,150,180];
+let size = 120, cat = "all", q = "";
+const fmt = n => n.toLocaleString("uk-UA") + " ₴";
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const variant = (it, L) => it.sizes.find(s => s.L === L && !s.case);
+
+function renderSizes(){
+  const el = document.getElementById("sizes");
+  const ref = ITEMS[0];
+  el.innerHTML = SIZES.map(L => {
+    const v = variant(ref, L);
+    return `<button class="size" aria-pressed="${L===size}" data-l="${L}" style="--w:${Math.round(L/180*100)}%">
+      <span style="display:block;width:${Math.round(38 + (L-100)/80*62)}%"><span class="bar">${v.label} см</span></span>
+      <span class="p">${fmt(v.price)}</span></button>`;
+  }).join("");
+  el.style.display="flex"; el.style.flexDirection="column"; el.style.gap="10px";
+  el.querySelectorAll(".size").forEach(b => b.onclick = () => { size = +b.dataset.l; renderSizes(); renderGrid(); });
+}
+
+function renderFilters(){
+  const counts = {}; ITEMS.forEach(i => counts[i.cat] = (counts[i.cat]||0) + 1);
+  const opts = [["all","Усі",ITEMS.length], ...Object.keys(SHORT).filter(k=>counts[k]).map(k => [k, SHORT[k], counts[k]])];
+  const el = document.getElementById("filters");
+  el.innerHTML = opts.map(([k,l,n]) => `<button class="chip" aria-pressed="${k===cat}" data-k="${k}">${l}<span class="n">${n}</span></button>`).join("")
+    + `<input class="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа" value="${esc(q)}">`;
+  el.querySelectorAll(".chip").forEach(b => b.onclick = () => { cat = b.dataset.k; renderFilters(); renderGrid(); });
+  const s = el.querySelector(".search");
+  s.oninput = () => { q = s.value.trim().toLowerCase(); renderGrid(); };
+}
+
+function renderGrid(){
+  const list = ITEMS.filter(i => (cat==="all" || i.cat===cat) && (!q || (i.character+" "+i.anime).toLowerCase().includes(q)));
+  const el = document.getElementById("grid");
+  if(!list.length){ el.innerHTML = `<p class="empty">Нічого не знайдено. Змініть запит або напишіть нам у Telegram, ми зробимо потрібного персонажа.</p>`; return; }
+  el.innerHTML = list.map(it => {
+    const v = variant(it, size);
+    return `<article class="card">
+      <button class="pic" data-id="${it.id}" aria-label="Фото: ${esc(it.character)}">
+        <span class="ph">${esc(it.character.split(" ").map(w=>w[0]).join(""))}</span>
+        <img src="${it.pics[0]}" alt="${esc(it.character)}, дакімакура" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+      </button>
+      <h3>${esc(it.character)}</h3>
+      <p class="anime">${esc(SHORT[it.cat]||it.anime)}${it.variant?", "+it.variant:""}</p>
+      <div class="row"><span class="price">${fmt(v.price)}</span><a class="buy" href="${v.url}" target="_blank" rel="noopener">Замовити</a></div>
+    </article>`;
+  }).join("");
+  el.querySelectorAll(".pic").forEach(b => b.onclick = () => openItem(b.dataset.id));
+}
+
+function openItem(id){
+  const it = ITEMS.find(i => i.id===id), d = document.getElementById("dlg");
+  d.innerHTML = `<div class="dlg">
+    <div class="shots">${it.pics.map(p=>`<img src="${p}" alt="${esc(it.character)}" referrerpolicy="no-referrer" loading="lazy">`).join("")}</div>
+    <div class="info">
+      <button class="close" aria-label="Закрити">Закрити ✕</button>
+      <h2>${esc(it.character)}</h2>
+      <p class="spec">${esc(it.anime)}</p>
+      <ul>${it.sizes.map(s=>`<li><a href="${s.url}" target="_blank" rel="noopener"><span>${s.case?"Лише наволочка ":""}${s.label} см</span><strong>${fmt(s.price)}</strong></a></li>`).join("")}</ul>
+      <p class="spec">Габардин, сублімаційний друк, прихована блискавка. Наповнювач холофайбер.</p>
+    </div></div>`;
+  d.querySelector(".close").onclick = () => d.close();
+  d.onclick = e => { if(e.target===d) d.close(); };
+  d.showModal();
+}
+
+renderSizes(); renderFilters(); renderGrid();
+</script>
+</body>
+</html>
