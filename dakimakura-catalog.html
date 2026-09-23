@@ -41,11 +41,9 @@ h1{font:700 clamp(40px,7vw,84px)/.95 var(--display);margin:0;letter-spacing:-.02
 /* size ruler: the one memorable element */
 .ruler{display:flex;flex-direction:column;gap:10px}
 .ruler-title{font-size:14px;color:var(--muted);margin:0 0 4px}
-.size{all:unset;cursor:pointer;display:grid;grid-template-columns:1fr auto;align-items:center;gap:14px;border-radius:999px}
+.size{display:block}
 .size .bar{height:34px;border-radius:999px;background:var(--lilac);display:flex;align-items:center;padding:0 14px;font:600 14px/1 var(--body);white-space:nowrap;transition:background .2s,color .2s}
-.size .p{font:500 15px/1 var(--display);min-width:92px;text-align:right}
-.size[aria-pressed="true"] .bar{background:var(--accent);color:var(--accent-ink)}
-.size:hover .bar{filter:brightness(.97)}
+
 
 .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:24px 0 8px}
 .chip{all:unset;cursor:pointer;padding:9px 16px;border:1px solid var(--line);border-radius:999px;font-size:15px;background:var(--surface)}
@@ -55,14 +53,16 @@ h1{font:700 clamp(40px,7vw,84px)/.95 var(--display);margin:0;letter-spacing:-.02
 .search{margin-left:auto;padding:9px 16px;border:1px solid var(--line);border-radius:999px;font:inherit;background:var(--surface);color:var(--ink);min-width:220px}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:28px 20px;padding:20px 0 60px}
-.card{display:flex;flex-direction:column;gap:10px}
-.pic{all:unset;cursor:zoom-in;position:relative;aspect-ratio:1/2.3;border-radius:95px;overflow:hidden;background:var(--lilac);display:block}
-.pic img{width:100%;height:100%;object-fit:cover}
+.card{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:6px;min-width:0}
+.card:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:24px}
+.card .txt{display:flex;flex-direction:column;gap:4px;padding-top:6px}
+.pic{position:relative;aspect-ratio:1/1;border-radius:24px;overflow:hidden;background:var(--lilac);display:block;transition:transform .25s}
+.card:hover .pic{transform:translateY(-3px)}
+.status{font-size:14px;color:#2E9E5B;margin:0}
+.pic img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover}
 .pic .ph{position:absolute;inset:0;display:grid;place-items:center;font:700 28px var(--display);color:var(--muted)}
-.card h3{font:500 17px/1.25 var(--display);margin:4px 0 0}
+.card .name{font:500 17px/1.25 var(--display)}
 .card .anime{font-size:14px;color:var(--muted);margin:0}
-.card .row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:auto}
-.price{font:600 18px/1 var(--body)}
 .buy{display:inline-block;padding:9px 14px;border-radius:999px;background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:600;font-size:14px}
 .buy:hover{filter:brightness(1.07)}
 .empty{grid-column:1/-1;padding:40px 0;color:var(--muted)}
@@ -81,8 +81,7 @@ dialog::backdrop{background:rgba(15,12,35,.7)}
 .info{padding:24px;display:flex;flex-direction:column;gap:12px;overflow:auto}
 .info h2{font:700 22px/1.2 var(--display);margin:0}
 .info ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-.info li a{display:flex;justify-content:space-between;padding:12px 2px;border-bottom:1px solid var(--line);text-decoration:none}
-.info li a:hover{color:var(--accent)}
+.info li{padding:12px 2px;border-bottom:1px solid var(--line)}
 .info .spec{font-size:14px;color:var(--muted);margin:0}
 .close{all:unset;cursor:pointer;align-self:flex-end;font-size:14px;color:var(--muted);padding:4px 8px}
 
@@ -92,7 +91,19 @@ dialog::backdrop{background:rgba(15,12,35,.7)}
   .dlg{grid-template-columns:1fr}
   .shots img{height:52vh}
 }
-@media (max-width:480px){.grid{grid-template-columns:repeat(2,1fr);gap:22px 12px}.pic{border-radius:70px}.card h3{font-size:15px}.row{flex-direction:column;align-items:flex-start!important}}
+/* мобільна версія: картки як на masterform.com.ua */
+@media (max-width:600px){
+  .wrap{padding:0 12px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding-top:12px}
+  .card{background:var(--surface);border-radius:8px;overflow:hidden;gap:0}
+  .card:focus-visible{border-radius:8px}
+  .pic{border-radius:0}
+  .card:hover .pic{transform:none}
+  .card .txt{padding:10px 11px 14px;gap:6px}
+  .card .name{font:500 15px/1.3 var(--body)}
+  .card .anime{font-size:13px}
+  .status{font-size:13px}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -108,8 +119,8 @@ dialog::backdrop{background:rgba(15,12,35,.7)}
       <h1>Аніме дакімакури</h1>
       <p class="lead">Подушки-обіймашки з персонажами. Наволочка з габардину на прихованій блискавці знімається для прання, всередині холофайбер.</p>
     </div>
-    <div class="ruler" role="group" aria-label="Розмір подушки">
-      <p class="ruler-title">Оберіть розмір, і ціни в каталозі оновляться</p>
+    <div class="ruler">
+      <p class="ruler-title">Розміри, в яких можна замовити кожен дизайн</p>
       <div id="sizes"></div>
     </div>
   </section>
@@ -124,7 +135,7 @@ dialog::backdrop{background:rgba(15,12,35,.7)}
     </div>
     <a class="buy" href="https://telegram.me/masterform_ua">Надіслати в Telegram</a>
   </section>
-  <footer>Ціни в гривнях. Оформлення замовлення і доставка на <a href="https://masterform.com.ua/">masterform.com.ua</a>.</footer>
+  <footer>Оформлення замовлення і доставка на <a href="https://masterform.com.ua/">masterform.com.ua</a>.</footer>
 </div>
 
 <dialog id="dlg" aria-label="Фото товару"></dialog>
@@ -148,12 +159,9 @@ function renderSizes(){
   const ref = ITEMS[0];
   el.innerHTML = SIZES.map(L => {
     const v = variant(ref, L);
-    return `<button class="size" aria-pressed="${L===size}" data-l="${L}" style="--w:${Math.round(L/180*100)}%">
-      <span style="display:block;width:${Math.round(38 + (L-100)/80*62)}%"><span class="bar">${v.label} см</span></span>
-      <span class="p">${fmt(v.price)}</span></button>`;
+    return `<div class="size"><span style="display:block;width:${Math.round(38 + (L-100)/80*62)}%"><span class="bar">${v.label} см</span></span></div>`;
   }).join("");
   el.style.display="flex"; el.style.flexDirection="column"; el.style.gap="10px";
-  el.querySelectorAll(".size").forEach(b => b.onclick = () => { size = +b.dataset.l; renderSizes(); renderGrid(); });
 }
 
 function renderFilters(){
@@ -172,18 +180,19 @@ function renderGrid(){
   const el = document.getElementById("grid");
   if(!list.length){ el.innerHTML = `<p class="empty">Нічого не знайдено. Змініть запит або напишіть нам у Telegram, ми зробимо потрібного персонажа.</p>`; return; }
   el.innerHTML = list.map((it, idx) => {
-    const v = variant(it, size);
-    return `<article class="card">
-      <button class="pic" data-id="${it.id}" aria-label="Фото: ${esc(it.character)}">
+    return `<button class="card" data-id="${it.id}" aria-label="${esc(it.character)}: відкрити фото">
+      <span class="pic">
         <span class="ph">${esc(it.character.split(" ").map(w=>w[0]).join(""))}</span>
-        <img src="${sized(it.pics[0],640,640)}" data-full="${it.pics[0]}" alt="${esc(it.character)}, дакімакура" loading="${idx<4?"eager":"lazy"}" fetchpriority="${idx<2?"high":"auto"}" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)">
-      </button>
-      <h3>${esc(it.character)}</h3>
-      <p class="anime">${esc(SHORT[it.cat]||it.anime)}${it.variant?", "+it.variant:""}</p>
-      <div class="row"><span class="price">${fmt(v.price)}</span><a class="buy" href="${v.url}" target="_blank" rel="noopener">Замовити</a></div>
-    </article>`;
+        <img src="${sized(it.pics[0],640,640)}" data-full="${it.pics[0]}" alt="" loading="${idx<4?"eager":"lazy"}" fetchpriority="${idx<2?"high":"auto"}" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)">
+      </span>
+      <span class="txt">
+        <span class="name">${esc(it.character)}</span>
+        <span class="anime">${esc(SHORT[it.cat]||it.anime)}${it.variant?", "+it.variant:""}</span>
+        <span class="status">Готово до відправки</span>
+      </span>
+    </button>`;
   }).join("");
-  el.querySelectorAll(".pic").forEach(b => b.onclick = () => openItem(b.dataset.id));
+  el.querySelectorAll(".card").forEach(b => b.onclick = () => openItem(b.dataset.id));
 }
 
 function openItem(id){
@@ -194,7 +203,7 @@ function openItem(id){
       <button class="close" aria-label="Закрити">Закрити ✕</button>
       <h2>${esc(it.character)}</h2>
       <p class="spec">${esc(it.anime)}</p>
-      <ul>${it.sizes.map(s=>`<li><a href="${s.url}" target="_blank" rel="noopener"><span>${s.case?"Лише наволочка ":""}${s.label} см</span><strong>${fmt(s.price)}</strong></a></li>`).join("")}</ul>
+      <p class="spec">Розміри:</p><ul>${it.sizes.map(s=>`<li>${s.case?"Лише наволочка ":""}${s.label} см</li>`).join("")}</ul>
       <p class="spec">Габардин, сублімаційний друк, прихована блискавка. Наповнювач холофайбер.</p>
     </div></div>`;
   d.querySelector(".close").onclick = () => d.close();
