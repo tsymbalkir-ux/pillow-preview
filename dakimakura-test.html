@@ -279,24 +279,25 @@ h2{font:600 clamp(22px,4.6vw,27px)/1.25 Literata,Georgia,serif;
    letter-spacing:-.015em;margin:0 0 16px}
 
 /* ---------- sizes ---------- */
-.sizebar{position:relative;width:100%;aspect-ratio:172/155;margin-top:4px}
-.sizebar>svg{position:absolute;inset:0;width:100%;height:100%}
-.sizebar .girl{position:absolute;display:block;pointer-events:none}
-.sizebar .hlab{position:absolute;text-align:center;white-space:nowrap;
-  font:600 clamp(11px,2.1vw,14px)/1.2 Onest,sans-serif;color:var(--accent)}
-.pz{position:absolute;padding:0;border:none;background:none;cursor:pointer;
-  display:flex;flex-direction:column;align-items:center}
-.pz canvas{width:100%;flex:none;display:block;border-radius:3px;
-  transition:filter .15s,opacity .15s;opacity:.72}
-.pz:hover canvas{opacity:.9}
-.pz[aria-pressed="true"] canvas{opacity:1;outline:1.5px solid var(--accent);
-  outline-offset:3px;filter:drop-shadow(0 3px 9px rgba(122,46,78,.22))}
-.pz .lab{margin-top:5%;text-align:center;white-space:nowrap;
-  font:500 clamp(10px,1.9vw,13px)/1.35 Onest,sans-serif;color:var(--dim)}
-.pz .lab b{display:block;font-weight:600;color:var(--ink)}
-.pz[aria-pressed="true"] .lab,.pz[aria-pressed="true"] .lab b{color:var(--accent)}
-.pz .tag{display:block;font-size:.82em;color:var(--dim);opacity:.85}
-.pz[aria-pressed="true"] .tag{color:var(--accent);opacity:1}
+.hbox{display:grid;grid-template-columns:1fr 64px;gap:10px;margin-top:4px}
+.hstage{position:relative;height:clamp(340px,62vh,460px);border-radius:var(--r);overflow:hidden;
+  background:radial-gradient(120% 80% at 50% 20%,#FFFFFF 0%,var(--raised) 75%)}
+.hstage .floor{position:absolute;left:8%;right:8%;bottom:6%;height:1px;background:var(--line)}
+.hstage canvas{position:absolute;left:0;right:0;bottom:6%;width:100%;display:block;
+  transition:height .12s ease-out}
+.hdims{position:absolute;left:14px;top:12px;font-size:13px;color:var(--dim);
+  background:rgba(255,255,255,.85);padding:4px 10px;border-radius:999px;font-variant-numeric:tabular-nums}
+.hrail{display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+  padding:6px 0;font-size:12.5px;color:var(--dim);font-variant-numeric:tabular-nums}
+.hrail input[type=range]{flex:1;width:34px;margin:8px 0;writing-mode:vertical-lr;direction:rtl;
+  accent-color:var(--accent);cursor:pointer;padding:0;border:0;border-radius:0;background:none}
+.hrail input[type=range]:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.hmanual{display:flex;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap}
+.hmanual label{font-size:15px;color:var(--ink)}
+.hmanual .num{display:flex;align-items:center;gap:8px}
+.hmanual input{width:96px;padding:11px 12px;text-align:center;font-variant-numeric:tabular-nums}
+.hmanual .legal{margin:0}
+@media (prefers-reduced-motion:reduce){ .hstage canvas{transition:none} }
 
 /* ---------- form ---------- */
 .form{display:grid;gap:11px}
@@ -429,8 +430,24 @@ footer a:hover{color:var(--ink)}
 
   <section id="sizes">
     <h2>Оберіть розмір</h2>
-    <div class="sizebar" id="sizebar"></div>
-    <p class="legal" style="margin-top:10px">Натисни на подушку, щоб обрати.</p>
+    <div class="hbox">
+      <div class="hstage" id="hstage">
+        <div class="floor"></div>
+        <canvas data-mini id="hmini" aria-hidden="true"></canvas>
+        <span class="hdims" id="hdims" aria-live="polite"></span>
+      </div>
+      <div class="hrail">
+        <span>190</span>
+        <input type="range" id="hrange" min="150" max="190" step="1" value="180"
+               aria-label="Висота фігури, см" aria-orientation="vertical">
+        <span>150</span>
+      </div>
+    </div>
+    <div class="hmanual">
+      <label for="hnum">Висота</label>
+      <div class="num"><input type="number" id="hnum" inputmode="numeric" min="150" max="190" step="1" value="180"> <span>см</span></div>
+      <p class="legal">від 150 до 190 см, ширина рахується автоматично</p>
+    </div>
   </section>
 
 <section>
@@ -558,7 +575,7 @@ function track(event, data = {}, fb, fbData, fbOpts) {
   } catch (err) { console.warn('tracking', err); }
 }
 function trackOnce(key, ...args) { if (sent.has(key)) return; sent.add(key); track(...args); }
-const itemFor = s => ({ item_id: s.v, item_name: `Дакімакура ${s.label} см`,
+const itemFor = s => ({ item_id: s.v, item_name: `Фігура ${s.label} см`,
                         price: s.price, quantity: 1 });
 const phoneE164 = raw => {
   const d = String(raw).replace(/\D/g, '');
@@ -581,95 +598,82 @@ let side = null;                    // PhotoSide: фото, прибирання
 let hasPhoto = false;
 const hasAny = () => hasPhoto;
 
-/* ---------- розміри ---------- */
-const SIZES = [
-  { v:'120x40', cm:40, len:120, label:'120 × 40', price:1290, hint:'Компактний формат' },
-  { v:'150x50', cm:50, len:150, label:'150 × 50', price:1640, hint:'Оптимальний розмір' },
-  { v:'180x60', cm:60, len:180, label:'180 × 60', price:2390, hint:'У повний зріст' },
-];
-let size = null;               // розмір не обрано, поки людина сама не натисне
+/* ---------- розміри ----------
+   Висота задається бігунком або вручну (150–190 см), ширину рахує 3D-модель
+   за пропорціями зображення (разом з обводкою). */
+const H_MIN = 150, H_MAX = 190, H_DEF = 180;
+// ⚠ Ціну за висоту ще не задано: поверни число (грн), і воно зʼявиться на кнопці замовлення.
+const priceFor = heightCm => null;
+let heightCm = H_DEF, widthCm = null;
+let size = null;
 
-/* Спільна шкала: людина 170 см і всі подушки в одних одиницях.
-   VW×VH — система координат композиції, BASE — лінія підлоги. */
-// UNIT фіксований: подушки лишаються такими самими, як були
-const UNIT = 111 / 170, BASE = 128, VW = 172, VH = 155;
-const GIRL_CM = 165, GIRL_AR = 0.391;      // пропорція ш/в вирізаної ілюстрації
-const GAP = 10, START = 48;
-
-function buildSizes() {
-  const host = $('sizebar');
-  const gh = GIRL_CM * UNIT, gw = gh * GIRL_AR;   // дівчина = 165 см у тій самій шкалі
-  const gtop = BASE - gh, gx = 6;
-  const rx = 1.8;                                 // лінійка зросту
-
-  host.innerHTML = `<svg viewBox="0 0 ${VW} ${VH}" aria-hidden="true">
-    <line x1="2" y1="${BASE + 2}" x2="${VW - 2}" y2="${BASE + 2}"
-          stroke="var(--line)" stroke-width="1.2"/>
-    <g stroke="var(--accent)" stroke-width="1" opacity=".55">
-      <line x1="${rx}" y1="${gtop}" x2="${rx}" y2="${BASE}" stroke-dasharray="3 2.5"/>
-      <line x1="${rx - 2.2}" y1="${gtop}" x2="${rx + 2.2}" y2="${gtop}"/>
-      <line x1="${rx - 2.2}" y1="${BASE}" x2="${rx + 2.2}" y2="${BASE}"/>
-    </g>
-  </svg>
-  <img class="girl" src="girl.webp?v=${(root && root.v) || ''}" alt="Дівчина зростом 165 см обіймає подушку"
-       style="left:${gx / VW * 100}%;top:${gtop / VH * 100}%;width:${gw / VW * 100}%;height:${gh / VH * 100}%">
-  <span class="hlab" style="left:0;width:${(gx + gw) / VW * 100}%;top:${(BASE + 5) / VH * 100}%">165 см</span>`;
-
-  let x = START;
-  SIZES.forEach(s => {
-    const pw = s.cm * UNIT, ph = s.len * UNIT;
-    const top = BASE - ph, boxH = VH - top - 3;
-    const b = document.createElement('button');
-    b.type = 'button'; b.className = 'pz';
-    b.setAttribute('aria-pressed', s === size);
-    b.setAttribute('aria-label', `${s.label} см, ${s.price} грн`);
-    b.style.left = `${x / VW * 100}%`;
-    b.style.width = `${pw / VW * 100}%`;
-    b.style.top = `${top / VH * 100}%`;
-    b.style.height = `${boxH / VH * 100}%`;
-    b.innerHTML =
-      `<canvas data-mini style="height:${ph / boxH * 100}%"></canvas>` +
-      `<span class="lab"><b>${s.label} см</b>${s.price} грн` +
-      (s.hint ? `<span class="tag">${s.hint}</span>` : '') + `</span>`;
-    b.onclick = () => {
-      size = s;
-      fig?.set({ heightCm: s.len });
-      track('select_size', { size: s.v, value: s.price, currency: 'UAH' });
-      [...host.querySelectorAll('.pz')].forEach(o => o.setAttribute('aria-pressed', o === b));
-      refreshSubmit();
-    };
-    host.appendChild(b);
-    x += pw + GAP;
-  });
+function syncSize() {
+  const w = widthCm ?? '…';
+  $('hdims').textContent = `${heightCm} × ${w} см`;
+  size = { v: `${heightCm}x${widthCm ?? ''}`, len: heightCm, cm: widthCm,
+           label: `${heightCm} × ${w}`, price: priceFor(heightCm) };
 }
-buildSizes();
 
+// візуально фігура росте разом з висотою: 190 см = 88% висоти сцени
+function placeMini() { $('hmini').style.height = `${heightCm / H_MAX * 88}%`; }
+
+let hTimer = 0;
+function setHeight(v, { from } = {}) {
+  v = Math.round(Math.min(H_MAX, Math.max(H_MIN, +v || H_DEF)));
+  if (widthCm && v !== heightCm) widthCm = Math.round(widthCm * v / heightCm);   // оцінка, поки модель перебудовується
+  heightCm = v;
+  if (from !== 'range') $('hrange').value = v;
+  if (from !== 'num') $('hnum').value = v;
+  placeMini(); syncSize(); refreshSubmit();
+  requestAnimationFrame(drawMini);
+  clearTimeout(hTimer);                              // 3D перебудовуємо, коли бігунок зупинився
+  hTimer = setTimeout(() => {
+    fig?.set({ heightCm });
+    track('select_size', { size: size.v, value: size.price ?? undefined, currency: 'UAH' });
+  }, 150);
+}
+
+$('hrange').oninput = e => setHeight(e.target.value, { from: 'range' });
+$('hnum').oninput = e => {                           // під час набору не заважаємо, лише якщо число вже в межах
+  const v = +e.target.value;
+  if (v >= H_MIN && v <= H_MAX) setHeight(v, { from: 'num' });
+};
+$('hnum').onchange = e => setHeight(e.target.value);  // на виході з поля — підрізаємо до меж
+placeMini(); syncSize();
+
+const orderLabel = () => size.price != null ? `Замовити за ${size.price} грн` : 'Замовити';
 function refreshSubmit() {
-  const stage = !hasAny() ? 'upload' : !size ? 'size' : 'order';
+  const stage = !hasAny() ? 'upload' : 'order';     // розмір обрано завжди (180 см за замовчуванням)
   $('submit').disabled = stage !== 'order';
-  $('submit').textContent = stage === 'upload' ? 'Спочатку обери зображення'
-    : stage === 'size' ? 'Оберіть розмір' : `Замовити за ${size.price} грн`;
+  $('submit').textContent = stage === 'upload' ? 'Спочатку обери зображення' : orderLabel();
   const st = document.getElementById('stickySubmit');
   if (st) {
     st.dataset.stage = stage;
-    st.textContent = stage === 'upload' ? 'Завантажити своє зображення'
-      : stage === 'size' ? 'Оберіть розмір' : `Замовити за ${size.price} грн`;
+    st.textContent = stage === 'upload' ? 'Завантажити своє зображення' : orderLabel();
   }
 }
 refreshSubmit();
 
-/* ---------- мініатюри фігури у схемі розмірів ---------- */
-function repaint() {
+/* ---------- фігура анфас у блоці розміру ---------- */
+let miniSrc = null;
+function repaint() {                                  // нове зображення / нова модель
   if (!fig?.art) return;
-  const src = fig.front(360);
+  miniSrc = fig.front(480);
+  drawMini();
+}
+function drawMini() {                                 // лише перемальовка під поточний розмір полотна
+  if (!miniSrc) return;
+  const src = miniSrc;
   document.querySelectorAll('[data-mini]').forEach(cv => {
-    const w = cv.clientWidth || 60, h = cv.clientHeight || 180, k = Math.min(2, devicePixelRatio || 1);
+    const w = cv.clientWidth || 200, h = cv.clientHeight || 300, k = Math.min(2, devicePixelRatio || 1);
     cv.width = Math.round(w * k); cv.height = Math.round(h * k);
     const c = cv.getContext('2d'), f = Math.min(cv.width / src.width, cv.height / src.height);
     const dw = src.width * f, dh = src.height * f;
     c.drawImage(src, (cv.width - dw) / 2, cv.height - dh, dw, dh);      // стоїть на підлозі
   });
 }
+$('hmini').addEventListener('transitionend', drawMini);
+addEventListener('resize', () => requestAnimationFrame(drawMini));
 
 /* ---------- анкори до кнопки завантаження ---------- */
 const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -959,9 +963,10 @@ try {
 
   step_ = 'запуск 3D';
   fig = new S.Standee3D({ host: $('figStage'), mobile: M.isMobile() });
-  fig.set({ heightCm: (size || SIZES[1]).len, back: currentBack(), outlineCm: outlineFor(currentBack()) });
+  fig.set({ heightCm, back: currentBack(), outlineCm: outlineFor(currentBack()) });
   fig.onUserTurn = () => markView(null);
-  fig.onBuilt = ({ heightCm, widthCm }) => {
+  fig.onBuilt = ({ heightCm: h, widthCm: w }) => {
+    if (h === heightCm) { widthCm = Math.round(w); syncSize(); refreshSubmit(); }
     repaint();
   };
   await fig.init();
@@ -1105,7 +1110,7 @@ body{padding-bottom:84px}
     const target = { upload: 'upload', size: 'sizes', order: 'order' }[stage];
     document.getElementById(target).scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'center' });
     const focusEl = stage === 'upload' ? document.getElementById('pick')
-      : stage === 'size' ? document.querySelector('#sizebar .pz') : document.getElementById('fname');
+      : stage === 'size' ? document.getElementById('hrange') : document.getElementById('fname');
     focusEl?.focus({ preventScroll: true });
   });
 })();
