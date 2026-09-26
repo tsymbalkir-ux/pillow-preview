@@ -187,6 +187,7 @@ a{color:var(--ink)}
 
 /* ---------- головна дія ---------- */
 .cta{margin-top:18px}
+#top-editor{scroll-margin-top:16px}
 .cta .btn-go{width:100%}
 
 /* ---------- вкладки сторін ---------- */
@@ -379,7 +380,7 @@ footer a:hover{color:var(--ink)}
 
   <p class="mark">print<span>me</span></p>
 
-  <div class="hero">
+  <div class="hero" id="top-editor">
     <h1>Ростова фігура на замовлення</h1>
     <p class="lead">Завантаж фото людини — макет з’явиться за кілька секунд. Обери висоту, а ми виготовимо готову фігуру.</p>
   </div>
@@ -765,7 +766,7 @@ async function removeBg() {
   //   ?engine=ideogram     — Ideogram remove-background (~$0.01 за фото)
   const key = $('engine').value;
   const [engine, model] = key.split(':');
-  const server = { label: `Прибираємо фон (${engineLabel(key)})…`,
+  const server = { label: 'Зачекайте, готуємо макет…',
                    run: () => side.removeBackgroundServer(cb, { engine, model }) };
   const local = M.isMobile()
     ? [lite, full({ worker: false, maxSide: 640 }, 'Пробуємо точнішу модель…')]
@@ -1077,7 +1078,7 @@ body{padding-bottom:84px}
     // фото ще нема — одразу відкриваємо вибір файлу (той самий обробник, що й у кнопки
     // «Завантажити» у редакторі), а сторінку підкручуємо до редактора, щоб було видно результат
     if (stage === 'upload') {
-      document.getElementById('upload')?.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+      document.getElementById('top-editor')?.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });   // опис + редактор над кнопкою
       document.getElementById('pick')?.click();   // синхронно в межах кліку — інакше браузер заблокує вікно вибору
       return;
     }
