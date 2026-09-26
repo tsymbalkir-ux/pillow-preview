@@ -325,9 +325,7 @@ input:focus{border-color:var(--accent);outline:none}
 .fact span{color:var(--dim);font-size:14.5px}
 
 /* ---------- gallery ---------- */ 
-.video{position:relative;aspect-ratio:16/9;border-radius:11px;overflow:hidden;background:var(--raised);margin:0 0 9px}
-.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:9px} .shots img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:11px;display:block}
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:9px} .shots-4{grid-template-columns:repeat(4,1fr);margin-top:9px} @media (max-width:480px){.shots-4{grid-template-columns:repeat(2,1fr)}} .shots img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:11px;display:block}
 
 /* ---------- faq ---------- */
 details{border-bottom:1px solid var(--line);padding:15px 0}
@@ -480,26 +478,19 @@ footer a:hover{color:var(--ink)}
 </section>
 
 <section>
-  <h2>Наші роботи: фото та відео</h2>
-
-  <div class="video">
-    <iframe src="https://www.youtube-nocookie.com/embed/7BE97wyBWi4?rel=0"
-      title="Дакімакура з індивідуальним принтом — відео"
-      loading="lazy"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerpolicy="strict-origin-when-cross-origin"
-      allowfullscreen></iframe>
-  </div>
+  <h2>Наші роботи</h2>
 
   <div class="shots-wrap">
     <div class="shots">
-      <!-- заміни на фото готових дакімакур з артами (без чужих персонажів) -->
-      <img src="reviews/111.webp" alt="Готова дакімакура з принтом клієнта" loading="lazy">
-      <img src="reviews/222.webp" alt="Дакімакура у повний зріст" loading="lazy">
-      <img src="reviews/333.webp" alt="Готова дакімакура з індивідуальним принтом" loading="lazy">
-
-      <!-- просто додавай сюди ще фото -->
-      <!-- <img src="reviews/444.webp" alt="..." loading="lazy"> -->
+      <img src="reviews/r5.webp" alt="Ростова фігура футболіста поруч із замовником" loading="lazy">
+      <img src="reviews/r6.webp" alt="Ростова фігура чоловіка в куртці з дівчиною" loading="lazy">
+      <img src="reviews/r7.webp" alt="Ростова фігура ковбоя на вечірці" loading="lazy">
+    </div>
+    <div class="shots shots-4">
+      <img src="reviews/r3.webp" alt="Ростова фігура хлопця в чорному — вигляд спереду" loading="lazy">
+      <img src="reviews/r4.webp" alt="Та сама фігура ззаду: картонна підставка" loading="lazy">
+      <img src="reviews/r1.webp" alt="Ростова фігура дівчини в білій сукні — вигляд спереду" loading="lazy">
+      <img src="reviews/r2.webp" alt="Та сама фігура ззаду: картонна підставка" loading="lazy">
     </div>
   </div>
 </section>
