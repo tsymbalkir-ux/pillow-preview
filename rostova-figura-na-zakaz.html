@@ -714,12 +714,6 @@ const BACK = 'cardboard';
 const outlineFor = () => 0;
 const currentBack = () => BACK;
 const markView = w => [...$('figViews').children].forEach(b => b.setAttribute('aria-pressed', b.dataset.view === w));
-[...$('figViews').children].forEach(b => b.setAttribute('aria-pressed', b.dataset.view === w));
-[...$('backs').children].forEach(b => b.onclick = () => {
-  [...$('backs').children].forEach(o => o.setAttribute('aria-selected', o === b));
-  fig?.set({ back: b.dataset.back, outlineCm: outlineFor(b.dataset.back) });
-  fig?.show('back'); markView('back');            // одразу показуємо, що змінилось
-});
 [...$('figViews').children].forEach(b => b.onclick = () => { fig?.show(b.dataset.view); markView(b.dataset.view); });
 
 /* ---------- вибір моделі для прибирання фону ----------
