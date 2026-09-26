@@ -589,6 +589,7 @@ addEventListener('unhandledrejection', e => fail('Щось пішло не та�
 let ready = false, root = null, M = null, S = null, fig = null;
 let side = null;                    // PhotoSide: фото, прибирання фону (як на дакімакурі)
 let hasPhoto = false;
+let preparing = false;                // поки готується макет, ширина ще від усього фото — ціну не показуємо
 const hasAny = () => hasPhoto;
 
 /* ---------- розміри ----------
@@ -605,7 +606,7 @@ function syncSize() {
   const w = widthCm ?? '…';
   $('hdims').textContent = `${heightCm} × ${w} см`;
   size = { v: `${heightCm}x${widthCm ?? ''}`, len: heightCm, cm: widthCm,
-           label: `${heightCm} × ${w}`, price: priceFor(widthCm) };
+           label: `${heightCm} × ${w}`, price: preparing ? null : priceFor(widthCm) };
   $('hprice').textContent = size.price != null ? `${size.price} грн` : '';
   $('hprice').parentElement.hidden = size.price == null;
 }
@@ -640,12 +641,14 @@ placeMini(); syncSize();
 const orderLabel = () => size.price != null ? `Замовити за ${size.price} грн` : 'Замовити';
 function refreshSubmit() {
   const stage = !hasAny() ? 'upload' : 'order';     // розмір обрано завжди (180 см за замовчуванням)
-  $('submit').disabled = stage !== 'order';
-  $('submit').textContent = stage === 'upload' ? 'Спочатку обери зображення' : orderLabel();
+  const WAIT = 'Зачекайте, готуємо макет…';
+  $('submit').disabled = stage !== 'order' || preparing;
+  $('submit').textContent = preparing ? WAIT : stage === 'upload' ? 'Спочатку обери зображення' : orderLabel();
   const st = document.getElementById('stickySubmit');
   if (st) {
     st.dataset.stage = stage;
-    st.textContent = stage === 'upload' ? 'Завантажити своє зображення' : orderLabel();
+    st.disabled = preparing;
+    st.textContent = preparing ? WAIT : stage === 'upload' ? 'Завантажити своє зображення' : orderLabel();
   }
 }
 refreshSubmit();
@@ -686,6 +689,9 @@ $('pick').onclick = () => ready ? $('file').click() : fail('Редактор щ�
 $('file').onchange = async e => {
   const f = e.target.files[0];
   if (!f) return;
+  preparing = true;
+  $('ready').hidden = true;
+  syncSize(); refreshSubmit();
   try {
     say('Готуємо макет…');
     await side.setPhoto(f);
@@ -705,6 +711,8 @@ $('file').onchange = async e => {
   } catch (err) {
     fail('Не вдалося прочитати це зображення. Спробуй інше.', err);
   } finally {
+    preparing = false;
+    syncSize(); refreshSubmit();             // тепер ширина вже від вирізаної фігури — показуємо ціну
     // без цього повторний вибір того самого файлу не викликає подію
     e.target.value = '';
   }
