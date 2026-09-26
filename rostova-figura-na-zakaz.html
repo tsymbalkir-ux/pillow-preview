@@ -297,6 +297,9 @@ h2{font:600 clamp(22px,4.6vw,27px)/1.25 Literata,Georgia,serif;
 .hmanual .num{display:flex;align-items:center;gap:8px}
 .hmanual input{width:96px;padding:11px 12px;text-align:center;font-variant-numeric:tabular-nums}
 .hmanual .legal{margin:0}
+.hprice[hidden]{display:none}
+.hprice{margin:0 0 0 auto;font:500 15px/1.2 Onest,sans-serif;color:var(--ink)}
+.hprice b{font-size:20px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
 @media (prefers-reduced-motion:reduce){ .hstage canvas{transition:none} }
 
 /* ---------- form ---------- */
@@ -439,6 +442,7 @@ footer a:hover{color:var(--ink)}
       <label for="hnum">Висота</label>
       <div class="num"><input type="number" id="hnum" inputmode="numeric" min="150" max="190" step="1" value="180"> <span>см</span></div>
       <p class="legal">від 150 до 190 см, ширина рахується автоматично</p>
+      <p class="hprice" hidden>Ціна: <b id="hprice" aria-live="polite"></b></p>
     </div>
   </section>
 
@@ -590,8 +594,9 @@ const hasAny = () => hasPhoto;
    Висота задається бігунком або вручну (150–190 см), ширину рахує 3D-модель
    за пропорціями зображення (разом з обводкою). */
 const H_MIN = 150, H_MAX = 190, H_DEF = 180;
-// ⚠ Ціну за висоту ще не задано: поверни число (грн), і воно зʼявиться на кнопці замовлення.
-const priceFor = heightCm => null;
+// ціна залежить від ширини фігури: до 82 см включно — 1590 грн, ширша — 2000 грн
+const W_LIMIT = 82, PRICE_NARROW = 1590, PRICE_WIDE = 2000;
+const priceFor = w => w == null ? null : w <= W_LIMIT ? PRICE_NARROW : PRICE_WIDE;
 let heightCm = H_DEF, widthCm = null;
 let size = null;
 
@@ -599,7 +604,9 @@ function syncSize() {
   const w = widthCm ?? '…';
   $('hdims').textContent = `${heightCm} × ${w} см`;
   size = { v: `${heightCm}x${widthCm ?? ''}`, len: heightCm, cm: widthCm,
-           label: `${heightCm} × ${w}`, price: priceFor(heightCm) };
+           label: `${heightCm} × ${w}`, price: priceFor(widthCm) };
+  $('hprice').textContent = size.price != null ? `${size.price} грн` : '';
+  $('hprice').parentElement.hidden = size.price == null;
 }
 
 // візуально фігура росте разом з висотою: 190 см = 88% висоти сцени
