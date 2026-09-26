@@ -313,6 +313,7 @@ input:focus{border-color:var(--accent);outline:none}
   border-radius:12px;background:var(--surface);border:1px solid var(--line);
   font-size:14.5px;line-height:1.4;color:var(--ink)}
 .ship[hidden]{display:none}
+.delivery{font-size:14px;line-height:1.45;color:var(--dim);margin:2px 0 0;padding:0 2px}
 .ship svg{flex:none;color:var(--accent)}
 .ship b{font-weight:600;color:var(--accent);white-space:nowrap}
 .about p{color:var(--dim);font-size:15.5px;max-width:60ch;margin:0 0 12px}
@@ -449,6 +450,8 @@ footer a:hover{color:var(--ink)}
         <input id="np" placeholder="№ відділення Нової Пошти" required>
       </div>
       <button class="btn btn-go" id="submit" type="submit" disabled>Спочатку обери зображення</button>
+      <p class="delivery">Доставка Новою Поштою лише на вантажні відділення (орієнтовна вартість 300 грн) або кур’єром Нової Пошти.<br>
+        По Києву можлива доставка Uklon або самовивіз.</p>
       <p class="ship" id="ship" hidden>
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="7" cy="17.5" r="1.8" fill="#fff" stroke="currentColor" stroke-width="1.7"/><circle cx="17" cy="17.5" r="1.8" fill="#fff" stroke="currentColor" stroke-width="1.7"/></svg>
         <span>При замовленні сьогодні відправка буде <b id="shipDate"></b></span>
