@@ -91,6 +91,12 @@ h1{font:700 clamp(30px,5.2vw,62px)/1.02 var(--display);margin:0;letter-spacing:-
 .chip .n{color:var(--muted);margin-left:6px;font-size:13px}
 .chip[aria-pressed="true"] .n{color:inherit;opacity:.7}
 .search{flex:none;padding:10px 16px;border:1px solid var(--line);border-radius:999px;background:var(--surface);width:230px}
+.chips.sub{padding-top:10px}
+.chips.sub .chip{padding:7px 14px;font-size:14px}
+.chips .lbl{flex:none;align-self:center;font-size:14px;color:var(--muted);margin-right:2px}
+.hit{position:absolute;left:10px;top:10px;z-index:3;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.94);color:#1F1A3D;font:600 12px/1 var(--body);box-shadow:0 2px 8px rgba(0,0,0,.14);pointer-events:none}
+.own .pic{display:grid;place-items:center;text-decoration:none;background:var(--ink);color:var(--paper);padding:18px;text-align:center;font:700 clamp(18px,2.2vw,24px)/1.15 var(--display)}
+.own{text-decoration:none}
 .tops{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;padding:12px 0 0;font-size:14px;color:var(--muted);min-height:20px}
 .tops button{all:unset;cursor:pointer;padding:5px 12px;border-radius:999px;background:transparent;border:1px dashed var(--line);color:var(--ink)}
 .tops button[aria-pressed="true"]{border-style:solid;border-color:var(--ink);background:var(--surface)}
@@ -264,9 +270,10 @@ dialog.v3d{max-width:min(760px,94vw);height:min(88vh,860px);border-radius:24px}
   </section>
 
   <div class="controls">
-    <div class="chips" id="chips" role="group" aria-label="Колекції"></div>
+    <div class="chips" id="secs" role="group" aria-label="Розділи"></div>
     <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
   </div>
+  <div class="chips sub" id="chips" role="group" aria-label="Колекції"></div>
   <div class="tops" id="tops"></div>
   <p class="count" id="count" aria-live="polite"></p>
 
@@ -337,12 +344,16 @@ dialog.v3d{max-width:min(760px,94vw);height:min(88vh,860px);border-radius:24px}
 /* =====================================================================
    Каталог дакімакур з готовими принтами.
    Посилання для реклами (кінцеві URL у Google Ads):
+     ?s=<розділ>              anime, games, kpop, stars, movies, sport, drinks, other
      ?g=<колекція>            напр. ?g=straykids, ?g=genshin, ?g=revo
      ?g=<колекція>&q=<пошук>  напр. ?g=straykids&q=фелікс
      ?q=<пошук>               пошук по всьому каталогу
      ?size=150                розмір, обраний одразу (100, 120, 150, 180)
-   Ключі колекцій: shrek, revo, beer, ronaldo, gosling, straykids, bts, hp,
-                   genshin, jjk, ds, naruto, aot, bsd
+   Ключі колекцій записані в dakimakura-catalog-data.js (поле k у cols):
+   shrek, revo, beer, ronaldo, gosling, straykids, bts, hp, genshin, jjk, ds, naruto, aot, bsd,
+   dota, zzz, hsr, ddlc, brawl, cyberpunk, wuwa, romclub, bleach, chainsaw, vocaloid, quints, gup, eva,
+   overlord, mha, mushoku, uma, onepiece, apothecary, berserk, f1, ukr, memes, twilight, tvd, mlp, music,
+   softdrinks, alcohol, kpop, celebs, football, anime2, games2, movies2, misc
    ===================================================================== */
 
 /* та сама адреса Apps Script, що приймає замовлення з /dakimakura */
@@ -363,7 +374,13 @@ const COL_ALIAS = {
   straykids:'stray kids стрей кідс стрей кидс стрэй кидс скз k-pop кпоп', bts:'bts бтс k-pop кпоп',
   hp:'гаррі поттер гарри поттер harry potter хогвартс', genshin:'genshin impact геншин геншін імпакт импакт',
   jjk:'магічна битва магическая битва jujutsu kaisen джуджуцу', ds:'клинок розсікає демонів рассекающий демонов demon slayer kimetsu',
-  naruto:'наруто naruto', aot:'атака титанів атака титанов attack on titan', bsd:'бродячі пси бродячие псы бсд bsd bungo',
+  naruto:'наруто naruto', dota:'дота dota', zzz:'зенлес зона зеро ззз', hsr:'хонкай стар рейл хср', ddlc:'доки доки литературный клуб', brawl:'бравл старс браво старс',
+  cyberpunk:'киберпанк кіберпанк', bleach:'блич bleach', chainsaw:'человек-бензопила человек бензопила chainsaw man', vocaloid:'вокалоид вокалоїд мику міку miku',
+  quints:'пять невест', gup:'девушки и танки', eva:'евангелион evangelion', overlord:'оверлорд повелитель', mha:'моя геройская академия my hero academia мга',
+  mushoku:'реинкарнация безработного', onepiece:'ван пис one piece', apothecary:'монолог фармацевта', berserk:'berserk', f1:'формула 1 formula f1',
+  ukr:'украинские звезды', memes:'мемы мем', twilight:'сумерки twilight', tvd:'дневники вампира vampire diaries', mlp:'май литл пони мой маленький пони пони',
+  music:'музыканты рок метал', softdrinks:'энергетик напиток енергетик', alcohol:'алкоголь', kpop:'k-pop кпоп к-поп', celebs:'актеры звезды актори',
+  football:'футбол футболист', romclub:'клуб романтики', wuwa:'вутеринг вейвс', uma:'ума мусуме девушки-пони', aot:'атака титанів атака титанов attack on titan', bsd:'бродячі пси бродячие псы бсд bsd bungo',
 };
 /* різні написання одного імені: достатньо, щоб збіглося будь-яке */
 const ALIASES = [
@@ -380,17 +397,22 @@ const ALIASES = [
   ['драко','малфой','мелфой'], ['снейп','снегг','северус'], ['герміона','гермиона'],
   ['сяо','xiao'], ['чжун лі','чжун ли','zhongli'], ['ху тао','hu tao'], ['райден','raiden','сьогун','сёгун'],
   ['кадзуха','казуха','kazuha'], ['тарталья','тарталья','чайлд','childe'], ['скарамучча','скарамуча','мандрівник','странник'],
-  ['віслюк','осел','осёл'], ['фіона','фиона'], ['львівське','львовское'], ['гослінг','гослинг','gosling'], ['роналду','роналдо','ronaldo'],
+  ['віслюк','осел','осёл'], ['єгермейстер','егермейстер','jägermeister','jagermeister'], ['пудж','pudge'], ['ферстаппен','verstappen'], ['леклер','leclerc'], ['деймон','дэймон','сальваторе'], ['едвард','едварт','эдвард','каллен'], ['монстр','monster'], ['кока','coca'], ['фіона','фиона'], ['львівське','львовское'], ['гослінг','гослинг','gosling'], ['роналду','роналдо','ronaldo'],
 ];
 /* слова, які в пошуку нічого не уточнюють */
 const NOISE = /^(дак[иі]макур\S*|докимакур\S*|dakimakura|подушк\S*|обн[иі]машк\S*|об[иі]ймашк\S*|куп[иі]т[иь]|купити|ан[иі]ме|з|с|із|со|і|и|на|для)$/;
 
 const D = window.DAKI_DATA || { cols: [], items: [] };
 const COLS = D.cols;
-const ITEMS = D.items.map(([id, c, name, ru, pics]) => ({
-  id: String(id), c, name, pics: pics.map(p => /^https?:/.test(p) ? p : `https://images.prom.ua/${p}.jpg`),
-  hay: norm(`${name} ${ru} ${COLS[c].t} ${COL_ALIAS[COLS[c].k] || ''}`),
+const SECS = D.secs || [];
+const ITEMS = D.items.map(([id, c, name, ru, pics, sold, sub]) => ({
+  id: String(id), c, name, sold: sold || 0, sub: sub || COLS[c].t,
+  pics: pics.map(p => /^https?:/.test(p) ? p : `https://images.prom.ua/${p}.jpg`),
+  hay: norm(`${name} ${ru} ${sub || ''} ${COLS[c].t} ${COL_ALIAS[COLS[c].k] || ''}`),
 }));
+/* спершу те, що купують найчастіше (за історією замовлень) */
+ITEMS.sort((a, b) => b.sold - a.sold);
+const times = n => { const d = n % 10, h = n % 100; return n + (d >= 2 && d <= 4 && (h < 12 || h > 14) ? ' рази' : d === 1 && h !== 11 ? ' раз' : ' разів'); };
 
 const $ = id => document.getElementById(id);
 const fmt = n => n.toLocaleString('uk-UA') + ' ₴';
@@ -407,12 +429,15 @@ const params = new URLSearchParams(location.search);
 const state = {
   size: sizeBy(+params.get('size') || 120),
   col: Math.max(-1, COLS.findIndex(c => c.k === (params.get('g') || '').toLowerCase())),
+  sec: Math.max(-1, SECS.findIndex(c => c.k === (params.get('s') || '').toLowerCase())),
   q: (params.get('q') || '').slice(0, 60),
   shown: PAGE,
 };
+if (state.col >= 0) state.sec = COLS[state.col].s;
 function syncUrl(){
   const p = new URLSearchParams(location.search);
   state.col >= 0 ? p.set('g', COLS[state.col].k) : p.delete('g');
+  state.col < 0 && state.sec >= 0 ? p.set('s', SECS[state.sec].k) : p.delete('s');
   state.q ? p.set('q', state.q) : p.delete('q');
   state.size.len !== 120 ? p.set('size', state.size.len) : p.delete('size');
   const qs = p.toString();
@@ -460,14 +485,14 @@ function matcher(q){
 }
 function currentList(){
   const m = matcher(state.q);
-  return ITEMS.filter(it => (state.col < 0 || it.c === state.col) && m(it.hay));
+  return ITEMS.filter(it => (state.col >= 0 ? it.c === state.col : state.sec < 0 || COLS[it.c].s === state.sec) && m(it.hay));
 }
 
 /* ---------- шапка: заголовок під запит, розміри ---------- */
 function renderHead(){
-  const col = COLS[state.col];
-  $('h1').textContent = col ? col.h : 'Дакімакури з готовим принтом';
-  document.title = (col ? col.h : 'Дакімакури з готовим принтом') + ': купити від ' + fmt(SIZES[0].price).replace(' ₴', ' грн') + ' | printme';
+  const head = (COLS[state.col] || SECS[state.sec] || { h: 'Дакімакури з готовим принтом' }).h;
+  $('h1').textContent = head;
+  document.title = head + ': купити від ' + fmt(SIZES[0].price).replace(' ₴', ' грн') + ' | printme';
 }
 function renderSizes(){
   const el = $('sizes');
@@ -486,22 +511,37 @@ function setSize(s, from){
   state.size = s;
   track('select_size', { size: s.v, value: s.price, currency: 'UAH', from });
   renderSizes(); syncUrl();
-  document.querySelectorAll('.card .price').forEach(p => { p.firstChild.textContent = fmt(s.price); p.querySelector('small').textContent = s.label + ' см'; });
+  document.querySelectorAll('.card:not(.own) .price').forEach(p => { p.firstChild.textContent = fmt(s.price); p.querySelector('small').textContent = s.label + ' см'; });
 }
 
 /* ---------- колекції та швидкі фільтри ---------- */
 function renderChips(){
-  const counts = COLS.map((_, i) => ITEMS.reduce((n, it) => n + (it.c === i), 0));
-  const el = $('chips');
-  el.innerHTML = [`<button class="chip" data-i="-1" aria-pressed="${state.col < 0}">Усі<span class="n">${ITEMS.length}</span></button>`]
-    .concat(COLS.map((c, i) => counts[i] ? `<button class="chip" data-i="${i}" aria-pressed="${state.col === i}">${esc(c.t)}<span class="n">${counts[i]}</span></button>` : ''))
-    .join('');
-  el.querySelectorAll('.chip').forEach(b => b.onclick = () => {
-    state.col = +b.dataset.i; state.q = ''; state.shown = PAGE; $('search').value = '';
-    renderAll(); b.scrollIntoView({ block: 'nearest', inline: 'center' });
+  const nCol = COLS.map(() => 0), uCol = COLS.map(() => 0), nSec = SECS.map(() => 0);
+  ITEMS.forEach(it => { nCol[it.c]++; uCol[it.c] += it.sold; nSec[COLS[it.c].s]++; });
+  /* 1-й ряд: розділи */
+  const se = $('secs');
+  se.innerHTML = [`<button class="chip" data-i="-1" aria-pressed="${state.sec < 0}">Усі<span class="n">${ITEMS.length}</span></button>`]
+    .concat(SECS.map((s, i) => nSec[i] ? `<button class="chip" data-i="${i}" aria-pressed="${state.sec === i}">${esc(s.t)}<span class="n">${nSec[i]}</span></button>` : '')).join('');
+  se.querySelectorAll('.chip').forEach(b => b.onclick = () => {
+    state.sec = +b.dataset.i; state.col = -1; state.q = ''; state.shown = PAGE; $('search').value = '';
+    renderAll();
   });
-  const on = el.querySelector('[aria-pressed="true"]');
-  if (on && state.col >= 0) on.scrollIntoView({ block: 'nearest', inline: 'center' });
+  /* 2-й ряд: колекції розділу, а на «Усі» десять найпопулярніших за продажами */
+  let ids = COLS.map((_, i) => i).filter(i => nCol[i]);
+  ids = state.sec >= 0 ? ids.filter(i => COLS[i].s === state.sec).sort((a, b) => uCol[b] - uCol[a])
+                       : ids.filter(i => !/^(anime2|games2|movies2|misc)$/.test(COLS[i].k)).sort((a, b) => uCol[b] - uCol[a]).slice(0, 10);
+  if (state.col >= 0 && !ids.includes(state.col)) ids.unshift(state.col);
+  const el = $('chips');
+  el.innerHTML = (state.sec < 0 ? '<span class="lbl">Популярне:</span>' : '') +
+    ids.map(i => `<button class="chip" data-i="${i}" aria-pressed="${state.col === i}">${esc(COLS[i].t)}<span class="n">${nCol[i]}</span></button>`).join('');
+  el.querySelectorAll('.chip').forEach(b => b.onclick = () => {
+    const i = +b.dataset.i;
+    state.col = state.col === i ? -1 : i;
+    if (state.col >= 0) state.sec = COLS[i].s;
+    state.q = ''; state.shown = PAGE; $('search').value = '';
+    renderAll();
+  });
+  [se, el].forEach(row => { const on = row.querySelector('[aria-pressed="true"]'); if (on) row.scrollLeft = Math.max(0, on.offsetLeft - row.clientWidth / 2 + on.offsetWidth / 2); });
 }
 function renderTops(){
   const el = $('tops'), col = COLS[state.col];
@@ -525,17 +565,24 @@ function renderGrid(){
     : '';
   if (!list.length) {
     el.innerHTML = `<div class="empty"><p>За запитом «${esc(state.q)}» готового дизайну поки немає. Надрукуємо цього персонажа з твого зображення або підберемо арт самі, якщо напишеш нам.</p>
-      <div class="row"><a class="btn" href="/dakimakura">Зробити зі своїм зображенням</a><a class="btn ghost" href="https://t.me/Masterform_ua" data-contact="telegram">Написати в Telegram</a>${state.col >= 0 ? '<button class="btn ghost" id="allCols" type="button">Шукати в усіх колекціях</button>' : ''}</div></div>`;
-    const all = $('allCols'); if (all) all.onclick = () => { state.col = -1; state.shown = PAGE; renderAll(); };
+      <div class="row"><a class="btn" href="/dakimakura">Зробити зі своїм зображенням</a><a class="btn ghost" href="https://t.me/Masterform_ua" data-contact="telegram">Написати в Telegram</a>${state.col >= 0 || state.sec >= 0 ? '<button class="btn ghost" id="allCols" type="button">Шукати в усьому каталозі</button>' : ''}</div></div>`;
+    const all = $('allCols'); if (all) all.onclick = () => { state.col = -1; state.sec = -1; state.shown = PAGE; renderAll(); };
     $('more').innerHTML = '';
     track('search_empty', { search_term: state.q, collection: state.col >= 0 ? COLS[state.col].k : 'all' });
     return;
   }
   const part = list.slice(0, state.shown);
-  el.innerHTML = part.map((it, idx) => {
+  /* свій принт купують частіше за будь-який готовий дизайн, тому він стоїть першим */
+  const own = !state.q && state.col < 0 ? `<a class="card own" href="/dakimakura" id="ownCard">
+      <div class="pic">Твій арт або фото на подушці</div>
+      <div class="meta"><span class="name">Свій принт</span><span class="sub">Макет з'явиться одразу після завантаження</span></div>
+      <div class="buyrow"><span class="price">від ${fmt(SIZES[1].price)}<small></small></span><span class="btn ghost">Створити макет</span></div>
+    </a>` : '';
+  el.innerHTML = own + part.map((it, idx) => {
     const n = it.pics.length;
     return `<article class="card" data-id="${it.id}">
       <div class="pic">
+        ${it.sold >= 3 ? `<span class="hit">Купили ${times(it.sold)}</span>` : ''}
         <span class="ph">${esc(it.name.replace(/[^\p{L} ]/gu, '').trim().split(/\s+/).slice(0, 2).map(w => w[0] || '').join(''))}</span>
         <div class="track" aria-label="${esc(it.name)}: фото, гортай">
           ${it.pics.map((p, i) => i === 0
@@ -545,11 +592,12 @@ function renderGrid(){
         ${n > 1 ? `<button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button>
         <div class="dots">${it.pics.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div>` : ''}
       </div>
-      <div class="meta"><span class="name">${esc(it.name)}</span><span class="sub">${esc(COLS[it.c].t)}</span></div>
+      <div class="meta"><span class="name">${esc(it.name)}</span><span class="sub">${esc(it.sub)}</span></div>
       <div class="buyrow"><span class="price">${fmt(s.price)}<small>${s.label} см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>`;
   }).join('');
-  el.querySelectorAll('.card').forEach(setupCard);
+  el.querySelectorAll('.card:not(.own)').forEach(setupCard);
+  const oc = $('ownCard'); if (oc) oc.onclick = () => track('select_promotion', { promotion_name: 'own_print', creative_slot: 'grid_first' });
   const left = list.length - part.length;
   $('more').innerHTML = left > 0 ? `<button class="btn ghost" type="button" id="moreBtn">Показати ще ${Math.min(PAGE, left)} із ${left}</button>` : '';
   if (left > 0) $('moreBtn').onclick = () => {
@@ -606,7 +654,7 @@ function openItem(id, start = 0, toForm = false){
     <div class="shots">${it.pics.map((p, i) => `<img src="${isPhone() ? sized(p, 640, 640) : p}" data-full="${p}" alt="Дакімакура ${esc(it.name)}, фото ${i + 1}" referrerpolicy="no-referrer" loading="${i < 2 ? 'eager' : 'lazy'}" decoding="async" onerror="imgFallback(this)">`).join('')}</div>
     <div class="info">
       <button class="close" type="button">Закрити ✕</button>
-      <div><h2>${esc(it.name)}</h2><p class="spec">${esc(COLS[it.c].t)}. Габардин, сублімаційний друк, прихована блискавка, холофайбер.</p></div>
+      <div><h2>${esc(it.name)}</h2><p class="spec">${esc(it.sub)}. Габардин, сублімаційний друк, прихована блискавка, холофайбер.</p></div>
       <fieldset class="pick" id="pick"><legend>Розмір</legend>
         ${SIZES.map(s => `<button type="button" data-l="${s.len}" aria-pressed="${s === state.size}"><b>${s.label} см</b><span>${fmt(s.price)}</span></button>`).join('')}
       </fieldset>
@@ -758,7 +806,7 @@ function renderSizes3d(){
 async function open3D(id){
   const it = ITEMS.find(i => i.id === id), d = $('v3d'), token = ++v3dToken;
   $('v3dTitle').textContent = it.name;
-  $('v3dSub').textContent = COLS[it.c].t;
+  $('v3dSub').textContent = it.sub;
   renderSizes3d(); markSide('A');
   const load = $('v3dLoad');
   load.hidden = false; load.textContent = 'Готуємо модель…';
