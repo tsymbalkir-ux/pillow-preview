@@ -19,29 +19,42 @@
   .it img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;background:#C9C3EA}
   .it span{display:block;padding:5px 7px 6px;font-size:12px;line-height:1.25;height:3.1em;overflow:hidden}
   .it i{position:absolute;left:5px;top:5px;font:600 11px/1 system-ui;padding:3px 6px;border-radius:999px;background:rgba(31,26,61,.85);color:#fff;font-style:normal}
-  .it.bad{outline-color:#E0457B}
-  .it.bad::after{content:"✕";position:absolute;right:6px;top:4px;width:22px;height:22px;border-radius:50%;background:#E0457B;color:#fff;display:grid;place-items:center;font-size:13px}
+  .it.t1{outline-color:#E0457B}
+  .it.t2{outline-color:#2F6FE4}
+  .it.t1::after,.it.t2::after{position:absolute;right:6px;top:4px;width:24px;height:24px;border-radius:50%;color:#fff;display:grid;place-items:center;font:700 14px/1 system-ui}
+  .it.t1::after{content:"1";background:#E0457B}
+  .it.t2::after{content:"2";background:#2F6FE4}
+  #pen button[data-t="1"][aria-pressed="true"]{background:#E0457B;border-color:#E0457B}
+  #pen button[data-t="2"][aria-pressed="true"]{background:#2F6FE4;border-color:#2F6FE4}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media (max-width:700px){.cols{grid-template-columns:1fr}}
   textarea{width:100%;height:90px;font:13px/1.4 ui-monospace,Consolas,monospace;border:1px solid #cfcbe3;border-radius:10px;padding:10px;box-sizing:border-box}
 </style>
 </head>
 <body>
 <h1>Перевірка превʼю каталогу</h1>
-<p>Сторінка сама перевіряє перше фото кожного дизайну й показує ті, що схожі на «не такі». Клацни по картинці, щоб позначити її як погану (рожева рамка), клацни ще раз, щоб зняти. Ctrl+клік відкриває фото повністю. Позначки зберігаються в цьому браузері.</p>
+<p>Сторінка сама перевіряє перше фото кожного дизайну й показує ті, що схожі на «не такі». Обери, який тип зараз позначаєш, і клацай по картинках: рожева рамка з цифрою 1 це перший тип (дві подушки впритул), синя з цифрою 2 це другий (плаский арт). Повторний клік тим самим типом знімає позначку. Ctrl+клік відкриває фото повністю. Позначки зберігаються в цьому браузері.</p>
 <div id="bar">
   <div class="row" id="filters"></div>
-  <div class="row"><span id="status">Перевіряю фото…</span>
-    <button type="button" id="markAll">Позначити всі на екрані</button>
-    <button type="button" id="clearAll">Зняти всі на екрані</button></div>
+  <div class="row" id="pen"><b>Позначаю:</b>
+    <button type="button" data-t="1" aria-pressed="true">1-й тип: дві подушки впритул</button>
+    <button type="button" data-t="2" aria-pressed="false">2-й тип: плаский арт</button>
+    <button type="button" id="markAll">Позначити так усі на екрані</button>
+    <button type="button" id="clearAll">Зняти позначки з усіх на екрані</button></div>
+  <div class="row"><span id="status">Перевіряю фото…</span></div>
 </div>
 <div id="wall"></div>
-<h2 style="font-size:17px">Позначені дизайни: <span id="nBad">0</span></h2>
-<p>Скопіюй цей список і надішли його: за ним можна замінити або сховати ці превʼю.</p>
-<textarea id="out" readonly></textarea>
-<div class="row"><button class="go" type="button" id="copy">Скопіювати список</button></div>
+<p>Коли закінчиш, скопіюй обидва списки й надішли їх.</p>
+<div class="cols">
+  <div><h2 style="font-size:17px">1-й тип: <span id="n1">0</span></h2><textarea id="out1" readonly></textarea>
+    <div class="row"><button class="go" type="button" data-copy="out1">Скопіювати 1-й тип</button></div></div>
+  <div><h2 style="font-size:17px">2-й тип: <span id="n2">0</span></h2><textarea id="out2" readonly></textarea>
+    <div class="row"><button class="go" type="button" data-copy="out2">Скопіювати 2-й тип</button></div></div>
+</div>
 
 <script src="/dakimakury/data.js"></script>
 <script>
-const D = window.DAKI_DATA, KEY = 'daki-check-bad';
+const D = window.DAKI_DATA, KEY = 'daki-check-types';
 const url = p => /^https?:/.test(p) ? p : 'https://images.prom.ua/' + p + '.jpg';
 const small = u => u.replace(/(\/\d+)_/, '$1_w200_h200_');
 const pid = p => +String(p).split('/').pop().split('_')[0];
@@ -51,17 +64,22 @@ const uses = {};
 D.items.forEach(it => it[4].forEach(p => { uses[pid(p)] = (uses[pid(p)] || 0) + 1; }));
 
 const REASONS = { old: 'Старе фото', shape: 'Не квадрат', broken: 'Фото не відкрилось', shared: 'Спільне фото', none: 'Без фото' };
+/* підказка за номером фото: у прикладах фото 35… були пласким артом, а 41…–50… двома подушками впритул */
+const GUESS = { g1: 'Фото 41…–50… (мабуть, 1-й тип)', g2: 'Фото 35… (мабуть, 2-й тип)' };
 const items = D.items.map(it => ({ id: String(it[0]), name: it[2], col: D.cols[it[1]].t, pics: it[4].map(url), why: new Set(), shown: 0 }));
 items.forEach((x, i) => {
   const p = D.items[i][4][0];
   if (!p) { x.why.add('none'); return; }
-  if (pid(p) < NEW_FROM) x.why.add('old');
+  if (pid(p) < NEW_FROM) { x.why.add('old'); x.guess = pid(p) < 4e9 ? 'g2' : 'g1'; }
   if (uses[pid(p)] > 20) x.why.add('shared');
 });
 
-let bad = new Set();
-try { bad = new Set(JSON.parse(localStorage.getItem(KEY) || '[]')); } catch (e) {}
-const save = () => { try { localStorage.setItem(KEY, JSON.stringify([...bad])); } catch (e) {} };
+/* позначки: id товару → 1 або 2 */
+let marks = {}, pen = 1;
+try { marks = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(marks)); } catch (e) {} };
+const cls = x => 'it' + (marks[x.id] ? ' t' + marks[x.id] : '');
+const nMarked = t => items.filter(x => marks[x.id] === t).length;
 
 /* завантажуємо зменшені копії всіх перших фото: так дізнаємось пропорції й чи фото взагалі відкривається */
 function probe(x) {
@@ -88,13 +106,17 @@ function status(done) {
   filters();
 }
 function visible() {
-  return items.filter(x => filter === 'all' ? true : filter === 'bad' ? bad.has(x.id) : filter === 'any' ? x.why.size : x.why.has(filter));
+  return items.filter(x => filter === 'all' ? true : filter === 'm1' ? marks[x.id] === 1 : filter === 'm2' ? marks[x.id] === 2
+    : filter === 'm0' ? x.why.size && !marks[x.id] : filter === 'g1' || filter === 'g2' ? x.guess === filter
+    : filter === 'any' ? x.why.size : x.why.has(filter));
 }
 function filters() {
   const n = k => items.filter(x => x.why.has(k)).length;
   const list = [['any', 'Усі підозрілі', items.filter(x => x.why.size).length]]
     .concat(Object.keys(REASONS).map(k => [k, REASONS[k], n(k)]).filter(f => f[2]))
-    .concat([['bad', 'Позначені', bad.size], ['all', 'Весь каталог', items.length]]);
+    .concat(Object.keys(GUESS).map(k => [k, GUESS[k], items.filter(x => x.guess === k).length]))
+    .concat([['m0', 'Підозрілі без позначки', items.filter(x => x.why.size && !marks[x.id]).length],
+      ['m1', 'Позначені 1-м', nMarked(1)], ['m2', 'Позначені 2-м', nMarked(2)], ['all', 'Весь каталог', items.length]]);
   document.getElementById('filters').innerHTML = list.map(f =>
     '<button type="button" data-f="' + f[0] + '" aria-pressed="' + (filter === f[0]) + '">' + f[1] + ' ' + f[2] + '</button>').join('');
   document.querySelectorAll('#filters button').forEach(b => b.onclick = () => { filter = b.dataset.f; filters(); render(); });
@@ -104,7 +126,7 @@ function render() {
   wall.innerHTML = '';
   visible().forEach(x => {
     const el = document.createElement('div');
-    el.className = 'it' + (bad.has(x.id) ? ' bad' : '');
+    el.className = cls(x);
     el.title = x.name + ' (' + x.col + ')';
     const im = document.createElement('img');
     im.loading = 'lazy'; im.referrerPolicy = 'no-referrer'; im.alt = '';
@@ -115,24 +137,32 @@ function render() {
     el.append(im, s);
     el.onclick = e => {
       if (e.ctrlKey || e.metaKey) { if (x.pics.length) window.open(x.pics[x.shown]); return; }
-      bad.has(x.id) ? bad.delete(x.id) : bad.add(x.id);
-      el.classList.toggle('bad', bad.has(x.id)); save(); out(); filters();
+      if (marks[x.id] === pen) delete marks[x.id]; else marks[x.id] = pen;
+      el.className = cls(x); save(); out(); filters();
     };
     wall.appendChild(el);
   });
   out();
 }
 function out() {
-  document.getElementById('nBad').textContent = bad.size;
-  document.getElementById('out').value = items.filter(x => bad.has(x.id)).map(x => x.id + '\t' + x.name).join('\n');
+  [1, 2].forEach(t => {
+    const list = items.filter(x => marks[x.id] === t);
+    document.getElementById('n' + t).textContent = list.length;
+    document.getElementById('out' + t).value = list.map(x => x.id + '\t' + x.name).join('\n');
+  });
 }
-document.getElementById('markAll').onclick = () => { visible().forEach(x => bad.add(x.id)); save(); render(); filters(); };
-document.getElementById('clearAll').onclick = () => { visible().forEach(x => bad.delete(x.id)); save(); render(); filters(); };
-document.getElementById('copy').onclick = async () => {
-  const t = document.getElementById('out'); t.select();
+document.querySelectorAll('#pen button[data-t]').forEach(b => b.onclick = () => {
+  pen = +b.dataset.t;
+  document.querySelectorAll('#pen button[data-t]').forEach(o => o.setAttribute('aria-pressed', o === b));
+});
+/* список на екрані фіксуємо до змін, бо у фільтрі «без позначки» він змінюється під час позначання */
+document.getElementById('markAll').onclick = () => { visible().forEach(x => { marks[x.id] = pen; }); save(); render(); filters(); };
+document.getElementById('clearAll').onclick = () => { visible().forEach(x => { delete marks[x.id]; }); save(); render(); filters(); };
+document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => {
+  const t = document.getElementById(b.dataset.copy); t.select();
   try { await navigator.clipboard.writeText(t.value); } catch (e) { document.execCommand('copy'); }
-  document.getElementById('copy').textContent = 'Скопійовано';
-};
+  const was = b.textContent; b.textContent = 'Скопійовано'; setTimeout(() => { b.textContent = was; }, 1500);
+});
 filters(); render(); scan();
 </script>
 </body>
