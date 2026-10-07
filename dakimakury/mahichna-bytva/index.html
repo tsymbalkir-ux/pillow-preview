@@ -56,272 +56,222 @@ fbq('track', 'PageView');
     </nav>
   </header>
 
-  <section class="hero">
-    <div>
+  <div class="layout">
+    <div class="shade" id="shade"></div>
+    <aside class="side" id="side" aria-label="Каталог дакімакур">
+      <div class="side-head"><b>Каталог</b><button class="side-x" id="sideClose" type="button" aria-label="Закрити каталог">×</button></div>
+      <nav class="tree" id="tree" aria-label="Розділи й колекції"><a class="t-row" href="/dakimakury/" data-s="-1"><span>Усі дизайни</span><span class="n">3260</span></a><div class="t-sec open"><a class="t-row" href="/dakimakury/anime/" data-s="0"><span>Аніме</span><span class="n">1145</span></a><ul class="t-cols"><li><a class="t-col" href="/dakimakury/klynok-shcho-rozsikaye-demoniv/" data-c="10"><span>Клинок, що розсікає демонів</span><span class="n">113</span></a></li><li><a class="t-col" href="/dakimakury/blich/" data-c="22"><span>Бліч</span><span class="n">34</span></a></li><li><a class="t-col" href="/dakimakury/mahichna-bytva/" data-c="9" aria-current="true"><span>Магічна битва</span><span class="n">96</span></a></li><li><a class="t-col" href="/dakimakury/ataka-tytaniv/" data-c="12"><span>Атака титанів</span><span class="n">74</span></a></li><li><a class="t-col" href="/dakimakury/lyudyna-benzopyla/" data-c="23"><span>Людина-бензопила</span><span class="n">49</span></a></li><li><a class="t-col" href="/dakimakury/vocaloid-miku/" data-c="24"><span>Vocaloid (Міку)</span><span class="n">193</span></a></li><li><a class="t-col" href="/dakimakury/pyat-narechenykh/" data-c="25"><span>П'ять наречених</span><span class="n">77</span></a></li><li><a class="t-col" href="/dakimakury/divchata-i-tanky/" data-c="26"><span>Дівчата і танки</span><span class="n">34</span></a></li><li><a class="t-col" href="/dakimakury/yevanhelion/" data-c="27"><span>Євангеліон</span><span class="n">30</span></a></li><li><a class="t-col" href="/dakimakury/overlord/" data-c="28"><span>Overlord</span><span class="n">49</span></a></li><li><a class="t-col" href="/dakimakury/moya-heroyska-akademiya/" data-c="29"><span>Моя геройська академія</span><span class="n">77</span></a></li><li><a class="t-col" href="/dakimakury/reinkarnatsiya-bezrobitnoho/" data-c="30"><span>Реінкарнація безробітного</span><span class="n">22</span></a></li><li><a class="t-col" href="/dakimakury/naruto/" data-c="11"><span>Наруто</span><span class="n">43</span></a></li><li><a class="t-col" href="/dakimakury/uma-musume/" data-c="31"><span>Uma Musume</span><span class="n">38</span></a></li><li><a class="t-col" href="/dakimakury/van-pis/" data-c="32"><span>Ван-Піс</span><span class="n">27</span></a></li><li><a class="t-col" href="/dakimakury/monoloh-farmatsevta/" data-c="33"><span>Монолог фармацевта</span><span class="n">30</span></a></li><li><a class="t-col" href="/dakimakury/berserk/" data-c="34"><span>Берсерк</span><span class="n">10</span></a></li><li><a class="t-col" href="/dakimakury/brodyachi-psy/" data-c="13"><span>Бродячі пси</span><span class="n">23</span></a></li><li><a class="t-col" href="/dakimakury/inshe-anime/" data-c="47"><span>Інше аніме</span><span class="n">126</span></a></li></ul></div><div class="t-sec"><a class="t-row" href="/dakimakury/ihry/" data-s="1"><span>Ігри</span><span class="n">1387</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/k-pop-i-muzyka/" data-s="2"><span>K-pop і музика</span><span class="n">179</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/zirky-y-memy/" data-s="3"><span>Зірки й меми</span><span class="n">95</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/kino-y-multfilmy/" data-s="4"><span>Кіно й мультфільми</span><span class="n">66</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/sport/" data-s="5"><span>Спорт</span><span class="n">111</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/napoyi/" data-s="6"><span>Напої</span><span class="n">230</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/inshe/" data-s="7"><span>Інше</span><span class="n">47</span></a></div></nav>
+      <div class="side-foot"><button class="btn wide" id="sideShow" type="button">Показати дизайни</button></div>
+    </aside>
+
+    <div class="main">
       <nav class="crumbs" id="crumbs" aria-label="Хлібні крихти"><a href="/dakimakury/">Дакімакури</a><span class="sep">/</span><a href="/dakimakury/anime/">Аніме</a><span class="sep">/</span><span aria-current="page">Магічна битва</span></nav>
       <h1 id="h1">Дакімакури «Магічна битва»</h1>
-      <p class="lead" id="lead">96 дизайнів: Годжо Сатору, Тоджі Фушіґуро, Сукуна Рюмен, Ітадорі Юдзі та інші. Чотири розміри від 100×33 до 180×60 см, ціна від 1 100 ₴, оплата при отриманні.</p>
-      <ul class="promises">
-        <li id="shipLi" hidden>Відправимо <b id="shipDate" style="margin-left:4px"></b></li>
-        <li>Оплата при отриманні</li>
-        <li>Нова Пошта по всій Україні</li>
-        <li>Наволочка знімається для прання</li>
-      </ul>
-    </div>
-    <fieldset class="ruler" id="sizes"><legend>Розмір подушки. Ціни на картках зміняться</legend></fieldset>
-  </section>
+      <div class="bar">
+        <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Магічна битва</span></button>
+        <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
+      </div>
+      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/mahichna-bytva/hodzho-satoru/">Годжо Сатору <span class="n">22</span></a><a href="/dakimakury/mahichna-bytva/todzhi-fushiguro/">Тоджі Фушіґуро <span class="n">5</span></a><a href="/dakimakury/mahichna-bytva/itadori-yudzi/">Ітадорі Юдзі <span class="n">4</span></a><a href="/dakimakury/mahichna-bytva/fushihuro-mehumi/">Фушігуро Мегумі <span class="n">4</span></a><a href="/dakimakury/mahichna-bytva/mey/">Мей <span class="n">5</span></a><a href="/dakimakury/mahichna-bytva/khanami/">Ханамі <span class="n">4</span></a></div>
+      <p class="count" id="count" aria-live="polite">Дизайнів: 96</p>
 
-  <div class="controls">
-    <nav class="chips" id="secs" aria-label="Розділи"><a class="chip" href="/dakimakury/">Усі<span class="n">3260</span></a><a class="chip" href="/dakimakury/anime/" aria-current="true">Аніме<span class="n">1145</span></a><a class="chip" href="/dakimakury/ihry/">Ігри<span class="n">1387</span></a><a class="chip" href="/dakimakury/k-pop-i-muzyka/">K-pop і музика<span class="n">179</span></a><a class="chip" href="/dakimakury/zirky-y-memy/">Зірки й меми<span class="n">95</span></a><a class="chip" href="/dakimakury/kino-y-multfilmy/">Кіно й мультфільми<span class="n">66</span></a><a class="chip" href="/dakimakury/sport/">Спорт<span class="n">111</span></a><a class="chip" href="/dakimakury/napoyi/">Напої<span class="n">230</span></a><a class="chip" href="/dakimakury/inshe/">Інше<span class="n">47</span></a></nav>
-    <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
-  </div>
-  <nav class="chips sub" id="chips" aria-label="Колекції"><a class="chip" href="/dakimakury/inshe-anime/">Інше аніме<span class="n">126</span></a><a class="chip" href="/dakimakury/klynok-shcho-rozsikaye-demoniv/">Клинок, що розсікає демонів<span class="n">113</span></a><a class="chip" href="/dakimakury/blich/">Бліч<span class="n">34</span></a><a class="chip" href="/dakimakury/mahichna-bytva/" aria-current="true">Магічна битва<span class="n">96</span></a><a class="chip" href="/dakimakury/ataka-tytaniv/">Атака титанів<span class="n">74</span></a><a class="chip" href="/dakimakury/lyudyna-benzopyla/">Людина-бензопила<span class="n">49</span></a><a class="chip" href="/dakimakury/vocaloid-miku/">Vocaloid (Міку)<span class="n">193</span></a><a class="chip" href="/dakimakury/pyat-narechenykh/">П'ять наречених<span class="n">77</span></a><a class="chip" href="/dakimakury/divchata-i-tanky/">Дівчата і танки<span class="n">34</span></a><a class="chip" href="/dakimakury/yevanhelion/">Євангеліон<span class="n">30</span></a><a class="chip" href="/dakimakury/overlord/">Overlord<span class="n">49</span></a><a class="chip" href="/dakimakury/moya-heroyska-akademiya/">Моя геройська академія<span class="n">77</span></a><a class="chip" href="/dakimakury/reinkarnatsiya-bezrobitnoho/">Реінкарнація безробітного<span class="n">22</span></a><a class="chip" href="/dakimakury/naruto/">Наруто<span class="n">43</span></a><a class="chip" href="/dakimakury/uma-musume/">Uma Musume<span class="n">38</span></a><a class="chip" href="/dakimakury/van-pis/">Ван-Піс<span class="n">27</span></a><a class="chip" href="/dakimakury/monoloh-farmatsevta/">Монолог фармацевта<span class="n">30</span></a><a class="chip" href="/dakimakury/berserk/">Берсерк<span class="n">10</span></a><a class="chip" href="/dakimakury/brodyachi-psy/">Бродячі пси<span class="n">23</span></a></nav>
-  <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/mahichna-bytva/hodzho-satoru/">Годжо Сатору <span class="n">22</span></a><a href="/dakimakury/mahichna-bytva/todzhi-fushiguro/">Тоджі Фушіґуро <span class="n">5</span></a><a href="/dakimakury/mahichna-bytva/itadori-yudzi/">Ітадорі Юдзі <span class="n">4</span></a><a href="/dakimakury/mahichna-bytva/fushihuro-mehumi/">Фушігуро Мегумі <span class="n">4</span></a><a href="/dakimakury/mahichna-bytva/mey/">Мей <span class="n">5</span></a><a href="/dakimakury/mahichna-bytva/khanami/">Ханамі <span class="n">4</span></a></div>
-  <p class="count" id="count" aria-live="polite">Дизайнів: 96</p>
 
   <main class="grid" id="grid">
 <article class="card" data-id="2787143797">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6876380826_w640_h640_sukuna-ryomen-magicheskaya.jpg" alt="Дакімакура Сукуна Рюмен" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сукуна Рюмен</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311109">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766695312_w640_h640_anime-dakimakura-godzho.jpg" alt="Дакімакура Годжо Сатору №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Годжо Сатору №1</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311117">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766681523_w640_h640_anime-dakimakura-itadori.jpg" alt="Дакімакура Ітадорі Юдзі" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ітадорі Юдзі</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311118">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766682257_w640_h640_anime-dakimakura-fushiguro.jpg" alt="Дакімакура Фушігуро Мегумі №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Фушігуро Мегумі №1</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286054">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762070464_w640_h640_dakimakura-godzho-satoru.jpg" alt="Дакімакура Годжо Сатору Jujutsu Kaisen" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Годжо Сатору Jujutsu Kaisen</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259194">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858588383_w640_h640_dakimakura-todzhi-fushiguro.jpg" alt="Дакімакура Тоджі Фушіґуро (B)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Тоджі Фушіґуро (B)</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259245">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858588387_w640_h640_dakimakura-todzhi-fushiguro.jpg" alt="Дакімакура Тоджі Фушіґуро (D)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Тоджі Фушіґуро (D)</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259247">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858588395_w640_h640_dakimakura-todzhi-fushiguro.jpg" alt="Дакімакура Тоджі Фушіґуро (W)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Тоджі Фушіґуро (W)</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2787143788">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6876378476_w640_h640_satoru-godzyo-magicheskaya.jpg" alt="Дакімакура Сатору Годжо №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сатору Годжо №1</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2787143801">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6876382827_w640_h640_yuki-tsukumo-magicheskaya.jpg" alt="Дакімакура Юкі Цукумо" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Юкі Цукумо</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2787143805">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6876382840_w640_h640_choso-magicheskaya-bitva.jpg" alt="Дакімакура Чосо" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Чосо</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311110">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766696478_w640_h640_anime-dakimakura-godzho.jpg" alt="Дакімакура Годжо Сатору №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Годжо Сатору №2</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311112">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766700114_w640_h640_anime-dakimakura-godzho.jpg" alt="Дакімакура Годжо Сатору №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Годжо Сатору №3</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311113">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766688824_w640_h640_anime-dakimakura-godzho.jpg" alt="Дакімакура Годжо Сатору №4" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Годжо Сатору №4</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311114">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766689544_w640_h640_anime-dakimakura-godzho.jpg" alt="Дакімакура Годжо Сатору №5" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Годжо Сатору №5</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311115">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766690442_w640_h640_anime-dakimakura-godzho.jpg" alt="Дакімакура Годжо Сатору №6" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Годжо Сатору №6</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311116">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766680571_w640_h640_anime-dakimakura-godzho.jpg" alt="Дакімакура Годжо Сатору №7" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Годжо Сатору №7</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311119">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766683104_w640_h640_anime-dakimakura-fushiguro.jpg" alt="Дакімакура Фушігуро Мегумі №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Фушігуро Мегумі №2</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1986505022">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4969344378_w640_h640_dakimakura-gabardin-satoru.jpg" alt="Дакімакура Сатору Годжо №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сатору Годжо №2</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1998128514">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/5028410239_w640_h640_dakimakura-gabardin-nanami.jpg" alt="Дакімакура Нанамі Кенто" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Нанамі Кенто</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487337760">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475452005_w640_h640_godzho-satoru-magicheskaya.jpg" alt="Дакімакура Годжо Сатору №8" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Годжо Сатору №8</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487337761">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475452020_w640_h640_satoru-godzho-magicheskaya.jpg" alt="Дакімакура Сатору Годжо №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сатору Годжо №3</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487337762">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475452057_w640_h640_godzho-satoru-magicheskaya.jpg" alt="Дакімакура Годжо Сатору №9" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Годжо Сатору №9</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487337763">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475452087_w640_h640_godzho-satoru-magicheskaya.jpg" alt="Дакімакура Годжо Сатору №10" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Годжо Сатору №10</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487337764">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475452271_w640_h640_godzho-satoru-magicheskaya.jpg" alt="Дакімакура Годжо Сатору №11" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Годжо Сатору №11</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487337765">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475452277_w640_h640_fusiguro-megumi-magicheskaya.jpg" alt="Дакімакура Фусіґуро Мегумі" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Фусіґуро Мегумі</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487337766">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475452290_w640_h640_godzho-satoru-magicheskaya.jpg" alt="Дакімакура Годжо Сатору №12" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Годжо Сатору №12</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487337767">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475452301_w640_h640_godzho-satoru-magicheskaya.jpg" alt="Дакімакура Годжо Сатору №13" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Годжо Сатору №13</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427684">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532271835_w640_h640_dakimakura-godzho-satoru.jpg" alt="Дакімакура Годжо Сатору №14" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Годжо Сатору №14</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427685">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532271849_w640_h640_dakimakura-godzho-satoru.jpg" alt="Дакімакура Годжо Сатору №15" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Годжо Сатору №15</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427870">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532322370_w640_h640_dakimakura-godzho-satoru.jpg" alt="Дакімакура Годжо Сатору №16" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Годжо Сатору №16</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2536579014">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6544082208_w640_h640_dakimakura-kugisaki-podushka.jpg" alt="Дакімакура Кугісакі" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кугісакі</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2536579022">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6544084504_w640_h640_dakimakura-godzho-satoru.jpg" alt="Дакімакура Годжо Сатору №17" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Годжо Сатору №17</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286087">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762071515_w640_h640_dakimakura-itadori-yudzhi.jpg" alt="Дакімакура Ітадорі Юджі Jujutsu Kaisen 1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ітадорі Юджі Jujutsu Kaisen 1</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286088">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762071523_w640_h640_dakimakura-itadori-yudzhi.jpg" alt="Дакімакура Ітадорі Юджі Jujutsu Kaisen" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ітадорі Юджі Jujutsu Kaisen</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286130">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762072950_w640_h640_dakimakura-maki-dzenin.jpg" alt="Дакімакура Макі Дзенін Jujutsu Kaisen" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Макі Дзенін Jujutsu Kaisen</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286221">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762075310_w640_h640_dakimakura-satoru-godzho.jpg" alt="Дакімакура Сатору Годжо Jujutsu Kaisen" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сатору Годжо Jujutsu Kaisen</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286236">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762075835_w640_h640_dakimakura-sukuna-ryomen.jpg" alt="Дакімакура Сукуна Рьомен Jujutsu Kaisen" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сукуна Рьомен Jujutsu Kaisen</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259042">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858584547_w640_h640_dakimakura-kayama-nemuri.jpg" alt="Дакімакура Каяма Немурі (A)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Каяма Немурі (A)</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259045">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858584578_w640_h640_dakimakura-kayama-nemuri.jpg" alt="Дакімакура Каяма Немурі (B)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Каяма Немурі (B)</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259081">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858584943_w640_h640_dakimakura-mej-mej.jpg" alt="Дакімакура Мей Мей (B)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мей Мей (B)</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259082">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858584954_w640_h640_dakimakura-mej-mej.jpg" alt="Дакімакура Мей Мей (M)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мей Мей (M)</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259085">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858584968_w640_h640_dakimakura-mej-mej.jpg" alt="Дакімакура Мей Мей (N)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мей Мей (N)</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259087">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858584981_w640_h640_dakimakura-mej-mej.jpg" alt="Дакімакура Мей Мей (style)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мей Мей (style)</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259246">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858588391_w640_h640_dakimakura-todzhi-fushiguro.jpg" alt="Дакімакура Тоджі Фушіґуро (L)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Тоджі Фушіґуро (L)</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2787143787">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6876378473_w640_h640_nobara-kugisaki-magicheskaya.jpg" alt="Дакімакура Нобара Кугісакі" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Нобара Кугісакі</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2787143789">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6876378479_w640_h640_megumi-fusiguro-magicheskaya.jpg" alt="Дакімакура Мегумі Фушігуро" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мегумі Фушігуро</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2787143790">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6876378482_w640_h640_yudzhi-itadori-magicheskaya.jpg" alt="Дакімакура Юдзі Ітадорі" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Юдзі Ітадорі</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
   </main>
   <div class="more" id="more"></div>
+    </div>
+  </div>
 
   <section class="custom">
     <div>

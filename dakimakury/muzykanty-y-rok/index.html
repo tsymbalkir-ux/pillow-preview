@@ -56,242 +56,198 @@ fbq('track', 'PageView');
     </nav>
   </header>
 
-  <section class="hero">
-    <div>
+  <div class="layout">
+    <div class="shade" id="shade"></div>
+    <aside class="side" id="side" aria-label="Каталог дакімакур">
+      <div class="side-head"><b>Каталог</b><button class="side-x" id="sideClose" type="button" aria-label="Закрити каталог">×</button></div>
+      <nav class="tree" id="tree" aria-label="Розділи й колекції"><a class="t-row" href="/dakimakury/" data-s="-1"><span>Усі дизайни</span><span class="n">3260</span></a><div class="t-sec"><a class="t-row" href="/dakimakury/anime/" data-s="0"><span>Аніме</span><span class="n">1145</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/ihry/" data-s="1"><span>Ігри</span><span class="n">1387</span></a></div><div class="t-sec open"><a class="t-row" href="/dakimakury/k-pop-i-muzyka/" data-s="2"><span>K-pop і музика</span><span class="n">179</span></a><ul class="t-cols"><li><a class="t-col" href="/dakimakury/stray-kids/" data-c="5"><span>Stray Kids</span><span class="n">44</span></a></li><li><a class="t-col" href="/dakimakury/muzykanty-y-rok/" data-c="41" aria-current="true"><span>Музиканти й рок</span><span class="n">42</span></a></li><li><a class="t-col" href="/dakimakury/inshyy-k-pop/" data-c="44"><span>Інший K-pop</span><span class="n">54</span></a></li><li><a class="t-col" href="/dakimakury/bts/" data-c="6"><span>BTS</span><span class="n">39</span></a></li></ul></div><div class="t-sec"><a class="t-row" href="/dakimakury/zirky-y-memy/" data-s="3"><span>Зірки й меми</span><span class="n">95</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/kino-y-multfilmy/" data-s="4"><span>Кіно й мультфільми</span><span class="n">66</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/sport/" data-s="5"><span>Спорт</span><span class="n">111</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/napoyi/" data-s="6"><span>Напої</span><span class="n">230</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/inshe/" data-s="7"><span>Інше</span><span class="n">47</span></a></div></nav>
+      <div class="side-foot"><button class="btn wide" id="sideShow" type="button">Показати дизайни</button></div>
+    </aside>
+
+    <div class="main">
       <nav class="crumbs" id="crumbs" aria-label="Хлібні крихти"><a href="/dakimakury/">Дакімакури</a><span class="sep">/</span><a href="/dakimakury/k-pop-i-muzyka/">K-pop і музика</a><span class="sep">/</span><span aria-current="page">Музиканти й рок</span></nav>
       <h1 id="h1">Дакімакури Музиканти й рок</h1>
-      <p class="lead" id="lead">42 дизайни: Ден Рейнольдс, Джастін Бібер, Брітні Спірс, Джастін Тімберлейк та інші. Чотири розміри від 100×33 до 180×60 см, ціна від 1 100 ₴, оплата при отриманні.</p>
-      <ul class="promises">
-        <li id="shipLi" hidden>Відправимо <b id="shipDate" style="margin-left:4px"></b></li>
-        <li>Оплата при отриманні</li>
-        <li>Нова Пошта по всій Україні</li>
-        <li>Наволочка знімається для прання</li>
-      </ul>
-    </div>
-    <fieldset class="ruler" id="sizes"><legend>Розмір подушки. Ціни на картках зміняться</legend></fieldset>
-  </section>
+      <div class="bar">
+        <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Музиканти й рок</span></button>
+        <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
+      </div>
+      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/muzykanty-y-rok/den-reynolds/">Ден Рейнольдс <span class="n">4</span></a><a href="/dakimakury/muzykanty-y-rok/damiano-david/">Даміано Давід <span class="n">4</span></a></div>
+      <p class="count" id="count" aria-live="polite">Дизайнів: 42</p>
 
-  <div class="controls">
-    <nav class="chips" id="secs" aria-label="Розділи"><a class="chip" href="/dakimakury/">Усі<span class="n">3260</span></a><a class="chip" href="/dakimakury/anime/">Аніме<span class="n">1145</span></a><a class="chip" href="/dakimakury/ihry/">Ігри<span class="n">1387</span></a><a class="chip" href="/dakimakury/k-pop-i-muzyka/" aria-current="true">K-pop і музика<span class="n">179</span></a><a class="chip" href="/dakimakury/zirky-y-memy/">Зірки й меми<span class="n">95</span></a><a class="chip" href="/dakimakury/kino-y-multfilmy/">Кіно й мультфільми<span class="n">66</span></a><a class="chip" href="/dakimakury/sport/">Спорт<span class="n">111</span></a><a class="chip" href="/dakimakury/napoyi/">Напої<span class="n">230</span></a><a class="chip" href="/dakimakury/inshe/">Інше<span class="n">47</span></a></nav>
-    <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
-  </div>
-  <nav class="chips sub" id="chips" aria-label="Колекції"><a class="chip" href="/dakimakury/stray-kids/">Stray Kids<span class="n">44</span></a><a class="chip" href="/dakimakury/muzykanty-y-rok/" aria-current="true">Музиканти й рок<span class="n">42</span></a><a class="chip" href="/dakimakury/inshyy-k-pop/">Інший K-pop<span class="n">54</span></a><a class="chip" href="/dakimakury/bts/">BTS<span class="n">39</span></a></nav>
-  <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/muzykanty-y-rok/den-reynolds/">Ден Рейнольдс <span class="n">4</span></a><a href="/dakimakury/muzykanty-y-rok/damiano-david/">Даміано Давід <span class="n">4</span></a></div>
-  <p class="count" id="count" aria-live="polite">Дизайнів: 42</p>
 
   <main class="grid" id="grid">
 <article class="card" data-id="2012051677">
       <div class="pic"><span class="hit">Купили 8 разів</span><div class="track"><img src="https://images.prom.ua/5078453576_w640_h640_dakimakura-gabardin-den.jpg" alt="Дакімакура Ден Рейнольдс, Imagine dragons" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ден Рейнольдс, Imagine dragons</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1920870839">
       <div class="pic"><span class="hit">Купили 4 рази</span><div class="track"><img src="https://images.prom.ua/4776524717_w640_h640_dakimakura-gabardin-dejv.jpg" alt="Дакімакура Дейв Мастейн, Megadeth" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Дейв Мастейн, Megadeth</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773261027">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858585182_w640_h640_britni-spirs-britney.jpg" alt="Дакімакура Брітні Спірс (Britney Spears)" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Брітні Спірс (Britney Spears)</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1908567963">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4738479960_w640_h640_dakimakura-gabardin-dzhastin.jpg" alt="Дакімакура Джастін Тімберлейк" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Джастін Тімберлейк</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1920874189">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4776546117_w640_h640_dakimakura-gabardin-dzhastin.jpg" alt="Дакімакура Джастін Бібер" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Джастін Бібер</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773261073">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858586022_w640_h640_dzhastin-biber-justin.jpg" alt="Дакімакура Джастін Бібер (Justin Bieber) №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Джастін Бібер (Justin Bieber) №1</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1907703808">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4735310144_w640_h640_dakimakura-gabardin-avril.jpg" alt="Дакімакура Авріл Лавін" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Авріл Лавін</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1908513762">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4738311041_w640_h640_dakimakura-gabardin-garri.jpg" alt="Дакімакура Гарри Стайлз" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Гарри Стайлз</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1908778506">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4739178366_w640_h640_dakimakura-gabardin-elvis.jpg" alt="Дакімакура Елвіс Преслі" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Елвіс Преслі</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1908782577">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4739189544_w640_h640_dakimakura-gabardin-enrike.jpg" alt="Дакімакура Енріке Іглесіас" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Енріке Іглесіас</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1909435717">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4741557494_w640_h640_dakimakura-gabardin-madonna.jpg" alt="Дакімакура Мадонна" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мадонна</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1909446322">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4741579586_w640_h640_dakimakura-gabardin-merilin.jpg" alt="Дакімакура Мерилін Мнсон" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мерилін Мнсон</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1909716884">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4742248119_w640_h640_dakimakura-gabardin-rianna.jpg" alt="Дакімакура Ріанна" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ріанна</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1909734078">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4742287915_w640_h640_dakimakura-gabardin-tejlor.jpg" alt="Дакімакура Тейлор Свіфт" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Тейлор Свіфт</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1920806891">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4776236831_w640_h640_dakimakura-gabardin-maneskin.jpg" alt="Дакімакура Maneskin" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Maneskin</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1920824298">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4776313063_w640_h640_dakimakura-gabardin-the.jpg" alt="Дакімакура The Weekend №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">The Weekend №1</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1920826033">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4776318309_w640_h640_dakimakura-gabardin-the.jpg" alt="Дакімакура The Weekend №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">The Weekend №2</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1921594996">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4779202068_w640_h640_dakimakura-gabardin-lana.jpg" alt="Дакімакура Лана Дель Рей №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Лана Дель Рей №1</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1921596230">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4779203976_w640_h640_dakimakura-gabardin-lana.jpg" alt="Дакімакура Лана Дель Рей №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Лана Дель Рей №2</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1963489643">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4911644966_w640_h640_dakimakura-gabardin-britni.jpg" alt="Дакімакура Брітні Спірс" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Брітні Спірс</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1998128515">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/5028442104_w640_h640_dakimakura-gabardin-till.jpg" alt="Дакімакура Тілль Ліндеманн, Rammstein" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Тілль Ліндеманн, Rammstein</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2012052103">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/5078455278_w640_h640_dakimakura-gabardin-den.jpg" alt="Дакімакура Ден Рейнольдс 2, Imagine dragons" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ден Рейнольдс 2, Imagine dragons</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2012053286">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/5078457307_w640_h640_dakimakura-gabardin-den.jpg" alt="Дакімакура Ден Рейнольдс 3, Imagine dragons" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ден Рейнольдс 3, Imagine dragons</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2012053616">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/5078459189_w640_h640_dakimakura-gabardin-den.jpg" alt="Дакімакура Ден Рейнольдс 4, Imagine dragons" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ден Рейнольдс 4, Imagine dragons</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2012053693">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/5078460034_w640_h640_dakimakura-gabardin-dzhosh.jpg" alt="Дакімакура Джош Дан, 21pilots" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Джош Дан, 21pilots</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2012058806">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/5078472021_w640_h640_dakimakura-gabardin-dzhosh.jpg" alt="Дакімакура Джош Дан 2, 21pilots" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Джош Дан 2, 21pilots</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2012060092">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/5078476711_w640_h640_dakimakura-gabardin-dzhosh.jpg" alt="Дакімакура Джош Дан 3, 21pilots" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Джош Дан 3, 21pilots</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2012703313">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/5080592525_w640_h640_dakimakura-gabardin-damiano.jpg" alt="Дакімакура Даміано Давід, Maneskin" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Даміано Давід, Maneskin</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2012706397">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/5080605298_w640_h640_dakimakura-gabardin-damiano.jpg" alt="Дакімакура Даміано Давід 2, Maneskin" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Даміано Давід 2, Maneskin</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2012707756">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/5080608535_w640_h640_dakimakura-gabardin-damiano.jpg" alt="Дакімакура Даміано Давід 3, Maneskin" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Даміано Давід 3, Maneskin</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2012709014">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/5080613603_w640_h640_dakimakura-gabardin-endryu.jpg" alt="Дакімакура Ендрю Таггарт, The Chainsmokers" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ендрю Таггарт, The Chainsmokers</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2012724163">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/5080654775_w640_h640_dakimakura-gabardin-endryu.jpg" alt="Дакімакура Ендрю Таггарт 2, The Chainsmokers" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ендрю Таггарт 2, The Chainsmokers</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2012725494">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/5080658439_w640_h640_dakimakura-gabardin-endryu.jpg" alt="Дакімакура Ендрю Таггарт 3, The Chainsmokers" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ендрю Таггарт 3, The Chainsmokers</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773261021">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858585088_w640_h640_avril-lavin-avril.jpg" alt="Дакімакура Авріл Лавін (Avril Lavigne)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Авріл Лавін (Avril Lavigne)</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773261025">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858585100_w640_h640_billi-ajlish-billie.jpg" alt="Дакімакура Біллі Айліш (Billie Eilish)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Біллі Айліш (Billie Eilish)</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773261047">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858585620_w640_h640_enrike-iglesias-enrique.jpg" alt="Дакімакура Енріке Іглесіас (Enrique Iglesias) №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Енріке Іглесіас (Enrique Iglesias) №1</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773261048">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858585623_w640_h640_enrike-iglesias-enrique.jpg" alt="Дакімакура Енріке Іглесіас (Enrique Iglesias) №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Енріке Іглесіас (Enrique Iglesias) №2</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773261074">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858586505_w640_h640_dzhastin-biber-justin.jpg" alt="Дакімакура Джастін Бібер (Justin Bieber) №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Джастін Бібер (Justin Bieber) №2</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773261075">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858586508_w640_h640_dzhastin-timberlejk-justin.jpg" alt="Дакімакура Джастін Тімберлейк (Justin Timberlake)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Джастін Тімберлейк (Justin Timberlake)</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773261111">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858587472_w640_h640_rianna-rihanna-dakimakura.jpg" alt="Дакімакура Ріанна (Rihanna) №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ріанна (Rihanna) №1</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773261112">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858587476_w640_h640_rianna-rihanna-dakimakura.jpg" alt="Дакімакура Ріанна (Rihanna) №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ріанна (Rihanna) №2</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773261124">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858587881_w640_h640_tejlor-svift-taylor.jpg" alt="Дакімакура Тейлор Свіфт (Taylor Swift)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Тейлор Свіфт (Taylor Swift)</span><span class="sub">Музиканти й рок</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
   </main>
   <div class="more" id="more"></div>
+    </div>
+  </div>
 
   <section class="custom">
     <div>

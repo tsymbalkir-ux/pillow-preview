@@ -160,71 +160,63 @@ function currentList(){
     && (state.sub === -1 || state.col < 0 || (state.sub === -2 ? it.k < 0 : it.k === state.sub)) && m(it.hay));
 }
 
-/* ---------- шапка: заголовок під запит, розміри ---------- */
+/* ---------- заголовок і хлібні крихти ---------- */
 function renderHead(){
   const sub = state.col >= 0 && state.sub >= 0 ? state.sub : -1;
   $('h1').textContent = S.h1(D, state.sec, state.col, sub);
-  $('lead').textContent = S.lead(D, state.sec, state.col, sub);
   document.title = S.title(D, state.sec, state.col, sub);
   const cr = S.crumbs(D, state.sec, state.col, sub);
   $('crumbs').innerHTML = cr.length > 1 ? cr.map((c, i) => i === cr.length - 1
     ? `<span aria-current="page">${esc(c.t)}</span>` : `<a href="${c.href}">${esc(c.t)}</a>`).join('<span class="sep">/</span>') : '';
 }
-function renderSizes(){
-  const el = $('sizes');
-  el.querySelectorAll('.size').forEach(n => n.remove());
-  SIZES.forEach(s => {
-    const b = document.createElement('button');
-    b.type = 'button'; b.className = 'size';
-    b.setAttribute('aria-pressed', s === state.size);
-    b.innerHTML = `<span class="w" style="display:block;width:${Math.round(58 + (s.len - 100) / 80 * 42)}%"><span class="bar"><span>${s.label} см</span><span class="p">${fmt(s.price)}</span></span></span>`;
-    b.onclick = () => setSize(s, 'ruler');
-    el.appendChild(b);
-  });
-}
+/* розмір обирають у вікні товару та в 3D; на картках його більше немає */
 function setSize(s, from){
   if (s === state.size) return;
   state.size = s;
   track('select_size', { size: s.v, value: s.price, currency: 'UAH', from });
-  renderSizes(); syncUrl();
-  document.querySelectorAll('.card:not(.own) .price').forEach(p => { p.firstChild.textContent = fmt(s.price); p.querySelector('small').textContent = s.label + ' см'; });
+  syncUrl();
 }
 
 /* ---------- колекції та швидкі фільтри ---------- */
 /* кнопки фільтрів це справжні посилання на статичні сторінки: їх бачить пошуковик,
    а звичайний клік перемикає фільтр на місці, без перезавантаження */
 function plainClick(e){ return !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button); }
-function renderChips(){
-  const nCol = COLS.map(() => 0), uCol = COLS.map(() => 0), nSec = SECS.map(() => 0);
-  ITEMS.forEach(it => { nCol[it.c]++; uCol[it.c] += it.sold; nSec[COLS[it.c].s]++; });
-  const se = $('secs');
-  se.innerHTML = [`<a class="chip" href="${S.BASE}" data-i="-1" ${state.sec < 0 ? 'aria-current="true"' : ''}>Усі<span class="n">${ITEMS.length}</span></a>`]
-    .concat(SECS.map((s, i) => nSec[i] ? `<a class="chip" href="${S.pathFor(D, i, -1, -1)}" data-i="${i}" ${state.sec === i ? 'aria-current="true"' : ''}>${esc(s.t)}<span class="n">${nSec[i]}</span></a>` : '')).join('');
-  se.querySelectorAll('.chip').forEach(b => b.onclick = e => {
+/* Дерево каталогу: на комп'ютері це ліва колонка, на телефоні панель, що виїжджає зліва. */
+function renderTree(){
+  const el = $('tree');
+  el.innerHTML = S.tree(D, state.sec, state.col);
+  el.querySelectorAll('a').forEach(a => a.onclick = e => {
     if (!plainClick(e)) return;
     e.preventDefault();
-    state.sec = +b.dataset.i; state.col = -1; state.sub = -1; state.subsOpen = false; state.q = ''; state.shown = PAGE; $('search').value = '';
+    const isCol = a.dataset.c != null;
+    if (isCol) {
+      const i = +a.dataset.c;
+      state.col = state.col === i ? -1 : i;
+      state.sec = COLS[i].s;
+    } else { state.sec = +a.dataset.s; state.col = -1; }
+    state.sub = -1; state.subsOpen = false; state.q = ''; state.shown = PAGE; $('search').value = '';
     renderAll();
+    /* розділ лишає панель відкритою, щоб одразу обрати колекцію; колекція або «Усі» закривають її */
+    if (isCol || state.sec < 0) drawer(false);
+    scrollTo({ top: 0 });
   });
-  /* 2-й ряд: колекції розділу, а на «Усі» десять найпопулярніших за продажами */
-  let ids = COLS.map((_, i) => i).filter(i => nCol[i]);
-  ids = state.sec >= 0 ? ids.filter(i => COLS[i].s === state.sec).sort((a, b) => uCol[b] - uCol[a])
-                       : ids.filter(i => !/^(anime2|games2|movies2|misc)$/.test(COLS[i].k)).sort((a, b) => uCol[b] - uCol[a]).slice(0, 10);
-  if (state.col >= 0 && !ids.includes(state.col)) ids.unshift(state.col);
-  const el = $('chips');
-  el.innerHTML = (state.sec < 0 ? '<span class="lbl">Популярне:</span>' : '') +
-    ids.map(i => `<a class="chip" href="${S.pathFor(D, -1, i, -1)}" data-i="${i}" ${state.col === i ? 'aria-current="true"' : ''}>${esc(COLS[i].t)}<span class="n">${nCol[i]}</span></a>`).join('');
-  el.querySelectorAll('.chip').forEach(b => b.onclick = e => {
-    if (!plainClick(e)) return;
-    e.preventDefault();
-    const i = +b.dataset.i;
-    state.col = state.col === i ? -1 : i; state.sub = -1; state.subsOpen = false;
-    if (state.col >= 0) state.sec = COLS[i].s;
-    state.q = ''; state.shown = PAGE; $('search').value = '';
-    renderAll();
-  });
-  [se, el].forEach(row => { const on = row.querySelector('[aria-current]'); if (on) row.scrollLeft = Math.max(0, on.offsetLeft - row.clientWidth / 2 + on.offsetWidth / 2); });
+  $('sideNow').textContent = state.col >= 0 ? COLS[state.col].t : state.sec >= 0 ? SECS[state.sec].t : 'Каталог';
+  const on = el.querySelector('[aria-current]');
+  if (on && drawerOpen()) on.scrollIntoView({ block: 'nearest' });
 }
+const drawerOpen = () => document.documentElement.classList.contains('side-on');
+function drawer(on){
+  if (on === drawerOpen()) return;
+  document.documentElement.classList.toggle('side-on', on);
+  $('sideOpen').setAttribute('aria-expanded', on);
+  if (on) $('sideClose').focus({ preventScroll: true });
+  else if (isPhone()) $('sideOpen').focus({ preventScroll: true });
+}
+$('sideOpen').onclick = () => drawer(true);
+$('sideClose').onclick = () => drawer(false);
+$('sideShow').onclick = () => drawer(false);
+$('shade').onclick = () => drawer(false);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && drawerOpen()) drawer(false); });
 function renderTops(){
   const el = $('tops'), col = COLS[state.col];
   /* велика колекція: підкатегорії (персонажі, бренди або тайтли) з кількістю дизайнів */
@@ -265,10 +257,11 @@ function renderTops(){
 /* ---------- сітка ---------- */
 let listToken = '';
 function renderGrid(){
-  const list = currentList(), el = $('grid'), s = state.size;
+  const list = currentList(), el = $('grid');
   $('count').textContent = list.length
     ? (state.q ? `За запитом «${state.q}»: ${list.length}` : `Дизайнів: ${list.length}`)
     : '';
+  $('sideShow').textContent = list.length ? 'Показати ' + S.designs(list.length) : 'Закрити';
   if (!list.length) {
     el.innerHTML = `<div class="empty"><p>За запитом «${esc(state.q)}» готового дизайну поки немає. Надрукуємо цього персонажа з твого зображення або підберемо арт самі, якщо напишеш нам.</p>
       <div class="row"><a class="btn" href="/dakimakura">Зробити зі своїм зображенням</a><a class="btn ghost" href="https://t.me/Masterform_ua" data-contact="telegram">Написати в Telegram</a>${state.col >= 0 || state.sec >= 0 ? '<button class="btn ghost" id="allCols" type="button">Шукати в усьому каталозі</button>' : ''}</div></div>`;
@@ -278,11 +271,10 @@ function renderGrid(){
     return;
   }
   const part = list.slice(0, state.shown);
-  /* свій принт купують частіше за будь-який готовий дизайн, тому він стоїть першим */
+  /* свій принт замовляють частіше за будь-який готовий дизайн, тому він стоїть першим */
   const own = !state.q && state.col < 0 && state.sub === -1 ? `<a class="card own" href="/dakimakura" id="ownCard">
       <div class="pic">Твій арт або фото на подушці</div>
       <div class="meta"><span class="name">Свій принт</span><span class="sub">Макет з'явиться одразу після завантаження</span></div>
-      <div class="buyrow"><span class="price">від ${fmt(SIZES[1].price)}<small></small></span><span class="btn ghost">Створити макет</span></div>
     </a>` : '';
   el.innerHTML = own + part.map((it, idx) => {
     const n = it.pics.length;
@@ -300,7 +292,6 @@ function renderGrid(){
         <div class="dots">${it.pics.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div>` : ''}
       </div>
       <div class="meta"><span class="name">${esc(it.name)}</span><span class="sub">${esc(it.sub)}</span></div>
-      <div class="buyrow"><span class="price">${fmt(s.price)}<small>${s.label} см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>`;
   }).join('');
   el.querySelectorAll('.card:not(.own)').forEach(setupCard);
@@ -338,7 +329,6 @@ function setupCard(card){
   if (prev) { prev.onclick = () => { loadSlide(imgs[cur - 1]); go(cur - 1); }; next.onclick = () => { loadSlide(imgs[cur + 1]); go(cur + 1); }; }
   card.querySelector('.meta').onclick = () => openItem(id, cur);
   const b3 = card.querySelector('.b3d'); if (b3) b3.onclick = () => open3D(id);
-  card.querySelector('.btn').onclick = () => openItem(id, cur, true);
 }
 
 /* ---------- вікно товару: фото, розмір, форма ---------- */
@@ -466,10 +456,17 @@ function openItem(id, start = 0, toForm = false){
    three.js і модулі вантажаться лише після першого натиску «3D».
    Принт береться з оригіналів на i.ibb.co (поле orig у товару):
     - два файли: перший це сторона A, другий сторона B;
-    - один файл, на якому обидві сторони поруч (ширина більша за TWO_SIDED висоти): ріжемо навпіл, ліва A, права B;
+    - один файл, на якому обидві сторони поруч (розгортка, див. isSheet): ріжемо навпіл, ліва A, права B;
     - один файл з однією стороною: сторона B повторює A.
    Щоб це працювало, хостинг картинок має дозволяти читати їх з іншого сайту (CORS). */
-const TWO_SIDED = 0.5;   // панель дакімакури має пропорцію 1:3 (0.33), дві панелі поруч 2:3 (0.67)
+/* Одна панель дакімакури має пропорцію 1:3 (0.33), розгортка з двох панелей поруч 2:3 (0.67).
+   Сама пропорція нічого не гарантує: файл з однією пляшкою чи банкою теж буває ширший за 0.5,
+   і тоді його різало навпіл. Тому навпіл ріжемо лише файл, який і за пропорцією схожий на розгортку,
+   і має видимий стик двох малюнків посередині (або порожню смугу між ними). */
+const SHEET_MIN = 0.56, SHEET_MAX = 0.85;
+/* Ручне виправлення для окремих дизайнів, якщо автоматика помилилась:
+   id товару → 1 (файл це одна сторона) або 2 (у файлі дві сторони поруч). */
+const SIDES_FIX = {};
 let MM = null, D3 = null, v3d = null, v3dToken = 0, v3dSize = null;
 const printCache = new Map();
 
@@ -484,12 +481,51 @@ function cropBlob(bmp, sx, sw){
   cv.getContext('2d').drawImage(bmp, sx, 0, sw, bmp.height, 0, 0, sw, bmp.height);
   return new Promise(res => cv.toBlob(res, 'image/png'));
 }
+/* px: RGBA зменшеної копії файлу завширшки w (парне число) на білому тлі.
+   true, якщо посередині є стик двох різних малюнків або порожня смуга між двома малюнками. */
+function hasMiddleSeam(px, w, h){
+  const c = w / 2, at = (x, y) => (y * w + x) * 4;
+  /* наскільки відрізняються стовпчики x-2 та x+1: два середні пропускаємо, бо при зменшенні вони змішуються */
+  const step = x => {
+    let sum = 0;
+    for (let y = 0; y < h; y++) {
+      const a = at(x - 2, y), b = at(x + 1, y);
+      sum += Math.abs(px[a] - px[b]) + Math.abs(px[a + 1] - px[b + 1]) + Math.abs(px[a + 2] - px[b + 2]);
+    }
+    return sum / (h * 3);
+  };
+  const others = [];
+  for (let x = 4; x < w - 3; x++) if (Math.abs(x - c) > 4) others.push(step(x));
+  others.sort((a, b) => a - b);
+  const p90 = others[Math.floor(others.length * 0.9)], top = others[others.length - 1], seam = step(c);
+  if (seam > 12 && seam > p90 * 1.6 && seam > top * 1.15) return true;
+
+  /* порожня смуга: середні стовпчики одного кольору згори донизу, а по обидва боки від них є малюнок */
+  const bg = [px[at(c, 0)], px[at(c, 0) + 1], px[at(c, 0) + 2]];
+  const far = i => Math.abs(px[i] - bg[0]) + Math.abs(px[i + 1] - bg[1]) + Math.abs(px[i + 2] - bg[2]) > 36;
+  for (let x = c - 2; x <= c + 1; x++) for (let y = 0; y < h; y++) if (far(at(x, y))) return false;
+  const filled = (x0, x1) => { let n = 0; for (let x = x0; x < x1; x++) for (let y = 0; y < h; y++) if (far(at(x, y))) n++; return n / ((x1 - x0) * h); };
+  return filled(0, c - 2) > 0.04 && filled(c + 2, w) > 0.04;
+}
+function isSheet(bmp, fix){
+  if (fix === 1 || fix === 2) return fix === 2;
+  const ratio = bmp.width / bmp.height;
+  if (ratio < SHEET_MIN || ratio > SHEET_MAX) return false;
+  const w = 128, h = Math.max(8, Math.round(w / ratio));
+  const cv = document.createElement('canvas');
+  cv.width = w; cv.height = h;
+  const g = cv.getContext('2d', { willReadFrequently: true });
+  g.fillStyle = '#fff'; g.fillRect(0, 0, w, h);        // прозорий PNG рахуємо як малюнок на білому
+  g.drawImage(bmp, 0, 0, w, h);
+  return hasMiddleSeam(g.getImageData(0, 0, w, h).data, w, h);
+}
 /* повертає { a, b, twoSided }: Blob для кожної сторони (b може бути null) */
 async function printBlobs(it){
   const first = await fileBlob(it.orig[0]);
   const bmp = await createImageBitmap(first);
-  const ratio = bmp.width / bmp.height;
-  if (ratio > TWO_SIDED) {
+  let sheet = false;
+  try { sheet = isSheet(bmp, SIDES_FIX[it.id]); } catch (err) { console.warn('3D: не вдалося розпізнати сторони', err); }
+  if (sheet) {
     const half = Math.floor(bmp.width / 2);
     const [a, b] = await Promise.all([cropBlob(bmp, 0, half), cropBlob(bmp, bmp.width - half, half)]);
     bmp.close?.();
@@ -567,17 +603,13 @@ function renderLinks(){
   el.hidden = !l.list.length;
   el.innerHTML = l.list.length ? `<h2>${esc(l.title)}</h2><ul>${l.list.map(x => `<li><a href="${x.href}">${esc(x.t)}</a></li>`).join('')}</ul>` : '';
 }
-function renderAll(){ renderHead(); renderChips(); renderTops(); renderGrid(); renderLinks(); syncUrl(); }
+function renderAll(){ renderHead(); renderTree(); renderTops(); renderGrid(); renderLinks(); syncUrl(); }
 let typing;
 $('search').value = state.q;
 $('search').addEventListener('input', e => {
   clearTimeout(typing);
   typing = setTimeout(() => { state.q = e.target.value.trim(); state.shown = PAGE; renderTops(); renderGrid(); syncUrl(); }, 180);
 });
-(function(){
-  const d = (window.SHIP_DATE || '').trim();
-  if (d) { $('shipDate').textContent = d; $('shipLi').hidden = false; }
-  $('yr').textContent = new Date().getFullYear();
-})();
-renderSizes(); renderAll();
+$('yr').textContent = new Date().getFullYear();
+renderAll();
 if (!ITEMS.length) $('grid').innerHTML = '<div class="empty"><p>Каталог не завантажився. Онови сторінку або напиши нам у Telegram, і ми надішлемо дизайни.</p><div class="row"><a class="btn" href="https://t.me/Masterform_ua" data-contact="telegram">Написати в Telegram</a></div></div>';

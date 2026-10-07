@@ -56,122 +56,102 @@ fbq('track', 'PageView');
     </nav>
   </header>
 
-  <section class="hero">
-    <div>
+  <div class="layout">
+    <div class="shade" id="shade"></div>
+    <aside class="side" id="side" aria-label="Каталог дакімакур">
+      <div class="side-head"><b>Каталог</b><button class="side-x" id="sideClose" type="button" aria-label="Закрити каталог">×</button></div>
+      <nav class="tree" id="tree" aria-label="Розділи й колекції"><a class="t-row" href="/dakimakury/" data-s="-1"><span>Усі дизайни</span><span class="n">3260</span></a><div class="t-sec"><a class="t-row" href="/dakimakury/anime/" data-s="0"><span>Аніме</span><span class="n">1145</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/ihry/" data-s="1"><span>Ігри</span><span class="n">1387</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/k-pop-i-muzyka/" data-s="2"><span>K-pop і музика</span><span class="n">179</span></a></div><div class="t-sec open"><a class="t-row" href="/dakimakury/zirky-y-memy/" data-s="3"><span>Зірки й меми</span><span class="n">95</span></a><ul class="t-cols"><li><a class="t-col" href="/dakimakury/aktory-y-zirky/" data-c="45"><span>Актори й зірки</span><span class="n">54</span></a></li><li><a class="t-col" href="/dakimakury/ukrayinski-zirky/" data-c="36" aria-current="true"><span>Українські зірки</span><span class="n">18</span></a></li><li><a class="t-col" href="/dakimakury/memy/" data-c="37"><span>Меми</span><span class="n">19</span></a></li><li><a class="t-col" href="/dakimakury/rayan-hoslinh/" data-c="4"><span>Раян Гослінг</span><span class="n">4</span></a></li></ul></div><div class="t-sec"><a class="t-row" href="/dakimakury/kino-y-multfilmy/" data-s="4"><span>Кіно й мультфільми</span><span class="n">66</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/sport/" data-s="5"><span>Спорт</span><span class="n">111</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/napoyi/" data-s="6"><span>Напої</span><span class="n">230</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/inshe/" data-s="7"><span>Інше</span><span class="n">47</span></a></div></nav>
+      <div class="side-foot"><button class="btn wide" id="sideShow" type="button">Показати дизайни</button></div>
+    </aside>
+
+    <div class="main">
       <nav class="crumbs" id="crumbs" aria-label="Хлібні крихти"><a href="/dakimakury/">Дакімакури</a><span class="sep">/</span><a href="/dakimakury/zirky-y-memy/">Зірки й меми</a><span class="sep">/</span><span aria-current="page">Українські зірки</span></nav>
       <h1 id="h1">Дакімакури Українські зірки</h1>
-      <p class="lead" id="lead">18 дизайнів. Чотири розміри від 100×33 до 180×60 см, ціна від 1 100 ₴, оплата при отриманні.</p>
-      <ul class="promises">
-        <li id="shipLi" hidden>Відправимо <b id="shipDate" style="margin-left:4px"></b></li>
-        <li>Оплата при отриманні</li>
-        <li>Нова Пошта по всій Україні</li>
-        <li>Наволочка знімається для прання</li>
-      </ul>
-    </div>
-    <fieldset class="ruler" id="sizes"><legend>Розмір подушки. Ціни на картках зміняться</legend></fieldset>
-  </section>
+      <div class="bar">
+        <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Українські зірки</span></button>
+        <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
+      </div>
+      <div class="tops" id="tops"></div>
+      <p class="count" id="count" aria-live="polite">Дизайнів: 18</p>
 
-  <div class="controls">
-    <nav class="chips" id="secs" aria-label="Розділи"><a class="chip" href="/dakimakury/">Усі<span class="n">3260</span></a><a class="chip" href="/dakimakury/anime/">Аніме<span class="n">1145</span></a><a class="chip" href="/dakimakury/ihry/">Ігри<span class="n">1387</span></a><a class="chip" href="/dakimakury/k-pop-i-muzyka/">K-pop і музика<span class="n">179</span></a><a class="chip" href="/dakimakury/zirky-y-memy/" aria-current="true">Зірки й меми<span class="n">95</span></a><a class="chip" href="/dakimakury/kino-y-multfilmy/">Кіно й мультфільми<span class="n">66</span></a><a class="chip" href="/dakimakury/sport/">Спорт<span class="n">111</span></a><a class="chip" href="/dakimakury/napoyi/">Напої<span class="n">230</span></a><a class="chip" href="/dakimakury/inshe/">Інше<span class="n">47</span></a></nav>
-    <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
-  </div>
-  <nav class="chips sub" id="chips" aria-label="Колекції"><a class="chip" href="/dakimakury/aktory-y-zirky/">Актори й зірки<span class="n">54</span></a><a class="chip" href="/dakimakury/ukrayinski-zirky/" aria-current="true">Українські зірки<span class="n">18</span></a><a class="chip" href="/dakimakury/memy/">Меми<span class="n">19</span></a><a class="chip" href="/dakimakury/rayan-hoslinh/">Раян Гослінг<span class="n">4</span></a></nav>
-  <div class="tops" id="tops"></div>
-  <p class="count" id="count" aria-live="polite">Дизайнів: 18</p>
 
   <main class="grid" id="grid">
 <article class="card" data-id="1921623556">
       <div class="pic"><span class="hit">Купили 8 разів</span><div class="track"><img src="https://images.prom.ua/4779254310_w640_h640_dakimakura-gabardin-pavel.jpg" alt="Дакімакура Павло Скоропадський" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Павло Скоропадський</span><span class="sub">Українські зірки</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1907940884">
       <div class="pic"><span class="hit">Купили 3 рази</span><div class="track"><img src="https://images.prom.ua/4736133996_w640_h640_dakimakura-gabardin-vladimir.jpg" alt="Дакімакура Володимир Зеленський" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Володимир Зеленський</span><span class="sub">Українські зірки</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1914762053">
       <div class="pic"><span class="hit">Купили 3 рази</span><div class="track"><img src="https://images.prom.ua/4760102849_w640_h640_dakimakura-gabardin-artem.jpg" alt="Дакімакура Артем Пивоваров №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Артем Пивоваров №1</span><span class="sub">Українські зірки</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1978145272">
       <div class="pic"><span class="hit">Купили 3 рази</span><div class="track"><img src="https://images.prom.ua/4957256998_w640_h640_dakimakura-gabardin-sergej.jpg" alt="Дакімакура Сергій Жадан" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сергій Жадан</span><span class="sub">Українські зірки</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1964438376">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4914435037_w640_h640_dakimakura-gabardin-oleg.jpg" alt="Дакімакура Олег Винник №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Олег Винник №1</span><span class="sub">Українські зірки</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1909578006">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4742012316_w640_h640_dakimakura-gabardin-oleg.jpg" alt="Дакімакура Олег Винник №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Олег Винник №2</span><span class="sub">Українські зірки</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1998128508">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/5028088532_w640_h640_dakimakura-gabardin-viktor.jpg" alt="Дакімакура Віктор Ющенко" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Віктор Ющенко</span><span class="sub">Українські зірки</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1909525492">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4741785377_w640_h640_dakimakura-gabardin-monatik.jpg" alt="Дакімакура Монатік" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Монатік</span><span class="sub">Українські зірки</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1909727085">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4742268423_w640_h640_dakimakura-gabardin-sergej.jpg" alt="Дакімакура Сергій Притула" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сергій Притула</span><span class="sub">Українські зірки</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1920795167">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4776191230_w640_h640_dakimakura-gabardin-zhenya.jpg" alt="Дакімакура Женя Янович" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Женя Янович</span><span class="sub">Українські зірки</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1920795925">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4776199590_w640_h640_dakimakura-gabardin-spartak.jpg" alt="Дакімакура Спартак Суббота №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Спартак Суббота №1</span><span class="sub">Українські зірки</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1920799763">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4776206406_w640_h640_dakimakura-gabardin-spartak.jpg" alt="Дакімакура Спартак Суббота №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Спартак Суббота №2</span><span class="sub">Українські зірки</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1920843846">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4776384651_w640_h640_dakimakura-gabardin-artem.jpg" alt="Дакімакура Артем Пивоваров №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Артем Пивоваров №2</span><span class="sub">Українські зірки</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1920854496">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4776435257_w640_h640_dakimakura-gabardin-valerij.jpg" alt="Дакімакура Валерій Залужний №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Валерій Залужний №1</span><span class="sub">Українські зірки</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1920855509">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4776438529_w640_h640_dakimakura-gabardin-valerij.jpg" alt="Дакімакура Валерій Залужний №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Валерій Залужний №2</span><span class="sub">Українські зірки</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1920857309">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4776447603_w640_h640_dakimakura-gabardin-vasilij.jpg" alt="Дакімакура Василь Малюк" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Василь Малюк</span><span class="sub">Українські зірки</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1921582789">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4779158828_w640_h640_dakimakura-gabardin-kirill.jpg" alt="Дакімакура Кирило Буданов" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кирило Буданов</span><span class="sub">Українські зірки</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1964436192">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4914413992_w640_h640_dakimakura-gabardin-igor.jpg" alt="Дакімакура Ігор Лаченков" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ігор Лаченков</span><span class="sub">Українські зірки</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
   </main>
   <div class="more" id="more"></div>
+    </div>
+  </div>
 
   <section class="custom">
     <div>

@@ -56,272 +56,222 @@ fbq('track', 'PageView');
     </nav>
   </header>
 
-  <section class="hero">
-    <div>
+  <div class="layout">
+    <div class="shade" id="shade"></div>
+    <aside class="side" id="side" aria-label="Каталог дакімакур">
+      <div class="side-head"><b>Каталог</b><button class="side-x" id="sideClose" type="button" aria-label="Закрити каталог">×</button></div>
+      <nav class="tree" id="tree" aria-label="Розділи й колекції"><a class="t-row" href="/dakimakury/" data-s="-1"><span>Усі дизайни</span><span class="n">3260</span></a><div class="t-sec open"><a class="t-row" href="/dakimakury/anime/" data-s="0"><span>Аніме</span><span class="n">1145</span></a><ul class="t-cols"><li><a class="t-col" href="/dakimakury/klynok-shcho-rozsikaye-demoniv/" data-c="10"><span>Клинок, що розсікає демонів</span><span class="n">113</span></a></li><li><a class="t-col" href="/dakimakury/blich/" data-c="22"><span>Бліч</span><span class="n">34</span></a></li><li><a class="t-col" href="/dakimakury/mahichna-bytva/" data-c="9"><span>Магічна битва</span><span class="n">96</span></a></li><li><a class="t-col" href="/dakimakury/ataka-tytaniv/" data-c="12"><span>Атака титанів</span><span class="n">74</span></a></li><li><a class="t-col" href="/dakimakury/lyudyna-benzopyla/" data-c="23"><span>Людина-бензопила</span><span class="n">49</span></a></li><li><a class="t-col" href="/dakimakury/vocaloid-miku/" data-c="24"><span>Vocaloid (Міку)</span><span class="n">193</span></a></li><li><a class="t-col" href="/dakimakury/pyat-narechenykh/" data-c="25"><span>П'ять наречених</span><span class="n">77</span></a></li><li><a class="t-col" href="/dakimakury/divchata-i-tanky/" data-c="26"><span>Дівчата і танки</span><span class="n">34</span></a></li><li><a class="t-col" href="/dakimakury/yevanhelion/" data-c="27"><span>Євангеліон</span><span class="n">30</span></a></li><li><a class="t-col" href="/dakimakury/overlord/" data-c="28"><span>Overlord</span><span class="n">49</span></a></li><li><a class="t-col" href="/dakimakury/moya-heroyska-akademiya/" data-c="29" aria-current="true"><span>Моя геройська академія</span><span class="n">77</span></a></li><li><a class="t-col" href="/dakimakury/reinkarnatsiya-bezrobitnoho/" data-c="30"><span>Реінкарнація безробітного</span><span class="n">22</span></a></li><li><a class="t-col" href="/dakimakury/naruto/" data-c="11"><span>Наруто</span><span class="n">43</span></a></li><li><a class="t-col" href="/dakimakury/uma-musume/" data-c="31"><span>Uma Musume</span><span class="n">38</span></a></li><li><a class="t-col" href="/dakimakury/van-pis/" data-c="32"><span>Ван-Піс</span><span class="n">27</span></a></li><li><a class="t-col" href="/dakimakury/monoloh-farmatsevta/" data-c="33"><span>Монолог фармацевта</span><span class="n">30</span></a></li><li><a class="t-col" href="/dakimakury/berserk/" data-c="34"><span>Берсерк</span><span class="n">10</span></a></li><li><a class="t-col" href="/dakimakury/brodyachi-psy/" data-c="13"><span>Бродячі пси</span><span class="n">23</span></a></li><li><a class="t-col" href="/dakimakury/inshe-anime/" data-c="47"><span>Інше аніме</span><span class="n">126</span></a></li></ul></div><div class="t-sec"><a class="t-row" href="/dakimakury/ihry/" data-s="1"><span>Ігри</span><span class="n">1387</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/k-pop-i-muzyka/" data-s="2"><span>K-pop і музика</span><span class="n">179</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/zirky-y-memy/" data-s="3"><span>Зірки й меми</span><span class="n">95</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/kino-y-multfilmy/" data-s="4"><span>Кіно й мультфільми</span><span class="n">66</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/sport/" data-s="5"><span>Спорт</span><span class="n">111</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/napoyi/" data-s="6"><span>Напої</span><span class="n">230</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/inshe/" data-s="7"><span>Інше</span><span class="n">47</span></a></div></nav>
+      <div class="side-foot"><button class="btn wide" id="sideShow" type="button">Показати дизайни</button></div>
+    </aside>
+
+    <div class="main">
       <nav class="crumbs" id="crumbs" aria-label="Хлібні крихти"><a href="/dakimakury/">Дакімакури</a><span class="sep">/</span><a href="/dakimakury/anime/">Аніме</a><span class="sep">/</span><span aria-current="page">Моя геройська академія</span></nav>
       <h1 id="h1">Дакімакури «Моя геройська академія»</h1>
-      <p class="lead" id="lead">77 дизайнів: Кацукі Бакуго, Тодорокі Шото, Тога Хіміко, Іуку Мідорія та інші. Чотири розміри від 100×33 до 180×60 см, ціна від 1 100 ₴, оплата при отриманні.</p>
-      <ul class="promises">
-        <li id="shipLi" hidden>Відправимо <b id="shipDate" style="margin-left:4px"></b></li>
-        <li>Оплата при отриманні</li>
-        <li>Нова Пошта по всій Україні</li>
-        <li>Наволочка знімається для прання</li>
-      </ul>
-    </div>
-    <fieldset class="ruler" id="sizes"><legend>Розмір подушки. Ціни на картках зміняться</legend></fieldset>
-  </section>
+      <div class="bar">
+        <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Моя геройська академія</span></button>
+        <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
+      </div>
+      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/moya-heroyska-akademiya/katsuki-bakuho/">Кацукі Бакуго <span class="n">17</span></a><a href="/dakimakury/moya-heroyska-akademiya/todoroki-shoto/">Тодорокі Шото <span class="n">10</span></a><a href="/dakimakury/moya-heroyska-akademiya/iuku-midoriya/">Іуку Мідорія <span class="n">5</span></a><a href="/dakimakury/moya-heroyska-akademiya/ochako-uraraka/">Очако Урарака <span class="n">5</span></a><a href="/dakimakury/moya-heroyska-akademiya/dabi/">Дабі <span class="n">4</span></a></div>
+      <p class="count" id="count" aria-live="polite">Дизайнів: 77</p>
 
-  <div class="controls">
-    <nav class="chips" id="secs" aria-label="Розділи"><a class="chip" href="/dakimakury/">Усі<span class="n">3260</span></a><a class="chip" href="/dakimakury/anime/" aria-current="true">Аніме<span class="n">1145</span></a><a class="chip" href="/dakimakury/ihry/">Ігри<span class="n">1387</span></a><a class="chip" href="/dakimakury/k-pop-i-muzyka/">K-pop і музика<span class="n">179</span></a><a class="chip" href="/dakimakury/zirky-y-memy/">Зірки й меми<span class="n">95</span></a><a class="chip" href="/dakimakury/kino-y-multfilmy/">Кіно й мультфільми<span class="n">66</span></a><a class="chip" href="/dakimakury/sport/">Спорт<span class="n">111</span></a><a class="chip" href="/dakimakury/napoyi/">Напої<span class="n">230</span></a><a class="chip" href="/dakimakury/inshe/">Інше<span class="n">47</span></a></nav>
-    <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
-  </div>
-  <nav class="chips sub" id="chips" aria-label="Колекції"><a class="chip" href="/dakimakury/inshe-anime/">Інше аніме<span class="n">126</span></a><a class="chip" href="/dakimakury/klynok-shcho-rozsikaye-demoniv/">Клинок, що розсікає демонів<span class="n">113</span></a><a class="chip" href="/dakimakury/blich/">Бліч<span class="n">34</span></a><a class="chip" href="/dakimakury/mahichna-bytva/">Магічна битва<span class="n">96</span></a><a class="chip" href="/dakimakury/ataka-tytaniv/">Атака титанів<span class="n">74</span></a><a class="chip" href="/dakimakury/lyudyna-benzopyla/">Людина-бензопила<span class="n">49</span></a><a class="chip" href="/dakimakury/vocaloid-miku/">Vocaloid (Міку)<span class="n">193</span></a><a class="chip" href="/dakimakury/pyat-narechenykh/">П'ять наречених<span class="n">77</span></a><a class="chip" href="/dakimakury/divchata-i-tanky/">Дівчата і танки<span class="n">34</span></a><a class="chip" href="/dakimakury/yevanhelion/">Євангеліон<span class="n">30</span></a><a class="chip" href="/dakimakury/overlord/">Overlord<span class="n">49</span></a><a class="chip" href="/dakimakury/moya-heroyska-akademiya/" aria-current="true">Моя геройська академія<span class="n">77</span></a><a class="chip" href="/dakimakury/reinkarnatsiya-bezrobitnoho/">Реінкарнація безробітного<span class="n">22</span></a><a class="chip" href="/dakimakury/naruto/">Наруто<span class="n">43</span></a><a class="chip" href="/dakimakury/uma-musume/">Uma Musume<span class="n">38</span></a><a class="chip" href="/dakimakury/van-pis/">Ван-Піс<span class="n">27</span></a><a class="chip" href="/dakimakury/monoloh-farmatsevta/">Монолог фармацевта<span class="n">30</span></a><a class="chip" href="/dakimakury/berserk/">Берсерк<span class="n">10</span></a><a class="chip" href="/dakimakury/brodyachi-psy/">Бродячі пси<span class="n">23</span></a></nav>
-  <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/moya-heroyska-akademiya/katsuki-bakuho/">Кацукі Бакуго <span class="n">17</span></a><a href="/dakimakury/moya-heroyska-akademiya/todoroki-shoto/">Тодорокі Шото <span class="n">10</span></a><a href="/dakimakury/moya-heroyska-akademiya/iuku-midoriya/">Іуку Мідорія <span class="n">5</span></a><a href="/dakimakury/moya-heroyska-akademiya/ochako-uraraka/">Очако Урарака <span class="n">5</span></a><a href="/dakimakury/moya-heroyska-akademiya/dabi/">Дабі <span class="n">4</span></a></div>
-  <p class="count" id="count" aria-live="polite">Дизайнів: 77</p>
 
   <main class="grid" id="grid">
 <article class="card" data-id="1545311193">
       <div class="pic"><span class="hit">Купили 4 рази</span><div class="track"><img src="https://images.prom.ua/6766680695_w640_h640_anime-dakimakura-katsuki.jpg" alt="Дакімакура Кацукі Бакуго №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кацукі Бакуго №1</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311215">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/3546515766_w640_h640_anime-dakimakura-shoto.jpg" alt="Дакімакура Шото Тодорики №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Шото Тодорики №1</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311207">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766689267_w640_h640_anime-dakimakura-toga.jpg" alt="Дакімакура Тога Хіміко №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Тога Хіміко №1</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311187">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766695901_w640_h640_anime-dakimakura-vsemoguschij.jpg" alt="Дакімакура Всемогутній / Ягі Тошінорі" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Всемогутній / Ягі Тошінорі</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311188">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766696479_w640_h640_anime-dakimakura-izuku.jpg" alt="Дакімакура Анімія Іуку Мідорія" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Анімія Іуку Мідорія</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311189">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766700461_w640_h640_anime-dakimakura-izuku.jpg" alt="Дакімакура Іуку Мідорія" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Іуку Мідорія</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311190">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766688825_w640_h640_anime-dakimakura-izuku.jpg" alt="Дакімакура Іуку Мідорія / Всемогутній" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Іуку Мідорія / Всемогутній</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311191">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766689699_w640_h640_anime-dakimakura-kaminari.jpg" alt="Дакімакура Камінарі Денкі №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Камінарі Денкі №1</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311192">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766690445_w640_h640_anime-dakimakura-kaminari.jpg" alt="Дакімакура Камінарі Денкі №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Камінарі Денкі №2</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311194">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766681526_w640_h640_anime-dakimakura-katsuki.jpg" alt="Дакімакура Кацукі Бакуго №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кацукі Бакуго №2</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311195">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766682260_w640_h640_anime-dakimakura-katsuki.jpg" alt="Дакімакура Кацукі Бакуго №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кацукі Бакуго №3</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311196">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766683107_w640_h640_anime-dakimakura-katsuki.jpg" alt="Дакімакура Кацукі Бакуго №4" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кацукі Бакуго №4</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311197">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766685165_w640_h640_anime-dakimakura-katsuki.jpg" alt="Дакімакура Кацукі Бакуго №5" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кацукі Бакуго №5</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311198">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766686123_w640_h640_anime-dakimakura-katsuki.jpg" alt="Дакімакура Кацукі Бакуго №6" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кацукі Бакуго №6</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311199">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766687085_w640_h640_anime-dakimakura-katsuki.jpg" alt="Дакімакура Кацукі Бакуго №7" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кацукі Бакуго №7</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311200">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766687785_w640_h640_anime-dakimakura-katsuki.jpg" alt="Дакімакура Кацукі Бакуго №8" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кацукі Бакуго №8</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311201">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766688516_w640_h640_anime-dakimakura-kyoka.jpg" alt="Дакімакура Кіка Джіро" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кіка Джіро</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311202">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766701832_w640_h640_anime-dakimakura-mina.jpg" alt="Дакімакура Міна Ашідо" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Міна Ашідо</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311203">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766694095_w640_h640_anime-dakimakura-momo.jpg" alt="Дакімакура Момо Яоєрозу" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Момо Яоєрозу</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311204">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766695407_w640_h640_anime-dakimakura-nemuri.jpg" alt="Дакімакура Немурі Каяма" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Немурі Каяма</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311205">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766696749_w640_h640_anime-dakimakura-ochako.jpg" alt="Дакімакура Очако Урарака №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Очако Урарака №1</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311206">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766700624_w640_h640_anime-dakimakura-ochako.jpg" alt="Дакімакура Очако Урарака №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Очако Урарака №2</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311209">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766689907_w640_h640_anime-dakimakura-toga.jpg" alt="Дакімакура Тога Хіміко №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Тога Хіміко №2</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311211">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766691032_w640_h640_anime-dakimakura-hado.jpg" alt="Дакімакура Хадо Неджіре" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Хадо Неджіре</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311212">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766680565_w640_h640_anime-dakimakura-tsuyu.jpg" alt="Дакімакура Цю Асуй №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Цю Асуй №1</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311213">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766681386_w640_h640_anime-dakimakura-tsuyu.jpg" alt="Дакімакура Цю Асуй №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Цю Асуй №2</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311214">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766682557_w640_h640_anime-dakimakura-shota.jpg" alt="Дакімакура Шота Аізава" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Шота Аізава</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311216">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766685824_w640_h640_anime-dakimakura-shoto.jpg" alt="Дакімакура Шото Тодорики №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Шото Тодорики №2</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311217">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766686598_w640_h640_anime-dakimakura-shoto.jpg" alt="Дакімакура Шото Тодорики №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Шото Тодорики №3</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311218">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766687335_w640_h640_anime-dakimakura-shoto.jpg" alt="Дакімакура Шото Тодорики №4" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Шото Тодорики №4</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311219">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766688116_w640_h640_anime-dakimakura-shoto.jpg" alt="Дакімакура Шото Тодорики / Ізоку Мідорія" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Шото Тодорики / Ізоку Мідорія</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311220">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766688513_w640_h640_anime-dakimakura-eri.jpg" alt="Дакімакура Ері №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ері №1</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545319917">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766701833_w640_h640_anime-dakimakura-mina.jpg" alt="Дакімакура Міна Ашідо 150, 50" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Міна Ашідо 150, 50</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545319930">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766684840_w640_h640_anime-dakimakura-shoto.jpg" alt="Дакімакура Шото Тодорики 150, 50" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Шото Тодорики 150, 50</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1986505135">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4980323819_w640_h640_dakimakura-gabardin-dabi.jpg" alt="Дакімакура Дабі №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Дабі №1</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1986505181">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4983295984_w640_h640_dakimakura-gabardin-dabi.jpg" alt="Дакімакура Дабі 2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Дабі 2</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487331348">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475437154_w640_h640_todoroki-shoto-moya.jpg" alt="Дакімакура Тодорокі Шото №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Тодорокі Шото №1</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487338846">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475462007_w640_h640_katsuki-bakugo-moya.jpg" alt="Дакімакура Кацукі Бакуґо №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кацукі Бакуґо №1</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487338847">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475462014_w640_h640_moya-gerojskaya-akademiya.jpg" alt="Дакімакура Моя геройська академія №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Моя геройська академія №1</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487338848">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475462022_w640_h640_houks-moya-gerojskaya.jpg" alt="Дакімакура Хоукс №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Хоукс №1</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487338849">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475462029_w640_h640_katsuki-bakugo-moya.jpg" alt="Дакімакура Кацукі Бакуґо №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кацукі Бакуґо №2</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487338850">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475462304_w640_h640_todoroki-shoto-moya.jpg" alt="Дакімакура Тодорокі Шото №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Тодорокі Шото №2</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487338851">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475462315_w640_h640_idzuku-midoriya-moya.jpg" alt="Дакімакура Ідзуку Мідорія №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ідзуку Мідорія №1</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487338852">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475462338_w640_h640_katsuki-bakugo-moya.jpg" alt="Дакімакура Кацукі Бакуґо №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кацукі Бакуґо №3</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487338853">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475462362_w640_h640_moya-gerojskaya-akademiya.jpg" alt="Дакімакура Моя геройська академія №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Моя геройська академія №2</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487338854">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475462379_w640_h640_idzuku-midoriya-i.jpg" alt="Дакімакура Ідзуку Мідорія та Олл Майт" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ідзуку Мідорія та Олл Майт</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487338855">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475462399_w640_h640_todoroki-shoto-moya.jpg" alt="Дакімакура Тодорокі Шото №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Тодорокі Шото №3</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487338856">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475462421_w640_h640_katsuki-bakugo-moya.jpg" alt="Дакімакура Кацукі Бакуґо №4" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кацукі Бакуґо №4</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
   </main>
   <div class="more" id="more"></div>
+    </div>
+  </div>
 
   <section class="custom">
     <div>

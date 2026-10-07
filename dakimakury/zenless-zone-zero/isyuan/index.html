@@ -56,52 +56,46 @@ fbq('track', 'PageView');
     </nav>
   </header>
 
-  <section class="hero">
-    <div>
+  <div class="layout">
+    <div class="shade" id="shade"></div>
+    <aside class="side" id="side" aria-label="Каталог дакімакур">
+      <div class="side-head"><b>Каталог</b><button class="side-x" id="sideClose" type="button" aria-label="Закрити каталог">×</button></div>
+      <nav class="tree" id="tree" aria-label="Розділи й колекції"><a class="t-row" href="/dakimakury/" data-s="-1"><span>Усі дизайни</span><span class="n">3260</span></a><div class="t-sec"><a class="t-row" href="/dakimakury/anime/" data-s="0"><span>Аніме</span><span class="n">1145</span></a></div><div class="t-sec open"><a class="t-row" href="/dakimakury/ihry/" data-s="1"><span>Ігри</span><span class="n">1387</span></a><ul class="t-cols"><li><a class="t-col" href="/dakimakury/genshin-impact/" data-c="8"><span>Genshin Impact</span><span class="n">702</span></a></li><li><a class="t-col" href="/dakimakury/dota-2/" data-c="14"><span>Dota 2</span><span class="n">222</span></a></li><li><a class="t-col" href="/dakimakury/zenless-zone-zero/" data-c="15" aria-current="true"><span>Zenless Zone Zero</span><span class="n">107</span></a></li><li><a class="t-col" href="/dakimakury/honkai-star-rail/" data-c="16"><span>Honkai: Star Rail</span><span class="n">171</span></a></li><li><a class="t-col" href="/dakimakury/doki-doki-literature-club/" data-c="17"><span>Doki Doki Literature Club</span><span class="n">14</span></a></li><li><a class="t-col" href="/dakimakury/brawl-stars/" data-c="18"><span>Brawl Stars</span><span class="n">90</span></a></li><li><a class="t-col" href="/dakimakury/cyberpunk-2077/" data-c="19"><span>Cyberpunk 2077</span><span class="n">21</span></a></li><li><a class="t-col" href="/dakimakury/wuthering-waves/" data-c="20"><span>Wuthering Waves</span><span class="n">17</span></a></li><li><a class="t-col" href="/dakimakury/klub-romantyky/" data-c="21"><span>Клуб романтики</span><span class="n">18</span></a></li><li><a class="t-col" href="/dakimakury/inshi-ihry/" data-c="48"><span>Інші ігри</span><span class="n">25</span></a></li></ul></div><div class="t-sec"><a class="t-row" href="/dakimakury/k-pop-i-muzyka/" data-s="2"><span>K-pop і музика</span><span class="n">179</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/zirky-y-memy/" data-s="3"><span>Зірки й меми</span><span class="n">95</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/kino-y-multfilmy/" data-s="4"><span>Кіно й мультфільми</span><span class="n">66</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/sport/" data-s="5"><span>Спорт</span><span class="n">111</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/napoyi/" data-s="6"><span>Напої</span><span class="n">230</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/inshe/" data-s="7"><span>Інше</span><span class="n">47</span></a></div></nav>
+      <div class="side-foot"><button class="btn wide" id="sideShow" type="button">Показати дизайни</button></div>
+    </aside>
+
+    <div class="main">
       <nav class="crumbs" id="crumbs" aria-label="Хлібні крихти"><a href="/dakimakury/">Дакімакури</a><span class="sep">/</span><a href="/dakimakury/ihry/">Ігри</a><span class="sep">/</span><a href="/dakimakury/zenless-zone-zero/">Zenless Zone Zero</a><span class="sep">/</span><span aria-current="page">Ісюань</span></nav>
       <h1 id="h1">Дакімакури Ісюань (Zenless Zone Zero)</h1>
-      <p class="lead" id="lead">4 дизайни з принтом «Ісюань» у колекції Zenless Zone Zero. Чотири розміри від 100×33 до 180×60 см, ціна від 1 100 ₴, оплата при отриманні.</p>
-      <ul class="promises">
-        <li id="shipLi" hidden>Відправимо <b id="shipDate" style="margin-left:4px"></b></li>
-        <li>Оплата при отриманні</li>
-        <li>Нова Пошта по всій Україні</li>
-        <li>Наволочка знімається для прання</li>
-      </ul>
-    </div>
-    <fieldset class="ruler" id="sizes"><legend>Розмір подушки. Ціни на картках зміняться</legend></fieldset>
-  </section>
+      <div class="bar">
+        <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Zenless Zone Zero</span></button>
+        <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
+      </div>
+      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/zenless-zone-zero/khosimi-miyabi/">Хосімі Міябі <span class="n">3</span></a><a href="/dakimakury/zenless-zone-zero/ellen-dzho/">Еллен Джо <span class="n">5</span></a><a href="/dakimakury/zenless-zone-zero/dzheyn-dou/">Джейн Доу <span class="n">7</span></a><a href="/dakimakury/zenless-zone-zero/greys-hovard/">Ґрейс Говард <span class="n">9</span></a><a href="/dakimakury/zenless-zone-zero/soldier-11/">Soldier 11 <span class="n">5</span></a><a href="/dakimakury/zenless-zone-zero/isyuan/" aria-current="true">Ісюань <span class="n">4</span></a><a href="/dakimakury/zenless-zone-zero/vivian/">Вівіан <span class="n">4</span></a><a href="/dakimakury/zenless-zone-zero/khyugo-vlad/">Хьюґо Влад <span class="n">4</span></a></div>
+      <p class="count" id="count" aria-live="polite">Дизайнів: 4</p>
 
-  <div class="controls">
-    <nav class="chips" id="secs" aria-label="Розділи"><a class="chip" href="/dakimakury/">Усі<span class="n">3260</span></a><a class="chip" href="/dakimakury/anime/">Аніме<span class="n">1145</span></a><a class="chip" href="/dakimakury/ihry/" aria-current="true">Ігри<span class="n">1387</span></a><a class="chip" href="/dakimakury/k-pop-i-muzyka/">K-pop і музика<span class="n">179</span></a><a class="chip" href="/dakimakury/zirky-y-memy/">Зірки й меми<span class="n">95</span></a><a class="chip" href="/dakimakury/kino-y-multfilmy/">Кіно й мультфільми<span class="n">66</span></a><a class="chip" href="/dakimakury/sport/">Спорт<span class="n">111</span></a><a class="chip" href="/dakimakury/napoyi/">Напої<span class="n">230</span></a><a class="chip" href="/dakimakury/inshe/">Інше<span class="n">47</span></a></nav>
-    <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
-  </div>
-  <nav class="chips sub" id="chips" aria-label="Колекції"><a class="chip" href="/dakimakury/genshin-impact/">Genshin Impact<span class="n">702</span></a><a class="chip" href="/dakimakury/inshi-ihry/">Інші ігри<span class="n">25</span></a><a class="chip" href="/dakimakury/dota-2/">Dota 2<span class="n">222</span></a><a class="chip" href="/dakimakury/zenless-zone-zero/" aria-current="true">Zenless Zone Zero<span class="n">107</span></a><a class="chip" href="/dakimakury/honkai-star-rail/">Honkai: Star Rail<span class="n">171</span></a><a class="chip" href="/dakimakury/doki-doki-literature-club/">Doki Doki Literature Club<span class="n">14</span></a><a class="chip" href="/dakimakury/brawl-stars/">Brawl Stars<span class="n">90</span></a><a class="chip" href="/dakimakury/cyberpunk-2077/">Cyberpunk 2077<span class="n">21</span></a><a class="chip" href="/dakimakury/wuthering-waves/">Wuthering Waves<span class="n">17</span></a><a class="chip" href="/dakimakury/klub-romantyky/">Клуб романтики<span class="n">18</span></a></nav>
-  <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/zenless-zone-zero/khosimi-miyabi/">Хосімі Міябі <span class="n">3</span></a><a href="/dakimakury/zenless-zone-zero/ellen-dzho/">Еллен Джо <span class="n">5</span></a><a href="/dakimakury/zenless-zone-zero/dzheyn-dou/">Джейн Доу <span class="n">7</span></a><a href="/dakimakury/zenless-zone-zero/greys-hovard/">Ґрейс Говард <span class="n">9</span></a><a href="/dakimakury/zenless-zone-zero/soldier-11/">Soldier 11 <span class="n">5</span></a><a href="/dakimakury/zenless-zone-zero/isyuan/" aria-current="true">Ісюань <span class="n">4</span></a><a href="/dakimakury/zenless-zone-zero/vivian/">Вівіан <span class="n">4</span></a><a href="/dakimakury/zenless-zone-zero/khyugo-vlad/">Хьюґо Влад <span class="n">4</span></a></div>
-  <p class="count" id="count" aria-live="polite">Дизайнів: 4</p>
 
   <main class="grid" id="grid">
 <article class="card" data-id="2773259015">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858584048_w640_h640_dakimakura-isyuan-zenless.jpg" alt="Дакімакура Ісюань (B)" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ісюань (B)</span><span class="sub">Zenless Zone Zero</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259017">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858584052_w640_h640_dakimakura-isyuan-zenless.jpg" alt="Дакімакура Ісюань (K)" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ісюань (K)</span><span class="sub">Zenless Zone Zero</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259023">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858584057_w640_h640_dakimakura-isyuan-zenless.jpg" alt="Дакімакура Ісюань (M)" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ісюань (M)</span><span class="sub">Zenless Zone Zero</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259025">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858584064_w640_h640_dakimakura-isyuan-zenless.jpg" alt="Дакімакура Ісюань (Y)" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ісюань (Y)</span><span class="sub">Zenless Zone Zero</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
   </main>
   <div class="more" id="more"></div>
+    </div>
+  </div>
 
   <section class="custom">
     <div>

@@ -56,272 +56,222 @@ fbq('track', 'PageView');
     </nav>
   </header>
 
-  <section class="hero">
-    <div>
+  <div class="layout">
+    <div class="shade" id="shade"></div>
+    <aside class="side" id="side" aria-label="Каталог дакімакур">
+      <div class="side-head"><b>Каталог</b><button class="side-x" id="sideClose" type="button" aria-label="Закрити каталог">×</button></div>
+      <nav class="tree" id="tree" aria-label="Розділи й колекції"><a class="t-row" href="/dakimakury/" data-s="-1"><span>Усі дизайни</span><span class="n">3260</span></a><div class="t-sec"><a class="t-row" href="/dakimakury/anime/" data-s="0"><span>Аніме</span><span class="n">1145</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/ihry/" data-s="1"><span>Ігри</span><span class="n">1387</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/k-pop-i-muzyka/" data-s="2"><span>K-pop і музика</span><span class="n">179</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/zirky-y-memy/" data-s="3"><span>Зірки й меми</span><span class="n">95</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/kino-y-multfilmy/" data-s="4"><span>Кіно й мультфільми</span><span class="n">66</span></a></div><div class="t-sec open"><a class="t-row" href="/dakimakury/sport/" data-s="5"><span>Спорт</span><span class="n">111</span></a><ul class="t-cols"><li><a class="t-col" href="/dakimakury/formula-1/" data-c="35"><span>Формула 1</span><span class="n">24</span></a></li><li><a class="t-col" href="/dakimakury/ronaldu/" data-c="3" aria-current="true"><span>Роналду</span><span class="n">59</span></a></li><li><a class="t-col" href="/dakimakury/futbol/" data-c="46"><span>Футбол</span><span class="n">28</span></a></li></ul></div><div class="t-sec"><a class="t-row" href="/dakimakury/napoyi/" data-s="6"><span>Напої</span><span class="n">230</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/inshe/" data-s="7"><span>Інше</span><span class="n">47</span></a></div></nav>
+      <div class="side-foot"><button class="btn wide" id="sideShow" type="button">Показати дизайни</button></div>
+    </aside>
+
+    <div class="main">
       <nav class="crumbs" id="crumbs" aria-label="Хлібні крихти"><a href="/dakimakury/">Дакімакури</a><span class="sep">/</span><a href="/dakimakury/sport/">Спорт</a><span class="sep">/</span><span aria-current="page">Роналду</span></nav>
       <h1 id="h1">Дакімакури Роналду</h1>
-      <p class="lead" id="lead">59 дизайнів. Чотири розміри від 100×33 до 180×60 см, ціна від 1 100 ₴, оплата при отриманні.</p>
-      <ul class="promises">
-        <li id="shipLi" hidden>Відправимо <b id="shipDate" style="margin-left:4px"></b></li>
-        <li>Оплата при отриманні</li>
-        <li>Нова Пошта по всій Україні</li>
-        <li>Наволочка знімається для прання</li>
-      </ul>
-    </div>
-    <fieldset class="ruler" id="sizes"><legend>Розмір подушки. Ціни на картках зміняться</legend></fieldset>
-  </section>
+      <div class="bar">
+        <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Роналду</span></button>
+        <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
+      </div>
+      <div class="tops" id="tops"></div>
+      <p class="count" id="count" aria-live="polite">Дизайнів: 59</p>
 
-  <div class="controls">
-    <nav class="chips" id="secs" aria-label="Розділи"><a class="chip" href="/dakimakury/">Усі<span class="n">3260</span></a><a class="chip" href="/dakimakury/anime/">Аніме<span class="n">1145</span></a><a class="chip" href="/dakimakury/ihry/">Ігри<span class="n">1387</span></a><a class="chip" href="/dakimakury/k-pop-i-muzyka/">K-pop і музика<span class="n">179</span></a><a class="chip" href="/dakimakury/zirky-y-memy/">Зірки й меми<span class="n">95</span></a><a class="chip" href="/dakimakury/kino-y-multfilmy/">Кіно й мультфільми<span class="n">66</span></a><a class="chip" href="/dakimakury/sport/" aria-current="true">Спорт<span class="n">111</span></a><a class="chip" href="/dakimakury/napoyi/">Напої<span class="n">230</span></a><a class="chip" href="/dakimakury/inshe/">Інше<span class="n">47</span></a></nav>
-    <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
-  </div>
-  <nav class="chips sub" id="chips" aria-label="Колекції"><a class="chip" href="/dakimakury/formula-1/">Формула 1<span class="n">24</span></a><a class="chip" href="/dakimakury/ronaldu/" aria-current="true">Роналду<span class="n">59</span></a><a class="chip" href="/dakimakury/futbol/">Футбол<span class="n">28</span></a></nav>
-  <div class="tops" id="tops"></div>
-  <p class="count" id="count" aria-live="polite">Дизайнів: 59</p>
 
   <main class="grid" id="grid">
 <article class="card" data-id="1921584064">
       <div class="pic"><span class="hit">Купили 7 разів</span><div class="track"><img src="https://images.prom.ua/4779166207_w640_h640_dakimakura-gabardin-krishtianu.jpg" alt="Дакімакура Кріштіану Роналду №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №1</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452609">
       <div class="pic"><span class="hit">Купили 4 рази</span><div class="track"><img src="https://images.prom.ua/6516814640_w640_h640_dakimakura-ronaldu-podushka.jpg" alt="Дакімакура Кріштіану Роналду №2" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №2</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452671">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516833414_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №3" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №3</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1909426853">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4741540003_w640_h640_dakimakura-gabardin-krishtianu.jpg" alt="Дакімакура Кріштіану Роналду №4" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №4</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452610">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516814649_w640_h640_dakimakura-ronaldu-podushka.jpg" alt="Дакімакура Кріштіану Роналду №5" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №5</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452611">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516814658_w640_h640_dakimakura-ronaldu-podushka.jpg" alt="Дакімакура Кріштіану Роналду №6" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №6</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452612">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516814663_w640_h640_dakimakura-ronaldu-podushka.jpg" alt="Дакімакура Кріштіану Роналду №7" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №7</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452672">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516833418_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №8" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №8</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452673">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516833422_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №9" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №9</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452674">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516833426_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №10" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №10</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452675">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516833435_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №11" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №11</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452676">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516833448_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №12" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №12</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452677">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516833459_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №13" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №13</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452678">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516833473_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №14" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №14</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452679">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516835641_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №15" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №15</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452680">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516835645_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №16" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №16</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452681">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516835649_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №17" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №17</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452682">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516835653_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №18" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №18</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452683">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516835657_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №19" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №19</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452684">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516835661_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №20" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №20</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452685">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516835666_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №21" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №21</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452686">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516835671_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №22" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №22</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452687">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516838259_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №23" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №23</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452688">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516838265_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №24" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №24</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452689">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516838277_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №25" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №25</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452690">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516838284_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №26" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №26</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452691">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516838288_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №27" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №27</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452692">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516838295_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №28" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №28</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452693">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516838305_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №29" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №29</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452694">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516838314_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №30" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №30</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452695">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516840223_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №31" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №31</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452696">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516840228_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №32" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №32</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452697">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516840240_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №33" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №33</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452698">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516840249_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №34" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №34</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452699">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516840254_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №35" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №35</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452700">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516840258_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №36" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №36</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452701">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516840262_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №37" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №37</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452702">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516840266_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №38" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №38</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452703">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516842362_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №39" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №39</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452704">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516842366_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №40" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №40</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452705">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516842370_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №41" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №41</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452706">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516842374_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №42" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №42</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452707">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516842378_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №43" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №43</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452708">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516842383_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №44" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №44</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452709">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516842400_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №45" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №45</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452710">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516842406_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №46" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №46</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452711">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516844662_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №47" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №47</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2518452712">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6516844666_w640_h640_dakimakura-cristiano-ronaldo.jpg" alt="Дакімакура Кріштіану Роналду №48" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кріштіану Роналду №48</span><span class="sub">Роналду</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
   </main>
   <div class="more" id="more"></div>
+    </div>
+  </div>
 
   <section class="custom">
     <div>

@@ -87,7 +87,53 @@
     return { title: sec >= 0 ? 'Усі колекції розділу «' + D.secs[sec].t + '»' : 'Усі колекції', list: cols };
   }
 
-  var api = { BASE: BASE, ORIGIN: ORIGIN, plural: plural, designs: designs, money: money, count: count,
+  /* ---------- дерево каталогу (ліва колонка, на телефоні висувна панель) ----------
+     Розділи, під відкритим розділом його колекції, на головній ще й десять найпопулярніших. */
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (ch) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]; }); }
+  var statsFor = null, statsVal = null;
+  function stats(D) {
+    if (statsFor === D) return statsVal;
+    var nCol = D.cols.map(function () { return 0; }), uCol = nCol.slice(), nSec = D.secs.map(function () { return 0; });
+    D.items.forEach(function (it) { nCol[it[1]]++; uCol[it[1]] += it[5] || 0; nSec[D.cols[it[1]].s]++; });
+    statsFor = D; statsVal = { nCol: nCol, uCol: uCol, nSec: nSec };
+    return statsVal;
+  }
+  function popular(D) {
+    var st = stats(D);
+    return D.cols.map(function (_, i) { return i; })
+      .filter(function (i) { return st.nCol[i] && !/^(anime2|games2|movies2|misc)$/.test(D.cols[i].k); })
+      .sort(function (a, b) { return st.uCol[b] - st.uCol[a]; }).slice(0, 10);
+  }
+  function tree(D, sec, col) {
+    var st = stats(D);
+    if (col >= 0) sec = D.cols[col].s;
+    function row(cls, href, attr, t, n, on) {
+      return '<a class="' + cls + '" href="' + href + '" ' + attr + (on ? ' aria-current="true"' : '') + '><span>' + esc(t) + '</span><span class="n">' + n + '</span></a>';
+    }
+    function colList(ids) {
+      return '<ul class="t-cols">' + ids.map(function (i) {
+        return '<li>' + row('t-col', pathFor(D, -1, i, -1), 'data-c="' + i + '"', D.cols[i].t, st.nCol[i], col === i) + '</li>';
+      }).join('') + '</ul>';
+    }
+    var out = row('t-row', BASE, 'data-s="-1"', 'Усі дизайни', D.items.length, sec < 0);
+    D.secs.forEach(function (s, i) {
+      if (!st.nSec[i]) return;
+      var open = sec === i, ids = [];
+      if (open) {
+        D.cols.forEach(function (c, k) { if (c.s === i && st.nCol[k]) ids.push(k); });
+        /* за продажами, а збірні колекції («Інше аніме», «Різне») завжди наприкінці */
+        var misc = function (k) { return /^(anime2|games2|movies2|misc)$/.test(D.cols[k].k) ? 1 : 0; };
+        ids.sort(function (a, b) { return misc(a) - misc(b) || st.uCol[b] - st.uCol[a]; });
+      }
+      out += '<div class="t-sec' + (open ? ' open' : '') + '">' +
+        row('t-row', pathFor(D, i, -1, -1), 'data-s="' + i + '"', s.t, st.nSec[i], open && col < 0) +
+        (open && ids.length ? colList(ids) : '') + '</div>';
+    });
+    if (sec < 0) out += '<div class="t-pop"><p class="t-lbl">Популярне</p>' + colList(popular(D)) + '</div>';
+    return out;
+  }
+
+  var api = { tree: tree, esc: esc, BASE: BASE, ORIGIN: ORIGIN, plural: plural, designs: designs, money: money, count: count,
     pathFor: pathFor, hasPage: hasPage, h1: h1, title: title, lead: lead, description: description, crumbs: crumbs, links: links };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.DakiShared = api;
 })(typeof window !== 'undefined' ? window : this);
