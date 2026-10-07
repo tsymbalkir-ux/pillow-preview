@@ -56,272 +56,222 @@ fbq('track', 'PageView');
     </nav>
   </header>
 
-  <section class="hero">
-    <div>
+  <div class="layout">
+    <div class="shade" id="shade"></div>
+    <aside class="side" id="side" aria-label="Каталог дакімакур">
+      <div class="side-head"><b>Каталог</b><button class="side-x" id="sideClose" type="button" aria-label="Закрити каталог">×</button></div>
+      <nav class="tree" id="tree" aria-label="Розділи й колекції"><a class="t-row" href="/dakimakury/" data-s="-1"><span>Усі дизайни</span><span class="n">3260</span></a><div class="t-sec open"><a class="t-row" href="/dakimakury/anime/" data-s="0"><span>Аніме</span><span class="n">1145</span></a><ul class="t-cols"><li><a class="t-col" href="/dakimakury/klynok-shcho-rozsikaye-demoniv/" data-c="10"><span>Клинок, що розсікає демонів</span><span class="n">113</span></a></li><li><a class="t-col" href="/dakimakury/blich/" data-c="22"><span>Бліч</span><span class="n">34</span></a></li><li><a class="t-col" href="/dakimakury/mahichna-bytva/" data-c="9"><span>Магічна битва</span><span class="n">96</span></a></li><li><a class="t-col" href="/dakimakury/ataka-tytaniv/" data-c="12" aria-current="true"><span>Атака титанів</span><span class="n">74</span></a></li><li><a class="t-col" href="/dakimakury/lyudyna-benzopyla/" data-c="23"><span>Людина-бензопила</span><span class="n">49</span></a></li><li><a class="t-col" href="/dakimakury/vocaloid-miku/" data-c="24"><span>Vocaloid (Міку)</span><span class="n">193</span></a></li><li><a class="t-col" href="/dakimakury/pyat-narechenykh/" data-c="25"><span>П'ять наречених</span><span class="n">77</span></a></li><li><a class="t-col" href="/dakimakury/divchata-i-tanky/" data-c="26"><span>Дівчата і танки</span><span class="n">34</span></a></li><li><a class="t-col" href="/dakimakury/yevanhelion/" data-c="27"><span>Євангеліон</span><span class="n">30</span></a></li><li><a class="t-col" href="/dakimakury/overlord/" data-c="28"><span>Overlord</span><span class="n">49</span></a></li><li><a class="t-col" href="/dakimakury/moya-heroyska-akademiya/" data-c="29"><span>Моя геройська академія</span><span class="n">77</span></a></li><li><a class="t-col" href="/dakimakury/reinkarnatsiya-bezrobitnoho/" data-c="30"><span>Реінкарнація безробітного</span><span class="n">22</span></a></li><li><a class="t-col" href="/dakimakury/naruto/" data-c="11"><span>Наруто</span><span class="n">43</span></a></li><li><a class="t-col" href="/dakimakury/uma-musume/" data-c="31"><span>Uma Musume</span><span class="n">38</span></a></li><li><a class="t-col" href="/dakimakury/van-pis/" data-c="32"><span>Ван-Піс</span><span class="n">27</span></a></li><li><a class="t-col" href="/dakimakury/monoloh-farmatsevta/" data-c="33"><span>Монолог фармацевта</span><span class="n">30</span></a></li><li><a class="t-col" href="/dakimakury/berserk/" data-c="34"><span>Берсерк</span><span class="n">10</span></a></li><li><a class="t-col" href="/dakimakury/brodyachi-psy/" data-c="13"><span>Бродячі пси</span><span class="n">23</span></a></li><li><a class="t-col" href="/dakimakury/inshe-anime/" data-c="47"><span>Інше аніме</span><span class="n">126</span></a></li></ul></div><div class="t-sec"><a class="t-row" href="/dakimakury/ihry/" data-s="1"><span>Ігри</span><span class="n">1387</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/k-pop-i-muzyka/" data-s="2"><span>K-pop і музика</span><span class="n">179</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/zirky-y-memy/" data-s="3"><span>Зірки й меми</span><span class="n">95</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/kino-y-multfilmy/" data-s="4"><span>Кіно й мультфільми</span><span class="n">66</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/sport/" data-s="5"><span>Спорт</span><span class="n">111</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/napoyi/" data-s="6"><span>Напої</span><span class="n">230</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/inshe/" data-s="7"><span>Інше</span><span class="n">47</span></a></div></nav>
+      <div class="side-foot"><button class="btn wide" id="sideShow" type="button">Показати дизайни</button></div>
+    </aside>
+
+    <div class="main">
       <nav class="crumbs" id="crumbs" aria-label="Хлібні крихти"><a href="/dakimakury/">Дакімакури</a><span class="sep">/</span><a href="/dakimakury/anime/">Аніме</a><span class="sep">/</span><span aria-current="page">Атака титанів</span></nav>
       <h1 id="h1">Дакімакури «Атака титанів»</h1>
-      <p class="lead" id="lead">74 дизайни: Жан Кірштайн, Ервін Сміт, Леві Аккерман, Ерен Єгер та інші. Чотири розміри від 100×33 до 180×60 см, ціна від 1 100 ₴, оплата при отриманні.</p>
-      <ul class="promises">
-        <li id="shipLi" hidden>Відправимо <b id="shipDate" style="margin-left:4px"></b></li>
-        <li>Оплата при отриманні</li>
-        <li>Нова Пошта по всій Україні</li>
-        <li>Наволочка знімається для прання</li>
-      </ul>
-    </div>
-    <fieldset class="ruler" id="sizes"><legend>Розмір подушки. Ціни на картках зміняться</legend></fieldset>
-  </section>
+      <div class="bar">
+        <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Атака титанів</span></button>
+        <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
+      </div>
+      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/ataka-tytaniv/zhan-kirshtayn/">Жан Кірштайн <span class="n">4</span></a><a href="/dakimakury/ataka-tytaniv/levi-akkerman/">Леві Аккерман <span class="n">13</span></a><a href="/dakimakury/ataka-tytaniv/eren-yeher/">Ерен Єгер <span class="n">4</span></a><a href="/dakimakury/ataka-tytaniv/rayner-braun/">Райнер Браун <span class="n">4</span></a><a href="/dakimakury/ataka-tytaniv/mikasa/">Мікаса <span class="n">12</span></a><a href="/dakimakury/ataka-tytaniv/khandzhi-zoe/">Ханджі Зое <span class="n">8</span></a><a href="/dakimakury/ataka-tytaniv/armin-arlert/">Армін Арлерт <span class="n">5</span></a></div>
+      <p class="count" id="count" aria-live="polite">Дизайнів: 74</p>
 
-  <div class="controls">
-    <nav class="chips" id="secs" aria-label="Розділи"><a class="chip" href="/dakimakury/">Усі<span class="n">3260</span></a><a class="chip" href="/dakimakury/anime/" aria-current="true">Аніме<span class="n">1145</span></a><a class="chip" href="/dakimakury/ihry/">Ігри<span class="n">1387</span></a><a class="chip" href="/dakimakury/k-pop-i-muzyka/">K-pop і музика<span class="n">179</span></a><a class="chip" href="/dakimakury/zirky-y-memy/">Зірки й меми<span class="n">95</span></a><a class="chip" href="/dakimakury/kino-y-multfilmy/">Кіно й мультфільми<span class="n">66</span></a><a class="chip" href="/dakimakury/sport/">Спорт<span class="n">111</span></a><a class="chip" href="/dakimakury/napoyi/">Напої<span class="n">230</span></a><a class="chip" href="/dakimakury/inshe/">Інше<span class="n">47</span></a></nav>
-    <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
-  </div>
-  <nav class="chips sub" id="chips" aria-label="Колекції"><a class="chip" href="/dakimakury/inshe-anime/">Інше аніме<span class="n">126</span></a><a class="chip" href="/dakimakury/klynok-shcho-rozsikaye-demoniv/">Клинок, що розсікає демонів<span class="n">113</span></a><a class="chip" href="/dakimakury/blich/">Бліч<span class="n">34</span></a><a class="chip" href="/dakimakury/mahichna-bytva/">Магічна битва<span class="n">96</span></a><a class="chip" href="/dakimakury/ataka-tytaniv/" aria-current="true">Атака титанів<span class="n">74</span></a><a class="chip" href="/dakimakury/lyudyna-benzopyla/">Людина-бензопила<span class="n">49</span></a><a class="chip" href="/dakimakury/vocaloid-miku/">Vocaloid (Міку)<span class="n">193</span></a><a class="chip" href="/dakimakury/pyat-narechenykh/">П'ять наречених<span class="n">77</span></a><a class="chip" href="/dakimakury/divchata-i-tanky/">Дівчата і танки<span class="n">34</span></a><a class="chip" href="/dakimakury/yevanhelion/">Євангеліон<span class="n">30</span></a><a class="chip" href="/dakimakury/overlord/">Overlord<span class="n">49</span></a><a class="chip" href="/dakimakury/moya-heroyska-akademiya/">Моя геройська академія<span class="n">77</span></a><a class="chip" href="/dakimakury/reinkarnatsiya-bezrobitnoho/">Реінкарнація безробітного<span class="n">22</span></a><a class="chip" href="/dakimakury/naruto/">Наруто<span class="n">43</span></a><a class="chip" href="/dakimakury/uma-musume/">Uma Musume<span class="n">38</span></a><a class="chip" href="/dakimakury/van-pis/">Ван-Піс<span class="n">27</span></a><a class="chip" href="/dakimakury/monoloh-farmatsevta/">Монолог фармацевта<span class="n">30</span></a><a class="chip" href="/dakimakury/berserk/">Берсерк<span class="n">10</span></a><a class="chip" href="/dakimakury/brodyachi-psy/">Бродячі пси<span class="n">23</span></a></nav>
-  <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/ataka-tytaniv/zhan-kirshtayn/">Жан Кірштайн <span class="n">4</span></a><a href="/dakimakury/ataka-tytaniv/levi-akkerman/">Леві Аккерман <span class="n">13</span></a><a href="/dakimakury/ataka-tytaniv/eren-yeher/">Ерен Єгер <span class="n">4</span></a><a href="/dakimakury/ataka-tytaniv/rayner-braun/">Райнер Браун <span class="n">4</span></a><a href="/dakimakury/ataka-tytaniv/mikasa/">Мікаса <span class="n">12</span></a><a href="/dakimakury/ataka-tytaniv/khandzhi-zoe/">Ханджі Зое <span class="n">8</span></a><a href="/dakimakury/ataka-tytaniv/armin-arlert/">Армін Арлерт <span class="n">5</span></a></div>
-  <p class="count" id="count" aria-live="polite">Дизайнів: 74</p>
 
   <main class="grid" id="grid">
 <article class="card" data-id="1986505086">
       <div class="pic"><span class="hit">Купили 3 рази</span><div class="track"><img src="https://images.prom.ua/4976649017_w640_h640_dakimakura-gabardin-armin.jpg" alt="Дакімакура Армін і Мікаса" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Армін і Мікаса</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545305334">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766691035_w640_h640_anime-dakimakura-zhan.jpg" alt="Дакімакура Жан Кірштейн" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Жан Кірштейн</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545305335">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766680962_w640_h640_anime-dakimakura-levi.jpg" alt="Дакімакура Леві Аккерман №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Леві Аккерман №1</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545305344">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766689148_w640_h640_anime-dakimakura-ervin.jpg" alt="Дакімакура Ервін Сміт №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ервін Сміт №1</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1800493624">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4369529226_w640_h640_anime-dakimakura-eren.jpg" alt="Дакімакура Ерен Єгер №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ерен Єгер №1</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1978116870">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4957180984_w640_h640_dakimakura-gabardin-rajner.jpg" alt="Дакімакура Райнер Браун №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Райнер Браун №1</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2806427065">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6905249342_w640_h640_dakimakura-eren-yeager.jpg" alt="Дакімакура Eren Yeager" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Eren Yeager</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2806427071">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6905250007_w640_h640_dakimakura-erwin-smith.jpg" alt="Дакімакура Erwin Smith" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Erwin Smith</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545305336">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766681598_w640_h640_anime-dakimakura-levi.jpg" alt="Дакімакура Леві Аккерман №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Леві Аккерман №2</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545305337">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766682387_w640_h640_anime-dakimakura-levi.jpg" alt="Дакімакура Леві Аккерман №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Леві Аккерман №3</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545305338">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766684230_w640_h640_anime-dakimakura-levi.jpg" alt="Дакімакура Леві Аккерман №4" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Леві Аккерман №4</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545305339">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766685428_w640_h640_anime-dakimakura-levi.jpg" alt="Дакімакура Леві Аккерман №5" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Леві Аккерман №5</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545305340">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766686276_w640_h640_anime-dakimakura-levi.jpg" alt="Дакімакура Леві Аккерман / Дітер" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Леві Аккерман / Дітер</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545305341">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766687268_w640_h640_anime-dakimakura-mik.jpg" alt="Дакімакура Мік Закаріас" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мік Закаріас</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545305342">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766688110_w640_h640_anime-dakimakura-rajner.jpg" alt="Дакімакура Райнер Браун №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Райнер Браун №2</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545305343">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766688512_w640_h640_anime-dakimakura-emili.jpg" alt="Дакімакура Емілі Йегер" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Емілі Йегер</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545305345">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766690986_w640_h640_anime-dakimakura-eren.jpg" alt="Дакімакура Ерен Йегер / Леві Аккерман" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ерен Йегер / Леві Аккерман</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1800493625">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766681598_w640_h640_anime-dakimakura-eren.jpg" alt="Дакімакура Ерен Єгер 150, 50" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ерен Єгер 150, 50</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1800502507">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4369552326_w640_h640_anime-dakimakura-eren.jpg" alt="Дакімакура Ерен Єгер №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ерен Єгер №2</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1800508746">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766686275_w640_h640_anime-dakimakura-mikasa.jpg" alt="Дакімакура Мікаса №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мікаса №1</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1800508747">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766681598_w640_h640_anime-dakimakura-mikasa.jpg" alt="Дакімакура Мікаса 150, 50" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мікаса 150, 50</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1800512029">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766687097_w640_h640_anime-dakimakura-mikasa2.jpg" alt="Дакімакура Мікаса №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мікаса №2</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1800512032">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766681598_w640_h640_anime-dakimakura-mikasa2.jpg" alt="Дакімакура Мікаса2 150, 50" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мікаса2 150, 50</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1800515268">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766688043_w640_h640_anime-dakimakura-mikasa3.jpg" alt="Дакімакура Мікаса №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мікаса №3</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1800515269">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766681598_w640_h640_anime-dakimakura-mikasa3.jpg" alt="Дакімакура Мікаса3 150, 50" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мікаса3 150, 50</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1800518030">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766688717_w640_h640_anime-dakimakura-mikasa4.jpg" alt="Дакімакура Мікаса №4" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мікаса №4</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1800518289">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766681598_w640_h640_anime-dakimakura-mikasa4.jpg" alt="Дакімакура Мікаса4 150, 50" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мікаса4 150, 50</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1800934203">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766689536_w640_h640_anime-dakimakura-handzhi.jpg" alt="Дакімакура Ханджі Зое №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ханджі Зое №1</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1800934563">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766681598_w640_h640_anime-dakimakura-handzhi.jpg" alt="Дакімакура Ханджі Зое 150, 50" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ханджі Зое 150, 50</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1800936204">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766691357_w640_h640_anime-dakimakura-handzhi.jpg" alt="Дакімакура Ханджі Зое №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ханджі Зое №2</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1800956058">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766692858_w640_h640_anime-dakimakura-handzhi.jpg" alt="Дакімакура Ханджі Зое №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ханджі Зое №3</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1800959068">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766693756_w640_h640_anime-dakimakura-handzhi.jpg" alt="Дакімакура Ханджі Зое №4" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ханджі Зое №4</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1800962397">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4371122154_w640_h640_anime-dakimakura-handzhi.jpg" alt="Дакімакура Ханджі Зое №5" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ханджі Зое №5</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1800964528">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766694506_w640_h640_anime-dakimakura-armin.jpg" alt="Дакімакура Армін Арлерт №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Армін Арлерт №1</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1800964530">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766681598_w640_h640_anime-dakimakura-armin.jpg" alt="Дакімакура Армін Арлерт 150, 50" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Армін Арлерт 150, 50</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1800982898">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766695482_w640_h640_anime-dakimakura-levi.jpg" alt="Дакімакура Леві Акерман №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Леві Акерман №1</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1914774885">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4760138981_w640_h640_dakimakura-gabardin-eren.jpg" alt="Дакімакура Ерен Єгер №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ерен Єгер №3</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487328419">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475431935_w640_h640_ataka-titanov-dakimakura.jpg" alt="Дакімакура Атака титанів" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Атака титанів</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487328420">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475431951_w640_h640_imir-ataka-titanov.jpg" alt="Дакімакура Імір №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Імір №1</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487328421">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475431964_w640_h640_levi-ataka-titanov.jpg" alt="Дакімакура Леві №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Леві №1</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487328422">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475431978_w640_h640_imir-ataka-titanov.jpg" alt="Дакімакура Імір №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Імір №2</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487328423">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475431990_w640_h640_levi-akkerman-ataka.jpg" alt="Дакімакура Леві Аккерман №6" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Леві Аккерман №6</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487328424">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475431997_w640_h640_ervin-smit-ataka.jpg" alt="Дакімакура Ервін Сміт №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ервін Сміт №2</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487328425">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475432004_w640_h640_eren-jeger-levi.jpg" alt="Дакімакура Ерен Єґер Леві Аккерман" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ерен Єґер Леві Аккерман</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487328426">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475432012_w640_h640_zhan-kirshtajn-ataka.jpg" alt="Дакімакура Жан Кірштайн №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Жан Кірштайн №1</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487328427">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475432167_w640_h640_rajner-braun-ataka.jpg" alt="Дакімакура Райнер Браун №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Райнер Браун №3</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487328428">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475432174_w640_h640_levi-ataka-titanov.jpg" alt="Дакімакура Леві №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Леві №2</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487328429">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475432181_w640_h640_levi-akkerman-ataka.jpg" alt="Дакімакура Леві Аккерман №7" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Леві Аккерман №7</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
   </main>
   <div class="more" id="more"></div>
+    </div>
+  </div>
 
   <section class="custom">
     <div>

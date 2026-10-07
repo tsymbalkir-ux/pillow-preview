@@ -56,227 +56,186 @@ fbq('track', 'PageView');
     </nav>
   </header>
 
-  <section class="hero">
-    <div>
+  <div class="layout">
+    <div class="shade" id="shade"></div>
+    <aside class="side" id="side" aria-label="Каталог дакімакур">
+      <div class="side-head"><b>Каталог</b><button class="side-x" id="sideClose" type="button" aria-label="Закрити каталог">×</button></div>
+      <nav class="tree" id="tree" aria-label="Розділи й колекції"><a class="t-row" href="/dakimakury/" data-s="-1"><span>Усі дизайни</span><span class="n">3260</span></a><div class="t-sec"><a class="t-row" href="/dakimakury/anime/" data-s="0"><span>Аніме</span><span class="n">1145</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/ihry/" data-s="1"><span>Ігри</span><span class="n">1387</span></a></div><div class="t-sec open"><a class="t-row" href="/dakimakury/k-pop-i-muzyka/" data-s="2"><span>K-pop і музика</span><span class="n">179</span></a><ul class="t-cols"><li><a class="t-col" href="/dakimakury/stray-kids/" data-c="5"><span>Stray Kids</span><span class="n">44</span></a></li><li><a class="t-col" href="/dakimakury/muzykanty-y-rok/" data-c="41"><span>Музиканти й рок</span><span class="n">42</span></a></li><li><a class="t-col" href="/dakimakury/inshyy-k-pop/" data-c="44"><span>Інший K-pop</span><span class="n">54</span></a></li><li><a class="t-col" href="/dakimakury/bts/" data-c="6" aria-current="true"><span>BTS</span><span class="n">39</span></a></li></ul></div><div class="t-sec"><a class="t-row" href="/dakimakury/zirky-y-memy/" data-s="3"><span>Зірки й меми</span><span class="n">95</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/kino-y-multfilmy/" data-s="4"><span>Кіно й мультфільми</span><span class="n">66</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/sport/" data-s="5"><span>Спорт</span><span class="n">111</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/napoyi/" data-s="6"><span>Напої</span><span class="n">230</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/inshe/" data-s="7"><span>Інше</span><span class="n">47</span></a></div></nav>
+      <div class="side-foot"><button class="btn wide" id="sideShow" type="button">Показати дизайни</button></div>
+    </aside>
+
+    <div class="main">
       <nav class="crumbs" id="crumbs" aria-label="Хлібні крихти"><a href="/dakimakury/">Дакімакури</a><span class="sep">/</span><a href="/dakimakury/k-pop-i-muzyka/">K-pop і музика</a><span class="sep">/</span><span aria-current="page">BTS</span></nav>
       <h1 id="h1">Дакімакури BTS</h1>
-      <p class="lead" id="lead">39 дизайнів. Чотири розміри від 100×33 до 180×60 см, ціна від 1 100 ₴, оплата при отриманні.</p>
-      <ul class="promises">
-        <li id="shipLi" hidden>Відправимо <b id="shipDate" style="margin-left:4px"></b></li>
-        <li>Оплата при отриманні</li>
-        <li>Нова Пошта по всій Україні</li>
-        <li>Наволочка знімається для прання</li>
-      </ul>
-    </div>
-    <fieldset class="ruler" id="sizes"><legend>Розмір подушки. Ціни на картках зміняться</legend></fieldset>
-  </section>
+      <div class="bar">
+        <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">BTS</span></button>
+        <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
+      </div>
+      <div class="tops" id="tops"></div>
+      <p class="count" id="count" aria-live="polite">Дизайнів: 39</p>
 
-  <div class="controls">
-    <nav class="chips" id="secs" aria-label="Розділи"><a class="chip" href="/dakimakury/">Усі<span class="n">3260</span></a><a class="chip" href="/dakimakury/anime/">Аніме<span class="n">1145</span></a><a class="chip" href="/dakimakury/ihry/">Ігри<span class="n">1387</span></a><a class="chip" href="/dakimakury/k-pop-i-muzyka/" aria-current="true">K-pop і музика<span class="n">179</span></a><a class="chip" href="/dakimakury/zirky-y-memy/">Зірки й меми<span class="n">95</span></a><a class="chip" href="/dakimakury/kino-y-multfilmy/">Кіно й мультфільми<span class="n">66</span></a><a class="chip" href="/dakimakury/sport/">Спорт<span class="n">111</span></a><a class="chip" href="/dakimakury/napoyi/">Напої<span class="n">230</span></a><a class="chip" href="/dakimakury/inshe/">Інше<span class="n">47</span></a></nav>
-    <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
-  </div>
-  <nav class="chips sub" id="chips" aria-label="Колекції"><a class="chip" href="/dakimakury/stray-kids/">Stray Kids<span class="n">44</span></a><a class="chip" href="/dakimakury/muzykanty-y-rok/">Музиканти й рок<span class="n">42</span></a><a class="chip" href="/dakimakury/inshyy-k-pop/">Інший K-pop<span class="n">54</span></a><a class="chip" href="/dakimakury/bts/" aria-current="true">BTS<span class="n">39</span></a></nav>
-  <div class="tops" id="tops"></div>
-  <p class="count" id="count" aria-live="polite">Дизайнів: 39</p>
 
   <main class="grid" id="grid">
 <article class="card" data-id="1877147269">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4176429890_w640_h640_min-yungi-bts.jpg" alt="Дакімакура Мін Юнгі №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мін Юнгі №1</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1877147273">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4176466317_w640_h640_tehjon-bts-dakimakura.jpg" alt="Дакімакура Техйон" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Техйон</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1914732567">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4760029211_w640_h640_dakimakura-gabardin-j.jpg" alt="Дакімакура J hope" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">J hope</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1921659827">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4779356163_w640_h640_dakimakura-gabardin-chonguk.jpg" alt="Дакімакура Чонгук №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Чонгук №1</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693890882">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6480057006_w640_h640_kim-thehyon-kim.jpg" alt="Дакімакура Кім Техьон (Kim Tae-hyung, V) №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кім Техьон (Kim Tae-hyung, V) №1</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1877147277">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4176476197_w640_h640_dzhin-bts-dakimakura.jpg" alt="Дакімакура Джин" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Джин</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1877147281">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4176507149_w640_h640_chonguk1-bts-dakimakura.jpg" alt="Дакімакура Чонгук №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Чонгук №2</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1877147285">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4176511851_w640_h640_chonguk2-bts-dakimakura.jpg" alt="Дакімакура Чонгук №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Чонгук №3</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1914745100">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4760055748_w640_h640_dakimakura-gabardin-jimin.jpg" alt="Дакімакура Jimin" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Jimin</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1921624703">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4779258188_w640_h640_dakimakura-gabardin-pak.jpg" alt="Дакімакура Пак Чі Мін" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Пак Чі Мін</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1921658912">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4779349624_w640_h640_dakimakura-gabardin-chimin.jpg" alt="Дакімакура Чимін" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Чимін</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1921661000">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4779358842_w640_h640_dakimakura-gabardin-chonguk.jpg" alt="Дакімакура Чонгук №4" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Чонгук №4</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1978173483">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4957329553_w640_h640_dakimakura-gabardin-chonguk.jpg" alt="Дакімакура Чонгук №5" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Чонгук №5</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1998128516">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/5028481804_w640_h640_dakimakura-gabardin-chonguk.jpg" alt="Дакімакура Чонгук №6" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Чонгук №6</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693890869">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6480054930_w640_h640_bts-dakimakura-podushka.jpg" alt="Дакімакура BTS №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">BTS №1</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693890870">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6480054934_w640_h640_bts-dakimakura-podushka.jpg" alt="Дакімакура BTS №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">BTS №2</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693890871">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6480054938_w640_h640_bts-dakimakura-podushka.jpg" alt="Дакімакура BTS №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">BTS №3</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693890872">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6480054942_w640_h640_bts-dakimakura-podushka.jpg" alt="Дакімакура BTS №4" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">BTS №4</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693890873">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6480054946_w640_h640_dzhej-houp-j-hope-bts.jpg" alt="Дакімакура Джей-Хоуп (J-Hope)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Джей-Хоуп (J-Hope)</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693890874">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6480054950_w640_h640_kim-namdzhun-kim.jpg" alt="Дакімакура Кім Намджун (Kim Nam-joon, RM) №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кім Намджун (Kim Nam-joon, RM) №1</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693890875">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6480056970_w640_h640_dzhin-jin-bts.jpg" alt="Дакімакура Джін (Jin) №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Джін (Jin) №1</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693890876">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6480056974_w640_h640_dzhin-jin-bts.jpg" alt="Дакімакура Джін (Jin) №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Джін (Jin) №2</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693890877">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6480056979_w640_h640_kim-namdzhun-kim.jpg" alt="Дакімакура Кім Намджун (Kim Nam-joon, RM) №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кім Намджун (Kim Nam-joon, RM) №2</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693890878">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6480056983_w640_h640_shuga-suga-bts.jpg" alt="Дакімакура Шуґа (Suga)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Шуґа (Suga)</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693890879">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6480056987_w640_h640_pak-chimin-park.jpg" alt="Дакімакура Пак Чімін (Park Ji-min) №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Пак Чімін (Park Ji-min) №1</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693890880">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6480056991_w640_h640_pak-chimin-park.jpg" alt="Дакімакура Пак Чімін (Park Ji-min) №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Пак Чімін (Park Ji-min) №2</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693890881">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6480057000_w640_h640_pak-chimin-park.jpg" alt="Дакімакура Пак Чімін (Park Ji-min) №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Пак Чімін (Park Ji-min) №3</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693890883">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6480059780_w640_h640_kim-thehyon-kim.jpg" alt="Дакімакура Кім Техьон (Kim Tae-hyung, V) №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кім Техьон (Kim Tae-hyung, V) №2</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693890884">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6480059784_w640_h640_chon-chonguk-jeon.jpg" alt="Дакімакура Чон Чонґук (Jeon Jungkook)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Чон Чонґук (Jeon Jungkook)</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892101">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6763836074_w640_h640_dakimakura-kim-namdzhun.jpg" alt="Дакімакура Кім Намджун (Kim Nam-joon, RM) №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кім Намджун (Kim Nam-joon, RM) №3</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892110">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6763836443_w640_h640_dakimakura-min-yungi.jpg" alt="Дакімакура Мін Юнгі №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мін Юнгі №2</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892111">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6763836448_w640_h640_dakimakura-min-yungi.jpg" alt="Дакімакура Мін Юнгі №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мін Юнгі №3</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892115">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6763836650_w640_h640_dakimakura-pak-chimin.jpg" alt="Дакімакура Пак Чимин" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Пак Чимин</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892131">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6763837151_w640_h640_dakimakura-chon-hosok.jpg" alt="Дакімакура Чон Хосок Джей Хоуп №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Чон Хосок Джей Хоуп №1</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892132">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6763837156_w640_h640_dakimakura-chon-hosok.jpg" alt="Дакімакура Чон Хосок Джей Хоуп №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Чон Хосок Джей Хоуп №2</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892133">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6763837161_w640_h640_dakimakura-chonguk-12040.jpg" alt="Дакімакура Чонгук №7" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Чонгук №7</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892187">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6763837161_w640_h640_dakimakura-chonguk-15050.jpg" alt="Дакімакура Чонгук №8" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Чонгук №8</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2738072743">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6763837161_w640_h640_dakimakura-chonguk-10033.jpg" alt="Дакімакура Чонгук №9" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Чонгук №9</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2738096603">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6763837161_w640_h640_dakimakura-chonguk-18060.jpg" alt="Дакімакура Чонгук №10" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Чонгук №10</span><span class="sub">BTS</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
   </main>
   <div class="more" id="more"></div>
+    </div>
+  </div>
 
   <section class="custom">
     <div>

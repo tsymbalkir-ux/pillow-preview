@@ -56,272 +56,222 @@ fbq('track', 'PageView');
     </nav>
   </header>
 
-  <section class="hero">
-    <div>
+  <div class="layout">
+    <div class="shade" id="shade"></div>
+    <aside class="side" id="side" aria-label="Каталог дакімакур">
+      <div class="side-head"><b>Каталог</b><button class="side-x" id="sideClose" type="button" aria-label="Закрити каталог">×</button></div>
+      <nav class="tree" id="tree" aria-label="Розділи й колекції"><a class="t-row" href="/dakimakury/" data-s="-1"><span>Усі дизайни</span><span class="n">3260</span></a><div class="t-sec open"><a class="t-row" href="/dakimakury/anime/" data-s="0" aria-current="true"><span>Аніме</span><span class="n">1145</span></a><ul class="t-cols"><li><a class="t-col" href="/dakimakury/klynok-shcho-rozsikaye-demoniv/" data-c="10"><span>Клинок, що розсікає демонів</span><span class="n">113</span></a></li><li><a class="t-col" href="/dakimakury/blich/" data-c="22"><span>Бліч</span><span class="n">34</span></a></li><li><a class="t-col" href="/dakimakury/mahichna-bytva/" data-c="9"><span>Магічна битва</span><span class="n">96</span></a></li><li><a class="t-col" href="/dakimakury/ataka-tytaniv/" data-c="12"><span>Атака титанів</span><span class="n">74</span></a></li><li><a class="t-col" href="/dakimakury/lyudyna-benzopyla/" data-c="23"><span>Людина-бензопила</span><span class="n">49</span></a></li><li><a class="t-col" href="/dakimakury/vocaloid-miku/" data-c="24"><span>Vocaloid (Міку)</span><span class="n">193</span></a></li><li><a class="t-col" href="/dakimakury/pyat-narechenykh/" data-c="25"><span>П'ять наречених</span><span class="n">77</span></a></li><li><a class="t-col" href="/dakimakury/divchata-i-tanky/" data-c="26"><span>Дівчата і танки</span><span class="n">34</span></a></li><li><a class="t-col" href="/dakimakury/yevanhelion/" data-c="27"><span>Євангеліон</span><span class="n">30</span></a></li><li><a class="t-col" href="/dakimakury/overlord/" data-c="28"><span>Overlord</span><span class="n">49</span></a></li><li><a class="t-col" href="/dakimakury/moya-heroyska-akademiya/" data-c="29"><span>Моя геройська академія</span><span class="n">77</span></a></li><li><a class="t-col" href="/dakimakury/reinkarnatsiya-bezrobitnoho/" data-c="30"><span>Реінкарнація безробітного</span><span class="n">22</span></a></li><li><a class="t-col" href="/dakimakury/naruto/" data-c="11"><span>Наруто</span><span class="n">43</span></a></li><li><a class="t-col" href="/dakimakury/uma-musume/" data-c="31"><span>Uma Musume</span><span class="n">38</span></a></li><li><a class="t-col" href="/dakimakury/van-pis/" data-c="32"><span>Ван-Піс</span><span class="n">27</span></a></li><li><a class="t-col" href="/dakimakury/monoloh-farmatsevta/" data-c="33"><span>Монолог фармацевта</span><span class="n">30</span></a></li><li><a class="t-col" href="/dakimakury/berserk/" data-c="34"><span>Берсерк</span><span class="n">10</span></a></li><li><a class="t-col" href="/dakimakury/brodyachi-psy/" data-c="13"><span>Бродячі пси</span><span class="n">23</span></a></li><li><a class="t-col" href="/dakimakury/inshe-anime/" data-c="47"><span>Інше аніме</span><span class="n">126</span></a></li></ul></div><div class="t-sec"><a class="t-row" href="/dakimakury/ihry/" data-s="1"><span>Ігри</span><span class="n">1387</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/k-pop-i-muzyka/" data-s="2"><span>K-pop і музика</span><span class="n">179</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/zirky-y-memy/" data-s="3"><span>Зірки й меми</span><span class="n">95</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/kino-y-multfilmy/" data-s="4"><span>Кіно й мультфільми</span><span class="n">66</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/sport/" data-s="5"><span>Спорт</span><span class="n">111</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/napoyi/" data-s="6"><span>Напої</span><span class="n">230</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/inshe/" data-s="7"><span>Інше</span><span class="n">47</span></a></div></nav>
+      <div class="side-foot"><button class="btn wide" id="sideShow" type="button">Показати дизайни</button></div>
+    </aside>
+
+    <div class="main">
       <nav class="crumbs" id="crumbs" aria-label="Хлібні крихти"><a href="/dakimakury/">Дакімакури</a><span class="sep">/</span><span aria-current="page">Аніме</span></nav>
       <h1 id="h1">Аніме-дакімакури</h1>
-      <p class="lead" id="lead">1145 дизайнів: Магічна битва, Клинок, що розсікає демонів, Наруто, Атака титанів, Бродячі пси та інші. Чотири розміри від 100×33 до 180×60 см, ціна від 1 100 ₴, оплата при отриманні.</p>
-      <ul class="promises">
-        <li id="shipLi" hidden>Відправимо <b id="shipDate" style="margin-left:4px"></b></li>
-        <li>Оплата при отриманні</li>
-        <li>Нова Пошта по всій Україні</li>
-        <li>Наволочка знімається для прання</li>
-      </ul>
-    </div>
-    <fieldset class="ruler" id="sizes"><legend>Розмір подушки. Ціни на картках зміняться</legend></fieldset>
-  </section>
+      <div class="bar">
+        <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Аніме</span></button>
+        <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
+      </div>
+      <div class="tops" id="tops"></div>
+      <p class="count" id="count" aria-live="polite">Дизайнів: 1145</p>
 
-  <div class="controls">
-    <nav class="chips" id="secs" aria-label="Розділи"><a class="chip" href="/dakimakury/">Усі<span class="n">3260</span></a><a class="chip" href="/dakimakury/anime/" aria-current="true">Аніме<span class="n">1145</span></a><a class="chip" href="/dakimakury/ihry/">Ігри<span class="n">1387</span></a><a class="chip" href="/dakimakury/k-pop-i-muzyka/">K-pop і музика<span class="n">179</span></a><a class="chip" href="/dakimakury/zirky-y-memy/">Зірки й меми<span class="n">95</span></a><a class="chip" href="/dakimakury/kino-y-multfilmy/">Кіно й мультфільми<span class="n">66</span></a><a class="chip" href="/dakimakury/sport/">Спорт<span class="n">111</span></a><a class="chip" href="/dakimakury/napoyi/">Напої<span class="n">230</span></a><a class="chip" href="/dakimakury/inshe/">Інше<span class="n">47</span></a></nav>
-    <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
-  </div>
-  <nav class="chips sub" id="chips" aria-label="Колекції"><a class="chip" href="/dakimakury/inshe-anime/">Інше аніме<span class="n">126</span></a><a class="chip" href="/dakimakury/klynok-shcho-rozsikaye-demoniv/">Клинок, що розсікає демонів<span class="n">113</span></a><a class="chip" href="/dakimakury/blich/">Бліч<span class="n">34</span></a><a class="chip" href="/dakimakury/mahichna-bytva/">Магічна битва<span class="n">96</span></a><a class="chip" href="/dakimakury/ataka-tytaniv/">Атака титанів<span class="n">74</span></a><a class="chip" href="/dakimakury/lyudyna-benzopyla/">Людина-бензопила<span class="n">49</span></a><a class="chip" href="/dakimakury/vocaloid-miku/">Vocaloid (Міку)<span class="n">193</span></a><a class="chip" href="/dakimakury/pyat-narechenykh/">П'ять наречених<span class="n">77</span></a><a class="chip" href="/dakimakury/divchata-i-tanky/">Дівчата і танки<span class="n">34</span></a><a class="chip" href="/dakimakury/yevanhelion/">Євангеліон<span class="n">30</span></a><a class="chip" href="/dakimakury/overlord/">Overlord<span class="n">49</span></a><a class="chip" href="/dakimakury/moya-heroyska-akademiya/">Моя геройська академія<span class="n">77</span></a><a class="chip" href="/dakimakury/reinkarnatsiya-bezrobitnoho/">Реінкарнація безробітного<span class="n">22</span></a><a class="chip" href="/dakimakury/naruto/">Наруто<span class="n">43</span></a><a class="chip" href="/dakimakury/uma-musume/">Uma Musume<span class="n">38</span></a><a class="chip" href="/dakimakury/van-pis/">Ван-Піс<span class="n">27</span></a><a class="chip" href="/dakimakury/monoloh-farmatsevta/">Монолог фармацевта<span class="n">30</span></a><a class="chip" href="/dakimakury/berserk/">Берсерк<span class="n">10</span></a><a class="chip" href="/dakimakury/brodyachi-psy/">Бродячі пси<span class="n">23</span></a></nav>
-  <div class="tops" id="tops"></div>
-  <p class="count" id="count" aria-live="polite">Дизайнів: 1145</p>
 
   <main class="grid" id="grid">
 <article class="card" data-id="1963458049">
       <div class="pic"><span class="hit">Купили 6 разів</span><div class="track"><img src="https://images.prom.ua/4911538785_w640_h640_dakimakura-gabardin-muichiro.jpg" alt="Дакімакура Муічіро Токіто, Меч що розсікає демонів" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Муічіро Токіто, Меч що розсікає демонів</span><span class="sub">Клинок, що розсікає демонів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2516520424">
       <div class="pic"><span class="hit">Купили 5 разів</span><div class="track"><img src="https://images.prom.ua/6514385289_w640_h640_dakimakura-blich-joruichi.jpg" alt="Дакімакура Йоруічі Шіхоін №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Йоруічі Шіхоін №1</span><span class="sub">Бліч</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487335000">
       <div class="pic"><span class="hit">Купили 5 разів</span><div class="track"><img src="https://images.prom.ua/6475445069_w640_h640_erika-itsumi-devushki.jpg" alt="Дакімакура Еріка Іцуми №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Еріка Іцуми №1</span><span class="sub">Дівчата і танки</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487332630">
       <div class="pic"><span class="hit">Купили 4 рази</span><div class="track"><img src="https://images.prom.ua/6475435464_w640_h640_kocho-shinobu-ubijtsa.jpg" alt="Дакімакура Кочо Шінобу №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кочо Шінобу №1</span><span class="sub">Клинок, що розсікає демонів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2516520425">
       <div class="pic"><span class="hit">Купили 4 рази</span><div class="track"><img src="https://images.prom.ua/6514385293_w640_h640_dakimakura-blich-rukiya.jpg" alt="Дакімакура Рукія Кучікі №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Рукія Кучікі №1</span><span class="sub">Бліч</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545316503">
       <div class="pic"><span class="hit">Купили 4 рази</span><div class="track"><img src="https://images.prom.ua/6766706624_w640_h640_anime-dakimakura-hatsune.jpg" alt="Дакімакура Хатсуне Міку 150, 50 №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Хатсуне Міку 150, 50 №1</span><span class="sub">Vocaloid (Міку)</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311193">
       <div class="pic"><span class="hit">Купили 4 рази</span><div class="track"><img src="https://images.prom.ua/6766680695_w640_h640_anime-dakimakura-katsuki.jpg" alt="Дакімакура Кацукі Бакуго №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кацукі Бакуго №1</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1921619149">
       <div class="pic"><span class="hit">Купили 4 рази</span><div class="track"><img src="https://images.prom.ua/4779249798_w640_h640_dakimakura-gabardin-neko-ark.jpg" alt="Дакімакура Неко-Арк, Місячна принцеса" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Неко-Арк, Місячна принцеса</span><span class="sub">Tsukihime</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688284585">
       <div class="pic"><span class="hit">Купили 4 рази</span><div class="track"><img src="https://images.prom.ua/6762091119_w640_h640_dakimakura-astolfo-fate.jpg" alt="Дакімакура Астольфо Fate" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Астольфо Fate</span><span class="sub">Доля</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545308387">
       <div class="pic"><span class="hit">Купили 3 рази</span><div class="track"><img src="https://images.prom.ua/6766694243_w640_h640_anime-dakimakura-inosuke.jpg" alt="Дакімакура Іносуке Гасібіра" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Іносуке Гасібіра</span><span class="sub">Клинок, що розсікає демонів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2787143626">
       <div class="pic"><span class="hit">Купили 3 рази</span><div class="track"><img src="https://images.prom.ua/6876333922_w640_h640_muichiro-tokito-klinok.jpg" alt="Дакімакура Муїчіро Токіто" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Муїчіро Токіто</span><span class="sub">Клинок, що розсікає демонів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1986505086">
       <div class="pic"><span class="hit">Купили 3 рази</span><div class="track"><img src="https://images.prom.ua/4976649017_w640_h640_dakimakura-gabardin-armin.jpg" alt="Дакімакура Армін і Мікаса" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Армін і Мікаса</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545314896">
       <div class="pic"><span class="hit">Купили 3 рази</span><div class="track"><img src="https://images.prom.ua/6766699123_w640_h640_anime-dakimakura-reze.jpg" alt="Дакімакура Резе №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Резе №1</span><span class="sub">Людина-бензопила</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545312477">
       <div class="pic"><span class="hit">Купили 3 рази</span><div class="track"><img src="https://images.prom.ua/6766693758_w640_h640_anime-dakimakura-nino.jpg" alt="Дакімакура Ніно Накано №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ніно Накано №1</span><span class="sub">П'ять наречених</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2500153290">
       <div class="pic"><span class="hit">Купили 3 рази</span><div class="track"><img src="https://images.prom.ua/6493876392_w640_h640_dakimakura-aska-lengli.jpg" alt="Дакімакура Аска Ленглі Евангеліон №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Аска Ленглі Евангеліон №1</span><span class="sub">Євангеліон</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1986505201">
       <div class="pic"><span class="hit">Купили 3 рази</span><div class="track"><img src="https://images.prom.ua/4983640806_w640_h640_dakimakura-gabardin-albedo.jpg" alt="Дакімакура Альбедо №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Альбедо №1</span><span class="sub">Overlord</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545312576">
       <div class="pic"><span class="hit">Купили 3 рази</span><div class="track"><img src="https://images.prom.ua/6766695548_w640_h640_anime-dakimakura-roksi.jpg" alt="Дакімакура Роксі Мігурдія Реінкарнація безробітнього" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Роксі Мігурдія Реінкарнація безробітнього</span><span class="sub">Реінкарнація безробітного</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545306171">
       <div class="pic"><span class="hit">Купили 3 рази</span><div class="track"><img src="https://images.prom.ua/6766691343_w640_h640_anime-dakimakura-trafalgar.jpg" alt="Дакімакура Трафальгар Ло" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Трафальгар Ло</span><span class="sub">Ван-Піс</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2516520452">
       <div class="pic"><span class="hit">Купили 3 рази</span><div class="track"><img src="https://images.prom.ua/6514388870_w640_h640_dakimakura-gats-berserk.jpg" alt="Дакімакура Гатс №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Гатс №1</span><span class="sub">Берсерк</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545314078">
       <div class="pic"><span class="hit">Купили 3 рази</span><div class="track"><img src="https://images.prom.ua/6766697498_w640_h640_anime-dakimakura-sebastyan.jpg" alt="Дакімакура Себастьян Міхаліс" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Себастьян Міхаліс</span><span class="sub">Темний дворецький</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2787143797">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6876380826_w640_h640_sukuna-ryomen-magicheskaya.jpg" alt="Дакімакура Сукуна Рюмен" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сукуна Рюмен</span><span class="sub">Магічна битва</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487332641">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475435916_w640_h640_rengoku-kyodzyuro-ubijtsa.jpg" alt="Дакімакура Ренгоку Кьодзюро №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ренгоку Кьодзюро №1</span><span class="sub">Клинок, що розсікає демонів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427801">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532299982_w640_h640_dakimakura-mitsuri-klinok.jpg" alt="Дакімакура Міцурі №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Міцурі №1</span><span class="sub">Клинок, що розсікає демонів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2787143570">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6876333889_w640_h640_kyodzyuro-rengoku-klinok.jpg" alt="Дакімакура Кедзюро Ренгоку №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кедзюро Ренгоку №1</span><span class="sub">Клинок, що розсікає демонів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2787143637">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6876336759_w640_h640_obanaj-iguro-klinok.jpg" alt="Дакімакура Обанай Ігуро" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Обанай Ігуро</span><span class="sub">Клинок, що розсікає демонів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311232">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766681752_w640_h640_anime-dakimakura-sakura.jpg" alt="Дакімакура Сакура Харуно №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сакура Харуно №1</span><span class="sub">Наруто</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545305334">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766691035_w640_h640_anime-dakimakura-zhan.jpg" alt="Дакімакура Жан Кірштейн" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Жан Кірштейн</span><span class="sub">Атака титанів</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545314890">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766705112_w640_h640_anime-dakimakura-makima.jpg" alt="Дакімакура Макіма №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Макіма №1</span><span class="sub">Людина-бензопила</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286136">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762073210_w640_h640_dakimakura-makima-chelovek.jpg" alt="Дакімакура Макіма Chainsaw Man" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Макіма Chainsaw Man</span><span class="sub">Людина-бензопила</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545305191">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766706638_w640_h640_anime-dakimakura-hatsune.jpg" alt="Дакімакура Гатсуне Міку №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Гатсуне Міку №1</span><span class="sub">Vocaloid (Міку)</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487336794">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475446210_w640_h640_hatsune-miku-hatsune.jpg" alt="Дакімакура Хатсуне Міку Хатсуне Міку №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Хатсуне Міку Хатсуне Міку №1</span><span class="sub">Vocaloid (Міку)</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545312455">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766688515_w640_h640_anime-dakimakura-itsuki.jpg" alt="Дакімакура Іцукі Накано №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Іцукі Накано №1</span><span class="sub">П'ять наречених</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545312463">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766698433_w640_h640_anime-dakimakura-miku.jpg" alt="Дакімакура Міку Накано №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Міку Накано №1</span><span class="sub">П'ять наречених</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545307090">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766687266_w640_h640_anime-dakimakura-mika.jpg" alt="Дакімакура Міка Дівчата та танки" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Міка Дівчата та танки</span><span class="sub">Дівчата і танки</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545307257">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766700564_w640_h640_anime-dakimakura-rej.jpg" alt="Дакімакура Рей Аянами №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Рей Аянами №1</span><span class="sub">Євангеліон</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311721">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766702037_w640_h640_anime-dakimakura-albedo.jpg" alt="Дакімакура Альбедо №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Альбедо №2</span><span class="sub">Overlord</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311215">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/3546515766_w640_h640_anime-dakimakura-shoto.jpg" alt="Дакімакура Шото Тодорики №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Шото Тодорики №1</span><span class="sub">Моя геройська академія</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545312577">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766697500_w640_h640_anime-dakimakura-silfietta.jpg" alt="Дакімакура Сильфіетта Реінкарнація безробітнього" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сильфіетта Реінкарнація безробітнього</span><span class="sub">Реінкарнація безробітного</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545307152">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766686120_w640_h640_anime-dakimakura-gold.jpg" alt="Дакімакура Ґолд Шип №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ґолд Шип №1</span><span class="sub">Uma Musume</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2806427201">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6905251490_w640_h640_dakimakura-maomao-monolog.jpg" alt="Дакімакура Maomao Монолог Травниці №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Maomao Монолог Травниці №1</span><span class="sub">Монолог фармацевта</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545306295">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766690493_w640_h640_anime-dakimakura-makise.jpg" alt="Дакімакура Макісе Курісурата Штайна" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Макісе Курісурата Штайна</span><span class="sub">Ворота Штейну</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545307068">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766690418_w640_h640_anime-dakimakura-mizuhara.jpg" alt="Дакімакура Мізухара Чізуру" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мізухара Чізуру</span><span class="sub">Дівчина на годину</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311624">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766694876_w640_h640_anime-dakimakura-rimuru.jpg" alt="Дакімакура Римуру Темпест Про моє переродження в слиз" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Римуру Темпест Про моє переродження в слиз</span><span class="sub">Про моєму переродження в слиз</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545311768">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766686701_w640_h640_anime-dakimakura-krul.jpg" alt="Дакімакура Крул Цепеш" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Крул Цепеш</span><span class="sub">Останній Серафим</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545313572">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766686115_w640_h640_anime-dakimakura-astolfo.jpg" alt="Дакімакура Анімія Астольфо" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Анімія Астольфо</span><span class="sub">Доля</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545314179">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766694574_w640_h640_anime-dakimakura-hanako-kun.jpg" alt="Дакімакура Ханако-кун" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ханако-кун</span><span class="sub">Туалетний хлопчик Ханако-кун</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1545318261">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6766706345_w640_h640_anime-dakimakura-ss.jpg" alt="Дакімакура С.С. Код Гіас: Лілуш 150, 50" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">С.С. Код Гіас: Лілуш 150, 50</span><span class="sub">Код Гіас: Повсталий Лелуш</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487338838">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475461643_w640_h640_marin-kitagava-lyubov.jpg" alt="Дакімакура Марін Кітаґава Кохання, як вбрання для косплею" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Марін Кітаґава Кохання, як вбрання для косплею</span><span class="sub">Ця порцелянова лялечка закохалася</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
   </main>
   <div class="more" id="more"></div>
+    </div>
+  </div>
 
   <section class="custom">
     <div>

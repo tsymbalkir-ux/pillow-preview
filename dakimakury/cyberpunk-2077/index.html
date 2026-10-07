@@ -56,137 +56,114 @@ fbq('track', 'PageView');
     </nav>
   </header>
 
-  <section class="hero">
-    <div>
+  <div class="layout">
+    <div class="shade" id="shade"></div>
+    <aside class="side" id="side" aria-label="Каталог дакімакур">
+      <div class="side-head"><b>Каталог</b><button class="side-x" id="sideClose" type="button" aria-label="Закрити каталог">×</button></div>
+      <nav class="tree" id="tree" aria-label="Розділи й колекції"><a class="t-row" href="/dakimakury/" data-s="-1"><span>Усі дизайни</span><span class="n">3260</span></a><div class="t-sec"><a class="t-row" href="/dakimakury/anime/" data-s="0"><span>Аніме</span><span class="n">1145</span></a></div><div class="t-sec open"><a class="t-row" href="/dakimakury/ihry/" data-s="1"><span>Ігри</span><span class="n">1387</span></a><ul class="t-cols"><li><a class="t-col" href="/dakimakury/genshin-impact/" data-c="8"><span>Genshin Impact</span><span class="n">702</span></a></li><li><a class="t-col" href="/dakimakury/dota-2/" data-c="14"><span>Dota 2</span><span class="n">222</span></a></li><li><a class="t-col" href="/dakimakury/zenless-zone-zero/" data-c="15"><span>Zenless Zone Zero</span><span class="n">107</span></a></li><li><a class="t-col" href="/dakimakury/honkai-star-rail/" data-c="16"><span>Honkai: Star Rail</span><span class="n">171</span></a></li><li><a class="t-col" href="/dakimakury/doki-doki-literature-club/" data-c="17"><span>Doki Doki Literature Club</span><span class="n">14</span></a></li><li><a class="t-col" href="/dakimakury/brawl-stars/" data-c="18"><span>Brawl Stars</span><span class="n">90</span></a></li><li><a class="t-col" href="/dakimakury/cyberpunk-2077/" data-c="19" aria-current="true"><span>Cyberpunk 2077</span><span class="n">21</span></a></li><li><a class="t-col" href="/dakimakury/wuthering-waves/" data-c="20"><span>Wuthering Waves</span><span class="n">17</span></a></li><li><a class="t-col" href="/dakimakury/klub-romantyky/" data-c="21"><span>Клуб романтики</span><span class="n">18</span></a></li><li><a class="t-col" href="/dakimakury/inshi-ihry/" data-c="48"><span>Інші ігри</span><span class="n">25</span></a></li></ul></div><div class="t-sec"><a class="t-row" href="/dakimakury/k-pop-i-muzyka/" data-s="2"><span>K-pop і музика</span><span class="n">179</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/zirky-y-memy/" data-s="3"><span>Зірки й меми</span><span class="n">95</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/kino-y-multfilmy/" data-s="4"><span>Кіно й мультфільми</span><span class="n">66</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/sport/" data-s="5"><span>Спорт</span><span class="n">111</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/napoyi/" data-s="6"><span>Напої</span><span class="n">230</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/inshe/" data-s="7"><span>Інше</span><span class="n">47</span></a></div></nav>
+      <div class="side-foot"><button class="btn wide" id="sideShow" type="button">Показати дизайни</button></div>
+    </aside>
+
+    <div class="main">
       <nav class="crumbs" id="crumbs" aria-label="Хлібні крихти"><a href="/dakimakury/">Дакімакури</a><span class="sep">/</span><a href="/dakimakury/ihry/">Ігри</a><span class="sep">/</span><span aria-current="page">Cyberpunk 2077</span></nav>
       <h1 id="h1">Дакімакури Cyberpunk 2077</h1>
-      <p class="lead" id="lead">21 дизайн. Чотири розміри від 100×33 до 180×60 см, ціна від 1 100 ₴, оплата при отриманні.</p>
-      <ul class="promises">
-        <li id="shipLi" hidden>Відправимо <b id="shipDate" style="margin-left:4px"></b></li>
-        <li>Оплата при отриманні</li>
-        <li>Нова Пошта по всій Україні</li>
-        <li>Наволочка знімається для прання</li>
-      </ul>
-    </div>
-    <fieldset class="ruler" id="sizes"><legend>Розмір подушки. Ціни на картках зміняться</legend></fieldset>
-  </section>
+      <div class="bar">
+        <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Cyberpunk 2077</span></button>
+        <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
+      </div>
+      <div class="tops" id="tops"></div>
+      <p class="count" id="count" aria-live="polite">Дизайнів: 21</p>
 
-  <div class="controls">
-    <nav class="chips" id="secs" aria-label="Розділи"><a class="chip" href="/dakimakury/">Усі<span class="n">3260</span></a><a class="chip" href="/dakimakury/anime/">Аніме<span class="n">1145</span></a><a class="chip" href="/dakimakury/ihry/" aria-current="true">Ігри<span class="n">1387</span></a><a class="chip" href="/dakimakury/k-pop-i-muzyka/">K-pop і музика<span class="n">179</span></a><a class="chip" href="/dakimakury/zirky-y-memy/">Зірки й меми<span class="n">95</span></a><a class="chip" href="/dakimakury/kino-y-multfilmy/">Кіно й мультфільми<span class="n">66</span></a><a class="chip" href="/dakimakury/sport/">Спорт<span class="n">111</span></a><a class="chip" href="/dakimakury/napoyi/">Напої<span class="n">230</span></a><a class="chip" href="/dakimakury/inshe/">Інше<span class="n">47</span></a></nav>
-    <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
-  </div>
-  <nav class="chips sub" id="chips" aria-label="Колекції"><a class="chip" href="/dakimakury/genshin-impact/">Genshin Impact<span class="n">702</span></a><a class="chip" href="/dakimakury/inshi-ihry/">Інші ігри<span class="n">25</span></a><a class="chip" href="/dakimakury/dota-2/">Dota 2<span class="n">222</span></a><a class="chip" href="/dakimakury/zenless-zone-zero/">Zenless Zone Zero<span class="n">107</span></a><a class="chip" href="/dakimakury/honkai-star-rail/">Honkai: Star Rail<span class="n">171</span></a><a class="chip" href="/dakimakury/doki-doki-literature-club/">Doki Doki Literature Club<span class="n">14</span></a><a class="chip" href="/dakimakury/brawl-stars/">Brawl Stars<span class="n">90</span></a><a class="chip" href="/dakimakury/cyberpunk-2077/" aria-current="true">Cyberpunk 2077<span class="n">21</span></a><a class="chip" href="/dakimakury/wuthering-waves/">Wuthering Waves<span class="n">17</span></a><a class="chip" href="/dakimakury/klub-romantyky/">Клуб романтики<span class="n">18</span></a></nav>
-  <div class="tops" id="tops"></div>
-  <p class="count" id="count" aria-live="polite">Дизайнів: 21</p>
 
   <main class="grid" id="grid">
 <article class="card" data-id="2528427680">
       <div class="pic"><span class="hit">Купили 6 разів</span><div class="track"><img src="https://images.prom.ua/6532271800_w640_h640_dakimakura-rebekka-kiberpank.jpg" alt="Дакімакура Ребекка №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ребекка №1</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1986505115">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4979328634_w640_h640_dakimakura-gabardin-lyusi.jpg" alt="Дакімакура Люсі, Cyberpunk" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Люсі, Cyberpunk</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487331821">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475439476_w640_h640_lyusi-kiberpank-dakimakura.jpg" alt="Дакімакура Люсі Кіберпанк" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Люсі Кіберпанк</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487331822">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475439481_w640_h640_rebekka-edzhranners-kiberpank.jpg" alt="Дакімакура Ребекка (Еджраннерс) Кіберпанк" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ребекка (Еджраннерс) Кіберпанк</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427681">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532271805_w640_h640_dakimakura-rebekka-kiberpank.jpg" alt="Дакімакура Ребекка №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ребекка №2</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427687">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532271864_w640_h640_dakimakura-rebekka-kiberpank.jpg" alt="Дакімакура Ребекка №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ребекка №3</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427688">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532273578_w640_h640_dakimakura-rebekka-kiberpank.jpg" alt="Дакімакура Ребекка №4" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ребекка №4</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427689">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532273588_w640_h640_dakimakura-rebekka-kiberpank.jpg" alt="Дакімакура Ребекка №5" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ребекка №5</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427815">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532302866_w640_h640_dakimakura-rebekka-rebecca.jpg" alt="Дакімакура Ребекка Rebecca" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ребекка Rebecca</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286128">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762072932_w640_h640_dakimakura-lyusi-kiberpank.jpg" alt="Дакімакура Люсі Cyberpunk 1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Люсі Cyberpunk 1</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286129">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762072939_w640_h640_dakimakura-lyusi-kiberpank.jpg" alt="Дакімакура Люсі Cyberpunk" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Люсі Cyberpunk</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286198">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762074627_w640_h640_dakimakura-rebekka-kiberpank.jpg" alt="Дакімакура Ребекка 1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ребекка 1</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286199">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762074633_w640_h640_dakimakura-rebekka-kiberpank.jpg" alt="Дакімакура Ребекка №6" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ребекка №6</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259096">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858585133_w640_h640_dakimakura-meru-kiberpank.jpg" alt="Дакімакура Меру Кіберпанк (A)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Меру Кіберпанк (A)</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259107">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858585140_w640_h640_dakimakura-meru-kiberpank.jpg" alt="Дакімакура Меру Кіберпанк (D)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Меру Кіберпанк (D)</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259109">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858585147_w640_h640_dakimakura-meru-kiberpank.jpg" alt="Дакімакура Меру Кіберпанк (E)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Меру Кіберпанк (E)</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259111">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858585153_w640_h640_dakimakura-meru-kiberpank.jpg" alt="Дакімакура Меру Кіберпанк (S)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Меру Кіберпанк (S)</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259113">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858585159_w640_h640_dakimakura-meru-kiberpank.jpg" alt="Дакімакура Меру Кіберпанк (T)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Меру Кіберпанк (T)</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259114">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858585164_w640_h640_dakimakura-meru-kiberpank.jpg" alt="Дакімакура Меру Кіберпанк (W)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Меру Кіберпанк (W)</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259115">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858585779_w640_h640_dakimakura-meru-kiberpank.jpg" alt="Дакімакура Меру Кіберпанк (X)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Меру Кіберпанк (X)</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259165">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858587221_w640_h640_dakimakura-rebekka-kiberpank.jpg" alt="Дакімакура Ребекка Кіберпанк" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ребекка Кіберпанк</span><span class="sub">Cyberpunk 2077</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
   </main>
   <div class="more" id="more"></div>
+    </div>
+  </div>
 
   <section class="custom">
     <div>
