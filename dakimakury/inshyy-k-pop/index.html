@@ -56,272 +56,222 @@ fbq('track', 'PageView');
     </nav>
   </header>
 
-  <section class="hero">
-    <div>
+  <div class="layout">
+    <div class="shade" id="shade"></div>
+    <aside class="side" id="side" aria-label="Каталог дакімакур">
+      <div class="side-head"><b>Каталог</b><button class="side-x" id="sideClose" type="button" aria-label="Закрити каталог">×</button></div>
+      <nav class="tree" id="tree" aria-label="Розділи й колекції"><a class="t-row" href="/dakimakury/" data-s="-1"><span>Усі дизайни</span><span class="n">3260</span></a><div class="t-sec"><a class="t-row" href="/dakimakury/anime/" data-s="0"><span>Аніме</span><span class="n">1145</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/ihry/" data-s="1"><span>Ігри</span><span class="n">1387</span></a></div><div class="t-sec open"><a class="t-row" href="/dakimakury/k-pop-i-muzyka/" data-s="2"><span>K-pop і музика</span><span class="n">179</span></a><ul class="t-cols"><li><a class="t-col" href="/dakimakury/stray-kids/" data-c="5"><span>Stray Kids</span><span class="n">44</span></a></li><li><a class="t-col" href="/dakimakury/muzykanty-y-rok/" data-c="41"><span>Музиканти й рок</span><span class="n">42</span></a></li><li><a class="t-col" href="/dakimakury/inshyy-k-pop/" data-c="44" aria-current="true"><span>Інший K-pop</span><span class="n">54</span></a></li><li><a class="t-col" href="/dakimakury/bts/" data-c="6"><span>BTS</span><span class="n">39</span></a></li></ul></div><div class="t-sec"><a class="t-row" href="/dakimakury/zirky-y-memy/" data-s="3"><span>Зірки й меми</span><span class="n">95</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/kino-y-multfilmy/" data-s="4"><span>Кіно й мультфільми</span><span class="n">66</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/sport/" data-s="5"><span>Спорт</span><span class="n">111</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/napoyi/" data-s="6"><span>Напої</span><span class="n">230</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/inshe/" data-s="7"><span>Інше</span><span class="n">47</span></a></div></nav>
+      <div class="side-foot"><button class="btn wide" id="sideShow" type="button">Показати дизайни</button></div>
+    </aside>
+
+    <div class="main">
       <nav class="crumbs" id="crumbs" aria-label="Хлібні крихти"><a href="/dakimakury/">Дакімакури</a><span class="sep">/</span><a href="/dakimakury/k-pop-i-muzyka/">K-pop і музика</a><span class="sep">/</span><span aria-current="page">Інший K-pop</span></nav>
       <h1 id="h1">Дакімакури K-pop</h1>
-      <p class="lead" id="lead">54 дизайни: Дженні Кім, Сонхун, Хісин, Джейк та інші. Чотири розміри від 100×33 до 180×60 см, ціна від 1 100 ₴, оплата при отриманні.</p>
-      <ul class="promises">
-        <li id="shipLi" hidden>Відправимо <b id="shipDate" style="margin-left:4px"></b></li>
-        <li>Оплата при отриманні</li>
-        <li>Нова Пошта по всій Україні</li>
-        <li>Наволочка знімається для прання</li>
-      </ul>
-    </div>
-    <fieldset class="ruler" id="sizes"><legend>Розмір подушки. Ціни на картках зміняться</legend></fieldset>
-  </section>
+      <div class="bar">
+        <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Інший K-pop</span></button>
+        <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
+      </div>
+      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/inshyy-k-pop/dzhenni-kim/">Дженні Кім <span class="n">5</span></a></div>
+      <p class="count" id="count" aria-live="polite">Дизайнів: 54</p>
 
-  <div class="controls">
-    <nav class="chips" id="secs" aria-label="Розділи"><a class="chip" href="/dakimakury/">Усі<span class="n">3260</span></a><a class="chip" href="/dakimakury/anime/">Аніме<span class="n">1145</span></a><a class="chip" href="/dakimakury/ihry/">Ігри<span class="n">1387</span></a><a class="chip" href="/dakimakury/k-pop-i-muzyka/" aria-current="true">K-pop і музика<span class="n">179</span></a><a class="chip" href="/dakimakury/zirky-y-memy/">Зірки й меми<span class="n">95</span></a><a class="chip" href="/dakimakury/kino-y-multfilmy/">Кіно й мультфільми<span class="n">66</span></a><a class="chip" href="/dakimakury/sport/">Спорт<span class="n">111</span></a><a class="chip" href="/dakimakury/napoyi/">Напої<span class="n">230</span></a><a class="chip" href="/dakimakury/inshe/">Інше<span class="n">47</span></a></nav>
-    <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
-  </div>
-  <nav class="chips sub" id="chips" aria-label="Колекції"><a class="chip" href="/dakimakury/stray-kids/">Stray Kids<span class="n">44</span></a><a class="chip" href="/dakimakury/muzykanty-y-rok/">Музиканти й рок<span class="n">42</span></a><a class="chip" href="/dakimakury/inshyy-k-pop/" aria-current="true">Інший K-pop<span class="n">54</span></a><a class="chip" href="/dakimakury/bts/">BTS<span class="n">39</span></a></nav>
-  <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/inshyy-k-pop/dzhenni-kim/">Дженні Кім <span class="n">5</span></a></div>
-  <p class="count" id="count" aria-live="polite">Дизайнів: 54</p>
 
   <main class="grid" id="grid">
 <article class="card" data-id="1793120164">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4344475187_w640_h640_cha-yn-u.jpg" alt="Дакімакура Ча Ин У" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ча Ин У</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1793842952">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4346784882_w640_h640_shuhua-gi-dle-dakimakura.jpg" alt="Дакімакура Шухуа" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Шухуа</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693891973">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769993579_w640_h640_enhypen-dakimakura-podushka.jpg" alt="Дакімакура Enhypen №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Enhypen №1</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1742972753">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4185271073_w640_h640_dzhenni-kim-blackpink.jpg" alt="Дакімакура Дженні Кім №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Дженні Кім №1</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1791882878">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4340260984_w640_h640_hondzhun-ateez-dakimakura.jpg" alt="Дакімакура Хонджун" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Хонджун</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693890885">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6480059792_w640_h640_blackpink-dakimakura-podushka.jpg" alt="Дакімакура BLACKPINK" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">BLACKPINK</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693891997">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769994364_w640_h640_sonhun-sunghoon-enhypen.jpg" alt="Дакімакура Сонхун (Sunghoon) Enhypen №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сонхун (Sunghoon) Enhypen №1</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892024">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769994896_w640_h640_le-sserafim-dakimakura.jpg" alt="Дакімакура LE SSERAFIM №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">LE SSERAFIM №1</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892066">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769996213_w640_h640_hisyn-heeseung-enhypen.jpg" alt="Дакімакура Хісин (Heeseung) Enhypen" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Хісин (Heeseung) Enhypen</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1742974806">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4185277111_w640_h640_dzhenni-kim2-blackpink.jpg" alt="Дакімакура Дженні Кім №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Дженні Кім №2</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1793103961">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4344433128_w640_h640_dzhindzhin-astro-dakimakura.jpg" alt="Дакімакура ДжінДжін" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">ДжінДжін</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1793202543">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4344709719_w640_h640_mj-astro-dakimakura.jpg" alt="Дакімакура MJ" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">MJ</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1793207074">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4344727688_w640_h640_munbin-astro-dakimakura.jpg" alt="Дакімакура Мунбін" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мунбін</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1793217097">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4344755075_w640_h640_yun-sanha-astro.jpg" alt="Дакімакура Юн Санха" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Юн Санха</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1920878950">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4776561763_w640_h640_dakimakura-gabardin-dzhejk.jpg" alt="Дакімакура Джейк ENHYPEN" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Джейк ENHYPEN</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1998128517">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/5028543196_w640_h640_dakimakura-gabardin-dzhenni.jpg" alt="Дакімакура Дженні Кім, BLACKPINK" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Дженні Кім, BLACKPINK</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693891975">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769993597_w640_h640_kadzuha-kazuha-le.jpg" alt="Дакімакура Кадзуха (Kazuha) Le Sserafim" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кадзуха (Kazuha) Le Sserafim</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693891976">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769993604_w640_h640_ynchhe-eunchae-le.jpg" alt="Дакімакура Инче (Eunchae) Le Sserafim" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Инче (Eunchae) Le Sserafim</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693891998">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769994392_w640_h640_sonhun-sunghoon-enhypen.jpg" alt="Дакімакура Сонхун (Sunghoon) Enhypen №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сонхун (Sunghoon) Enhypen №2</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693891999">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769994396_w640_h640_chonvon-jungwon-enhypen.jpg" alt="Дакімакура Чонвон (Jungwon) Enhypen №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Чонвон (Jungwon) Enhypen №1</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892000">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769994401_w640_h640_chonvon-jungwon-enhypen.jpg" alt="Дакімакура Чонвон (Jungwon) Enhypen №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Чонвон (Jungwon) Enhypen №2</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892005">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769994624_w640_h640_sonu-sunoo-enhypen.jpg" alt="Дакімакура Сону (Sunoo) Enhypen №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сону (Sunoo) Enhypen №1</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892006">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769994636_w640_h640_sonu-sunoo-enhypen.jpg" alt="Дакімакура Сону (Sunoo) Enhypen №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сону (Sunoo) Enhypen №2</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892007">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769994640_w640_h640_dzhejk-jake-enhypen.jpg" alt="Дакімакура Джейк (Jake) Enhypen №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Джейк (Jake) Enhypen №1</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892008">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769994645_w640_h640_dzhejk-jake-enhypen.jpg" alt="Дакімакура Джейк (Jake) Enhypen №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Джейк (Jake) Enhypen №2</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892011">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769994665_w640_h640_yundzhin-yunjin-le.jpg" alt="Дакімакура Юнджін (Yunjin) Le Sserafim №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Юнджін (Yunjin) Le Sserafim №1</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892012">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769994673_w640_h640_yundzhin-yunjin-le.jpg" alt="Дакімакура Юнджін (Yunjin) Le Sserafim №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Юнджін (Yunjin) Le Sserafim №2</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892023">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769994892_w640_h640_le-sserafim-dakimakura.jpg" alt="Дакімакура LE SSERAFIM №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">LE SSERAFIM №2</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892029">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769995117_w640_h640_dzhej-jay-enhypen.jpg" alt="Дакімакура Джей (Jay) Enhypen №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Джей (Jay) Enhypen №1</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892030">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769995130_w640_h640_dzhej-jay-enhypen.jpg" alt="Дакімакура Джей (Jay) Enhypen №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Джей (Jay) Enhypen №2</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892037">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769995367_w640_h640_chhevon-chaewon-le.jpg" alt="Дакімакура Чевон (Chaewon) Le Sserafim №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Чевон (Chaewon) Le Sserafim №1</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892038">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769995373_w640_h640_chhevon-chaewon-le.jpg" alt="Дакімакура Чевон (Chaewon) Le Sserafim №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Чевон (Chaewon) Le Sserafim №2</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892045">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769995596_w640_h640_sakura-sakura-le.jpg" alt="Дакімакура Сакура (Sakura) Le Sserafim №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сакура (Sakura) Le Sserafim №1</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892046">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769995600_w640_h640_sakura-sakura-le.jpg" alt="Дакімакура Сакура (Sakura) Le Sserafim №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сакура (Sakura) Le Sserafim №2</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892047">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769995609_w640_h640_riki-ni-ki-enhypen.jpg" alt="Дакімакура Ні-кі (Ni-Ki) Enhypen №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ні-кі (Ni-Ki) Enhypen №1</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892048">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769995619_w640_h640_riki-ni-ki-enhypen.jpg" alt="Дакімакура Ні-кі (Ni-Ki) Enhypen №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ні-кі (Ni-Ki) Enhypen №2</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892053">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769995819_w640_h640_enhypen-dakimakura-podushka.jpg" alt="Дакімакура Enhypen №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Enhypen №2</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892054">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769995824_w640_h640_enhypen-dakimakura-podushka.jpg" alt="Дакімакура Enhypen №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Enhypen №3</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892060">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769995914_w640_h640_le-sserafim-dakimakura.jpg" alt="Дакімакура LE SSERAFIM №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">LE SSERAFIM №3</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892062">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769996197_w640_h640_enhypen-dakimakura-podushka.jpg" alt="Дакімакура Enhypen №4" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Enhypen №4</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892063">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769996201_w640_h640_enhypen-dakimakura-podushka.jpg" alt="Дакімакура Enhypen №5" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Enhypen №5</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892067">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769996217_w640_h640_hisyn-heeseung-enhypen.jpg" alt="Дакімакура Хісин (Heeseung) Enhypen, па" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Хісин (Heeseung) Enhypen, па</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892068">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769996227_w640_h640_riki-ni-ki-enhypen.jpg" alt="Дакімакура Ні-кі (Ni-Ki) Enhypen №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ні-кі (Ni-Ki) Enhypen №3</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892078">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769996469_w640_h640_le-sserafim-dakimakura.jpg" alt="Дакімакура LE SSERAFIM №4" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">LE SSERAFIM №4</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892081">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6769996480_w640_h640_enhypen-dakimakura-podushka.jpg" alt="Дакімакура Enhypen №6" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Enhypen №6</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892087">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6763834230_w640_h640_dakimakura-dzhenni-kim.jpg" alt="Дакімакура Дженні Кім (Jennie Kim) BLACKPINK №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Дженні Кім (Jennie Kim) BLACKPINK №1</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892088">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6763834236_w640_h640_dakimakura-dzhenni-kim.jpg" alt="Дакімакура Дженні Кім (Jennie Kim) BLACKPINK №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Дженні Кім (Jennie Kim) BLACKPINK №2</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2693892089">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6763834241_w640_h640_dakimakura-kim-dzhisu.jpg" alt="Дакімакура Кім Джісу (Kim Ji-soo) BLACKPINK" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кім Джісу (Kim Ji-soo) BLACKPINK</span><span class="sub">Інший K-pop</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
   </main>
   <div class="more" id="more"></div>
+    </div>
+  </div>
 
   <section class="custom">
     <div>

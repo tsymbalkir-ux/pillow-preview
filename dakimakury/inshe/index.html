@@ -56,267 +56,218 @@ fbq('track', 'PageView');
     </nav>
   </header>
 
-  <section class="hero">
-    <div>
+  <div class="layout">
+    <div class="shade" id="shade"></div>
+    <aside class="side" id="side" aria-label="Каталог дакімакур">
+      <div class="side-head"><b>Каталог</b><button class="side-x" id="sideClose" type="button" aria-label="Закрити каталог">×</button></div>
+      <nav class="tree" id="tree" aria-label="Розділи й колекції"><a class="t-row" href="/dakimakury/" data-s="-1"><span>Усі дизайни</span><span class="n">3260</span></a><div class="t-sec"><a class="t-row" href="/dakimakury/anime/" data-s="0"><span>Аніме</span><span class="n">1145</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/ihry/" data-s="1"><span>Ігри</span><span class="n">1387</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/k-pop-i-muzyka/" data-s="2"><span>K-pop і музика</span><span class="n">179</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/zirky-y-memy/" data-s="3"><span>Зірки й меми</span><span class="n">95</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/kino-y-multfilmy/" data-s="4"><span>Кіно й мультфільми</span><span class="n">66</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/sport/" data-s="5"><span>Спорт</span><span class="n">111</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/napoyi/" data-s="6"><span>Напої</span><span class="n">230</span></a></div><div class="t-sec open"><a class="t-row" href="/dakimakury/inshe/" data-s="7" aria-current="true"><span>Інше</span><span class="n">47</span></a><ul class="t-cols"><li><a class="t-col" href="/dakimakury/rizne/" data-c="50"><span>Різне</span><span class="n">47</span></a></li></ul></div></nav>
+      <div class="side-foot"><button class="btn wide" id="sideShow" type="button">Показати дизайни</button></div>
+    </aside>
+
+    <div class="main">
       <nav class="crumbs" id="crumbs" aria-label="Хлібні крихти"><a href="/dakimakury/">Дакімакури</a><span class="sep">/</span><span aria-current="page">Інше</span></nav>
       <h1 id="h1">Дакімакури: різне</h1>
-      <p class="lead" id="lead">47 дизайнів. Чотири розміри від 100×33 до 180×60 см, ціна від 1 100 ₴, оплата при отриманні.</p>
-      <ul class="promises">
-        <li id="shipLi" hidden>Відправимо <b id="shipDate" style="margin-left:4px"></b></li>
-        <li>Оплата при отриманні</li>
-        <li>Нова Пошта по всій Україні</li>
-        <li>Наволочка знімається для прання</li>
-      </ul>
-    </div>
-    <fieldset class="ruler" id="sizes"><legend>Розмір подушки. Ціни на картках зміняться</legend></fieldset>
-  </section>
+      <div class="bar">
+        <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Інше</span></button>
+        <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
+      </div>
+      <div class="tops" id="tops"></div>
+      <p class="count" id="count" aria-live="polite">Дизайнів: 47</p>
 
-  <div class="controls">
-    <nav class="chips" id="secs" aria-label="Розділи"><a class="chip" href="/dakimakury/">Усі<span class="n">3260</span></a><a class="chip" href="/dakimakury/anime/">Аніме<span class="n">1145</span></a><a class="chip" href="/dakimakury/ihry/">Ігри<span class="n">1387</span></a><a class="chip" href="/dakimakury/k-pop-i-muzyka/">K-pop і музика<span class="n">179</span></a><a class="chip" href="/dakimakury/zirky-y-memy/">Зірки й меми<span class="n">95</span></a><a class="chip" href="/dakimakury/kino-y-multfilmy/">Кіно й мультфільми<span class="n">66</span></a><a class="chip" href="/dakimakury/sport/">Спорт<span class="n">111</span></a><a class="chip" href="/dakimakury/napoyi/">Напої<span class="n">230</span></a><a class="chip" href="/dakimakury/inshe/" aria-current="true">Інше<span class="n">47</span></a></nav>
-    <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
-  </div>
-  <nav class="chips sub" id="chips" aria-label="Колекції"><a class="chip" href="/dakimakury/rizne/">Різне<span class="n">47</span></a></nav>
-  <div class="tops" id="tops"></div>
-  <p class="count" id="count" aria-live="polite">Дизайнів: 47</p>
 
   <main class="grid" id="grid">
 <article class="card" data-id="2934162761">
       <div class="pic"><span class="hit">Купили 6 разів</span><div class="track"><img src="https://images.prom.ua/7093294339_w640_h640_dakimakura-teto-kasane.jpg" alt="Дакімакура Тето Касане - UTAU (D)" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Тето Касане - UTAU (D)</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2934162657">
       <div class="pic"><span class="hit">Купили 5 разів</span><div class="track"><img src="https://images.prom.ua/7093289263_w640_h640_dakimakura-alastor-hazbin.jpg" alt="Дакімакура Аластор Хазбін готель" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Аластор Хазбін готель</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2012727846">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/5080662522_w640_h640_dakimakura-gabardin-kurt.jpg" alt="Дакімакура Курт Кобейн, Nirvana" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Курт Кобейн, Nirvana</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286296">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762077841_w640_h640_dakimakura-hua-cheng.jpg" alt="Дакімакура Хуа Ченг - Heaven Official's Blessing" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Хуа Ченг - Heaven Official's Blessing</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773261125">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858587885_w640_h640_the-weeknd-dakimakura.jpg" alt="Дакімакура The Weeknd №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">The Weeknd №1</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1920831415">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4776335156_w640_h640_dakimakura-gabardin-warden.jpg" alt="Дакімакура Warden, Call of Duty MW" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Warden, Call of Duty MW</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1921634806">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4779280690_w640_h640_dakimakura-gabardin-sakura.jpg" alt="Дакімакура Сакура" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сакура</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1964410262">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4914259095_w640_h640_dakimakura-gabardin-dzhek.jpg" alt="Дакімакура Джек Горобець, Пірати Карибського моря" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Джек Горобець, Пірати Карибського моря</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1998128506">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/5027745924_w640_h640_dakimakura-gabardin-sulfus.jpg" alt="Дакімакура Сульфус, Друзі ангелів" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сульфус, Друзі ангелів</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1998128511">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/5028236239_w640_h640_dakimakura-gabardin-rui.jpg" alt="Дакімакура Руї Каміширо, Проект Секай" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Руї Каміширо, Проект Секай</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487340619">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475452215_w640_h640_kento-nanami-iskusstvo.jpg" alt="Дакімакура Кенто Нанамі Мистецтво заклинань" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кенто Нанамі Мистецтво заклинань</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487341055">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475456446_w640_h640_niya-teppelin-gurren-lagann.jpg" alt="Дакімакура Нія Теппелін Гуррен-Лаганн: Той, що прориває небеса" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Нія Теппелін Гуррен-Лаганн: Той, що прориває небеса</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2500153275">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6493874548_w640_h640_dakimakura-mrcrawling-homicipher.jpg" alt="Дакімакура MrCrawling Homicipher" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">MrCrawling Homicipher</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2516480172">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6514311814_w640_h640_dakimakura-bmw-x5.jpg" alt="Дакімакура Bmw X5 (E70) Suv 2010" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Bmw X5 (E70) Suv 2010</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2516480196">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6514315081_w640_h640_dakimakura-chevrolet-camaro.jpg" alt="Дакімакура Chevrolet Camaro Ss Coupé 1969" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Chevrolet Camaro Ss Coupé 1969</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2516480209">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6514316907_w640_h640_dakimakura-cupra-formentor.jpg" alt="Дакімакура Cupra Formentor (Km) Suv 2020" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Cupra Formentor (Km) Suv 2020</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2516520448">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6514388844_w640_h640_dakimakura-ulyana-beskonechnoe.jpg" alt="Дакімакура Уляна" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Уляна</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2516520453">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6514388878_w640_h640_dakimakura-delta-podushka.jpg" alt="Дакімакура Дельта №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Дельта №1</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688284573">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762090373_w640_h640_dakimakura-anchovi-1.jpg" alt="Дакімакура Анчові 1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Анчові 1</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688284581">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762090668_w640_h640_dakimakura-arkejn-dzhinks.jpg" alt="Дакімакура Arcane Jinx" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Arcane Jinx</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286157">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762073814_w640_h640_dakimakura-momo-kavasima.jpg" alt="Дакімакура Момо Кавасіма" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Момо Кавасіма</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286189">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762074513_w640_h640_dakimakura-pauer-chelovek.jpg" alt="Дакімакура Пауер Chainsaw Man" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Пауер Chainsaw Man</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286193">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762074582_w640_h640_dakimakura-piramidogolovyj-pyramidhead.jpg" alt="Дакімакура Пірамідоголовий Pyramidhead Resident" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Пірамідоголовий Pyramidhead Resident</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286232">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762075612_w640_h640_dakimakura-setsuna-mag.jpg" alt="Дакімакура Сецуна Маг - Цілитель" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сецуна Маг - Цілитель</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286294">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762077830_w640_h640_dakimakura-hranitelnitsa-ognya.jpg" alt="Дакімакура Хранителька вогню Dark Souls" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Хранителька вогню Dark Souls</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773258854">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858579544_w640_h640_dakimakura-stellar-blade.jpg" alt="Дакімакура Stellar Blade - Eve Єва (D)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Stellar Blade - Eve Єва (D)</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259071">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858584834_w640_h640_dakimakura-maj-sakuradzima.jpg" alt="Дакімакура Май Сакурадзима Дівчина Зайка (S)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Май Сакурадзима Дівчина Зайка (S)</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259277">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858589298_w640_h640_dakimakura-eshli-grejvs.jpg" alt="Дакімакура Ешлі Ґрейвс Труна Енді і Лейлі (P)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ешлі Ґрейвс Труна Енді і Лейлі (P)</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2934162762">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/7093294497_w640_h640_dakimakura-teto-kasane.jpg" alt="Дакімакура Тето Касане - UTAU" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Тето Касане - UTAU</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487331273">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475435224_w640_h640_sakurako-kudzyo-prekrasnye.jpg" alt="Дакімакура Сакурако Кудзьо Чудові кістки: Розслідування Сакурако" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сакурако Кудзьо Чудові кістки: Розслідування Сакурако</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487331741">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475437527_w640_h640_kanade-sakurada-oduvanchik.jpg" alt="Дакімакура Канаде Сакурада Кульбаба у містечку замків" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Канаде Сакурада Кульбаба у містечку замків</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487340597">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475451579_w640_h640_haruka-takayama-sakura.jpg" alt="Дакімакура Харука Такаяма Сакура Трик" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Харука Такаяма Сакура Трик</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2516520454">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6514388887_w640_h640_dakimakura-delta-podushka.jpg" alt="Дакімакура Дельта №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Дельта №2</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2516520455">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6514388897_w640_h640_dakimakura-delta-podushka.jpg" alt="Дакімакура Дельта №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Дельта №3</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2536579163">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6544119985_w640_h640_dakimakura-delta-podushka.jpg" alt="Дакімакура Дельта №4" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Дельта №4</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688284574">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762090381_w640_h640_dakimakura-anchovi-podushka.jpg" alt="Дакімакура Анчові" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Анчові</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773258864">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858579549_w640_h640_dakimakura-stellar-blade.jpg" alt="Дакімакура Stellar Blade - Eve Єва (E)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Stellar Blade - Eve Єва (E)</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773258870">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858579553_w640_h640_dakimakura-stellar-blade.jpg" alt="Дакімакура Stellar Blade - Eve Єва (G)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Stellar Blade - Eve Єва (G)</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773258873">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858579557_w640_h640_dakimakura-stellar-blade.jpg" alt="Дакімакура Stellar Blade - Eve Єва (P)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Stellar Blade - Eve Єва (P)</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773258874">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858579561_w640_h640_dakimakura-stellar-blade.jpg" alt="Дакімакура Stellar Blade - Eve Єва (Q)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Stellar Blade - Eve Єва (Q)</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773258875">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858579565_w640_h640_dakimakura-stellar-blade.jpg" alt="Дакімакура Stellar Blade - Eve Єва (U)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Stellar Blade - Eve Єва (U)</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773258881">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858579750_w640_h640_dakimakura-stellar-blade.jpg" alt="Дакімакура Stellar Blade - Eve Єва" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Stellar Blade - Eve Єва</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259067">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858584824_w640_h640_dakimakura-maj-sakuradzima.jpg" alt="Дакімакура Май Сакурадзима Дівчина Зайка (B)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Май Сакурадзима Дівчина Зайка (B)</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259068">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858584830_w640_h640_dakimakura-maj-sakuradzima.jpg" alt="Дакімакура Май Сакурадзима Дівчина Зайка (E)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Май Сакурадзима Дівчина Зайка (E)</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259073">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858584838_w640_h640_dakimakura-maj-sakuradzima.jpg" alt="Дакімакура Май Сакурадзима Дівчина Зайка (U)" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Май Сакурадзима Дівчина Зайка (U)</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773259278">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858589306_w640_h640_dakimakura-eshli-grejvs.jpg" alt="Дакімакура Ешлі Ґрейвс Труна Енді і Лейлі" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ешлі Ґрейвс Труна Енді і Лейлі</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2773261126">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6858587895_w640_h640_the-weeknd-dakimakura.jpg" alt="Дакімакура The Weeknd №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">The Weeknd №2</span><span class="sub">Різне</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
   </main>
   <div class="more" id="more"></div>
+    </div>
+  </div>
 
   <section class="custom">
     <div>

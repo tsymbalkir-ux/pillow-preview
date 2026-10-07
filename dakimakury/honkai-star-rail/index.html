@@ -56,272 +56,222 @@ fbq('track', 'PageView');
     </nav>
   </header>
 
-  <section class="hero">
-    <div>
+  <div class="layout">
+    <div class="shade" id="shade"></div>
+    <aside class="side" id="side" aria-label="Каталог дакімакур">
+      <div class="side-head"><b>Каталог</b><button class="side-x" id="sideClose" type="button" aria-label="Закрити каталог">×</button></div>
+      <nav class="tree" id="tree" aria-label="Розділи й колекції"><a class="t-row" href="/dakimakury/" data-s="-1"><span>Усі дизайни</span><span class="n">3260</span></a><div class="t-sec"><a class="t-row" href="/dakimakury/anime/" data-s="0"><span>Аніме</span><span class="n">1145</span></a></div><div class="t-sec open"><a class="t-row" href="/dakimakury/ihry/" data-s="1"><span>Ігри</span><span class="n">1387</span></a><ul class="t-cols"><li><a class="t-col" href="/dakimakury/genshin-impact/" data-c="8"><span>Genshin Impact</span><span class="n">702</span></a></li><li><a class="t-col" href="/dakimakury/dota-2/" data-c="14"><span>Dota 2</span><span class="n">222</span></a></li><li><a class="t-col" href="/dakimakury/zenless-zone-zero/" data-c="15"><span>Zenless Zone Zero</span><span class="n">107</span></a></li><li><a class="t-col" href="/dakimakury/honkai-star-rail/" data-c="16" aria-current="true"><span>Honkai: Star Rail</span><span class="n">171</span></a></li><li><a class="t-col" href="/dakimakury/doki-doki-literature-club/" data-c="17"><span>Doki Doki Literature Club</span><span class="n">14</span></a></li><li><a class="t-col" href="/dakimakury/brawl-stars/" data-c="18"><span>Brawl Stars</span><span class="n">90</span></a></li><li><a class="t-col" href="/dakimakury/cyberpunk-2077/" data-c="19"><span>Cyberpunk 2077</span><span class="n">21</span></a></li><li><a class="t-col" href="/dakimakury/wuthering-waves/" data-c="20"><span>Wuthering Waves</span><span class="n">17</span></a></li><li><a class="t-col" href="/dakimakury/klub-romantyky/" data-c="21"><span>Клуб романтики</span><span class="n">18</span></a></li><li><a class="t-col" href="/dakimakury/inshi-ihry/" data-c="48"><span>Інші ігри</span><span class="n">25</span></a></li></ul></div><div class="t-sec"><a class="t-row" href="/dakimakury/k-pop-i-muzyka/" data-s="2"><span>K-pop і музика</span><span class="n">179</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/zirky-y-memy/" data-s="3"><span>Зірки й меми</span><span class="n">95</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/kino-y-multfilmy/" data-s="4"><span>Кіно й мультфільми</span><span class="n">66</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/sport/" data-s="5"><span>Спорт</span><span class="n">111</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/napoyi/" data-s="6"><span>Напої</span><span class="n">230</span></a></div><div class="t-sec"><a class="t-row" href="/dakimakury/inshe/" data-s="7"><span>Інше</span><span class="n">47</span></a></div></nav>
+      <div class="side-foot"><button class="btn wide" id="sideShow" type="button">Показати дизайни</button></div>
+    </aside>
+
+    <div class="main">
       <nav class="crumbs" id="crumbs" aria-label="Хлібні крихти"><a href="/dakimakury/">Дакімакури</a><span class="sep">/</span><a href="/dakimakury/ihry/">Ігри</a><span class="sep">/</span><span aria-current="page">Honkai: Star Rail</span></nav>
       <h1 id="h1">Дакімакури Honkai: Star Rail</h1>
-      <p class="lead" id="lead">171 дизайн: Фейсяо, Танго, Кафка, Дань Хен та інші. Чотири розміри від 100×33 до 180×60 см, ціна від 1 100 ₴, оплата при отриманні.</p>
-      <ul class="promises">
-        <li id="shipLi" hidden>Відправимо <b id="shipDate" style="margin-left:4px"></b></li>
-        <li>Оплата при отриманні</li>
-        <li>Нова Пошта по всій Україні</li>
-        <li>Наволочка знімається для прання</li>
-      </ul>
-    </div>
-    <fieldset class="ruler" id="sizes"><legend>Розмір подушки. Ціни на картках зміняться</legend></fieldset>
-  </section>
+      <div class="bar">
+        <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Honkai: Star Rail</span></button>
+        <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
+      </div>
+      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/honkai-star-rail/feysyao/">Фейсяо <span class="n">4</span></a><a href="/dakimakury/honkai-star-rail/kafka/">Кафка <span class="n">21</span></a><a href="/dakimakury/honkai-star-rail/dan-khen/">Дань Хен <span class="n">5</span></a><a href="/dakimakury/honkai-star-rail/iskorka/">Іскорка <span class="n">4</span></a><a href="/dakimakury/honkai-star-rail/khimeko/">Хімеко <span class="n">4</span></a><a href="/dakimakury/honkai-star-rail/tszinlyu/">Цзінлю <span class="n">8</span></a><a href="/dakimakury/honkai-star-rail/akheron/">Ахерон <span class="n">7</span></a><a href="/dakimakury/honkai-star-rail/bleyd/">Блейд <span class="n">7</span></a><a href="/dakimakury/honkai-star-rail/fantiliya-bezsmertna/">Фантілія Безсмертна <span class="n">6</span></a><a href="/dakimakury/honkai-star-rail/kyrena/">Кирена <span class="n">5</span></a><a href="/dakimakury/honkai-star-rail/topaz/">Топаз <span class="n">5</span></a><a href="/dakimakury/honkai-star-rail/avantyurin/">Авантюрін <span class="n">4</span></a></div>
+      <p class="count" id="count" aria-live="polite">Дизайнів: 171</p>
 
-  <div class="controls">
-    <nav class="chips" id="secs" aria-label="Розділи"><a class="chip" href="/dakimakury/">Усі<span class="n">3260</span></a><a class="chip" href="/dakimakury/anime/">Аніме<span class="n">1145</span></a><a class="chip" href="/dakimakury/ihry/" aria-current="true">Ігри<span class="n">1387</span></a><a class="chip" href="/dakimakury/k-pop-i-muzyka/">K-pop і музика<span class="n">179</span></a><a class="chip" href="/dakimakury/zirky-y-memy/">Зірки й меми<span class="n">95</span></a><a class="chip" href="/dakimakury/kino-y-multfilmy/">Кіно й мультфільми<span class="n">66</span></a><a class="chip" href="/dakimakury/sport/">Спорт<span class="n">111</span></a><a class="chip" href="/dakimakury/napoyi/">Напої<span class="n">230</span></a><a class="chip" href="/dakimakury/inshe/">Інше<span class="n">47</span></a></nav>
-    <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
-  </div>
-  <nav class="chips sub" id="chips" aria-label="Колекції"><a class="chip" href="/dakimakury/genshin-impact/">Genshin Impact<span class="n">702</span></a><a class="chip" href="/dakimakury/inshi-ihry/">Інші ігри<span class="n">25</span></a><a class="chip" href="/dakimakury/dota-2/">Dota 2<span class="n">222</span></a><a class="chip" href="/dakimakury/zenless-zone-zero/">Zenless Zone Zero<span class="n">107</span></a><a class="chip" href="/dakimakury/honkai-star-rail/" aria-current="true">Honkai: Star Rail<span class="n">171</span></a><a class="chip" href="/dakimakury/doki-doki-literature-club/">Doki Doki Literature Club<span class="n">14</span></a><a class="chip" href="/dakimakury/brawl-stars/">Brawl Stars<span class="n">90</span></a><a class="chip" href="/dakimakury/cyberpunk-2077/">Cyberpunk 2077<span class="n">21</span></a><a class="chip" href="/dakimakury/wuthering-waves/">Wuthering Waves<span class="n">17</span></a><a class="chip" href="/dakimakury/klub-romantyky/">Клуб романтики<span class="n">18</span></a></nav>
-  <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/honkai-star-rail/feysyao/">Фейсяо <span class="n">4</span></a><a href="/dakimakury/honkai-star-rail/kafka/">Кафка <span class="n">21</span></a><a href="/dakimakury/honkai-star-rail/dan-khen/">Дань Хен <span class="n">5</span></a><a href="/dakimakury/honkai-star-rail/iskorka/">Іскорка <span class="n">4</span></a><a href="/dakimakury/honkai-star-rail/khimeko/">Хімеко <span class="n">4</span></a><a href="/dakimakury/honkai-star-rail/tszinlyu/">Цзінлю <span class="n">8</span></a><a href="/dakimakury/honkai-star-rail/akheron/">Ахерон <span class="n">7</span></a><a href="/dakimakury/honkai-star-rail/bleyd/">Блейд <span class="n">7</span></a><a href="/dakimakury/honkai-star-rail/fantiliya-bezsmertna/">Фантілія Безсмертна <span class="n">6</span></a><a href="/dakimakury/honkai-star-rail/kyrena/">Кирена <span class="n">5</span></a><a href="/dakimakury/honkai-star-rail/topaz/">Топаз <span class="n">5</span></a><a href="/dakimakury/honkai-star-rail/avantyurin/">Авантюрін <span class="n">4</span></a></div>
-  <p class="count" id="count" aria-live="polite">Дизайнів: 171</p>
 
   <main class="grid" id="grid">
 <article class="card" data-id="2688286150">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762073552_w640_h640_dakimakura-midej-honkaj.jpg" alt="Дакімакура Мідей" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Мідей</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1986505187">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4983427722_w640_h640_dakimakura-gabardin-kafka.jpg" alt="Дакімакура Kafka №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Kafka №1</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1986505203">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4983668665_w640_h640_dakimakura-gabardin-tango.jpg" alt="Дакімакура Танго" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Танго</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1986505204">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4983700169_w640_h640_dakimakura-gabardin-tango.jpg" alt="Дакімакура Танго 2" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Танго 2</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427756">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532287317_w640_h640_dakimakura-dan-hen.jpg" alt="Дакімакура Дань Хен №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Дань Хен №1</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427804">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532300005_w640_h640_dakimakura-himeko-honkaj.jpg" alt="Дакімакура Хімеко №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Хімеко №1</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427822">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532305236_w640_h640_dakimakura-fejsyao-feixiao.jpg" alt="Дакімакура Фейсяо Feixiao №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Фейсяо Feixiao №1</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688284570">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762090349_w640_h640_dakimakura-anaksa-.jpg" alt="Дакімакура Анакса №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Анакса №1</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286084">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762071307_w640_h640_dakimakura-iskorka-honkaj.jpg" alt="Дакімакура Іскорка 1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Іскорка 1</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286257">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762076632_w640_h640_dakimakura-fejsyao-honkaj.jpg" alt="Дакімакура Фейсяо 1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Фейсяо 1</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286592">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762077977_w640_h640_dakimakura-tsifer-.jpg" alt="Дакімакура Ціфер - 2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ціфер - 2</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2688286593">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6762077983_w640_h640_dakimakura-tsifer-.jpg" alt="Дакімакура Ціфер" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ціфер</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1986505188">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4983436457_w640_h640_dakimakura-gabardin-kafka.jpg" alt="Дакімакура Kafka 2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Kafka 2</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1986505194">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4983513119_w640_h640_dakimakura-gabardin-hikokyo.jpg" alt="Дакімакура Hikokyo" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Hikokyo</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1986505195">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4983527428_w640_h640_dakimakura-gabardin-kinro.jpg" alt="Дакімакура Кінро Гінро" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кінро Гінро</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1986505196">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4983550161_w640_h640_dakimakura-gabardin-sakume.jpg" alt="Дакімакура Sakume Jingliu" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Sakume Jingliu</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1986505205">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4983705134_w640_h640_dakimakura-gabardin-tango.jpg" alt="Дакімакура Танго 3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Танго 3</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="1986505206">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/4983710113_w640_h640_dakimakura-gabardin-kafka.jpg" alt="Дакімакура Kafka 3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Kafka 3</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487336906">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475448047_w640_h640_tinyun-iz-honkai.jpg" alt="Дакімакура Тиньюнь із Хонкай Імпакт 20" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Тиньюнь із Хонкай Імпакт 20</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487339629">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475467697_w640_h640_fu-syuan-honkai.jpg" alt="Дакімакура Фу Сюань" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Фу Сюань</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487339638">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475467851_w640_h640_kafka-honkai-star.jpg" alt="Дакімакура Кафка №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кафка №1</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487339639">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475467860_w640_h640_kafka-honkai-star.jpg" alt="Дакімакура Кафка №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кафка №2</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487339641">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475467874_w640_h640_zhuan-mej-honkai.jpg" alt="Дакімакура Жуань Мей" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Жуань Мей</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487339642">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475467986_w640_h640_fajrflaj-honkai-star.jpg" alt="Дакімакура Фаєрфлай" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Фаєрфлай</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487340616">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475452190_w640_h640_blejd-honkaj-dakimakura.jpg" alt="Дакімакура Блейд Хонкай №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Блейд Хонкай №1</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487340618">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475452207_w640_h640_kafka-honkaj-dakimakura.jpg" alt="Дакімакура Кафка Хонкай №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кафка Хонкай №1</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487340620">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475452223_w640_h640_kafka-honkaj-dakimakura.jpg" alt="Дакімакура Кафка Хонкай №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кафка Хонкай №2</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487340623">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475452235_w640_h640_blejd-honkaj-dakimakura.jpg" alt="Дакімакура Блейд Хонкай №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Блейд Хонкай №2</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2487340624">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6475452431_w640_h640_kafka-honkaj-dakimakura.jpg" alt="Дакімакура Кафка Хонкай №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кафка Хонкай №3</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2500153297">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6493878266_w640_h640_dakimakura-voskresene-sunday.jpg" alt="Дакімакура Неділя Sunday №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Неділя Sunday №1</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2500153298">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6493878270_w640_h640_dakimakura-voskresene-sunday.jpg" alt="Дакімакура Неділя Sunday №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Неділя Sunday №2</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2500153329">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6493886631_w640_h640_dakimakura-kafka-honkaj.jpg" alt="Дакімакура Кафка №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кафка №3</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2500153330">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6493886635_w640_h640_dakimakura-kafka-honkaj.jpg" alt="Дакімакура Кафка №4" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кафка №4</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2516520470">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6514392206_w640_h640_dakimakura-blejd-honkaj.jpg" alt="Дакімакура Блейд №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Блейд №1</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427742">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532283653_w640_h640_dakimakura-svetlyachok-honkaj.jpg" alt="Дакімакура Honkai: Star Rail" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Honkai: Star Rail</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427757">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532287321_w640_h640_dakimakura-blejd-honkaj.jpg" alt="Дакімакура Блейд №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Блейд №2</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427759">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532287329_w640_h640_dakimakura-avantyurin-honkaj.jpg" alt="Дакімакура Авантюрін №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Авантюрін №1</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427776">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532293321_w640_h640_dakimakura-kafka-honkaj.jpg" alt="Дакімакура Кафка №5" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кафка №5</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427777">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532293338_w640_h640_dakimakura-dzhejd-yashma.jpg" alt="Дакімакура Джейд Яшма" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Джейд Яшма</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427823">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532305240_w640_h640_dakimakura-fejsyao-feixiao.jpg" alt="Дакімакура Фейсяо Feixiao №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Фейсяо Feixiao №2</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427841">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532313267_w640_h640_dakimakura-aheron-honkaj.jpg" alt="Дакімакура Ахерон хрс" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Ахерон хрс</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427862">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532320017_w640_h640_dakimakura-tinyun-honkaj.jpg" alt="Дакімакура Тінъюнь" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Тінъюнь</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427863">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532320026_w640_h640_dakimakura-serval-honkaj.jpg" alt="Дакімакура Сервал №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Сервал №1</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427868">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532322339_w640_h640_dakimakura-kafka-honkaj.jpg" alt="Дакімакура Кафка №6" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Кафка №6</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427904">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532332587_w640_h640_dakimakura-blejd-honkaj.jpg" alt="Дакімакура Блейд №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Блейд №3</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427906">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532332596_w640_h640_dakimakura-yashma-honkaj.jpg" alt="Дакімакура Яшма №1" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Яшма №1</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427912">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532334484_w640_h640_dakimakura-avantyurin-honkaj.jpg" alt="Дакімакура Авантюрін №2" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Авантюрін №2</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
 <article class="card" data-id="2528427914">
       <div class="pic"><div class="track"><img src="https://images.prom.ua/6532334492_w640_h640_dakimakura-avantyurin-honkaj.jpg" alt="Дакімакура Авантюрін №3" width="640" height="640" loading="lazy" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">Авантюрін №3</span><span class="sub">Honkai: Star Rail</span></div>
-      <div class="buyrow"><span class="price">1 290 ₴<small>120×40 см</small></span><button class="btn" type="button">Замовити</button></div>
     </article>
   </main>
   <div class="more" id="more"></div>
+    </div>
+  </div>
 
   <section class="custom">
     <div>
