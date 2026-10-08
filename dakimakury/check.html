@@ -60,12 +60,15 @@ const small = u => u.replace(/(\/\d+)_/, '$1_w200_h200_');
 const pid = p => +String(p).split('/').pop().split('_')[0];
 /* нові мокапи завантажені на Prom після цього номера фото; усе, що раніше, це старі знімки */
 const NEW_FROM = 6e9;
-const uses = {};
-D.items.forEach(it => it[4].forEach(p => { uses[pid(p)] = (uses[pid(p)] || 0) + 1; }));
 
 const REASONS = { old: 'Старе фото', shape: 'Не квадрат', broken: 'Фото не відкрилось', shared: 'Спільне фото', none: 'Без фото' };
 /* підказка за номером фото: у прикладах фото 35… були пласким артом, а 41…–50… двома подушками впритул */
 const GUESS = { g1: 'Фото 41…–50… (мабуть, 1-й тип)', g2: 'Фото 35… (мабуть, 2-й тип)' };
+/* фото в data.js: список «номер_назва» або один рядок «номер,номер,…|назва» */
+const picsOf = p => typeof p === 'string' ? p.split('|')[0].split(',').map(n => n + '_' + p.split('|')[1]) : p;
+D.items.forEach(it => { it[4] = picsOf(it[4]); });
+const uses = {};
+D.items.forEach(it => it[4].forEach(p => { uses[pid(p)] = (uses[pid(p)] || 0) + 1; }));
 const items = D.items.map(it => ({ id: String(it[0]), name: it[2], col: D.cols[it[1]].t, pics: it[4].map(url), why: new Set(), shown: 0 }));
 items.forEach((x, i) => {
   const p = D.items[i][4][0];

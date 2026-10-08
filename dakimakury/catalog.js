@@ -60,6 +60,8 @@ const SECS = D.secs || [];
    1) стають останніми фото в галереї; 2) з них будується 3D. Без оригіналів кнопки 3D немає. */
 const ORIG_HOST = 'https://i.ibb.co/';
 const ITEMS = D.items.map(([id, c, name, ru, pics, sold, sub, k, o, og]) => {
+  /* фото: або список «номер_назва», або один рядок «номер,номер,…|назва», якщо назва у всіх фото та сама */
+  if (typeof pics === 'string') { const [nums, tail] = pics.split('|'); pics = nums.split(',').map(n => n + '_' + tail); }
   const prom = pics.map(p => /^https?:/.test(p) ? p : `https://images.prom.ua/${p}.jpg`);
   const orig = (o || []).map(p => /^https?:/.test(p) ? p : ORIG_HOST + p);
   return {
@@ -95,6 +97,7 @@ const state = {
   shown: 48,        // стільки ж карток уже є в статичному HTML, тому сторінка не «стрибає» після завантаження скрипта
   sub: -1,          // підкатегорія в межах колекції: -1 усі, -2 «Інші»
   subsOpen: false,
+  treeAll: false,   // у дереві розкрито всі колекції розділу
 };
 if (state.col >= 0) {
   state.sec = COLS[state.col].s;
@@ -184,7 +187,9 @@ function plainClick(e){ return !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKe
 /* Дерево каталогу: на комп'ютері це ліва колонка, на телефоні панель, що виїжджає зліва. */
 function renderTree(){
   const el = $('tree');
-  el.innerHTML = S.tree(D, state.sec, state.col);
+  el.innerHTML = S.tree(D, state.sec, state.col, { all: state.treeAll });
+  const moreCols = el.querySelector('.t-more');
+  if (moreCols) moreCols.onclick = () => { state.treeAll = true; renderTree(); };
   el.querySelectorAll('a').forEach(a => a.onclick = e => {
     if (!plainClick(e)) return;
     e.preventDefault();
@@ -193,7 +198,7 @@ function renderTree(){
       const i = +a.dataset.c;
       state.col = state.col === i ? -1 : i;
       state.sec = COLS[i].s;
-    } else { state.sec = +a.dataset.s; state.col = -1; }
+    } else { if (state.sec !== +a.dataset.s) state.treeAll = false; state.sec = +a.dataset.s; state.col = -1; }
     state.sub = -1; state.subsOpen = false; state.q = ''; state.shown = PAGE; $('search').value = '';
     renderAll();
     /* розділ лишає панель відкритою, щоб одразу обрати колекцію; колекція або «Усі» закривають її */
