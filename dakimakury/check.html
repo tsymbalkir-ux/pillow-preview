@@ -4,169 +4,212 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Перевірка превʼю каталогу</title>
+<title>Перевірка каталогу дакімакур</title>
 <style>
-  body{margin:0;padding:20px;background:#F2F1F7;color:#1F1A3D;font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  :root{--del:#C7362F;--t1:#E0457B;--t2:#2F6FE4;--ink:#1F1A3D;--line:#cfcbe3;--paper:#F2F1F7}
+  body{margin:0;padding:20px;background:var(--paper);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
   h1{font-size:22px;margin:0 0 6px}
-  p{margin:0 0 10px;max-width:80ch;color:#55507a}
-  .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0}
-  button{font:inherit;cursor:pointer;padding:8px 14px;border-radius:999px;border:1px solid #cfcbe3;background:#fff;color:inherit}
-  button[aria-pressed="true"]{background:#1F1A3D;color:#fff;border-color:#1F1A3D}
-  button.go{background:#E0457B;border-color:#E0457B;color:#fff;font-weight:600}
-  #bar{position:sticky;top:0;z-index:5;background:#F2F1F7;padding:8px 0;border-bottom:1px solid #dcd9ea}
-  #wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;padding:14px 0}
-  .it{position:relative;border-radius:12px;overflow:hidden;background:#fff;cursor:pointer;outline:3px solid transparent;outline-offset:-3px}
+  h2{font-size:17px;margin:0 0 8px}
+  p{margin:0 0 10px;max-width:86ch;color:#55507a}
+  .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+  button,select{font:inherit;cursor:pointer;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;color:inherit}
+  select{max-width:100%}
+  button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  button.go{background:var(--t1);border-color:var(--t1);color:#fff;font-weight:600}
+  #pen button[data-t="del"][aria-pressed="true"]{background:var(--del);border-color:var(--del)}
+  #pen button[data-t="1"][aria-pressed="true"]{background:var(--t1);border-color:var(--t1)}
+  #pen button[data-t="2"][aria-pressed="true"]{background:var(--t2);border-color:var(--t2)}
+  #bar{position:sticky;top:0;z-index:5;background:var(--paper);padding:6px 0;border-bottom:1px solid #dcd9ea}
+  #wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;padding:14px 0}
+  /* на самій картинці нічого немає: позначку видно за рамкою та кольоровою смужкою під фото */
+  .it{border-radius:12px;overflow:hidden;background:#fff;cursor:pointer;outline:4px solid transparent;outline-offset:-4px}
   .it img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;background:#C9C3EA}
-  .it span{display:block;padding:5px 7px 6px;font-size:12px;line-height:1.25;height:3.1em;overflow:hidden}
-  .it i{position:absolute;left:5px;top:5px;font:600 11px/1 system-ui;padding:3px 6px;border-radius:999px;background:rgba(31,26,61,.85);color:#fff;font-style:normal}
-  .it.t1{outline-color:#E0457B}
-  .it.t2{outline-color:#2F6FE4}
-  .it.t1::after,.it.t2::after{position:absolute;right:6px;top:4px;width:24px;height:24px;border-radius:50%;color:#fff;display:grid;place-items:center;font:700 14px/1 system-ui}
-  .it.t1::after{content:"1";background:#E0457B}
-  .it.t2::after{content:"2";background:#2F6FE4}
-  #pen button[data-t="1"][aria-pressed="true"]{background:#E0457B;border-color:#E0457B}
-  #pen button[data-t="2"][aria-pressed="true"]{background:#2F6FE4;border-color:#2F6FE4}
-  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  @media (max-width:700px){.cols{grid-template-columns:1fr}}
-  textarea{width:100%;height:90px;font:13px/1.4 ui-monospace,Consolas,monospace;border:1px solid #cfcbe3;border-radius:10px;padding:10px;box-sizing:border-box}
+  .it span{display:block;padding:5px 7px 6px;font-size:12px;line-height:1.25;height:3.1em;overflow:hidden;border-top:5px solid transparent}
+  .it.del{outline-color:var(--del)} .it.del span{border-top-color:var(--del);background:#fbe9e8}
+  .it.t1{outline-color:var(--t1)} .it.t1 span{border-top-color:var(--t1);background:#fde8f0}
+  .it.t2{outline-color:var(--t2)} .it.t2 span{border-top-color:var(--t2);background:#e6eefc}
+  .it.del img{opacity:.45}
+  #moreRow{justify-content:center}
+  .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media (max-width:900px){.cols{grid-template-columns:1fr}}
+  textarea{width:100%;height:110px;font:13px/1.4 ui-monospace,Consolas,monospace;border:1px solid var(--line);border-radius:10px;padding:10px;box-sizing:border-box}
+  .muted{color:#6A6588;font-size:14px}
 </style>
 </head>
 <body>
-<h1>Перевірка превʼю каталогу</h1>
-<p>Сторінка сама перевіряє перше фото кожного дизайну й показує ті, що схожі на «не такі». Обери, який тип зараз позначаєш, і клацай по картинках: рожева рамка з цифрою 1 це перший тип (дві подушки впритул), синя з цифрою 2 це другий (плаский арт). Повторний клік тим самим типом знімає позначку. Ctrl+клік відкриває фото повністю. Позначки зберігаються в цьому браузері.</p>
+<h1>Перевірка каталогу дакімакур</h1>
+<p>Обери колекцію, обери, що зараз позначаєш, і клацай по картинках. Повторний клік тією самою позначкою знімає її. Ctrl+клік відкриває фото повністю. Позначки зберігаються в цьому браузері, тож можна робити частинами. Коли закінчиш, скопіюй списки внизу й надішли їх.</p>
+
 <div id="bar">
-  <div class="row" id="filters"></div>
+  <div class="row">
+    <select id="col" aria-label="Колекція"></select>
+    <span id="filters" class="row" style="margin:0"></span>
+  </div>
   <div class="row" id="pen"><b>Позначаю:</b>
-    <button type="button" data-t="1" aria-pressed="true">1-й тип: дві подушки впритул</button>
-    <button type="button" data-t="2" aria-pressed="false">2-й тип: плаский арт</button>
+    <button type="button" data-t="del" aria-pressed="true">Видалити з сайту</button>
+    <button type="button" data-t="1" aria-pressed="false">1-й тип фото: дві подушки впритул</button>
+    <button type="button" data-t="2" aria-pressed="false">2-й тип фото: плаский арт</button>
     <button type="button" id="markAll">Позначити так усі на екрані</button>
-    <button type="button" id="clearAll">Зняти позначки з усіх на екрані</button></div>
-  <div class="row"><span id="status">Перевіряю фото…</span></div>
+    <button type="button" id="clearAll">Зняти позначки з усіх на екрані</button>
+  </div>
+  <div class="row muted"><span id="status"></span><button type="button" id="scan">Перевірити самі фото</button></div>
 </div>
+
 <div id="wall"></div>
-<p>Коли закінчиш, скопіюй обидва списки й надішли їх.</p>
+<div class="row" id="moreRow"><button type="button" id="more" hidden></button></div>
+
 <div class="cols">
-  <div><h2 style="font-size:17px">1-й тип: <span id="n1">0</span></h2><textarea id="out1" readonly></textarea>
+  <div><h2>Видалити: <span id="nDel">0</span></h2><textarea id="outDel" readonly></textarea>
+    <div class="row"><button class="go" type="button" data-copy="outDel">Скопіювати список на видалення</button></div></div>
+  <div><h2>1-й тип фото: <span id="n1">0</span></h2><textarea id="out1" readonly></textarea>
     <div class="row"><button class="go" type="button" data-copy="out1">Скопіювати 1-й тип</button></div></div>
-  <div><h2 style="font-size:17px">2-й тип: <span id="n2">0</span></h2><textarea id="out2" readonly></textarea>
+  <div><h2>2-й тип фото: <span id="n2">0</span></h2><textarea id="out2" readonly></textarea>
     <div class="row"><button class="go" type="button" data-copy="out2">Скопіювати 2-й тип</button></div></div>
 </div>
 
 <script src="/dakimakury/data.js"></script>
 <script>
-const D = window.DAKI_DATA, KEY = 'daki-check-types';
+const D = window.DAKI_DATA, KEY = 'daki-check-marks', PAGE = 300;
+const $ = id => document.getElementById(id);
 const url = p => /^https?:/.test(p) ? p : 'https://images.prom.ua/' + p + '.jpg';
 const small = u => u.replace(/(\/\d+)_/, '$1_w200_h200_');
 const pid = p => +String(p).split('/').pop().split('_')[0];
+/* фото в data.js: список «номер_назва» або один рядок «номер,номер,…|назва» */
+const picsOf = p => typeof p === 'string' ? p.split('|')[0].split(',').map(n => n + '_' + p.split('|')[1]) : p;
 /* нові мокапи завантажені на Prom після цього номера фото; усе, що раніше, це старі знімки */
 const NEW_FROM = 6e9;
 
-const REASONS = { old: 'Старе фото', shape: 'Не квадрат', broken: 'Фото не відкрилось', shared: 'Спільне фото', none: 'Без фото' };
-/* підказка за номером фото: у прикладах фото 35… були пласким артом, а 41…–50… двома подушками впритул */
-const GUESS = { g1: 'Фото 41…–50… (мабуть, 1-й тип)', g2: 'Фото 35… (мабуть, 2-й тип)' };
-/* фото в data.js: список «номер_назва» або один рядок «номер,номер,…|назва» */
-const picsOf = p => typeof p === 'string' ? p.split('|')[0].split(',').map(n => n + '_' + p.split('|')[1]) : p;
-D.items.forEach(it => { it[4] = picsOf(it[4]); });
-const uses = {};
-D.items.forEach(it => it[4].forEach(p => { uses[pid(p)] = (uses[pid(p)] || 0) + 1; }));
-const items = D.items.map(it => ({ id: String(it[0]), name: it[2], col: D.cols[it[1]].t, pics: it[4].map(url), why: new Set(), shown: 0 }));
-items.forEach((x, i) => {
-  const p = D.items[i][4][0];
-  if (!p) { x.why.add('none'); return; }
-  if (pid(p) < NEW_FROM) { x.why.add('old'); x.guess = pid(p) < 4e9 ? 'g2' : 'g1'; }
-  if (uses[pid(p)] > 20) x.why.add('shared');
+const items = D.items.map(it => {
+  const pics = picsOf(it[4]), first = pics[0];
+  return { id: String(it[0]), name: it[2], c: it[1], col: D.cols[it[1]].t, pics: pics.map(url), shown: 0,
+    old: !!first && pid(first) < NEW_FROM, guess: first && pid(first) < NEW_FROM ? (pid(first) < 4e9 ? 2 : 1) : 0, shape: false, broken: false };
 });
 
-/* позначки: id товару → 1 або 2 */
-let marks = {}, pen = 1;
-try { marks = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) {}
+/* позначки: id товару → 'del', 1 або 2. Старі позначки типів із попередньої версії сторінки переносимо. */
+let marks = {}, pen = 'del';
+try {
+  marks = JSON.parse(localStorage.getItem(KEY) || 'null') || JSON.parse(localStorage.getItem('daki-check-types') || '{}') || {};
+} catch (e) { marks = {}; }
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(marks)); } catch (e) {} };
-const cls = x => 'it' + (marks[x.id] ? ' t' + marks[x.id] : '');
-const nMarked = t => items.filter(x => marks[x.id] === t).length;
+const cls = x => 'it' + (marks[x.id] === 'del' ? ' del' : marks[x.id] ? ' t' + marks[x.id] : '');
 
-/* завантажуємо зменшені копії всіх перших фото: так дізнаємось пропорції й чи фото взагалі відкривається */
-function probe(x) {
-  return new Promise(done => {
-    if (!x.pics.length) return done();
-    const im = new Image();
-    im.referrerPolicy = 'no-referrer';
-    im.onload = () => { const r = im.naturalWidth / im.naturalHeight; if (r < 0.9 || r > 1.11) x.why.add('shape'); done(); };
-    im.onerror = () => { x.why.add('broken'); x.shown = Math.min(1, x.pics.length - 1); done(); };
-    im.src = small(x.pics[0]);
-  });
+/* ---------- колекції ---------- */
+const nCol = D.cols.map(() => 0); items.forEach(x => { nCol[x.c]++; });
+let col = -1, filter = 'all', shown = PAGE, scanned = false;
+function colSelect() {
+  const sel = $('col');
+  sel.innerHTML = `<option value="-1">Усі колекції (${items.length})</option>` + D.secs.map((s, si) => {
+    const ids = D.cols.map((_, i) => i).filter(i => D.cols[i].s === si && nCol[i]).sort((a, b) => D.cols[a].t.localeCompare(D.cols[b].t, 'uk'));
+    return ids.length ? `<optgroup label="${s.t}">` + ids.map(i => `<option value="${i}">${D.cols[i].t} (${nCol[i]})</option>`).join('') + '</optgroup>' : '';
+  }).join('');
+  sel.onchange = () => { col = +sel.value; shown = PAGE; filters(); render(); scrollTo({ top: 0 }); };
 }
-let filter = 'any', checked = 0;
-async function scan() {
-  let next = 0;
-  const worker = async () => { while (next < items.length) { await probe(items[next++]); checked++; if (checked % 50 === 0) status(); } };
-  await Promise.all(Array.from({ length: 8 }, worker));
-  status(true); render();
-}
-function status(done) {
-  document.getElementById('status').textContent = done
-    ? 'Перевірено ' + items.length + ' дизайнів, підозрілих: ' + items.filter(x => x.why.size).length
-    : 'Перевіряю фото: ' + checked + ' із ' + items.length;
-  filters();
-}
-function visible() {
-  return items.filter(x => filter === 'all' ? true : filter === 'm1' ? marks[x.id] === 1 : filter === 'm2' ? marks[x.id] === 2
-    : filter === 'm0' ? x.why.size && !marks[x.id] : filter === 'g1' || filter === 'g2' ? x.guess === filter
-    : filter === 'any' ? x.why.size : x.why.has(filter));
-}
+
+/* ---------- фільтри ---------- */
+const FILTERS = [
+  ['all', 'Усі', () => true],
+  ['old', 'Старе фото', x => x.old],
+  ['g1', 'Старе фото, мабуть 1-й тип', x => x.guess === 1],
+  ['g2', 'Старе фото, мабуть 2-й тип', x => x.guess === 2],
+  ['shape', 'Не квадратне фото', x => x.shape],
+  ['broken', 'Фото не відкрилось', x => x.broken],
+  ['none', 'Без позначки', x => !marks[x.id]],
+  ['del', 'Позначені на видалення', x => marks[x.id] === 'del'],
+  ['m1', 'Позначені 1-м типом', x => marks[x.id] === 1],
+  ['m2', 'Позначені 2-м типом', x => marks[x.id] === 2],
+];
+const inCol = x => col < 0 || x.c === col;
+const visible = () => { const f = FILTERS.find(f => f[0] === filter)[2]; return items.filter(x => inCol(x) && f(x)); };
 function filters() {
-  const n = k => items.filter(x => x.why.has(k)).length;
-  const list = [['any', 'Усі підозрілі', items.filter(x => x.why.size).length]]
-    .concat(Object.keys(REASONS).map(k => [k, REASONS[k], n(k)]).filter(f => f[2]))
-    .concat(Object.keys(GUESS).map(k => [k, GUESS[k], items.filter(x => x.guess === k).length]))
-    .concat([['m0', 'Підозрілі без позначки', items.filter(x => x.why.size && !marks[x.id]).length],
-      ['m1', 'Позначені 1-м', nMarked(1)], ['m2', 'Позначені 2-м', nMarked(2)], ['all', 'Весь каталог', items.length]]);
-  document.getElementById('filters').innerHTML = list.map(f =>
-    '<button type="button" data-f="' + f[0] + '" aria-pressed="' + (filter === f[0]) + '">' + f[1] + ' ' + f[2] + '</button>').join('');
-  document.querySelectorAll('#filters button').forEach(b => b.onclick = () => { filter = b.dataset.f; filters(); render(); });
+  const pool = items.filter(inCol);
+  $('filters').innerHTML = FILTERS.filter(f => scanned || (f[0] !== 'shape' && f[0] !== 'broken')).map(f => {
+    const n = pool.filter(f[2]).length;
+    return n || f[0] === filter || f[0] === 'all' ? `<button type="button" data-f="${f[0]}" aria-pressed="${filter === f[0]}">${f[1]} ${n}</button>` : '';
+  }).join('');
+  $('filters').querySelectorAll('button').forEach(b => b.onclick = () => { filter = b.dataset.f; shown = PAGE; filters(); render(); });
+}
+
+/* ---------- стіна ---------- */
+function card(x) {
+  const el = document.createElement('div');
+  el.className = cls(x); el.title = x.name + ' · ' + x.col + ' · id ' + x.id;
+  const im = document.createElement('img');
+  im.loading = 'lazy'; im.referrerPolicy = 'no-referrer'; im.alt = '';
+  if (x.pics.length) im.src = small(x.pics[x.shown]);
+  const s = document.createElement('span'); s.textContent = x.name;
+  el.append(im, s);
+  el.onclick = e => {
+    if (e.ctrlKey || e.metaKey) { if (x.pics.length) window.open(x.pics[x.shown]); return; }
+    if (marks[x.id] === pen) delete marks[x.id]; else marks[x.id] = pen;
+    el.className = cls(x); save(); out(); filters();
+  };
+  return el;
 }
 function render() {
-  const wall = document.getElementById('wall');
+  const list = visible(), wall = $('wall');
   wall.innerHTML = '';
-  visible().forEach(x => {
-    const el = document.createElement('div');
-    el.className = cls(x);
-    el.title = x.name + ' (' + x.col + ')';
-    const im = document.createElement('img');
-    im.loading = 'lazy'; im.referrerPolicy = 'no-referrer'; im.alt = '';
-    if (x.pics.length) im.src = small(x.pics[x.shown]);
-    const tag = [...x.why].map(k => REASONS[k]).join(', ');
-    if (tag) { const i = document.createElement('i'); i.textContent = tag; el.appendChild(i); }
-    const s = document.createElement('span'); s.textContent = x.name;
-    el.append(im, s);
-    el.onclick = e => {
-      if (e.ctrlKey || e.metaKey) { if (x.pics.length) window.open(x.pics[x.shown]); return; }
-      if (marks[x.id] === pen) delete marks[x.id]; else marks[x.id] = pen;
-      el.className = cls(x); save(); out(); filters();
-    };
-    wall.appendChild(el);
-  });
+  const frag = document.createDocumentFragment();
+  list.slice(0, shown).forEach(x => frag.appendChild(card(x)));
+  wall.appendChild(frag);
+  const left = list.length - shown, more = $('more');
+  more.hidden = left <= 0;
+  if (left > 0) more.textContent = `Показати ще ${Math.min(PAGE, left)} із ${left}`;
+  if (!scanning) $('status').textContent = `На екрані ${Math.min(shown, list.length)} із ${list.length}.`;
   out();
 }
+$('more').onclick = () => { shown += PAGE; render(); };
+
 function out() {
-  [1, 2].forEach(t => {
+  [['del', 'Del'], [1, '1'], [2, '2']].forEach(([t, id]) => {
     const list = items.filter(x => marks[x.id] === t);
-    document.getElementById('n' + t).textContent = list.length;
-    document.getElementById('out' + t).value = list.map(x => x.id + '\t' + x.name).join('\n');
+    $('n' + id).textContent = list.length;
+    $('out' + id).value = list.map(x => x.id + '\t' + x.name + '\t' + x.col).join('\n');
   });
 }
 document.querySelectorAll('#pen button[data-t]').forEach(b => b.onclick = () => {
-  pen = +b.dataset.t;
+  pen = b.dataset.t === 'del' ? 'del' : +b.dataset.t;
   document.querySelectorAll('#pen button[data-t]').forEach(o => o.setAttribute('aria-pressed', o === b));
 });
-/* список на екрані фіксуємо до змін, бо у фільтрі «без позначки» він змінюється під час позначання */
-document.getElementById('markAll').onclick = () => { visible().forEach(x => { marks[x.id] = pen; }); save(); render(); filters(); };
-document.getElementById('clearAll').onclick = () => { visible().forEach(x => { delete marks[x.id]; }); save(); render(); filters(); };
+/* «усі на екрані» це лише ті картки, які вже показані, а не весь відфільтрований список */
+const onScreen = () => visible().slice(0, shown);
+$('markAll').onclick = () => {
+  const list = onScreen();
+  if (pen === 'del' && list.length > 30 && !confirm(`Позначити на видалення ${list.length} дизайнів?`)) return;
+  list.forEach(x => { marks[x.id] = pen; }); save(); filters(); render();
+};
+$('clearAll').onclick = () => { onScreen().forEach(x => { delete marks[x.id]; }); save(); filters(); render(); };
 document.querySelectorAll('[data-copy]').forEach(b => b.onclick = async () => {
-  const t = document.getElementById(b.dataset.copy); t.select();
+  const t = $(b.dataset.copy); t.select();
   try { await navigator.clipboard.writeText(t.value); } catch (e) { document.execCommand('copy'); }
   const was = b.textContent; b.textContent = 'Скопійовано'; setTimeout(() => { b.textContent = was; }, 1500);
 });
-filters(); render(); scan();
+
+/* ---------- перевірка самих фото: пропорції та чи фото відкривається ----------
+   Запускається кнопкою і лише для обраної колекції, бо це запит на кожне фото. */
+let scanning = false;
+function probe(x) {
+  return new Promise(done => {
+    if (!x.pics.length || x.probed) return done();
+    const im = new Image();
+    im.referrerPolicy = 'no-referrer';
+    im.onload = () => { const r = im.naturalWidth / im.naturalHeight; x.shape = r < 0.9 || r > 1.11; x.probed = true; done(); };
+    im.onerror = () => { x.broken = true; x.probed = true; x.shown = Math.min(1, x.pics.length - 1); done(); };
+    im.src = small(x.pics[0]);
+  });
+}
+$('scan').onclick = async () => {
+  if (scanning) return;
+  const pool = items.filter(inCol);
+  if (pool.length > 1500 && !confirm(`Це перевірить ${pool.length} фото й займе кілька хвилин. Краще спершу обрати колекцію. Продовжити?`)) return;
+  scanning = true; scanned = true;
+  let next = 0, n = 0;
+  const worker = async () => { while (next < pool.length) { await probe(pool[next++]); n++; if (n % 25 === 0) $('status').textContent = `Перевіряю фото: ${n} із ${pool.length}`; } };
+  await Promise.all(Array.from({ length: 8 }, worker));
+  scanning = false; filters(); render();
+  $('status').textContent = `Перевірено ${pool.length} фото: не квадратних ${pool.filter(x => x.shape).length}, не відкрилось ${pool.filter(x => x.broken).length}.`;
+};
+
+colSelect(); filters(); render();
 </script>
 </body>
 </html>
