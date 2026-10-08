@@ -39,7 +39,8 @@
   function hasPage(D, col, sub) { return !(col >= 0 && sub >= 0) || !!(D.cols[col].sp && D.cols[col].sp[sub]); }
 
   function h1(D, sec, col, sub) {
-    if (col >= 0 && sub >= 0) return 'Дакімакури ' + D.cols[col].subs[sub] + ' (' + D.cols[col].t + ')';
+    /* у збірних колекціях підкатегорія це окремий тайтл або гурт, назва колекції поруч нічого не додає */
+    if (col >= 0 && sub >= 0) return 'Дакімакури ' + D.cols[col].subs[sub] + (/^(Тайтл|Гурт|Зірка|Гравець|Гонщик)$/.test(D.cols[col].sl) ? '' : ' (' + D.cols[col].t + ')');
     if (col >= 0) return D.cols[col].h;
     if (sec >= 0) return D.secs[sec].h;
     return HOME_H1;
@@ -80,7 +81,8 @@
     if (col >= 0) {
       var c = D.cols[col], list = [];
       (c.subs || []).forEach(function (t, i) { if (c.sp && c.sp[i]) list.push({ t: t, href: pathFor(D, -1, col, i) }); });
-      return { title: ({ 'Бренд': 'Усі бренди', 'Тайтл': 'Усі тайтли' }[c.sl] || 'Усі персонажі') + ': ' + c.t, list: list };
+      return { title: ({ 'Бренд': 'Усі бренди', 'Тайтл': 'Усі тайтли', 'Гурт': 'Усі гурти', 'Зірка': 'Усі зірки', 'Гравець': 'Усі гравці',
+        'Гонщик': 'Усі гонщики', 'Марка': 'Усі марки' }[c.sl] || 'Усі персонажі') + ': ' + c.t, list: list };
     }
     var cols = [];
     D.cols.forEach(function (c, i) { if (sec < 0 || c.s === sec) cols.push({ t: c.t, href: pathFor(D, -1, i, -1) }); });
@@ -98,38 +100,47 @@
     statsFor = D; statsVal = { nCol: nCol, uCol: uCol, nSec: nSec };
     return statsVal;
   }
+  var MISC = /^(anime2|games2|movies2|misc|kpop)$/;
+  var TREE_LIMIT = 24;
   function popular(D) {
     var st = stats(D);
     return D.cols.map(function (_, i) { return i; })
-      .filter(function (i) { return st.nCol[i] && !/^(anime2|games2|movies2|misc)$/.test(D.cols[i].k); })
+      .filter(function (i) { return st.nCol[i] && !MISC.test(D.cols[i].k); })
       .sort(function (a, b) { return st.uCol[b] - st.uCol[a]; }).slice(0, 10);
   }
-  function tree(D, sec, col) {
-    var st = stats(D);
+  /* opts.all: показати всі колекції розділу; opts.compact: решту за межами перших TREE_LIMIT у HTML не класти
+     (так роблять статичні сторінки персонажів, скрипт потім домальовує повне дерево) */
+  function tree(D, sec, col, opts) {
+    var st = stats(D); opts = opts || {};
     if (col >= 0) sec = D.cols[col].s;
     function row(cls, href, attr, t, n, on) {
       return '<a class="' + cls + '" href="' + href + '" ' + attr + (on ? ' aria-current="true"' : '') + '><span>' + esc(t) + '</span><span class="n">' + n + '</span></a>';
     }
-    function colList(ids) {
-      return '<ul class="t-cols">' + ids.map(function (i) {
-        return '<li>' + row('t-col', pathFor(D, -1, i, -1), 'data-c="' + i + '"', D.cols[i].t, st.nCol[i], col === i) + '</li>';
-      }).join('') + '</ul>';
-    }
+    function li(i) { return '<li>' + row('t-col', pathFor(D, -1, i, -1), 'data-c="' + i + '"', D.cols[i].t, st.nCol[i], col === i) + '</li>'; }
     var out = row('t-row', BASE, 'data-s="-1"', 'Усі дизайни', D.items.length, sec < 0);
     D.secs.forEach(function (s, i) {
       if (!st.nSec[i]) return;
-      var open = sec === i, ids = [];
+      var open = sec === i, ids = [], list = '';
       if (open) {
         D.cols.forEach(function (c, k) { if (c.s === i && st.nCol[k]) ids.push(k); });
-        /* за продажами, а збірні колекції («Інше аніме», «Різне») завжди наприкінці */
-        var misc = function (k) { return /^(anime2|games2|movies2|misc)$/.test(D.cols[k].k) ? 1 : 0; };
-        ids.sort(function (a, b) { return misc(a) - misc(b) || st.uCol[b] - st.uCol[a]; });
+        /* за продажами, далі за кількістю дизайнів; збірні колекції («Інше аніме», «Різне») завжди наприкінці */
+        var misc = function (k) { return MISC.test(D.cols[k].k) ? 1 : 0; };
+        ids.sort(function (a, b) { return misc(a) - misc(b) || st.uCol[b] - st.uCol[a] || st.nCol[b] - st.nCol[a]; });
+        var head = ids, rest = [];
+        if (!opts.all && ids.length > TREE_LIMIT + 3) {
+          head = ids.slice(0, TREE_LIMIT); rest = ids.slice(TREE_LIMIT);
+          var last = ids[ids.length - 1];
+          if (misc(last)) { rest.pop(); head.push(last); }
+          if (col >= 0 && rest.indexOf(col) >= 0) { rest.splice(rest.indexOf(col), 1); head.splice(TREE_LIMIT, 0, col); }
+        }
+        list = '<ul class="t-cols">' + head.map(li).join('') + '</ul>';
+        if (rest.length) list += '<button class="t-more" type="button" data-more="1">Ще ' + rest.length + ' ' + plural(rest.length, 'колекція', 'колекції', 'колекцій') + '</button>' +
+          (opts.compact ? '' : '<ul class="t-cols t-extra" hidden>' + rest.map(li).join('') + '</ul>');
       }
       out += '<div class="t-sec' + (open ? ' open' : '') + '">' +
-        row('t-row', pathFor(D, i, -1, -1), 'data-s="' + i + '"', s.t, st.nSec[i], open && col < 0) +
-        (open && ids.length ? colList(ids) : '') + '</div>';
+        row('t-row', pathFor(D, i, -1, -1), 'data-s="' + i + '"', s.t, st.nSec[i], open && col < 0) + list + '</div>';
     });
-    if (sec < 0) out += '<div class="t-pop"><p class="t-lbl">Популярне</p>' + colList(popular(D)) + '</div>';
+    if (sec < 0) out += '<div class="t-pop"><p class="t-lbl">Популярне</p><ul class="t-cols">' + popular(D).map(li).join('') + '</ul></div>';
     return out;
   }
 
