@@ -152,7 +152,7 @@ D.cols.forEach((c, i) => {
 let nRedir = 0;
 for (const [from, to] of Object.entries(SRC.redirects || {})) {
   if (taken.has(from)) continue;
-  write(from, redirectPage(S.BASE + to + '/'), false); nRedir++;
+  write(from, redirectPage(S.BASE + (to ? to + '/' : '')), false); nRedir++;
 }
 const today = new Date().toISOString().slice(0, 10);
 fs.writeFileSync(path.join(OUT, 'sitemap.xml'),

@@ -144,6 +144,10 @@ def main():
         m = re.match(r'\s*(\d+)', line)
         if m: skip.add(m.group(1))
     exname = re.compile(T.EXCLUDE_NAME, re.I)
+    # попередня збірка: щоб колекції не зникали й не зʼявлялися через кілька прибраних дизайнів, а старі адреси перенаправлялися
+    prev_path = os.path.join(HERE, 'dakimakury-src.json')
+    PREV = json.load(open(prev_path)) if os.path.exists(prev_path) else {'cols': [], 'redirects': {}}
+    prev_titles = {c['t'] for c in PREV['cols'] if c['k'] not in LC}
 
     designs, generic = cluster(dk)
     designs = [v for v in designs if any(full(p) and p.get('Наявність') != '-' for p in v)]
@@ -252,7 +256,7 @@ def main():
     tkey = {}
     for t, n in tcount.most_common():
         sec = 'kpop' if t in set(T.BANDS) | set(T.BAND_ALIAS.values()) else sec_of(t)
-        if n >= 10:
+        if n >= 10 or (t in prev_titles and n >= 5):      # уже опублікована колекція лишається, доки в ній є хоча б 5 дизайнів
             p = slug(t); k = p
             while p in used: p += '-dakimakury'
             used.add(p); tkey[t] = k
@@ -385,13 +389,15 @@ def main():
                 if a in canon: continue
                 for b in ks[i + 1:]:
                     if b not in canon and near(a, b): canon[b] = a
-        disp = {}
+        disp = {}; pc = next((x for x in PREV['cols'] if x['t'] == c['t']), None)
+        pv = {skey(n): (n, sl) for n, sl in zip(pc.get('subs') or [], pc.get('sp') or [])} if pc else {}
         for a in ks:
             root = canon.get(a, a); grp[root].update(grp[a]) if root != a else None
         for a in ks:
             if a in canon: continue
             leg_name = next((s for s in lsubs if skey(merge.get(s, s)) == a), None)
-            disp[a] = merge.get(leg_name, leg_name) if leg_name else grp[a].most_common(1)[0][0]
+            # написання й адреса з попередньої збірки лишаються, навіть якщо після чистки частіше трапляється інше написання
+            disp[a] = merge.get(leg_name, leg_name) if leg_name else pv.get(a, (None,))[0] or grp[a].most_common(1)[0][0]
         cnt = C()
         for r in rs:
             if r['sub']:
@@ -400,7 +406,7 @@ def main():
         order = list(dict.fromkeys(order)) + [s for s, n in cnt.most_common() if n >= 2 and s not in order and s not in {merge.get(x, x) for x in lsubs}]
         usedp = set(); sp = []
         for s in order:
-            p = next((lsp[x] for x in lsubs if merge.get(x, x) == s and lsp.get(x)), '') or slug(s) or 'p'
+            p = next((lsp[x] for x in lsubs if merge.get(x, x) == s and lsp.get(x)), '') or pv.get(skey(s), (None, ''))[1] or slug(s) or 'p'
             while p in usedp: p += '-2'
             usedp.add(p); sp.append(p)
         idx = {s: i for i, s in enumerate(order)}
@@ -437,6 +443,25 @@ def main():
             redirects[old] = c['p'] + ('/' + c['sp'][sk_] if sk_ >= 0 and (k == 'kpop' or k not in CATCHALL) else '')
         else: redirects[old] = LC[k]['p']
     cols = [c for c in cols if bycol.get(c['k'])]
+    # сторінки попередньої збірки, яких тепер немає
+    now = {c['p'] for c in cols} | {'%s/%s' % (c['p'], x) for c in cols for x in c['sp'] if x}
+    nowcol = {c['t']: c for c in cols}; secp = {s['k']: s['p'] for s in L['secs']}
+    for old, to in (PREV.get('redirects') or {}).items(): redirects.setdefault(old, to)
+    for pc in PREV['cols']:
+        home = nowcol.get(pc['t'])
+        if pc['p'] not in now:                       # колекція стала підкатегорією збірної або зникла
+            to = secp.get(pc['s'], '')
+            catch = byk.get(SEC_CATCH.get(pc['s'], ''))
+            if catch and catch in cols:
+                to = catch['p'] + ('/' + catch['sp'][catch['subs'].index(pc['t'])] if pc['t'] in catch['subs'] else '')
+            redirects[pc['p']] = to
+        for x in pc.get('sp') or []:
+            if x and '%s/%s' % (pc['p'], x) not in now:
+                redirects['%s/%s' % (pc['p'], x)] = home['p'] if home and home['p'] in now else redirects.get(pc['p'], secp.get(pc['s'], ''))
+    redirects = {a: b for a, b in redirects.items() if a not in now}
+    for a in list(redirects):                        # ланцюжки: стара адреса одразу веде на живу сторінку
+        seen = set()
+        while redirects[a] in redirects and redirects[a] not in seen: seen.add(redirects[a]); redirects[a] = redirects[redirects[a]]
     for c in L['cols']:
         if c['k'] not in {x['k'] for x in cols}: redirects[c['p']] = L['secs'][c['s']]['p']
     live = {c['k'] for c in cols}
