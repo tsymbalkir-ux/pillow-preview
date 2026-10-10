@@ -102,7 +102,7 @@ const state = {
   shown: 48,        // стільки ж карток уже є в статичному HTML, тому сторінка не «стрибає» після завантаження скрипта
   sub: -1,          // підкатегорія в межах колекції: -1 усі, -2 «Інші»
   subsOpen: false,
-  treeAll: false,   // у дереві розкрито всі колекції розділу
+  treeShut: false,  // список колекцій відкритого розділу згорнуто другим натиском на назву розділу
 };
 if (state.col >= 0) {
   state.sec = COLS[state.col].s;
@@ -192,18 +192,20 @@ function plainClick(e){ return !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKe
 /* Дерево каталогу: на комп'ютері це ліва колонка, на телефоні панель, що виїжджає зліва. */
 function renderTree(){
   const el = $('tree');
-  el.innerHTML = S.tree(D, state.sec, state.col, { all: state.treeAll });
-  const moreCols = el.querySelector('.t-more');
-  if (moreCols) moreCols.onclick = () => { state.treeAll = true; renderTree(); };
+  el.innerHTML = S.tree(D, state.sec, state.col, { shut: state.treeShut });
   el.querySelectorAll('a').forEach(a => a.onclick = e => {
     if (!plainClick(e)) return;
     e.preventDefault();
     const isCol = a.dataset.c != null;
     if (isCol) {
       const i = +a.dataset.c;
-      state.col = state.col === i ? -1 : i;
+      state.col = state.col === i ? -1 : i; state.treeShut = false;
       state.sec = COLS[i].s;
-    } else { if (state.sec !== +a.dataset.s) state.treeAll = false; state.sec = +a.dataset.s; state.col = -1; }
+    } else {
+      /* другий натиск на назву вже відкритого розділу згортає або розгортає його колекції, сторінка лишається та сама */
+      if (state.sec === +a.dataset.s && state.col < 0 && state.sec >= 0) { state.treeShut = !state.treeShut; renderTree(); return; }
+      state.treeShut = false; state.sec = +a.dataset.s; state.col = -1;
+    }
     state.sub = -1; state.subsOpen = false; state.q = ''; state.shown = PAGE; $('search').value = '';
     renderAll();
     /* розділ лишає панель відкритою, щоб одразу обрати колекцію; колекція або «Усі» закривають її */
