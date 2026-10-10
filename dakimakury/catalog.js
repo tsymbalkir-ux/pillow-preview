@@ -59,13 +59,15 @@ const SECS = D.secs || [];
 /* Оригінали принтів (пласкі файли для друку) лежать на i.ibb.co. Якщо вони є:
    1) стають останніми фото в галереї; 2) з них будується 3D. Без оригіналів кнопки 3D немає. */
 const ORIG_HOST = 'https://i.ibb.co/';
+/* дизайни, у яких перше фото показуємо цілим: на ньому дві подушки поруч на білому тлі */
+const WHOLE = new Set((D.whole || []).map(String));
 const ITEMS = D.items.map(([id, c, name, ru, pics, sold, sub, k, o, og]) => {
   /* фото: або список «номер_назва», або один рядок «номер,номер,…|назва», якщо назва у всіх фото та сама */
   if (typeof pics === 'string') { const [nums, tail] = pics.split('|'); pics = nums.split(',').map(n => n + '_' + tail); }
   const prom = pics.map(p => /^https?:/.test(p) ? p : `https://images.prom.ua/${p}.jpg`);
   const orig = (o || []).map(p => /^https?:/.test(p) ? p : ORIG_HOST + p);
   return {
-  id: String(id), c, name, sold: sold || 0, sub: sub || COLS[c].t, k: k == null ? -1 : k,
+  id: String(id), whole: WHOLE.has(String(id)), c, name, sold: sold || 0, sub: sub || COLS[c].t, k: k == null ? -1 : k,
   orig, nProm: prom.length,
   pics: prom.concat(orig.slice(0, og || 1)),
   hay: norm(`${name} ${ru} ${sub || ''} ${COLS[c].t} ${COL_ALIAS[COLS[c].k] || ''}`),
@@ -284,13 +286,13 @@ function renderGrid(){
   el.innerHTML = own + part.map((it, idx) => {
     const n = it.pics.length;
     return `<article class="card" data-id="${it.id}">
-      <div class="pic">
+      <div class="pic${it.whole ? ' whole' : ''}">
         ${it.sold >= 3 ? `<span class="hit">Купили ${times(it.sold)}</span>` : ''}
         ${it.orig.length ? '<button class="b3d" type="button" aria-label="Покрутити в 3D">3D</button>' : ''}
         <span class="ph">${esc(it.name.replace(/[^\p{L} ]/gu, '').trim().split(/\s+/).slice(0, 2).map(w => w[0] || '').join(''))}</span>
         <div class="track" aria-label="${esc(it.name)}: фото, гортай">
           ${it.pics.map((p, i) => i === 0
-            ? `<img src="${sized(p, 640, 640)}" data-full="${p}" alt="Дакімакура ${esc(it.name)}" loading="${idx < 4 ? 'eager' : 'lazy'}" fetchpriority="${idx < 2 ? 'high' : 'auto'}" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)">`
+            ? `<img ${it.whole ? 'class="whole" ' : ''}src="${sized(p, 640, 640)}" data-full="${p}" alt="Дакімакура ${esc(it.name)}" loading="${idx < 4 ? 'eager' : 'lazy'}" fetchpriority="${idx < 2 ? 'high' : 'auto'}" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)">`
             : `<img ${i >= it.nProm ? 'class="orig" ' : ''}data-src="${sized(p, 640, 640)}" data-full="${p}" alt="Дакімакура ${esc(it.name)}, ${i >= it.nProm ? 'принт' : 'фото ' + (i + 1)}" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)">`).join('')}
         </div>
         ${n > 1 ? `<button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button>
