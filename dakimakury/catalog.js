@@ -344,6 +344,22 @@ function setupCard(card){
   const b3 = card.querySelector('.b3d'); if (b3) b3.onclick = () => open3D(id);
 }
 
+/* Поки відкрите вікно товару чи 3D, сторінка під ним не гортається. На iPhone самого overflow:hidden замало:
+   Safari все одно гортає сторінку під вікном, тому сторінку «прибиваємо» на місці й повертаємо прокрутку після закриття. */
+let lockedAt = null;
+function lockPage(on){
+  const b = document.body;
+  if (on && lockedAt === null) {
+    lockedAt = scrollY;
+    b.style.position = 'fixed'; b.style.top = -lockedAt + 'px'; b.style.left = '0'; b.style.right = '0';
+  } else if (!on && lockedAt !== null) {
+    b.style.position = ''; b.style.top = ''; b.style.left = ''; b.style.right = '';
+    const y = lockedAt; lockedAt = null;
+    scrollTo(0, y);
+  }
+}
+['dlg', 'v3d'].forEach(id => $(id).addEventListener('close', () => { if (!$('dlg').open && !$('v3d').open) lockPage(false); }));
+
 /* ---------- вікно товару: фото, розмір, форма ---------- */
 const orderId = () => {
   const d = new Date(), p = n => String(n).padStart(2, '0');
@@ -367,7 +383,7 @@ function openItem(id, start = 0, toForm = false){
       <button class="close" type="button">Закрити ✕</button>
       <div><h2>${esc(it.name)}</h2><p class="spec">${esc(it.sub)}. Габардин, сублімаційний друк, прихована блискавка, холофайбер.</p></div>
       <fieldset class="pick" id="pick"><legend>Розмір</legend>
-        ${SIZES.map(s => `<button type="button" data-l="${s.len}" aria-pressed="${s === state.size}"><b>${s.label} см</b><span>${fmt(s.price)}</span></button>`).join('')}
+        <div class="pick-grid">${SIZES.map(s => `<button type="button" data-l="${s.len}" aria-pressed="${s === state.size}"><b>${s.label} см</b><span>${fmt(s.price)}</span></button>`).join('')}</div>
       </fieldset>
       <form class="form" id="order" novalidate>
         <label for="fname">Куди доставити</label>
@@ -453,6 +469,7 @@ function openItem(id, start = 0, toForm = false){
     }
   };
 
+  lockPage(true);
   d.showModal();
   track('view_item', { ecommerce: { currency: 'UAH', value: state.size.price, items: [gaItem(it)] } },
     'ViewContent', { content_ids: [it.id], content_type: 'product', value: state.size.price, currency: 'UAH' });
@@ -576,6 +593,7 @@ async function open3D(id){
   const load = $('v3dLoad');
   load.hidden = false; load.textContent = 'Готуємо модель…';
   if (v3d) v3d.renderer.domElement.style.visibility = 'hidden';
+  lockPage(true);
   d.showModal();
   track('open_3d', { item_id: it.id, size: state.size.v });
   try {
