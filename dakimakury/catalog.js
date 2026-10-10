@@ -162,10 +162,93 @@ function matcher(q){
   if (!words.length) return () => true;
   return hay => words.every(w => hay.includes(w) || (w.length > 5 && hay.includes(w.slice(0, -1))));
 }
+/* --- якщо точного збігу немає: чужа розкладка, інша абетка, схоже написання --- */
+const LAY_EN = "qwertyuiop[]asdfghjkl;'zxcvbnm,.`", LAY_UK = "йцукенгшщзхїфівапролджєячсмитьбю'";
+const swapLayout = (s, from, to) => [...s].map(ch => { const i = from.indexOf(ch); return i < 0 ? ch : to[i]; }).join('');
+const LAT2CYR = [['shch','щ'],['sch','щ'],['zh','ж'],['kh','х'],['ts','ц'],['ch','ч'],['sh','ш'],['ya','я'],['yu','ю'],['yo','йо'],['ye','є'],['ju','ю'],['ja','я'],
+  ['a','а'],['b','б'],['v','в'],['g','г'],['d','д'],['e','е'],['z','з'],['i','і'],['j','дж'],['k','к'],['l','л'],['m','м'],['n','н'],['o','о'],['p','п'],['r','р'],['s','с'],
+  ['t','т'],['u','у'],['f','ф'],['h','х'],['c','к'],['y','и'],['w','в'],['q','к'],['x','кс']];
+const CYR2LAT = { а:'a',б:'b',в:'v',г:'g',ґ:'g',д:'d',е:'e',є:'e',ё:'e',э:'e',ж:'zh',з:'z',и:'i',і:'i',ї:'i',й:'y',ы:'y',к:'k',л:'l',м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',
+  у:'u',ф:'f',х:'h',ц:'ts',ч:'ch',ш:'sh',щ:'sch',ь:'',ъ:'',ю:'yu',я:'ya' };
+const toCyr = s => { let out = ''; for (let i = 0; i < s.length;) { const m = LAT2CYR.find(([l]) => s.startsWith(l, i)); if (m) { out += m[1]; i += m[0].length; } else out += s[i++]; } return out; };
+const toLat = s => [...s].map(ch => (ch in CYR2LAT ? CYR2LAT[ch] : ch)).join('');
+/* «звучання» слова: різні букви для одного звуку зводимо до однієї, мʼякі знаки й подвоєння прибираємо */
+const sound = w => w.replace(/[іїйыи]/g, 'и').replace(/[єэё]/g, 'е').replace(/ґ/g, 'г').replace(/[ьъ'’ʼ-]/g, '').replace(/(.)\1+/g, '$1');
+const VOWEL = /[аеиоуюяaeiouy]/;
+/* відстань між словами: голосна замість голосної або зайва голосна коштує пів кроку, решта помилок цілий */
+function wordGap(a, b, max){
+  if (Math.abs(a.length - b.length) > max * 2) return 99;
+  let prev = Array.from({ length: b.length + 1 }, (_, j) => (j ? prev_cost(b, j) : 0));
+  function prev_cost(str, j){ let c = 0; for (let k = 0; k < j; k++) c += VOWEL.test(str[k]) ? 0.5 : 1; return c; }
+  for (let i = 1; i <= a.length; i++) {
+    const va = VOWEL.test(a[i - 1]), cur = [prev[0] + (va ? 0.5 : 1)];
+    let best = cur[0];
+    for (let j = 1; j <= b.length; j++) {
+      const vb = VOWEL.test(b[j - 1]);
+      const sub = a[i - 1] === b[j - 1] ? 0 : va && vb ? 0.5 : 1;
+      cur[j] = Math.min(prev[j - 1] + sub, prev[j] + (va ? 0.5 : 1), cur[j - 1] + (vb ? 0.5 : 1));
+      if (cur[j] < best) best = cur[j];
+    }
+    if (best > max) return 99;
+    prev = cur;
+  }
+  return prev[b.length];
+}
+let VOCAB = null;      // усі слова каталогу: [слово, його «звучання»]
+function vocab(){
+  if (VOCAB) return VOCAB;
+  const seen = new Set();
+  ITEMS.forEach(it => it.hay.split(/[^0-9a-zа-яіїєґ'’ʼ-]+/).forEach(w => { if (w.length >= 3) seen.add(w); }));
+  VOCAB = [...seen].map(w => [w, sound(w)]);
+  return VOCAB;
+}
+/* слова каталогу, найближчі за звучанням до слова із запиту */
+function nearWords(word){
+  const s = sound(word);
+  if (s.length < 4) return [];
+  const max = s.length <= 5 ? 1 : s.length <= 7 ? 1.5 : 2;
+  let found = [], best = 99;
+  for (const [w, sw] of vocab()) {
+    if (sw[0] !== s[0] && !(VOWEL.test(sw[0]) && VOWEL.test(s[0]))) continue;      // перша приголосна має збігатися, інакше збігів забагато
+    const d = sw === s ? 0 : wordGap(s, sw, max);
+    if (d > max) continue;
+    if (d < best) best = d;
+    found.push([w, d]);
+  }
+  return found.filter(f => f[1] <= best + 0.5).map(f => f[0]);
+}
+function fuzzyMatcher(q){
+  const words = norm(q).split(' ').filter(w => !NOISE.test(w));
+  if (!words.length) return null;
+  const sets = words.map(w => nearWords(w));
+  if (sets.some(x => !x.length)) return null;
+  return hay => sets.every(x => x.some(w => hay.includes(w)));
+}
+/* кроки пошуку від точного до приблизного: беремо перший, що щось знайшов */
+function* searchSteps(q){
+  const n = norm(q);
+  yield [matcher(n), ''];
+  const hasLat = /[a-z]/.test(n), hasCyr = /[а-яіїєґ]/.test(n);
+  const other = hasLat && !hasCyr ? norm(swapLayout(n, LAY_EN, LAY_UK)) : hasCyr && !hasLat ? norm(swapLayout(n, LAY_UK, LAY_EN)) : '';
+  if (other && other !== n) yield [matcher(other), 'layout'];
+  const abc = hasLat && !hasCyr ? toCyr(n) : hasCyr && !hasLat ? toLat(n) : '';
+  if (abc && abc !== n) yield [matcher(abc), 'abc'];
+  const f1 = fuzzyMatcher(n); if (f1) yield [f1, 'near'];
+  if (abc && abc !== n) { const f2 = fuzzyMatcher(abc); if (f2) yield [f2, 'near']; }
+  if (other && other !== n) { const f3 = fuzzyMatcher(other); if (f3) yield [f3, 'near']; }
+}
+let lastSearch = { key: '', list: [], how: '' };
 function currentList(){
-  const m = matcher(state.q);
-  return ITEMS.filter(it => (state.col >= 0 ? it.c === state.col : state.sec < 0 || COLS[it.c].s === state.sec)
-    && (state.sub === -1 || state.col < 0 || (state.sub === -2 ? it.k < 0 : it.k === state.sub)) && m(it.hay));
+  const scope = ITEMS.filter(it => (state.col >= 0 ? it.c === state.col : state.sec < 0 || COLS[it.c].s === state.sec)
+    && (state.sub === -1 || state.col < 0 || (state.sub === -2 ? it.k < 0 : it.k === state.sub)));
+  state.how = '';
+  if (!norm(state.q)) return scope;
+  const key = [state.q, state.sec, state.col, state.sub].join('|');
+  if (lastSearch.key === key) { state.how = lastSearch.how; return lastSearch.list; }
+  let list = [], how = '';
+  for (const [m, h] of searchSteps(state.q)) { list = scope.filter(it => m(it.hay)); if (list.length) { how = h; break; } }
+  lastSearch = { key, list, how }; state.how = how;
+  return list;
 }
 
 /* ---------- заголовок і хлібні крихти ---------- */
@@ -271,7 +354,8 @@ let listToken = '';
 function renderGrid(){
   const list = currentList(), el = $('grid');
   $('count').textContent = list.length
-    ? (state.q ? `За запитом «${state.q}»: ${list.length}` : `Дизайнів: ${list.length}`)
+    ? (state.q ? (state.how === 'near' ? `Точного збігу з «${state.q}» немає, показуємо схожі: ${list.length}`
+        : state.how ? `За запитом «${state.q}» (виправлено розкладку або абетку): ${list.length}` : `За запитом «${state.q}»: ${list.length}`) : `Дизайнів: ${list.length}`)
     : '';
   $('sideShow').textContent = list.length ? 'Показати ' + S.designs(list.length) : 'Закрити';
   if (!list.length) {
@@ -293,7 +377,7 @@ function renderGrid(){
     return `<article class="card" data-id="${it.id}">
       <div class="pic${it.whole ? ' whole' : it.pair ? ' pair' : ''}">
         ${it.sold >= 3 ? `<span class="hit">Купили ${times(it.sold)}</span>` : ''}
-        ${it.orig.length ? '<button class="b3d" type="button" aria-label="Покрутити в 3D">3D</button>' : ''}
+        ${it.orig.length ? '<span class="b3d" title="Є 3D-перегляд">3D</span>' : ''}
         <span class="ph">${esc(it.name.replace(/[^\p{L} ]/gu, '').trim().split(/\s+/).slice(0, 2).map(w => w[0] || '').join(''))}</span>
         <div class="track" aria-label="${esc(it.name)}: фото, гортай">
           ${it.pics.map((p, i) => i === 0
@@ -341,7 +425,6 @@ function setupCard(card){
   card.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') loadSlide(imgs[1]); });
   if (prev) { prev.onclick = () => { loadSlide(imgs[cur - 1]); go(cur - 1); }; next.onclick = () => { loadSlide(imgs[cur + 1]); go(cur + 1); }; }
   card.querySelector('.meta').onclick = () => openItem(id, cur);
-  const b3 = card.querySelector('.b3d'); if (b3) b3.onclick = () => open3D(id);
 }
 
 /* Поки відкрите вікно товару чи 3D, сторінка під ним не гортається. На iPhone самого overflow:hidden замало:
@@ -380,7 +463,7 @@ function openItem(id, start = 0, toForm = false){
   d.innerHTML = `<div class="dlg">
     <div class="gal"><div class="shots">${it.pics.map((p, i) => `<img src="${isPhone() ? sized(p, 640, 640) : p}" data-full="${p}" alt="Дакімакура ${esc(it.name)}, ${i >= it.nProm ? 'принт' : 'фото ' + (i + 1)}" referrerpolicy="no-referrer" loading="${i < 2 ? 'eager' : 'lazy'}" decoding="async" onerror="imgFallback(this)">`).join('')}</div><button class="g-arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="g-arrow next" type="button" aria-label="Наступне фото">›</button></div>
     <div class="info">
-      <button class="close" type="button">Закрити ✕</button>
+      <div class="info-top">${it.orig.length ? `<button class="open3d" type="button" id="dlg3d"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 7.5v9L12 21l8-4.5v-9L12 3Z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></svg>Показати в 3D</button>` : '<span></span>'}<button class="close" type="button">Закрити ✕</button></div>
       <div><h2>${esc(it.name)}</h2><p class="spec">${esc(it.sub)}. Габардин, сублімаційний друк, прихована блискавка, холофайбер.</p></div>
       <fieldset class="pick" id="pick"><legend>Розмір</legend>
         <div class="pick-grid">${SIZES.map(s => `<button type="button" data-l="${s.len}" aria-pressed="${s === state.size}"><b>${s.label} см</b><span>${fmt(s.price)}</span></button>`).join('')}</div>
@@ -400,7 +483,6 @@ function openItem(id, start = 0, toForm = false){
         <p class="note" id="orderNote" role="status"></p>
       </form>
       <p class="terms"><b>Оплата при отриманні.</b> Передзвонимо, щоб підтвердити дизайн і відділення.${ship ? ` При замовленні сьогодні відправимо <b>${esc(ship)}</b>.` : ''}</p>
-      ${it.orig.length ? `<button class="open3d" type="button" id="dlg3d"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 7.5v9L12 21l8-4.5v-9L12 3Z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></svg>Покрутити в 3D</button>` : ''}
     </div></div>`;
 
   const q = sel => d.querySelector(sel);
@@ -593,21 +675,15 @@ async function sidesFor(it){
   printCache.set(it.id, r);
   return r;
 }
-const markSide = id => [...$('v3dSides').children].forEach(b => b.setAttribute('aria-pressed', b.dataset.side === id));
-function renderSizes3d(){
-  v3dSize = state.size;
-  $('v3dSizes').innerHTML = SIZES.map(s => `<button type="button" data-l="${s.len}" aria-pressed="${s === v3dSize}">${s.label} см</button>`).join('');
-  $('v3dSizes').querySelectorAll('button').forEach(b => b.onclick = () => {
-    setSize(sizeBy(+b.dataset.l), '3d'); renderSizes3d(); v3d?.setSize(v3dSize);
-  });
-}
+/* розмір у 3D той самий, що обрано у вікні товару; окремих кнопок розміру й сторони у 3D-вікні немає */
+const LOAD_3D = '<span class="spin" aria-hidden="true"></span><b>Завантажуємо 3D-модель</b><span>Це не збій: модель важка, перший запуск триває до пів хвилини. Зачекай, будь ласка.</span>';
 async function open3D(id){
   const it = ITEMS.find(i => i.id === id), d = $('v3d'), token = ++v3dToken;
   $('v3dTitle').textContent = it.name;
   $('v3dSub').textContent = it.sub;
-  renderSizes3d(); markSide('A');
+  v3dSize = state.size;
   const load = $('v3dLoad');
-  load.hidden = false; load.textContent = 'Готуємо модель…';
+  load.hidden = false; load.innerHTML = LOAD_3D;
   if (v3d) v3d.renderer.domElement.style.visibility = 'hidden';
   lockPage(true);
   d.showModal();
@@ -622,7 +698,6 @@ async function open3D(id){
     $('v3dSub').textContent = it.sub + (s.twoSided ? ' · двосторонній принт' : ' · принт однаковий з обох боків');
     if (!v3d) {
       v3d = new D3({ host: $('v3dStage'), sides: { A: s.A, B: s.B }, size: v3dSize, mobile: MM.isMobile() });
-      v3d.onTurn = markSide;
       await v3d.init();
     } else {
       v3d.sides = { A: s.A, B: s.B };
@@ -634,11 +709,10 @@ async function open3D(id){
   } catch (err) {
     if (token !== v3dToken) return;
     load.hidden = false;
-    load.textContent = 'Не вдалося завантажити принт для 3D. Гортай фото в картці, щоб роздивитися дизайн.';
+    load.textContent = 'Не вдалося завантажити принт для 3D. Закрий це вікно й гортай фото в картці, щоб роздивитися дизайн.';
     console.error('3D:', err);
   }
 }
-[...$('v3dSides').children].forEach(b => b.onclick = () => { markSide(b.dataset.side); v3d?.show(b.dataset.side); });
 $('v3dClose').onclick = () => $('v3d').close();
 $('v3d').addEventListener('click', e => { if (e.target === $('v3d')) $('v3d').close(); });
 $('v3d').addEventListener('close', () => v3d?.stop());
