@@ -121,10 +121,17 @@ footer div{width:100%}
 /* ---------- вікно товару із замовленням ---------- */
 dialog{overscroll-behavior:contain;border:0;padding:0;max-width:min(1020px,94vw);width:100%;border-radius:24px;background:var(--surface);color:var(--ink)}
 dialog::backdrop{background:rgba(15,12,35,.7)}
-.dlg{display:grid;grid-template-columns:1fr 380px;max-height:90vh}
-.shots{display:flex;gap:10px;overflow-x:auto;padding:16px;scroll-snap-type:x mandatory;background:var(--paper);align-items:center}
-.shots img{height:min(74vh,660px);width:auto;border-radius:14px;scroll-snap-align:start;flex:none}
-.info{padding:20px 22px 22px;display:flex;flex-direction:column;gap:14px;overflow:auto}
+/* вікно має сталу висоту: фото вписуються в неї цілком, форма праворуч гортається окремо, тож смуга прокрутки фото завжди на видноті */
+.dlg{display:grid;grid-template-columns:minmax(0,1fr) 380px;grid-template-rows:minmax(0,1fr);height:min(90vh,780px)}
+.gal{position:relative;min-width:0;min-height:0;background:var(--paper)}
+.shots{display:flex;gap:10px;height:100%;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;padding:16px;scroll-snap-type:x proximity;scroll-padding-left:16px;scrollbar-width:thin;align-items:center}
+.shots img{height:100%;width:auto;max-width:none;border-radius:14px;scroll-snap-align:start;flex:none}
+.g-arrow{all:unset;box-sizing:border-box;position:absolute;top:50%;margin-top:-22px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.94);color:#1F1A3D;display:grid;place-items:center;font-size:24px;line-height:1;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+.g-arrow.prev{left:12px}.g-arrow.next{right:12px}
+.g-arrow:hover{background:#fff}
+.g-arrow:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.g-arrow[disabled]{display:none}
+.info{padding:20px 22px 22px;display:flex;flex-direction:column;gap:14px;overflow:auto;min-height:0}
 .info h2{font:700 21px/1.2 var(--display);margin:0;overflow-wrap:anywhere}
 .info .spec{font-size:14px;color:var(--muted);margin:0}
 .close{all:unset;cursor:pointer;align-self:flex-end;font-size:14px;color:var(--muted);padding:4px 8px;margin:-6px -8px -8px 0}
@@ -193,8 +200,10 @@ dialog.v3d{max-width:min(760px,94vw);height:min(88vh,860px);border-radius:24px}
   .t-row{padding:12px;font-size:16px}
   .t-col{padding:10px 12px;font-size:15px}
   .side-foot{display:block;padding:10px 4px calc(env(safe-area-inset-bottom,0px) + 12px);border-top:1px solid var(--line)}
-  .dlg{grid-template-columns:1fr;max-height:none}
+  .dlg{grid-template-columns:minmax(0,1fr);grid-template-rows:none;height:auto}
+  .shots{height:auto}
   .shots img{height:46vh}
+  .g-arrow{display:none}
   .works{gap:8px}
   .works img{border-radius:12px}
 }

@@ -378,7 +378,7 @@ function openItem(id, start = 0, toForm = false){
   if (!it) return;
   const ship = (window.SHIP_DATE || '').trim();
   d.innerHTML = `<div class="dlg">
-    <div class="shots">${it.pics.map((p, i) => `<img src="${isPhone() ? sized(p, 640, 640) : p}" data-full="${p}" alt="Дакімакура ${esc(it.name)}, ${i >= it.nProm ? 'принт' : 'фото ' + (i + 1)}" referrerpolicy="no-referrer" loading="${i < 2 ? 'eager' : 'lazy'}" decoding="async" onerror="imgFallback(this)">`).join('')}</div>
+    <div class="gal"><div class="shots">${it.pics.map((p, i) => `<img src="${isPhone() ? sized(p, 640, 640) : p}" data-full="${p}" alt="Дакімакура ${esc(it.name)}, ${i >= it.nProm ? 'принт' : 'фото ' + (i + 1)}" referrerpolicy="no-referrer" loading="${i < 2 ? 'eager' : 'lazy'}" decoding="async" onerror="imgFallback(this)">`).join('')}</div><button class="g-arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="g-arrow next" type="button" aria-label="Наступне фото">›</button></div>
     <div class="info">
       <button class="close" type="button">Закрити ✕</button>
       <div><h2>${esc(it.name)}</h2><p class="spec">${esc(it.sub)}. Габардин, сублімаційний друк, прихована блискавка, холофайбер.</p></div>
@@ -474,7 +474,23 @@ function openItem(id, start = 0, toForm = false){
   track('view_item', { ecommerce: { currency: 'UAH', value: state.size.price, items: [gaItem(it)] } },
     'ViewContent', { content_ids: [it.id], content_type: 'product', value: state.size.price, currency: 'UAH' });
   const shots = d.querySelector('.shots'), target = shots.children[start];
-  if (target) shots.scrollLeft = target.offsetLeft - shots.offsetLeft;
+  if (target) shots.scrollLeft = target.offsetLeft - shots.children[0].offsetLeft;
+  /* стрілки галереї: гортають на одне фото, тож смугу прокрутки шукати не треба */
+  const gPrev = q('.g-arrow.prev'), gNext = q('.g-arrow.next'), pics = [...shots.children];
+  const gState = () => {
+    gPrev.disabled = shots.scrollLeft < 8;
+    gNext.disabled = shots.scrollLeft + shots.clientWidth > shots.scrollWidth - 8;
+  };
+  const gGo = dir => {
+    const x = shots.scrollLeft + pics[0].offsetLeft;
+    const at = pics.findIndex(p => p.offsetLeft >= x - 4), cur = at < 0 ? pics.length - 1 : at;
+    const to = pics[Math.max(0, Math.min(pics.length - 1, cur + dir))];
+    shots.scrollTo({ left: to.offsetLeft - pics[0].offsetLeft, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  };
+  gPrev.onclick = () => gGo(-1); gNext.onclick = () => gGo(1);
+  shots.addEventListener('scroll', gState, { passive: true });
+  pics.forEach(p => p.addEventListener('load', gState));
+  gState();
   if (toForm) {
     if (isPhone()) q('#pick').scrollIntoView({ block: 'start' });
     else q('#fname').focus({ preventScroll: true });
