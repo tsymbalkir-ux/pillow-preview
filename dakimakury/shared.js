@@ -101,15 +101,16 @@
     return statsVal;
   }
   var MISC = /^(anime2|games2|movies2|misc|kpop)$/;
-  var TREE_LIMIT = 24;
   function popular(D) {
     var st = stats(D);
     return D.cols.map(function (_, i) { return i; })
       .filter(function (i) { return st.nCol[i] && !MISC.test(D.cols[i].k); })
       .sort(function (a, b) { return st.uCol[b] - st.uCol[a]; }).slice(0, 10);
   }
-  /* opts.all: показати всі колекції розділу; opts.compact: решту за межами перших TREE_LIMIT у HTML не класти
-     (так роблять статичні сторінки персонажів, скрипт потім домальовує повне дерево) */
+  /* Колекції розділу: спершу збірна («Інше аніме»), далі всі за абеткою.
+     opts.shut: розділ згорнуто (другий натиск на його назву), список колекцій не показуємо.
+     opts.compact: у HTML кладемо лише поточну колекцію; так роблять статичні сторінки персонажів, щоб не носити
+     в кожній сотню посилань, а скрипт після завантаження домальовує повний список. */
   function tree(D, sec, col, opts) {
     var st = stats(D); opts = opts || {};
     if (col >= 0) sec = D.cols[col].s;
@@ -120,25 +121,16 @@
     var out = row('t-row', BASE, 'data-s="-1"', 'Усі дизайни', D.items.length, sec < 0);
     D.secs.forEach(function (s, i) {
       if (!st.nSec[i]) return;
-      var open = sec === i, ids = [], list = '';
-      if (open) {
+      var open = sec === i, shut = open && !!opts.shut, ids = [], list = '';
+      if (open && !shut) {
         D.cols.forEach(function (c, k) { if (c.s === i && st.nCol[k]) ids.push(k); });
-        /* за продажами, далі за кількістю дизайнів; збірні колекції («Інше аніме», «Різне») завжди наприкінці */
-        var misc = function (k) { return MISC.test(D.cols[k].k) ? 1 : 0; };
-        ids.sort(function (a, b) { return misc(a) - misc(b) || st.uCol[b] - st.uCol[a] || st.nCol[b] - st.nCol[a]; });
-        var head = ids, rest = [];
-        if (!opts.all && ids.length > TREE_LIMIT + 3) {
-          head = ids.slice(0, TREE_LIMIT); rest = ids.slice(TREE_LIMIT);
-          var last = ids[ids.length - 1];
-          if (misc(last)) { rest.pop(); head.push(last); }
-          if (col >= 0 && rest.indexOf(col) >= 0) { rest.splice(rest.indexOf(col), 1); head.splice(TREE_LIMIT, 0, col); }
-        }
-        list = '<ul class="t-cols">' + head.map(li).join('') + '</ul>';
-        if (rest.length) list += '<button class="t-more" type="button" data-more="1">Ще ' + rest.length + ' ' + plural(rest.length, 'колекція', 'колекції', 'колекцій') + '</button>' +
-          (opts.compact ? '' : '<ul class="t-cols t-extra" hidden>' + rest.map(li).join('') + '</ul>');
+        var misc = function (k) { return MISC.test(D.cols[k].k) ? 0 : 1; };
+        ids.sort(function (a, b) { return misc(a) - misc(b) || D.cols[a].t.localeCompare(D.cols[b].t, 'uk', { sensitivity: 'base', numeric: true }); });
+        if (opts.compact) ids = ids.filter(function (k) { return k === col; });
+        if (ids.length) list = '<ul class="t-cols">' + ids.map(li).join('') + '</ul>';
       }
-      out += '<div class="t-sec' + (open ? ' open' : '') + '">' +
-        row('t-row', pathFor(D, i, -1, -1), 'data-s="' + i + '"', s.t, st.nSec[i], open && col < 0) + list + '</div>';
+      out += '<div class="t-sec' + (open ? ' open' : '') + (shut ? ' shut' : '') + '">' +
+        row('t-row', pathFor(D, i, -1, -1), 'data-s="' + i + '"' + (open ? ' aria-expanded="' + !shut + '"' : ''), s.t, st.nSec[i], open && col < 0) + list + '</div>';
     });
     if (sec < 0) out += '<div class="t-pop"><p class="t-lbl">Популярне</p><ul class="t-cols">' + popular(D).map(li).join('') + '</ul></div>';
     return out;
