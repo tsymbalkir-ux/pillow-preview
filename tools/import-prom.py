@@ -111,7 +111,9 @@ SUB_LABEL = {'beer': 'Бренд', 'alcohol': 'Бренд', 'softdrinks': 'Бр�
              'kpop': 'Гурт', 'celebs': 'Зірка', 'music': 'Зірка', 'ukr': 'Зірка', 'football': 'Гравець', 'f1': 'Гонщик', 'avto': 'Марка'}
 MERGE_SUBS = {'genshin': {'Шеньхе': 'Шень Хе', 'Ганью': 'Гань Юй', 'Еола': 'Еула', 'Єлан': 'Є Лань'}}
 # виправлення за id товару: куди насправді належить дизайн
-FIX = {'2487336903': ('title', 'Honkai Impact 3rd'), '2688302281': ('col', 'twilight'), '2806433485': ('col', 'vocaloid')}
+FIX = {'2487336903': ('title', 'Honkai Impact 3rd'), '2688302281': ('col', 'twilight'), '2806433485': ('col', 'vocaloid'),
+       '1998128506': ('col', 'anime2'),      # Сульфус це «Друзі ангелів», а не серіал «Друзі»
+       '1998128521': ('col', 'vocaloid')}    # Кагаміне Рін
 DRINK = (r'^(пиво|горілка|настоянка|віскі|вино|бальзам|наливка|лікер|коньяк|ром|джин|текіла|бренді|шампанське|сидр|вермут|абсент|самогон|'
          r'соджу|тонік|напій(\s+(енергетичний|слабоалкогольний|алкогольний|соковмісний|безалкогольний|газований|сильногазований))*|чай холодний|'
          r'сильногазований напій|енергетик|енергетичний напій|вода(\s+мінеральна)?|сік|квас|лимонад|кола)(\s+(ігристе|біле|червоне|рожеве|сухе))*\b[,\s]*')
@@ -475,9 +477,14 @@ def main():
         m = re.match(r'\s*(\d+)', line)
         if m: whole.add(m.group(1))
     whole = sorted(i[0] for i in items if i[0] in whole)
-    out = dict(v=datetime.date.today().isoformat(), secs=L['secs'], cols=cols, items=items, redirects=redirects, whole=whole)
+    pair = set()
+    for line in open(os.path.join(HERE, 'dakimakury-pair.txt')):
+        m = re.match(r'\s*(\d+)', line)
+        if m: pair.add(m.group(1))
+    pair = sorted(i[0] for i in items if i[0] in pair and i[0] not in whole)
+    out = dict(v=datetime.date.today().isoformat(), secs=L['secs'], cols=cols, items=items, redirects=redirects, whole=whole, pair=pair)
     json.dump(out, open(os.path.join(HERE, 'dakimakury-src.json'), 'w'), ensure_ascii=False, separators=(',', ':'))
-    print('фото, які показуємо цілими:', len(whole))
+    print('фото, які показуємо цілими:', len(whole), '| мокапів із плаского малюнка:', len(pair))
     print('дизайнів у каталозі:', len(items), '| з них уже були на сайті:', sum(1 for r in recs if r['leg']))
     print('підкатегорій зі сторінками:', sum(len(c['subs']) for c in cols), '| перенаправлень зі старих адрес:', len(redirects))
     lost = set(LI) - {i for r in recs for i in r['ids']}
