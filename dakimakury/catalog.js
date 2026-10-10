@@ -587,10 +587,10 @@ function openItem(id, start = 0, toForm = false){
     - один файл з однією стороною: сторона B повторює A.
    Щоб це працювало, хостинг картинок має дозволяти читати їх з іншого сайту (CORS). */
 /* Одна панель дакімакури має пропорцію 1:3 (0.33), розгортка з двох панелей поруч 2:3 (0.67).
-   Сама пропорція нічого не гарантує: файл з однією пляшкою чи банкою теж буває ширший за 0.5,
-   і тоді його різало навпіл. Тому навпіл ріжемо лише файл, який і за пропорцією схожий на розгортку,
-   і має видимий стик двох малюнків посередині (або порожню смугу між ними). */
-const SHEET_MIN = 0.56, SHEET_MAX = 0.85;
+   Файл із пропорцією розгортки вважаємо розгорткою і ріжемо навпіл: одна сторона дакімакури такою широкою не буває.
+   Виняток один: окремий предмет на рівному тлі по центру (пляшка, банка), його лишаємо цілим (див. isSingleObject).
+   Раніше вимагали ще й чіткий стик посередині, і розгортки на спільному світлому тлі (простирадло) лишались нерозрізаними. */
+const SHEET_MIN = 0.5, SHEET_MAX = 0.9;
 /* Ручне виправлення для окремих дизайнів, якщо автоматика помилилась:
    id товару → 1 (файл це одна сторона) або 2 (у файлі дві сторони поруч). */
 const SIDES_FIX = {};
@@ -634,6 +634,20 @@ function hasMiddleSeam(px, w, h){
   const filled = (x0, x1) => { let n = 0; for (let x = x0; x < x1; x++) for (let y = 0; y < h; y++) if (far(at(x, y))) n++; return n / ((x1 - x0) * h); };
   return filled(0, c - 2) > 0.04 && filled(c + 2, w) > 0.04;
 }
+/* true, якщо у файлі один предмет по центру на рівному тлі: краї порожні, середина заповнена,
+   і посередині малюнка не менше, ніж у чвертях (у розгортці навпаки: фігури в чвертях, між ними рідше). */
+function isSingleObject(px, w, h){
+  const at = (x, y) => (y * w + x) * 4, bg = [px[0], px[1], px[2]];
+  const far = i => Math.abs(px[i] - bg[0]) + Math.abs(px[i + 1] - bg[1]) + Math.abs(px[i + 2] - bg[2]) > 36;
+  const filled = (f0, f1) => {
+    const x0 = Math.round(w * f0), x1 = Math.max(x0 + 1, Math.round(w * f1)); let n = 0;
+    for (let x = x0; x < x1; x++) for (let y = 0; y < h; y++) if (far(at(x, y))) n++;
+    return n / ((x1 - x0) * h);
+  };
+  const edge = Math.max(filled(0, 0.06), filled(0.94, 1)), mid = filled(0.44, 0.56);
+  const quarter = (filled(0.15, 0.35) + filled(0.65, 0.85)) / 2;
+  return edge < 0.03 && mid > 0.3 && mid >= quarter * 0.9;
+}
 function isSheet(bmp, fix){
   if (fix === 1 || fix === 2) return fix === 2;
   const ratio = bmp.width / bmp.height;
@@ -644,7 +658,8 @@ function isSheet(bmp, fix){
   const g = cv.getContext('2d', { willReadFrequently: true });
   g.fillStyle = '#fff'; g.fillRect(0, 0, w, h);        // прозорий PNG рахуємо як малюнок на білому
   g.drawImage(bmp, 0, 0, w, h);
-  return hasMiddleSeam(g.getImageData(0, 0, w, h).data, w, h);
+  const px = g.getImageData(0, 0, w, h).data;
+  return hasMiddleSeam(px, w, h) || !isSingleObject(px, w, h);
 }
 /* повертає { a, b, twoSided }: Blob для кожної сторони (b може бути null) */
 async function printBlobs(it){
