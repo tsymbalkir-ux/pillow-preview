@@ -475,9 +475,14 @@ def main():
         m = re.match(r'\s*(\d+)', line)
         if m: whole.add(m.group(1))
     whole = sorted(i[0] for i in items if i[0] in whole)
-    out = dict(v=datetime.date.today().isoformat(), secs=L['secs'], cols=cols, items=items, redirects=redirects, whole=whole)
+    pair = set()
+    for line in open(os.path.join(HERE, 'dakimakury-pair.txt')):
+        m = re.match(r'\s*(\d+)', line)
+        if m: pair.add(m.group(1))
+    pair = sorted(i[0] for i in items if i[0] in pair and i[0] not in whole)
+    out = dict(v=datetime.date.today().isoformat(), secs=L['secs'], cols=cols, items=items, redirects=redirects, whole=whole, pair=pair)
     json.dump(out, open(os.path.join(HERE, 'dakimakury-src.json'), 'w'), ensure_ascii=False, separators=(',', ':'))
-    print('фото, які показуємо цілими:', len(whole))
+    print('фото, які показуємо цілими:', len(whole), '| мокапів із плаского малюнка:', len(pair))
     print('дизайнів у каталозі:', len(items), '| з них уже були на сайті:', sum(1 for r in recs if r['leg']))
     print('підкатегорій зі сторінками:', sum(len(c['subs']) for c in cols), '| перенаправлень зі старих адрес:', len(redirects))
     lost = set(LI) - {i for r in recs for i in r['ids']}
