@@ -55,7 +55,6 @@ button,input{font:inherit;color:inherit}
 h1{font:700 clamp(22px,2.5vw,32px)/1.12 var(--display);margin:0;letter-spacing:-.015em;text-wrap:balance}
 .bar{display:flex;gap:8px;align-items:center}
 .search{padding:10px 16px;border:1px solid var(--line);border-radius:999px;background:var(--surface);width:260px;min-width:0}
-.hit{position:absolute;left:10px;top:10px;z-index:3;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.94);color:#1F1A3D;font:600 12px/1 var(--body);box-shadow:0 2px 8px rgba(0,0,0,.14);pointer-events:none}
 .own .pic{display:grid;place-items:center;text-decoration:none;background:var(--ink);color:var(--paper);padding:18px;text-align:center;font:700 clamp(18px,2.2vw,24px)/1.15 var(--display)}
 .own{text-decoration:none}
 .tops{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;padding:14px 0 0;font-size:14px;color:var(--muted)}
@@ -251,14 +250,14 @@ dialog.v3d{max-width:min(760px,94vw);height:min(88vh,860px);border-radius:24px}
    щоб картка виглядала як нові мокапи. Ініціали-заглушку ховаємо, інакше вони просвічують крізь фото. */
 .pic.whole,.pic.whole .track{background:#ECEBE9}
 .pic.whole{isolation:isolate}
-.pic.whole .ph,.pic.whole .hit{display:none}
+.pic.whole .ph{display:none}
 .track img.whole{object-fit:contain;mix-blend-mode:multiply}
 /* старе фото «плаский малюнок»: дві сторони принта поруч, без подушки. Складаємо з нього мокап на шаблоні /m-pair.jpg (900×1200):
    ліва половина фото лягає в зону лівої подушки, права в зону правої; маска дає форму подушки, тінь дає складки тканини.
    Координати зон узято з /pillow.json. */
 .pic.pair,.pic.pair .track{background:#ECEBE9}
 .pic.pair{isolation:isolate}
-.pic.pair .ph,.pic.pair .hit{display:none}
+.pic.pair .ph{display:none}
 .mock{flex:0 0 100%;height:100%;position:relative;display:block;scroll-snap-align:start;scroll-snap-stop:always;cursor:pointer}
 /* без transform і z-index: інакше біле тло шаблону не зіллється з тлом картки */
 .mk{position:relative;display:block;height:100%;aspect-ratio:3/4;margin:0 auto}

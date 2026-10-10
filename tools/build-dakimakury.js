@@ -88,7 +88,7 @@ function page(sec, col, sub) {
           availability: 'https://schema.org/MadeToOrder', url } } })) } });
 
   const cards = list.slice(0, STATIC_CARDS).map((it, i) => `<article class="card" data-id="${it[0]}">
-      <div class="pic${WHOLE.has(String(it[0])) ? ' whole' : PAIR.has(String(it[0])) ? ' pair' : ''}">${(it[5] || 0) >= 3 ? `<span class="hit">Купили ${times(it[5])}</span>` : ''}<div class="track">${PAIR.has(String(it[0])) ? mockHtml(attr(sized(picUrl(firstPic(it)), 640, 640)), attr(it[2]), i < 4 ? 'eager' : 'lazy') : `<img ${WHOLE.has(String(it[0])) ? 'class="whole" ' : ''}src="${attr(sized(picUrl(firstPic(it)), 640, 640))}" alt="Дакімакура ${attr(it[2])}" width="640" height="640" loading="${i < 4 ? 'eager' : 'lazy'}" decoding="async" referrerpolicy="no-referrer">`}</div></div>
+      <div class="pic${WHOLE.has(String(it[0])) ? ' whole' : PAIR.has(String(it[0])) ? ' pair' : ''}"><div class="track">${PAIR.has(String(it[0])) ? mockHtml(attr(sized(picUrl(firstPic(it)), 640, 640)), attr(it[2]), i < 4 ? 'eager' : 'lazy') : `<img ${WHOLE.has(String(it[0])) ? 'class="whole" ' : ''}src="${attr(sized(picUrl(firstPic(it)), 640, 640))}" alt="Дакімакура ${attr(it[2])}" width="640" height="640" loading="${i < 4 ? 'eager' : 'lazy'}" decoding="async" referrerpolicy="no-referrer">`}</div></div>
       <div class="meta"><span class="name">${esc(it[2])}</span><span class="sub">${esc(labelOf(it))}</span></div>
     </article>`).join('\n') + '\n';
 
