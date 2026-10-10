@@ -376,7 +376,6 @@ function renderGrid(){
     const n = it.pics.length;
     return `<article class="card" data-id="${it.id}">
       <div class="pic${it.whole ? ' whole' : it.pair ? ' pair' : ''}">
-        ${it.sold >= 3 ? `<span class="hit">Купили ${times(it.sold)}</span>` : ''}
         ${it.orig.length ? '<span class="b3d" title="Є 3D-перегляд">3D</span>' : ''}
         <span class="ph">${esc(it.name.replace(/[^\p{L} ]/gu, '').trim().split(/\s+/).slice(0, 2).map(w => w[0] || '').join(''))}</span>
         <div class="track" aria-label="${esc(it.name)}: фото, гортай">
