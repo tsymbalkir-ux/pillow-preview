@@ -22,8 +22,11 @@ const PRICES = [1100, 2390];
 /* ---------- дані для браузера ---------- */
 const secIdx = {}; SRC.secs.forEach((s, i) => { secIdx[s.k] = i; });
 const colIdx = {}; SRC.cols.forEach((c, i) => { colIdx[c.k] = i; });
+const WHOLE = new Set((SRC.whole || []).map(String));
 const D = {
   v: SRC.v,
+  /* id дизайнів, у яких перше фото показуємо цілим (дві подушки поруч на білому тлі) */
+  whole: (SRC.whole || []).map(id => (/^\d{1,15}$/.test(id) ? +id : id)),
   secs: SRC.secs,
   cols: SRC.cols.map(c => {
     const o = { k: c.k, t: c.t, h: c.h, s: secIdx[c.s], top: c.top || [], p: c.p };
@@ -80,7 +83,7 @@ function page(sec, col, sub) {
           availability: 'https://schema.org/MadeToOrder', url } } })) } });
 
   const cards = list.slice(0, STATIC_CARDS).map((it, i) => `<article class="card" data-id="${it[0]}">
-      <div class="pic">${(it[5] || 0) >= 3 ? `<span class="hit">Купили ${times(it[5])}</span>` : ''}<div class="track"><img src="${attr(sized(picUrl(firstPic(it)), 640, 640))}" alt="Дакімакура ${attr(it[2])}" width="640" height="640" loading="${i < 4 ? 'eager' : 'lazy'}" decoding="async" referrerpolicy="no-referrer"></div></div>
+      <div class="pic${WHOLE.has(String(it[0])) ? ' whole' : ''}">${(it[5] || 0) >= 3 ? `<span class="hit">Купили ${times(it[5])}</span>` : ''}<div class="track"><img ${WHOLE.has(String(it[0])) ? 'class="whole" ' : ''}src="${attr(sized(picUrl(firstPic(it)), 640, 640))}" alt="Дакімакура ${attr(it[2])}" width="640" height="640" loading="${i < 4 ? 'eager' : 'lazy'}" decoding="async" referrerpolicy="no-referrer"></div></div>
       <div class="meta"><span class="name">${esc(it[2])}</span><span class="sub">${esc(labelOf(it))}</span></div>
     </article>`).join('\n') + '\n';
 

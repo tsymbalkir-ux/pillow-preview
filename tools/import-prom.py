@@ -470,8 +470,14 @@ def main():
     named = {r['id']: (0 if r['k'] >= 0 else 1, 1 if r.get('nochar') else 0) for r in recs}
     items.sort(key=lambda i: (-i[5],) + named[i[0]] + (i[0],))
     import datetime
-    out = dict(v=datetime.date.today().isoformat(), secs=L['secs'], cols=cols, items=items, redirects=redirects)
+    whole = set()
+    for line in open(os.path.join(HERE, 'dakimakury-whole.txt')):
+        m = re.match(r'\s*(\d+)', line)
+        if m: whole.add(m.group(1))
+    whole = sorted(i[0] for i in items if i[0] in whole)
+    out = dict(v=datetime.date.today().isoformat(), secs=L['secs'], cols=cols, items=items, redirects=redirects, whole=whole)
     json.dump(out, open(os.path.join(HERE, 'dakimakury-src.json'), 'w'), ensure_ascii=False, separators=(',', ':'))
+    print('фото, які показуємо цілими:', len(whole))
     print('дизайнів у каталозі:', len(items), '| з них уже були на сайті:', sum(1 for r in recs if r['leg']))
     print('підкатегорій зі сторінками:', sum(len(c['subs']) for c in cols), '| перенаправлень зі старих адрес:', len(redirects))
     lost = set(LI) - {i for r in recs for i in r['ids']}
