@@ -87,7 +87,17 @@ function norm(s){ return String(s).toLowerCase().replace(/ё/g, 'е').replace(/[
 /* Prom CDN віддає зменшені копії фото, якщо в назву файлу додати _wW_hH_ */
 const sized = (url, w, h) => url.replace(/(\/\d+)_/, `$1_w${w}_h${h}_`);
 const isPhone = () => matchMedia('(max-width: 860px)').matches;
-window.imgFallback = img => { if (img.dataset.full && img.src !== img.dataset.full) { img.src = img.dataset.full; } else { img.remove(); } };
+/* Фото не завантажилось: пробуємо повний розмір, а якщо й він ні, прибираємо слайд.
+   На картці одразу вантажимо наступне фото, щоб замість битого першого не лишалась заглушка з літерою. */
+window.imgFallback = img => {
+  if (img.dataset.full && img.src !== img.dataset.full && !img.dataset.retried) { img.dataset.retried = '1'; img.src = img.dataset.full; return; }
+  const tr = img.closest('.track'), nxt = img.nextElementSibling;
+  img.remove();
+  if (!tr) return;
+  if (nxt && nxt.dataset && nxt.dataset.src) { nxt.src = nxt.dataset.src; nxt.removeAttribute('data-src'); }
+  const dots = tr.closest('.pic')?.querySelector('.dots');
+  if (dots && dots.lastElementChild) dots.lastElementChild.remove();
+};
 const sizeBy = len => SIZES.find(s => s.len === len) || SIZES[1];
 
 /* ---------- стан і адреса ---------- */
@@ -409,15 +419,15 @@ function renderGrid(){
 function loadSlide(img){ if (img && img.dataset.src) { img.src = img.dataset.src; img.removeAttribute('data-src'); } }
 function setupCard(card){
   /* слайди це прямі діти стрічки: фото або мокап, складений із двох половин одного фото */
-  const id = card.dataset.id, tr = card.querySelector('.track'), imgs = [...tr.children];
-  const dots = [...card.querySelectorAll('.dots i')], prev = card.querySelector('.prev'), next = card.querySelector('.next');
+  const id = card.dataset.id, tr = card.querySelector('.track'), imgs = tr.children;   // жива колекція: биті фото з неї зникають
+  const dots = card.querySelector('.dots') ? card.querySelector('.dots').children : [], prev = card.querySelector('.prev'), next = card.querySelector('.next');
   let cur = 0, moved = false;
   const go = i => tr.scrollTo({ left: i * tr.clientWidth, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   tr.addEventListener('scroll', () => {
     moved = true;
     const i = Math.round(tr.scrollLeft / tr.clientWidth);
     loadSlide(imgs[i]); loadSlide(imgs[i + 1]);
-    if (i !== cur) { cur = i; dots.forEach((d, k) => d.classList.toggle('on', k === i)); if (prev) { prev.disabled = i === 0; next.disabled = i === imgs.length - 1; } }
+    if (i !== cur) { cur = i; [...dots].forEach((d, k) => d.classList.toggle('on', k === i)); if (prev) { prev.disabled = i === 0; next.disabled = i === imgs.length - 1; } }
   }, { passive: true });
   tr.addEventListener('pointerdown', () => { moved = false; });
   tr.addEventListener('click', () => { if (!moved) openItem(id, cur); });
