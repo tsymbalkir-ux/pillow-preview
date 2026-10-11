@@ -14,6 +14,28 @@ const S = require(path.join(OUT, 'shared.js'));
 const SRC = JSON.parse(fs.readFileSync(path.join(__dirname, 'dakimakury-src.json'), 'utf8'));
 const TPL = fs.readFileSync(path.join(__dirname, 'dakimakury-page.html'), 'utf8');
 
+/* ---------- сховані колекції (tools/dakimakury-hidden.txt) ----------
+   Прибираємо їх із даних ще до збирання: ні сторінок, ні товарів у data.js, ні рядків у sitemap.
+   Розділ, у якому не лишилось колекцій, зникає теж. Старі адреси ведуть на головну каталогу. */
+const HIDDEN = new Set(fs.readFileSync(path.join(__dirname, 'dakimakury-hidden.txt'), 'utf8').split('\n').map(l => l.replace(/#.*/, '').trim()).filter(Boolean));
+const hiddenPaths = [];
+{
+  const unknown = [...HIDDEN].filter(k => !SRC.cols.some(c => c.k === k));
+  if (unknown.length) throw new Error('dakimakury-hidden.txt: немає таких колекцій: ' + unknown.join(', '));
+  const gone = SRC.cols.filter(c => HIDDEN.has(c.k));
+  gone.forEach(c => { hiddenPaths.push(c.p); (c.sp || []).forEach(p => { if (p) hiddenPaths.push(c.p + '/' + p); }); });
+  SRC.cols = SRC.cols.filter(c => !HIDDEN.has(c.k));
+  const goneIds = new Set(SRC.items.filter(it => HIDDEN.has(it[1])).map(it => String(it[0])));
+  SRC.items = SRC.items.filter(it => !HIDDEN.has(it[1]));
+  SRC.whole = (SRC.whole || []).filter(id => !goneIds.has(String(id)));
+  SRC.pair = (SRC.pair || []).filter(id => !goneIds.has(String(id)));
+  SRC.secs.filter(s => !SRC.cols.some(c => c.s === s.k)).forEach(s => hiddenPaths.push(s.p));
+  SRC.secs = SRC.secs.filter(s => SRC.cols.some(c => c.s === s.k));
+  /* перенаправлення, що вели на сховану сторінку, тепер ведуть на головну каталогу */
+  const dead = new Set(hiddenPaths);
+  for (const k of Object.keys(SRC.redirects || {})) if (dead.has(SRC.redirects[k])) SRC.redirects[k] = '';
+}
+
 const STATIC_CARDS = 48;     // стільки ж карток показує catalog.js одразу після завантаження
 const LD_ITEMS = 24;         // товарів у розмітці для пошуковика
 const SUBS_SHOWN = 14;       // підкатегорій у рядку над сіткою
@@ -158,6 +180,7 @@ D.cols.forEach((c, i) => {
   (c.sp || []).forEach((p, k) => { if (p) emit(-1, i, k); });
 });
 let nRedir = 0;
+for (const from of hiddenPaths) { if (!taken.has(from)) { write(from, redirectPage(S.BASE), false); taken.add(from); nRedir++; } }
 for (const [from, to] of Object.entries(SRC.redirects || {})) {
   if (taken.has(from)) continue;
   write(from, redirectPage(S.BASE + (to ? to + '/' : '')), false); nRedir++;
