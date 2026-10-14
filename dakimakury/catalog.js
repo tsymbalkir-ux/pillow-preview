@@ -247,17 +247,29 @@ function* searchSteps(q){
   if (abc && abc !== n) { const f2 = fuzzyMatcher(abc); if (f2) yield [f2, 'near']; }
   if (other && other !== n) { const f3 = fuzzyMatcher(other); if (f3) yield [f3, 'near']; }
 }
-let lastSearch = { key: '', list: [], how: '' };
+/* Пошук завжди йде по всьому каталогу, з будь-якої сторінки. Якщо відвідувач стоїть у розділі, колекції чи підкатегорії,
+   збіги звідти йдуть першими (state.hits.here), далі решта каталогу. Крок пошуку (точний, розкладка, абетка, схожі)
+   обираємо по всьому каталогу: перший, що знайшов хоч щось. */
+let lastSearch = { key: '', list: [], how: '', here: 0 };
+const inScope = it => (state.col >= 0 ? it.c === state.col : state.sec < 0 || COLS[it.c].s === state.sec)
+  && (state.sub === -1 || state.col < 0 || (state.sub === -2 ? it.k < 0 : it.k === state.sub));
+const scoped = () => state.col >= 0 || state.sec >= 0;
+/* назва місця, де стоїть відвідувач: підкатегорія, колекція або розділ */
+function scopeName(){
+  if (state.col < 0) return state.sec >= 0 ? D.secs[state.sec].t : '';
+  const c = COLS[state.col];
+  return state.sub >= 0 && c.subs ? c.subs[state.sub] : c.t;
+}
 function currentList(){
-  const scope = ITEMS.filter(it => (state.col >= 0 ? it.c === state.col : state.sec < 0 || COLS[it.c].s === state.sec)
-    && (state.sub === -1 || state.col < 0 || (state.sub === -2 ? it.k < 0 : it.k === state.sub)));
-  state.how = '';
-  if (!norm(state.q)) return scope;
+  state.how = ''; state.here = 0;
+  if (!norm(state.q)) return ITEMS.filter(inScope);
   const key = [state.q, state.sec, state.col, state.sub].join('|');
-  if (lastSearch.key === key) { state.how = lastSearch.how; return lastSearch.list; }
-  let list = [], how = '';
-  for (const [m, h] of searchSteps(state.q)) { list = scope.filter(it => m(it.hay)); if (list.length) { how = h; break; } }
-  lastSearch = { key, list, how }; state.how = how;
+  if (lastSearch.key === key) { state.how = lastSearch.how; state.here = lastSearch.here; return lastSearch.list; }
+  let found = [], how = '';
+  for (const [m, h] of searchSteps(state.q)) { found = ITEMS.filter(it => m(it.hay)); if (found.length) { how = h; break; } }
+  const here = scoped() ? found.filter(inScope) : found;
+  const list = scoped() ? here.concat(found.filter(it => !inScope(it))) : found;
+  lastSearch = { key, list, how, here: here.length }; state.how = how; state.here = here.length;
   return list;
 }
 
@@ -363,15 +375,15 @@ function renderTops(){
 let listToken = '';
 function renderGrid(){
   const list = currentList(), el = $('grid');
+  const where = state.q && scoped() ? `: у «${scopeName()}» — ${state.here}, у всьому каталозі — ${list.length}` : `: ${list.length}`;
   $('count').textContent = list.length
-    ? (state.q ? (state.how === 'near' ? `Точного збігу з «${state.q}» немає, показуємо схожі: ${list.length}`
-        : state.how ? `За запитом «${state.q}» (виправлено розкладку або абетку): ${list.length}` : `За запитом «${state.q}»: ${list.length}`) : `Дизайнів: ${list.length}`)
+    ? (state.q ? (state.how === 'near' ? `Точного збігу з «${state.q}» немає, показуємо схожі` + where
+        : state.how ? `За запитом «${state.q}» (виправлено розкладку або абетку)` + where : `За запитом «${state.q}»` + where) : `Дизайнів: ${list.length}`)
     : '';
   $('sideShow').textContent = list.length ? 'Показати ' + S.designs(list.length) : 'Закрити';
   if (!list.length) {
-    el.innerHTML = `<div class="empty"><p>За запитом «${esc(state.q)}» готового дизайну поки немає. Надрукуємо цього персонажа з твого зображення або підберемо арт самі, якщо напишеш нам.</p>
-      <div class="row"><a class="btn" href="/dakimakura">Зробити зі своїм зображенням</a><a class="btn ghost" href="https://t.me/Masterform_ua" data-contact="telegram">Написати в Telegram</a>${state.col >= 0 || state.sec >= 0 ? '<button class="btn ghost" id="allCols" type="button">Шукати в усьому каталозі</button>' : ''}</div></div>`;
-    const all = $('allCols'); if (all) all.onclick = () => { state.col = -1; state.sec = -1; state.sub = -1; state.shown = PAGE; renderAll(); };
+    el.innerHTML = `<div class="empty"><p>За запитом «${esc(state.q)}» готового дизайну в каталозі поки немає. Надрукуємо цього персонажа з твого зображення або підберемо арт самі, якщо напишеш нам.</p>
+      <div class="row"><a class="btn" href="/dakimakura">Зробити зі своїм зображенням</a><a class="btn ghost" href="https://t.me/Masterform_ua" data-contact="telegram">Написати в Telegram</a></div></div>`;
     $('more').innerHTML = '';
     track('search_empty', { search_term: state.q, collection: state.col >= 0 ? COLS[state.col].k : 'all' });
     return;
@@ -382,9 +394,13 @@ function renderGrid(){
       <div class="pic">Твій арт або фото на подушці</div>
       <div class="meta"><span class="name">Свій принт</span><span class="sub">Макет з'явиться одразу після завантаження</span></div>
     </a>` : '';
+  /* межа між збігами з поточного місця і рештою каталогу */
+  /* (якщо тут збігів немає, про це вже каже рядок над сіткою, тож розділювач не потрібен) */
+  const cut = state.q && scoped() && state.here > 0 && state.here < list.length ? state.here : -1;
+  const divider = `<p class="from-all">Ще в усьому каталозі: ${list.length - state.here}</p>`;
   el.innerHTML = own + part.map((it, idx) => {
     const n = it.pics.length;
-    return `<article class="card" data-id="${it.id}">
+    return (idx === cut ? divider : '') + `<article class="card" data-id="${it.id}">
       <div class="pic${it.whole ? ' whole' : it.pair ? ' pair' : ''}">
         ${it.orig.length ? '<span class="b3d" title="Є 3D-перегляд">3D</span>' : ''}
         <span class="ph">${esc(it.name.replace(/[^\p{L} ]/gu, '').trim().split(/\s+/).slice(0, 2).map(w => w[0] || '').join(''))}</span>
