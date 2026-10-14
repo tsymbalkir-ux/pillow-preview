@@ -275,3 +275,6 @@ dialog.v3d{max-width:min(760px,94vw);height:min(88vh,860px);border-radius:24px}
 .zb::after{background-image:url(/pair-b-shade.jpg)}
 /* позначка «є 3D»: не кнопка, 3D відкривається з вікна товару */
 .b3d{all:unset;position:absolute;right:10px;top:10px;z-index:3;pointer-events:none;padding:6px 10px;border-radius:999px;background:rgba(31,26,61,.88);color:#fff;font:700 12px/1 var(--body);letter-spacing:.04em;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+
+/* пошук по всьому каталогу: підпис між збігами з поточного місця і рештою */
+.from-all{grid-column:1/-1;margin:8px 0 0;padding-top:14px;border-top:1px solid var(--line, #e3e1ec);font-weight:600;color:var(--muted, #6b6880)}
