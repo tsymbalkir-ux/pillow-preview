@@ -14,6 +14,31 @@ const S = require(path.join(OUT, 'shared.js'));
 const SRC = JSON.parse(fs.readFileSync(path.join(__dirname, 'dakimakury-src.json'), 'utf8'));
 const TPL = fs.readFileSync(path.join(__dirname, 'dakimakury-page.html'), 'utf8');
 
+/* ---------- ручне розкладання фото (tools/dakimakury-photofix.json) ----------
+   Для дизайнів, у яких на Prom спільний код товару з іншими, фото й оригінали розкладено вручну.
+   Дизайн, якому не лишилось жодного фото, з каталогу прибираємо. */
+{
+  const FIX = JSON.parse(fs.readFileSync(path.join(__dirname, 'dakimakury-photofix.json'), 'utf8')).designs || {};
+  const GENERIC = /^(4557260422|4363779747|4363779877)_/;
+  const NEW_PHOTO = 6e9;
+  const dropped = new Set(), whole = new Set((SRC.whole || []).map(String)), pair = new Set((SRC.pair || []).map(String));
+  SRC.items.forEach(it => {
+    const f = FIX[String(it[0])];
+    if (!f) return;
+    if (!f.p.some(x => !GENERIC.test(x))) { dropped.add(String(it[0])); return; }
+    const firstWas = it[4][0];
+    it[4] = f.p.slice();
+    it[8] = f.o.slice();
+    it[9] = f.o.length ? Math.min(it[9] || 1, f.o.length) : 0;
+    /* нове перше фото з новою студійною зйомкою: обробка старих фото (цілим / мокап) йому не потрібна */
+    if (it[4][0] !== firstWas && +it[4][0].split('_')[0] >= NEW_PHOTO) { whole.delete(String(it[0])); pair.delete(String(it[0])); }
+  });
+  SRC.items = SRC.items.filter(it => !dropped.has(String(it[0])));
+  SRC.whole = [...whole].filter(id => !dropped.has(id));
+  SRC.pair = [...pair].filter(id => !dropped.has(id));
+  if (dropped.size) console.log('Прибрано дизайнів без фото (photofix): ' + dropped.size);
+}
+
 /* ---------- сховані колекції (tools/dakimakury-hidden.txt) ----------
    Прибираємо їх із даних ще до збирання: ні сторінок, ні товарів у data.js, ні рядків у sitemap.
    Розділ, у якому не лишилось колекцій, зникає теж. Старі адреси ведуть на головну каталогу. */
