@@ -284,3 +284,13 @@ dialog.v3d{max-width:min(760px,94vw);height:min(88vh,860px);border-radius:24px}
 @media (min-width:861px){.tops .t-m,.tops .t-mo{display:none}}
 html.busy .grid{opacity:.55;transition:opacity .2s}
 html.busy,html.busy *{cursor:progress}
+
+/* Поки фото їде: тло в колір студійних фото (без літер), а фото нижче першого екрана плавно проявляється.
+   Перші чотири картки без анімації: вони видимі одразу, і затримка лише відсунула б показ. Літери-заглушка лише тоді,
+   коли жодне фото картки не завантажилось (.pic.empty, див. imgFallback у шаблоні). */
+.card[data-id] .pic,.card[data-id] .pic .track{background:#ECEBE9}
+.card[data-id] .pic .ph{display:none}
+.card[data-id] .pic.empty .ph{display:grid}
+.track img.fade,.track .mock.fade{opacity:0;transition:opacity .35s ease}
+.track img.fade.in,.track .mock.fade.in{opacity:1}
+@media (prefers-reduced-motion: reduce){.track img.fade,.track .mock.fade{transition:none}}

@@ -54,6 +54,7 @@ window.imgFallback = function (img) {
   var mk = img.closest('.mock'), tr = img.closest('.track');
   if (mk) { mk.remove(); } else img.remove();
   if (!tr) return;
+  if (!tr.querySelector('img')) tr.parentNode.classList.add('empty');
   var nxt = tr.querySelector('img[data-src]');
   if (nxt && !mk) { if (nxt.dataset.srcset) { nxt.srcset = nxt.dataset.srcset; nxt.removeAttribute('data-srcset'); } nxt.src = nxt.dataset.src; nxt.removeAttribute('data-src'); }
   var dots = tr.parentNode.querySelector('.dots');

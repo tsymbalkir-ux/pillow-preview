@@ -43,7 +43,7 @@ fbq('track', 'PageView');
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16d">
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16e">
 <link rel="preload" as="image" imagesrcset="https://images.prom.ua/4362857731_w350_h350_torfin-saga-o.webp 350w, https://images.prom.ua/4362857731_w640_h640_torfin-saga-o.webp 640w" imagesizes="(max-width: 860px) calc(50vw - 21px), 260px" fetchpriority="high">
 <script>
 /* Фото не завантажилось: пробуємо запасну адресу (JPG без srcset), а якщо й вона ні, прибираємо слайд
@@ -54,6 +54,7 @@ window.imgFallback = function (img) {
   var mk = img.closest('.mock'), tr = img.closest('.track');
   if (mk) { mk.remove(); } else img.remove();
   if (!tr) return;
+  if (!tr.querySelector('img')) tr.parentNode.classList.add('empty');
   var nxt = tr.querySelector('img[data-src]');
   if (nxt && !mk) { if (nxt.dataset.srcset) { nxt.srcset = nxt.dataset.srcset; nxt.removeAttribute('data-srcset'); } nxt.src = nxt.dataset.src; nxt.removeAttribute('data-src'); }
   var dots = tr.parentNode.querySelector('.dots');
@@ -158,8 +159,8 @@ window.imgFallback = function (img) {
 <script>window.DAKI_PAGE={"g":"anime2","sub":"Сага про Вінланда","n":4,"rows":[[1798533082,43,"Торфін","торфин сага винланде сага про вінланда","4362857731,4557260422,4363779747,4363779877|torfin-saga-o",0,"Сага про Вінланда",99],[1798536649,43,"Торфін №2","торфин2 сага винланде сага про вінланда","4362869214,4557260422,4363779747,4363779877|torfin2-saga-o",0,"Сага про Вінланда",99],[1798587749,43,"Аскелад","сага винланде сага про вінланда","4363020677,4557260422,4363779747,4363779877|askelad-saga-o",0,"Сага про Вінланда",99],[1798596007,43,"Аскелад №2","аскелад2 сага винланде сага про вінланда","4363033742,4557260422,4363779747,4363779877|askelad2-saga-o",0,"Сага про Вінланда",99]]};</script>
 <!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
 <script src="/shipping.js" defer></script>
-<script src="/dakimakury/meta.js?v=2026-10-16d" defer></script>
-<script src="/dakimakury/shared.js?v=2026-10-16d" defer></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16d" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16e" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16e" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16e" defer></script>
 </body>
 </html>

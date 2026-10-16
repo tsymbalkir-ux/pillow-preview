@@ -43,7 +43,7 @@ fbq('track', 'PageView');
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16d">
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16e">
 <link rel="preload" as="image" imagesrcset="https://images.prom.ua/4979700633_w350_h350_dakimakura-gabardin-tokiharu.webp 350w, https://images.prom.ua/4979700633_w640_h640_dakimakura-gabardin-tokiharu.webp 640w" imagesizes="(max-width: 860px) calc(50vw - 21px), 260px" fetchpriority="high">
 <script>
 /* Фото не завантажилось: пробуємо запасну адресу (JPG без srcset), а якщо й вона ні, прибираємо слайд
@@ -54,6 +54,7 @@ window.imgFallback = function (img) {
   var mk = img.closest('.mock'), tr = img.closest('.track');
   if (mk) { mk.remove(); } else img.remove();
   if (!tr) return;
+  if (!tr.querySelector('img')) tr.parentNode.classList.add('empty');
   var nxt = tr.querySelector('img[data-src]');
   if (nxt && !mk) { if (nxt.dataset.srcset) { nxt.srcset = nxt.dataset.srcset; nxt.removeAttribute('data-srcset'); } nxt.src = nxt.dataset.src; nxt.removeAttribute('data-src'); }
   var dots = tr.parentNode.querySelector('.dots');
@@ -156,8 +157,8 @@ window.imgFallback = function (img) {
 <script>window.DAKI_PAGE={"g":"genshin","sub":"Токіхару","n":2,"rows":[[1986505131,6,"Токіхару №1","токихару","4979700633,4557260422,4363779747,4363779877|dakimakura-gabardin-tokiharu",0,"",68],[1986505132,6,"Токіхару №2","вандерер","4979708317,4557260422,4363779747,4363779877|dakimakura-gabardin-vanderer",0,"",68]]};</script>
 <!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
 <script src="/shipping.js" defer></script>
-<script src="/dakimakury/meta.js?v=2026-10-16d" defer></script>
-<script src="/dakimakury/shared.js?v=2026-10-16d" defer></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16d" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16e" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16e" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16e" defer></script>
 </body>
 </html>
