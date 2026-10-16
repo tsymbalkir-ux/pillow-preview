@@ -66,14 +66,17 @@ const PAIR = new Set((D.pair || []).map(String));
 const mockHtml = S.mockHtml;
 /* Повні дані каталогу (data.js, ~1,8 МБ) вантажаться не одразу, а після першої дії людини (див. loadAll):
    поки їх немає, ITEMS містить лише товари, що вже стоять у статичному HTML сторінки (DAKI_PAGE.rows). */
+/* дизайни, які в списках стоять у кінці (tools/dakimakury-down.txt); список приходить разом із data.js */
+let DOWN = new Set();
 const toItem = r => {
   const it = S.itemFromRow(D, r, WHOLE, PAIR);
+  it.down = DOWN.has(it.id) ? 1 : 0;
   it.hay = norm(`${it.name} ${it.ru} ${it.label} ${COLS[it.c].t} ${COL_ALIAS[COLS[it.c].k] || ''}`);
   return it;
 };
 let ITEMS = ((window.DAKI_PAGE || {}).rows || []).map(toItem);
 /* спершу те, що купують найчастіше (за історією замовлень); у статичних рядках порядок уже такий */
-const bySold = (a, b) => b.sold - a.sold;
+const bySold = (a, b) => a.down - b.down || b.sold - a.sold;
 const times = n => { const d = n % 10, h = n % 100; return n + (d >= 2 && d <= 4 && (h < 12 || h > 14) ? ' рази' : d === 1 && h !== 11 ? ' раз' : ' разів'); };
 
 const $ = id => document.getElementById(id);
@@ -359,6 +362,7 @@ function loadAll(){
     document.head.appendChild(sc);
   }).then(() => {
     D.items = window.DAKI_DATA.items;
+    DOWN = new Set((window.DAKI_DATA.down || []).map(String));
     ITEMS = D.items.map(toItem).sort(bySold);
     VOCAB = null; lastSearch = { key: '', list: [], how: '', here: 0 };
     FULL = true;
