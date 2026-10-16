@@ -812,7 +812,11 @@ function hydrate(){
     items: ITEMS.slice(0, 12).map((it, i) => ({ ...gaItem(it), index: i })) } });
 }
 const fromHtml = !state.q && !['g', 's', 'sub'].some(k => params.has(k)) && ITEMS.length > 0;
-renderTree(); renderTops(); syncUrl();
-if (fromHtml) hydrate();
-else { renderHead(); renderLinks(); renderGrid(); }
+syncUrl();
+if (fromHtml) {
+  hydrate();
+  /* дерево й рядок персонажів уже є в HTML (посилання працюють і без скрипта); оживляємо їх, коли браузер вільний,
+     щоб не забирати час у показу першого екрана */
+  (window.requestIdleCallback || (f => setTimeout(f, 300)))(() => { renderTree(); renderTops(); }, { timeout: 2000 });
+} else { renderTree(); renderTops(); renderHead(); renderLinks(); renderGrid(); }
 

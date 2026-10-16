@@ -190,13 +190,14 @@
   /* p: повна адреса фото Prom */
   function mockHtml(p, name, lazy) {
     var a = /^https:\/\/images\.prom\.ua\//.test(p) ? picAttrs(p) + ' data-full="' + sized(p, 640, 640) + '" onerror="imgFallback(this)"' : 'src="' + p + '"';
-    return '<span class="mock"><span class="mk"><span class="za"><img ' + a + ' alt="Дакімакура ' + name + '" loading="' + lazy + '" decoding="async" referrerpolicy="no-referrer"></span><span class="zb"><img ' + a + ' alt="" loading="' + lazy + '" decoding="async" referrerpolicy="no-referrer"></span></span></span>';
+    var f = lazy === 'lazy' ? ' fade' : '', on = f ? ' onload="this.closest(\'.mock\').classList.add(\'in\')"' : '';
+    return '<span class="mock' + f + '"><span class="mk"><span class="za"><img ' + a + on + ' alt="Дакімакура ' + name + '" loading="' + lazy + '" decoding="async" referrerpolicy="no-referrer"></span><span class="zb"><img ' + a + ' alt="" loading="' + lazy + '" decoding="async" referrerpolicy="no-referrer"></span></span></span>';
   }
   function cardHtml(it, idx) {
     var n = it.pics.length, lazy = idx < 4 ? 'eager' : 'lazy';
     var slides = it.pics.map(function (p, i) {
       if (i === 0) return it.pair ? mockHtml(p, esc(it.name), lazy)
-        : '<img ' + (it.whole ? 'class="whole" ' : '') + picAttrs(p) + ' data-full="' + p + '" alt="Дакімакура ' + esc(it.name) + '" loading="' + lazy + '" fetchpriority="' + (idx < 2 ? 'high' : 'auto') + '" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)">';
+        : '<img class="' + (it.whole ? 'whole' : '') + (lazy === 'lazy' ? ' fade" onload="this.classList.add(\'in\')' : '') + '" ' + picAttrs(p) + ' data-full="' + p + '" alt="Дакімакура ' + esc(it.name) + '" loading="' + lazy + '" fetchpriority="' + (idx < 2 ? 'high' : 'auto') + '" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)">';
       return '<img ' + (i >= it.nProm ? 'class="orig" ' : '') + 'data-src="' + sized(p, 640, 640) + '"' + (i < it.nProm ? ' data-srcset="' + picSet(p) + '" sizes="' + PIC_SIZES + '"' : '') + ' data-full="' + p + '" alt="Дакімакура ' + esc(it.name) + ', ' + (i >= it.nProm ? 'принт' : 'фото ' + (i + 1)) + '" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)">';
     }).join('');
     var initials = it.name.replace(/[^\p{L} ]/gu, '').trim().split(/\s+/).slice(0, 2).map(function (w) { return w[0] || ''; }).join('');
