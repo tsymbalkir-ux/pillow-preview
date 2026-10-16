@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-M52SP5TP');</script>
-<!-- End Google Tag Manager -->
-
-<!-- Meta Pixel -->
+<!-- Google Tag Manager і Meta Pixel, відкладені.
+     Черги dataLayer і fbq створюються одразу, тож жодна подія не губиться: PageView, view_item_list та інші
+     чекають у черзі. Самі скрипти (gtm.js, fbevents.js) вантажаться після першої дії людини (дотик, прокрутка,
+     клавіша, рух миші) або через 2 с після завантаження сторінки, щоб не заважати браузеру показати сторінку. -->
 <script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '2233263877061328');
-fbq('track', 'PageView');
+(function(w,d){
+  w.dataLayer=w.dataLayer||[];w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+  if(!w.fbq){var n=w.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!w._fbq)w._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];}
+  w.fbq('init','2233263877061328');w.fbq('track','PageView');
+  var done=false,ev=['pointerdown','touchstart','keydown','scroll','mousemove','wheel'];
+  function add(src){var j=d.createElement('script');j.async=true;j.src=src;d.head.appendChild(j);}
+  function go(){if(done)return;done=true;ev.forEach(function(e){w.removeEventListener(e,go,true);});
+    add('https://www.googletagmanager.com/gtm.js?id=GTM-M52SP5TP');add('https://connect.facebook.net/en_US/fbevents.js');}
+  ev.forEach(function(e){w.addEventListener(e,go,{capture:true,passive:true,once:true});});
+  if(d.readyState==='complete')setTimeout(go,2000);else w.addEventListener('load',function(){setTimeout(go,2000);});
+})(window,document);
 </script>
-<!-- End Meta Pixel -->
+<!-- End Google Tag Manager / Meta Pixel -->
 
 <title>Дакімакури Тарталья (Genshin Impact): купити від 1 100 грн | printme</title>
 <meta name="description" content="Дакімакури Тарталья (Genshin Impact) з доставкою по Україні: 15 дизайнів, розміри від 100 до 180 см, друк на габардині, оплата при отриманні на Новій Пошті.">
@@ -43,7 +43,7 @@ fbq('track', 'PageView');
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16e">
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16f">
 <link rel="preload" as="image" imagesrcset="https://images.prom.ua/6766692469_w350_h350_anime-dakimakura-tartalya.webp 350w, https://images.prom.ua/6766692469_w640_h640_anime-dakimakura-tartalya.webp 640w" imagesizes="(max-width: 860px) calc(50vw - 21px), 260px" fetchpriority="high">
 <script>
 /* Фото не завантажилось: пробуємо запасну адресу (JPG без srcset), а якщо й вона ні, прибираємо слайд
@@ -170,8 +170,8 @@ window.imgFallback = function (img) {
 <script>window.DAKI_PAGE={"g":"genshin","sub":"Тарталья","n":15,"rows":[[1545315703,6,"Тарталья №1","","6766692469,3546566456,4557260422,4363779747|anime-dakimakura-tartalya",1,"",15],[1545315704,6,"Тарталья №2","","6766693489,3546566457,4557260422,4363779747|anime-dakimakura-tartalya",0,"",15],[1545315705,6,"Тарталья №3","","6766693605,3546566458,4557260422,4363779747|anime-dakimakura-tartalya",0,"",15],[1545315707,6,"Тарталья №5","","6766697612,3546567235,4557260422,4363779747|anime-dakimakura-tartalya",0,"",15],[1545315708,6,"Тарталья №6","","6766698965,3546567236,4557260422,4363779747|anime-dakimakura-tartalya",0,"",15],[2487334826,6,"Тарталья №7","","6475445014,6475445017,6475445018,6475445019|tartalya-genshin-impakt",0,"",15],[2487334838,6,"Тарталья №8","","6475445333,6475445334,6475445335|tartalya-genshin-impakt",0,"",15,["HDB3M68m/6173.png"],1],[2487334877,6,"Тарталья №9","","6475445834,6475445835,6475445836|tartalya-genshin-impakt",0,"",15],[2487334896,6,"Тарталья №10","","6475445992,6475445993,6475445994|tartalya-genshin-impakt",0,"",15,["fdrhFhnV/6238.png"],1],[2516520481,6,"Тартал'я","тарталья","6514394773,6514394774,6514394775,6514394776|dakimakura-tartalya-genshin",0,"",15,["mF8MDkm6/404176.jpg"],1],[2516520490,6,"Тарталья №11","","6514395732,6514395733,6514395734,6514395735|dakimakura-tartalya-genshin",0,"",15,["qMKNgRDQ/404185.jpg"],1],[2528427752,6,"Тарталья №12","","6532287301,6532287302,6532287303,6532287304|dakimakura-tartalya-genshin",0,"",15,["VpTyQWpy/404278.jpg"],1],[2773259191,6,"Тарталья (A)","тарталья - (a)","6858587740,6858587743,6858587748,6858587751|dakimakura-tartalya-",0,"",15,["21sHJQxL/406247.jpg"],1],[2773259192,6,"Тарталья (B)","тарталья - (b)","6858587754,6858587757,6858587760,6858587764|dakimakura-tartalya-",0,"",15,["23g24h7h/406248.jpg"],1],[2773259193,6,"Тарталья (N)","тарталья - (n)","6858588379,6858588380,6858588381,6858588382|dakimakura-tartalya-",0,"",15,["ccTF0Zbr/406249.jpg"],1]]};</script>
 <!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
 <script src="/shipping.js" defer></script>
-<script src="/dakimakury/meta.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/shared.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16e" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16f" defer></script>
 </body>
 </html>

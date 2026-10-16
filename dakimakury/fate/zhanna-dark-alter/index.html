@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-M52SP5TP');</script>
-<!-- End Google Tag Manager -->
-
-<!-- Meta Pixel -->
+<!-- Google Tag Manager і Meta Pixel, відкладені.
+     Черги dataLayer і fbq створюються одразу, тож жодна подія не губиться: PageView, view_item_list та інші
+     чекають у черзі. Самі скрипти (gtm.js, fbevents.js) вантажаться після першої дії людини (дотик, прокрутка,
+     клавіша, рух миші) або через 2 с після завантаження сторінки, щоб не заважати браузеру показати сторінку. -->
 <script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '2233263877061328');
-fbq('track', 'PageView');
+(function(w,d){
+  w.dataLayer=w.dataLayer||[];w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+  if(!w.fbq){var n=w.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!w._fbq)w._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];}
+  w.fbq('init','2233263877061328');w.fbq('track','PageView');
+  var done=false,ev=['pointerdown','touchstart','keydown','scroll','mousemove','wheel'];
+  function add(src){var j=d.createElement('script');j.async=true;j.src=src;d.head.appendChild(j);}
+  function go(){if(done)return;done=true;ev.forEach(function(e){w.removeEventListener(e,go,true);});
+    add('https://www.googletagmanager.com/gtm.js?id=GTM-M52SP5TP');add('https://connect.facebook.net/en_US/fbevents.js');}
+  ev.forEach(function(e){w.addEventListener(e,go,{capture:true,passive:true,once:true});});
+  if(d.readyState==='complete')setTimeout(go,2000);else w.addEventListener('load',function(){setTimeout(go,2000);});
+})(window,document);
 </script>
-<!-- End Meta Pixel -->
+<!-- End Google Tag Manager / Meta Pixel -->
 
 <title>Дакімакури Жанна д’Арк Альтер (Fate): купити від 1 100 грн | printme</title>
 <meta name="description" content="Дакімакури Жанна д’Арк Альтер (Fate) з доставкою по Україні: 8 дизайнів, розміри від 100 до 180 см, друк на габардині, оплата при отриманні на Новій Пошті.">
@@ -43,7 +43,7 @@ fbq('track', 'PageView');
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16e">
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16f">
 <link rel="preload" as="image" imagesrcset="https://images.prom.ua/6532316884_w350_h350_dakimakura-zhanna-dark.webp 350w, https://images.prom.ua/6532316884_w640_h640_dakimakura-zhanna-dark.webp 640w" imagesizes="(max-width: 860px) calc(50vw - 21px), 260px" fetchpriority="high">
 <script>
 /* Фото не завантажилось: пробуємо запасну адресу (JPG без srcset), а якщо й вона ні, прибираємо слайд
@@ -163,8 +163,8 @@ window.imgFallback = function (img) {
 <script>window.DAKI_PAGE={"g":"fate","sub":"Жанна д’Арк Альтер","n":8,"rows":[[2528427855,48,"Жанна Дарк Альтер","жанна дарк альтер доля","6532316884,6532316888,6532316890,6532316892|dakimakura-zhanna-dark",0,"",12,["spCFZLbV/404381.jpg"],1],[2773258986,48,"Жанна д’Арк Альтер №1","жанна дарк альтер fate (d) доля","6858583711,6858583713,6858583715,6858583718|dakimakura-zhanna-dark",0,"",12,["9FQgJJ2/406125.jpg"],1],[2773258988,48,"Жанна д’Арк Альтер №2","жанна дарк альтер fate доля","6858583719,6858583722,6858583723,6858583725|dakimakura-zhanna-dark",0,"",12,["tPFZdRDq/406126.jpg"],1],[2773258989,48,"Жанна д’Арк Альтер №3","жанна дарк альтер fate (g) доля","6858583729,6858583732,6858583734,6858583737|dakimakura-zhanna-dark",0,"",12,["PvRFps8g/406127.jpg"],1],[2773258990,48,"Жанна д’Арк Альтер №4","жанна дарк альтер fate (j) доля","6858583741,6858583744,6858583746,6858583748|dakimakura-zhanna-dark",0,"",12,["s9YSM0xW/406128.jpg"],1],[2773258998,48,"Жанна д’Арк Альтер №5","жанна дарк альтер fate (o) доля","6858583902,6858583904,6858583905,6858583906|dakimakura-zhanna-dark",0,"",12,["JjHcvhs5/406129.jpg"],1],[2773259002,48,"Жанна д’Арк Альтер №6","жанна дарк альтер fate (p) доля","6858583907,6858583908,6858583909,6858583912|dakimakura-zhanna-dark",0,"",12,["1Y0vhFpQ/406130.jpg"],1],[2773259003,48,"Жанна д’Арк Альтер №7","жанна дарк альтер fate (s) доля","6858583915,6858583919,6858583923,6858583925|dakimakura-zhanna-dark",0,"",12,["dJL1r1h0/406131.jpg"],1]]};</script>
 <!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
 <script src="/shipping.js" defer></script>
-<script src="/dakimakury/meta.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/shared.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16e" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16f" defer></script>
 </body>
 </html>

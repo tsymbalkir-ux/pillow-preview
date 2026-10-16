@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-M52SP5TP');</script>
-<!-- End Google Tag Manager -->
-
-<!-- Meta Pixel -->
+<!-- Google Tag Manager і Meta Pixel, відкладені.
+     Черги dataLayer і fbq створюються одразу, тож жодна подія не губиться: PageView, view_item_list та інші
+     чекають у черзі. Самі скрипти (gtm.js, fbevents.js) вантажаться після першої дії людини (дотик, прокрутка,
+     клавіша, рух миші) або через 2 с після завантаження сторінки, щоб не заважати браузеру показати сторінку. -->
 <script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '2233263877061328');
-fbq('track', 'PageView');
+(function(w,d){
+  w.dataLayer=w.dataLayer||[];w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+  if(!w.fbq){var n=w.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!w._fbq)w._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];}
+  w.fbq('init','2233263877061328');w.fbq('track','PageView');
+  var done=false,ev=['pointerdown','touchstart','keydown','scroll','mousemove','wheel'];
+  function add(src){var j=d.createElement('script');j.async=true;j.src=src;d.head.appendChild(j);}
+  function go(){if(done)return;done=true;ev.forEach(function(e){w.removeEventListener(e,go,true);});
+    add('https://www.googletagmanager.com/gtm.js?id=GTM-M52SP5TP');add('https://connect.facebook.net/en_US/fbevents.js');}
+  ev.forEach(function(e){w.addEventListener(e,go,{capture:true,passive:true,once:true});});
+  if(d.readyState==='complete')setTimeout(go,2000);else w.addEventListener('load',function(){setTimeout(go,2000);});
+})(window,document);
 </script>
-<!-- End Meta Pixel -->
+<!-- End Google Tag Manager / Meta Pixel -->
 
 <title>Дакімакури Апокаліпсис Міногри: купити від 1 100 грн | printme</title>
 <meta name="description" content="Дакімакури Апокаліпсис Міногри з доставкою по Україні: 13 дизайнів, розміри від 100 до 180 см, друк на габардині, оплата при отриманні на Новій Пошті.">
@@ -43,7 +43,7 @@ fbq('track', 'PageView');
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16e">
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16f">
 <link rel="preload" as="image" imagesrcset="https://images.prom.ua/6876311965_w350_h350_kariya-erful-apokalipsis.webp 350w, https://images.prom.ua/6876311965_w640_h640_kariya-erful-apokalipsis.webp 640w" imagesizes="(max-width: 860px) calc(50vw - 21px), 260px" fetchpriority="high">
 <script>
 /* Фото не завантажилось: пробуємо запасну адресу (JPG без srcset), а якщо й вона ні, прибираємо слайд
@@ -168,8 +168,8 @@ window.imgFallback = function (img) {
 <script>window.DAKI_PAGE={"g":"apokalipsys-minohry","n":13,"rows":[[2787143505,165,"Карія Ерфул","кария эрфул апокалипсис миногры","6876311965,6876311968,6876311971|kariya-erful-apokalipsis",0,"",0],[2787143506,165,"Марія Ерфул","мария эрфул апокалипсис миногры","6876313880,6876313881,6876313882|mariya-erful-apokalipsis",0,"",0],[2806433114,165,"Caria Erful Вершник апокаліпсису Міноґра","апокалипсис миногры","6905298948,6905298958,6905298964|dakimakura-caria-erful",0,"",1],[2806433115,165,"Maria Erful Вершник апокаліпсису Міноґра","апокалипсис миногры","6905298969,6905298973,6905298976|dakimakura-maria-erful",0,"",1],[2787143503,165,"Одеї та Атоу","одеи но апокалипсис миногры","6876311405,6876311407,6876311409|odei-no-atou",0],[2787143504,165,"Таку Іра","такуто ира апокалипсис миногры","6876311959,6876311961,6876311963|takuto-ira-apokalipsis",0],[2787143507,165,"Емлі","эмле апокалипсис миногры","6876313883,6876313884,6876313885|emle-apokalipsis-minogry",0],[2787143508,165,"Джіа","джиа апокалипсис миногры","6876313887,6876313889,6876313892|dzhia-apokalipsis-minogry",0],[2806433112,165,"Odei no Atou Вершник апокаліпсису Міноґра","апокалипсис миногры","6905298920,6905298922,6905298925|dakimakura-odei-no",0],[2806433113,165,"Takuto Ira Вершник апокаліпсису Міноґра","апокалипсис миногры","6905298931,6905298935,6905298940|dakimakura-takuto-ira",0],[2806433116,165,"Emle Вершник апокаліпсису Міноґра","апокалипсис миногры","6905298980,6905298982,6905298985|dakimakura-emle-apokalipsis",0],[2806433117,165,"Gia Вершник апокаліпсису Міноґра","апокалипсис миногры","6905298989,6905298994,6905298998|dakimakura-gia-apokalipsis",0],[2806433118,165,"Flamin Вершник апокаліпсису Міноґра","апокалипсис миногры","6905299090,6905299092,6905299095|dakimakura-flamin-apokalipsis",0]]};</script>
 <!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
 <script src="/shipping.js" defer></script>
-<script src="/dakimakury/meta.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/shared.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16e" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16f" defer></script>
 </body>
 </html>

@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-M52SP5TP');</script>
-<!-- End Google Tag Manager -->
-
-<!-- Meta Pixel -->
+<!-- Google Tag Manager і Meta Pixel, відкладені.
+     Черги dataLayer і fbq створюються одразу, тож жодна подія не губиться: PageView, view_item_list та інші
+     чекають у черзі. Самі скрипти (gtm.js, fbevents.js) вантажаться після першої дії людини (дотик, прокрутка,
+     клавіша, рух миші) або через 2 с після завантаження сторінки, щоб не заважати браузеру показати сторінку. -->
 <script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '2233263877061328');
-fbq('track', 'PageView');
+(function(w,d){
+  w.dataLayer=w.dataLayer||[];w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+  if(!w.fbq){var n=w.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!w._fbq)w._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];}
+  w.fbq('init','2233263877061328');w.fbq('track','PageView');
+  var done=false,ev=['pointerdown','touchstart','keydown','scroll','mousemove','wheel'];
+  function add(src){var j=d.createElement('script');j.async=true;j.src=src;d.head.appendChild(j);}
+  function go(){if(done)return;done=true;ev.forEach(function(e){w.removeEventListener(e,go,true);});
+    add('https://www.googletagmanager.com/gtm.js?id=GTM-M52SP5TP');add('https://connect.facebook.net/en_US/fbevents.js');}
+  ev.forEach(function(e){w.addEventListener(e,go,{capture:true,passive:true,once:true});});
+  if(d.readyState==='complete')setTimeout(go,2000);else w.addEventListener('load',function(){setTimeout(go,2000);});
+})(window,document);
 </script>
-<!-- End Meta Pixel -->
+<!-- End Google Tag Manager / Meta Pixel -->
 
 <title>Дакімакури Асуна Юкі (Sword Art Online): купити від 1 100 грн | printme</title>
 <meta name="description" content="Дакімакури Асуна Юкі (Sword Art Online) з доставкою по Україні: 13 дизайнів, розміри від 100 до 180 см, друк на габардині, оплата при отриманні на Новій Пошті.">
@@ -43,7 +43,7 @@ fbq('track', 'PageView');
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16e">
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16f">
 <link rel="preload" as="image" imagesrcset="https://images.prom.ua/6766689253_w350_h350_anime-dakimakura-asuna.webp 350w, https://images.prom.ua/6766689253_w640_h640_anime-dakimakura-asuna.webp 640w" imagesizes="(max-width: 860px) calc(50vw - 21px), 260px" fetchpriority="high">
 <script>
 /* Фото не завантажилось: пробуємо запасну адресу (JPG без srcset), а якщо й вона ні, прибираємо слайд
@@ -168,8 +168,8 @@ window.imgFallback = function (img) {
 <script>window.DAKI_PAGE={"g":"sword-art-online","sub":"Асуна Юкі","n":13,"rows":[[1545311142,64,"Асуна Юкі №1","асуна юки майстер меча онлайн","6766689253,3546509291,4557260422,4363779747|anime-dakimakura-asuna",1,"",0],[1545311143,64,"Асуна Юкі №2","юки мастер меча онлайн","6766689990,3546509292,4557260422,4363779747|anime-dakimakura-asuna",0,"",0],[1545311144,64,"Асуна Юкі №3","юки мастер меча онлайн","6766691977,3546509293,4557260422,4363779747|anime-dakimakura-asuna",0,"",0],[1545311145,64,"Асуна Юкі №4","юки мастер меча онлайн","6766692797,3546510431,4557260422,4363779747|anime-dakimakura-asuna",0,"",0],[1545311146,64,"Асуна Юкі №5","юки мастер меча онлайн","6766693767,3546510432,4557260422,4363779747|anime-dakimakura-asuna",0,"",0],[1545311147,64,"Асуна Юкі №6","юки мастер меча онлайн","6766694347,3546510433,4557260422,4363779747|anime-dakimakura-asuna",0,"",0],[1545311148,64,"Асуна Юкі / Аліса Цуберг","юки алиса мастер меча онлайн","6766702039,3546510434,4557260422,4363779747|anime-dakimakura-asuna",0,"",0],[2487340719,64,"Асуна Юкі №7","юки мастера меча онлайн","6475455314,6475455315,6475455316,6475455317|asuna-yuki-mastera",0,"",0],[2487340721,64,"Асуна Юкі (Ordinal Scale) №1","юки мастера меча онлайн","6475455520,6475455522,6475455524,6475455526|asuna-yuki-ordinal",0,"",0],[2487340726,64,"Асуна Юкі (Ordinal Scale) №2","юки мастера меча онлайн","6475455570,6475455571,6475455573,6475455574|asuna-yuki-ordinal",0,"",0],[2487340727,64,"Асуна Юкі №8","юки мастера меча онлайн","6475455577,6475455578,6475455581,6475455583|asuna-yuki-mastera",0,"",0],[2487340730,64,"Асуна Юкі №9","юки мастера меча онлайн","6475455679,6475455680,6475455681,6475455682|asuna-yuki-mastera",0,"",0],[2487341040,64,"Асуна Юкі №10","юки sao мастера меча онлайн","6475456139,6475456140,6475456141,6475456142|asuna-yuki-sao",0,"",0]]};</script>
 <!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
 <script src="/shipping.js" defer></script>
-<script src="/dakimakury/meta.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/shared.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16e" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16f" defer></script>
 </body>
 </html>

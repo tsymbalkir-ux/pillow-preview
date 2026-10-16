@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-M52SP5TP');</script>
-<!-- End Google Tag Manager -->
-
-<!-- Meta Pixel -->
+<!-- Google Tag Manager і Meta Pixel, відкладені.
+     Черги dataLayer і fbq створюються одразу, тож жодна подія не губиться: PageView, view_item_list та інші
+     чекають у черзі. Самі скрипти (gtm.js, fbevents.js) вантажаться після першої дії людини (дотик, прокрутка,
+     клавіша, рух миші) або через 2 с після завантаження сторінки, щоб не заважати браузеру показати сторінку. -->
 <script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '2233263877061328');
-fbq('track', 'PageView');
+(function(w,d){
+  w.dataLayer=w.dataLayer||[];w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+  if(!w.fbq){var n=w.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!w._fbq)w._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];}
+  w.fbq('init','2233263877061328');w.fbq('track','PageView');
+  var done=false,ev=['pointerdown','touchstart','keydown','scroll','mousemove','wheel'];
+  function add(src){var j=d.createElement('script');j.async=true;j.src=src;d.head.appendChild(j);}
+  function go(){if(done)return;done=true;ev.forEach(function(e){w.removeEventListener(e,go,true);});
+    add('https://www.googletagmanager.com/gtm.js?id=GTM-M52SP5TP');add('https://connect.facebook.net/en_US/fbevents.js');}
+  ev.forEach(function(e){w.addEventListener(e,go,{capture:true,passive:true,once:true});});
+  if(d.readyState==='complete')setTimeout(go,2000);else w.addEventListener('load',function(){setTimeout(go,2000);});
+})(window,document);
 </script>
-<!-- End Meta Pixel -->
+<!-- End Google Tag Manager / Meta Pixel -->
 
 <title>Дакімакури Кафка (Honkai: Star Rail): купити від 1 100 грн | printme</title>
 <meta name="description" content="Дакімакури Кафка (Honkai: Star Rail) з доставкою по Україні: 21 дизайн, розміри від 100 до 180 см, друк на габардині, оплата при отриманні на Новій Пошті.">
@@ -43,7 +43,7 @@ fbq('track', 'PageView');
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16e">
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16f">
 <link rel="preload" as="image" imagesrcset="https://images.prom.ua/4983427722_w350_h350_dakimakura-gabardin-kafka.webp 350w, https://images.prom.ua/4983427722_w640_h640_dakimakura-gabardin-kafka.webp 640w" imagesizes="(max-width: 860px) calc(50vw - 21px), 260px" fetchpriority="high">
 <script>
 /* Фото не завантажилось: пробуємо запасну адресу (JPG без srcset), а якщо й вона ні, прибираємо слайд
@@ -176,8 +176,8 @@ window.imgFallback = function (img) {
 <script>window.DAKI_PAGE={"g":"hsr","sub":"Кафка","n":21,"rows":[[1986505187,14,"Kafka №1","","4983427722,4557260422,4363779747,4363779877|dakimakura-gabardin-kafka",1,"",2],[1986505188,14,"Kafka 2","","4983436457,4557260422,4363779747,4363779877|dakimakura-gabardin-kafka",0,"",2],[1986505206,14,"Kafka 3","","4983710113,4557260422,4363779747,4363779877|dakimakura-gabardin-kafka",0,"",2],[2487339638,14,"Кафка №1","","6475467851,6475467856,6475467857,6475467858|kafka-honkai-star",0,"",2],[2487339639,14,"Кафка №2","","6475467860,6475467862,6475467864,6475467865|kafka-honkai-star",0,"",2],[2487340618,14,"Кафка Хонкай №1","","6475452207,6475452209,6475452210,6475452211|kafka-honkaj-dakimakura",0,"",2],[2487340620,14,"Кафка Хонкай №2","","6475452223,6475452224,6475452225,6475452226|kafka-honkaj-dakimakura",0,"",2],[2487340624,14,"Кафка Хонкай №3","","6475452431,6475452433,6475452435,6475452438|kafka-honkaj-dakimakura",0,"",2],[2500153329,14,"Кафка №3","","6493886631,6493886632,6493886633,6493886634|dakimakura-kafka-honkaj",0,"",2,["mFvZ2Dnf/404055.jpg"],1],[2500153330,14,"Кафка №4","","6493886635,6493886636,6493886637,6493886638|dakimakura-kafka-honkaj",0,"",2,["ZRfN2k7W/404056.jpg"],1],[2528427776,14,"Кафка №5","","6532293321,6532293325,6532293328,6532293334|dakimakura-kafka-honkaj",0,"",2,["5XBkRVL2/404302.jpg"],1],[2528427868,14,"Кафка №6","","6532322339,6532322345,6532322348,6532322351|dakimakura-kafka-honkaj",0,"",2,["ksw10P79/404394.jpg"],1],[2536579074,14,"Кафка №7","","6544097307,6544097312,6544097315,6544097318|dakimakura-kafka-honkaj",0,"",2,["m5yzdym9/404591.jpg"],1],[2536579152,14,"Кафка №8","","6544118313,6544118317,6544118319,6544118320|kafka-honkaj-star",0,"",2,["Ngwcn7Lp/404669.jpg"],1],[2536579155,14,"Кафка №9","","6544118339,6544118341,6544118344,6544118346|dakimakura-kafka-honkaj",0,"",2,["GfQ2h0nS/404672.jpg"],1],[2536579157,14,"Кафка №10","","6544118357,6544118359,6544118361,6544118363|kafka-honkaj-star",0,"",2,["QvmqdvyC/404674.jpg"],1],[2536579171,14,"Kafka №2","","6544121232,6544121233,6544121234,6544121235|dakimakura-kafka-",0,"",2,["tT2DPCDJ/404688.jpg"],1],[2773259035,14,"Кафка (B)","кафка - (b)","6858584247,6858584250,6858584252,6858584255|dakimakura-kafka-",0,"",2,["kswqRqFR/406147.jpg"],1],[2773259036,14,"Кафка (E)","кафка - (e)","6858584258,6858584261,6858584262,6858584264|dakimakura-kafka-",0,"",2,["0jq613Yq/406148.jpg"],1],[2773259037,14,"Кафка (S)","кафка - (s)","6858584266,6858584269,6858584271,6858584274|dakimakura-kafka-",0,"",2,["7tpHTrF2/406149.jpg"],1],[2773259038,14,"Кафка №11","","6858584275,6858584277,6858584280,6858584283|dakimakura-kafka-",0,"",2,["m5BCq4GH/406150.jpg"],1]]};</script>
 <!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
 <script src="/shipping.js" defer></script>
-<script src="/dakimakury/meta.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/shared.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16e" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16f" defer></script>
 </body>
 </html>

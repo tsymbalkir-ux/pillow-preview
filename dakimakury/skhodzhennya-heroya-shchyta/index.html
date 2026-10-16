@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-M52SP5TP');</script>
-<!-- End Google Tag Manager -->
-
-<!-- Meta Pixel -->
+<!-- Google Tag Manager і Meta Pixel, відкладені.
+     Черги dataLayer і fbq створюються одразу, тож жодна подія не губиться: PageView, view_item_list та інші
+     чекають у черзі. Самі скрипти (gtm.js, fbevents.js) вантажаться після першої дії людини (дотик, прокрутка,
+     клавіша, рух миші) або через 2 с після завантаження сторінки, щоб не заважати браузеру показати сторінку. -->
 <script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '2233263877061328');
-fbq('track', 'PageView');
+(function(w,d){
+  w.dataLayer=w.dataLayer||[];w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+  if(!w.fbq){var n=w.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!w._fbq)w._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];}
+  w.fbq('init','2233263877061328');w.fbq('track','PageView');
+  var done=false,ev=['pointerdown','touchstart','keydown','scroll','mousemove','wheel'];
+  function add(src){var j=d.createElement('script');j.async=true;j.src=src;d.head.appendChild(j);}
+  function go(){if(done)return;done=true;ev.forEach(function(e){w.removeEventListener(e,go,true);});
+    add('https://www.googletagmanager.com/gtm.js?id=GTM-M52SP5TP');add('https://connect.facebook.net/en_US/fbevents.js');}
+  ev.forEach(function(e){w.addEventListener(e,go,{capture:true,passive:true,once:true});});
+  if(d.readyState==='complete')setTimeout(go,2000);else w.addEventListener('load',function(){setTimeout(go,2000);});
+})(window,document);
 </script>
-<!-- End Meta Pixel -->
+<!-- End Google Tag Manager / Meta Pixel -->
 
 <title>Дакімакури Сходження героя щита: купити від 1 100 грн | printme</title>
 <meta name="description" content="Дакімакури Сходження героя щита з доставкою по Україні: 17 дизайнів, розміри від 100 до 180 см, друк на габардині, оплата при отриманні на Новій Пошті.">
@@ -43,7 +43,7 @@ fbq('track', 'PageView');
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16e">
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16f">
 <link rel="preload" as="image" imagesrcset="https://images.prom.ua/6475460438_w350_h350_raftaliya-voshozhdenie-geroya.webp 350w, https://images.prom.ua/6475460438_w640_h640_raftaliya-voshozhdenie-geroya.webp 640w" imagesizes="(max-width: 860px) calc(50vw - 21px), 260px" fetchpriority="high">
 <script>
 /* Фото не завантажилось: пробуємо запасну адресу (JPG без srcset), а якщо й вона ні, прибираємо слайд
@@ -172,8 +172,8 @@ window.imgFallback = function (img) {
 <script>window.DAKI_PAGE={"g":"skhodzhennya-heroya-shchyta","n":17,"rows":[[2487341166,125,"Рафталія №1","рафталия восхождение героя щита сходження героя щита","6475460438,6475460440,6475460441,6475460444|raftaliya-voshozhdenie-geroya",1,"",0],[2487327288,125,"Рафталія №2","рафталия восхождение","6475427494,6475427495,6475427496,6475427497|raftaliya-voshozhdenie-geroya",0,"",0],[2487341167,125,"Рафталія №3","рафталия восхождение","6475460450,6475460451,6475460452,6475460453|raftaliya-voshozhdenie-geroya",0,"",0],[2487341168,125,"Фіро №1","фиро восхождение","6475460458,6475460459,6475460460,6475460464|firo-voshozhdenie-geroya",0,"",1],[2487341169,125,"Фіро №2","фиро восхождение","6475460468,6475460473,6475460475,6475460478|firo-voshozhdenie-geroya",0,"",1],[2487341170,125,"Рафталія №4","рафталия восхождение","6475460480,6475460482,6475460484,6475460487|raftaliya-voshozhdenie-geroya",0,"",0],[2487341171,125,"Рафталія №5","рафталия восхождение","6475460489,6475460491,6475460493,6475460495|raftaliya-voshozhdenie-geroya",0,"",0],[2487341172,125,"Рафталія №6","рафталия восхождение","6475460496,6475460497,6475460498,6475460500|raftaliya-voshozhdenie-geroya",0,"",0],[2536579032,125,"Рафталія №7","рафталия восхождение","6544086169,6544086171,6544086174,6544086178|dakimakura-raftaliya-voshozhdenie",0,"",0],[2787143420,125,"Рафталія №8","рафталия восхождение","6876286564,6876286565,6876286566|raftaliya-voshozhdenie-geroya",0,"",0],[2934163231,125,"Рафталія №9","рафталия восхождение","7093293491,7093293492,7093293493,7093293494|dakimakura-raftaliya-",0,"",0],[2934163232,125,"Рафталія №10","рафталия восхождение","7093293844,7093293845,7093293850,7093293854|dakimakura-raftaliya-",0,"",0],[2934163233,125,"Рафталія №11","рафталия восхождение","7093293857,7093293860,7093293862,7093293864|dakimakura-raftaliya-",0,"",0],[2787143417,125,"Мотоясу Кітамура","китамура восхождение","6876285401,6876285403,6876285408|motoyasu-kitamura-voshozhdenie",0],[2787143418,125,"Рен Амакі","амаки восхождение","6876286558,6876286559,6876286560|ren-amaki-voshozhdenie",0],[2787143419,125,"Іцукі Кавасумі","ицуки кавасуми восхождение","6876286561,6876286562,6876286563|itsuki-kavasumi-voshozhdenie",0],[2787143421,125,"Melty Q Melromarc","восхождение","6876286567,6876286568,6876286569|melty-q-melromarc",0]]};</script>
 <!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
 <script src="/shipping.js" defer></script>
-<script src="/dakimakury/meta.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/shared.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16e" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16f" defer></script>
 </body>
 </html>

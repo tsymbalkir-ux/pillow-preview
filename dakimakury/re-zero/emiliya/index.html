@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-M52SP5TP');</script>
-<!-- End Google Tag Manager -->
-
-<!-- Meta Pixel -->
+<!-- Google Tag Manager і Meta Pixel, відкладені.
+     Черги dataLayer і fbq створюються одразу, тож жодна подія не губиться: PageView, view_item_list та інші
+     чекають у черзі. Самі скрипти (gtm.js, fbevents.js) вантажаться після першої дії людини (дотик, прокрутка,
+     клавіша, рух миші) або через 2 с після завантаження сторінки, щоб не заважати браузеру показати сторінку. -->
 <script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '2233263877061328');
-fbq('track', 'PageView');
+(function(w,d){
+  w.dataLayer=w.dataLayer||[];w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+  if(!w.fbq){var n=w.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!w._fbq)w._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];}
+  w.fbq('init','2233263877061328');w.fbq('track','PageView');
+  var done=false,ev=['pointerdown','touchstart','keydown','scroll','mousemove','wheel'];
+  function add(src){var j=d.createElement('script');j.async=true;j.src=src;d.head.appendChild(j);}
+  function go(){if(done)return;done=true;ev.forEach(function(e){w.removeEventListener(e,go,true);});
+    add('https://www.googletagmanager.com/gtm.js?id=GTM-M52SP5TP');add('https://connect.facebook.net/en_US/fbevents.js');}
+  ev.forEach(function(e){w.addEventListener(e,go,{capture:true,passive:true,once:true});});
+  if(d.readyState==='complete')setTimeout(go,2000);else w.addEventListener('load',function(){setTimeout(go,2000);});
+})(window,document);
 </script>
-<!-- End Meta Pixel -->
+<!-- End Google Tag Manager / Meta Pixel -->
 
 <title>Дакімакури Емілія (Re:Zero): купити від 1 100 грн | printme</title>
 <meta name="description" content="Дакімакури Емілія (Re:Zero) з доставкою по Україні: 21 дизайн, розміри від 100 до 180 см, друк на габардині, оплата при отриманні на Новій Пошті.">
@@ -43,7 +43,7 @@ fbq('track', 'PageView');
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16e">
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16f">
 <link rel="preload" as="image" imagesrcset="https://images.prom.ua/6766701246_w350_h350_anime-dakimakura-emiliya.webp 350w, https://images.prom.ua/6766701246_w640_h640_anime-dakimakura-emiliya.webp 640w" imagesizes="(max-width: 860px) calc(50vw - 21px), 260px" fetchpriority="high">
 <script>
 /* Фото не завантажилось: пробуємо запасну адресу (JPG без srcset), а якщо й вона ні, прибираємо слайд
@@ -176,8 +176,8 @@ window.imgFallback = function (img) {
 <script>window.DAKI_PAGE={"g":"re-zero","sub":"Емілія","n":21,"rows":[[1545308153,61,"Емілія №1","эмилия жизнь альтернативном мире нуля","6766701246,3546541174,4557260422,4363779747|anime-dakimakura-emiliya",0,"",1],[1545308155,61,"Емілія №2","эмилия жизнь альтернативном мире нуля","6766702207,3546541175,4557260422,4363779747|anime-dakimakura-emiliya",0,"",1],[1545308157,61,"Емілія №3","эмилия жизнь альтернативном мире нуля","6766703490,3546541176,4557260422,4363779747|anime-dakimakura-emiliya",0,"",1],[1545308159,61,"Емілія №4","эмилия жизнь альтернативном мире нуля","6766704915,3546541177,4557260422,4363779747|anime-dakimakura-emiliya",0,"",1],[1545308161,61,"Емілія №5","эмилия жизнь альтернативном мире нуля","6766705817,3546541178,4557260422,4363779747|anime-dakimakura-emiliya",0,"",1],[1545308164,61,"Емілія №6","эмилия жизнь альтернативном мире нуля","6766707008,3546541179,4557260422,4363779747|anime-dakimakura-emiliya",0,"",1],[1986505133,61,"Емілія, Життя в іншому світі з нуля","эмилия re:zero жизнь другом мире","4980257540,4557260422,4363779747,4363779877|dakimakura-gabardin-emiliya",0,"",1],[2487340516,61,"Емілія №7","эмилия ре:ноль жизнь нуля другом мире","6475450147,6475450148,6475450149,6475450150|emiliya-renol-",0,"",1],[2487340522,61,"Емілія №8","эмилия ре:ноль жизнь нуля другом мире","6475450255,6475450257,6475450258,6475450260|emiliya-renol-",0,"",1],[2487340523,61,"Емілія №9","эмилия ре:ноль жизнь нуля другом мире","6475450266,6475450268,6475450270,6475450272|emiliya-renol-",0,"",1],[2487340529,61,"Емілія №10","эмилия ре:ноль жизнь нуля другом мире","6475450388,6475450389,6475450390,6475450392|emiliya-renol-",0,"",1],[2487340536,61,"Емілія №11","эмилия ре:ноль жизнь нуля другом мире","6475450468,6475450469,6475450470,6475450471|emiliya-renol-",0,"",1],[2487340537,61,"Емілія №12","эмилия ре:ноль жизнь нуля другом мире","6475450473,6475450474,6475450475,6475450477|emiliya-renol-",0,"",1],[2487340539,61,"Емілія №13","эмилия ре:ноль жизнь нуля другом мире","6475450482,6475450483,6475450484,6475450485|emiliya-renol-",0,"",1],[2487340540,61,"Емілія №14","эмилия ре:ноль жизнь нуля другом мире","6475450486,6475450487,6475450488,6475450489|emiliya-renol-",0,"",1],[2487340542,61,"Емілія №15","эмилия ре:ноль жизнь нуля другом мире","6475450498,6475450499,6475450500,6475450501|emiliya-renol-",0,"",1],[2487340544,61,"Емілія №16","эмилия ре:ноль жизнь нуля другом мире","6475450555,6475450556,6475450557,6475450558|emiliya-renol-",0,"",1],[2500153342,61,"Эмілія Re Zero №1","эмилия","6493890481,6493890482,6493890483,6493890484|dakimakura-emiliya-re",0,"",1],[2500153343,61,"Эмілія Re Zero №2","эмилия","6493890485,6493890486,6493890487,6493890488|dakimakura-emiliya-re",0,"",1],[2688279239,61,"Емілія Re Zero №1","эмилия","6493890481,6493890482,6493890483,6493890484|dakimakura-emiliya-re",0,"",1],[2688279240,61,"Емілія Re Zero №2","эмилия","6493890485,6493890486,6493890487,6493890488|dakimakura-emiliya-re",0,"",1]]};</script>
 <!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
 <script src="/shipping.js" defer></script>
-<script src="/dakimakury/meta.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/shared.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16e" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16f" defer></script>
 </body>
 </html>

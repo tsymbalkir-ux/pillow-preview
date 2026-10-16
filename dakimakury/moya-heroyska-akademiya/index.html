@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-M52SP5TP');</script>
-<!-- End Google Tag Manager -->
-
-<!-- Meta Pixel -->
+<!-- Google Tag Manager і Meta Pixel, відкладені.
+     Черги dataLayer і fbq створюються одразу, тож жодна подія не губиться: PageView, view_item_list та інші
+     чекають у черзі. Самі скрипти (gtm.js, fbevents.js) вантажаться після першої дії людини (дотик, прокрутка,
+     клавіша, рух миші) або через 2 с після завантаження сторінки, щоб не заважати браузеру показати сторінку. -->
 <script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '2233263877061328');
-fbq('track', 'PageView');
+(function(w,d){
+  w.dataLayer=w.dataLayer||[];w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+  if(!w.fbq){var n=w.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!w._fbq)w._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];}
+  w.fbq('init','2233263877061328');w.fbq('track','PageView');
+  var done=false,ev=['pointerdown','touchstart','keydown','scroll','mousemove','wheel'];
+  function add(src){var j=d.createElement('script');j.async=true;j.src=src;d.head.appendChild(j);}
+  function go(){if(done)return;done=true;ev.forEach(function(e){w.removeEventListener(e,go,true);});
+    add('https://www.googletagmanager.com/gtm.js?id=GTM-M52SP5TP');add('https://connect.facebook.net/en_US/fbevents.js');}
+  ev.forEach(function(e){w.addEventListener(e,go,{capture:true,passive:true,once:true});});
+  if(d.readyState==='complete')setTimeout(go,2000);else w.addEventListener('load',function(){setTimeout(go,2000);});
+})(window,document);
 </script>
-<!-- End Meta Pixel -->
+<!-- End Google Tag Manager / Meta Pixel -->
 
 <title>Дакімакури «Моя геройська академія»: купити від 1 100 грн | printme</title>
 <meta name="description" content="Дакімакури «Моя геройська академія» з доставкою по Україні: 73 дизайни, розміри від 100 до 180 см, друк на габардині, оплата при отриманні на Новій Пошті.">
@@ -43,7 +43,7 @@ fbq('track', 'PageView');
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16e">
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16f">
 <link rel="preload" as="image" imagesrcset="https://images.prom.ua/6766680695_w350_h350_anime-dakimakura-katsuki.webp 350w, https://images.prom.ua/6766680695_w640_h640_anime-dakimakura-katsuki.webp 640w" imagesizes="(max-width: 860px) calc(50vw - 21px), 260px" fetchpriority="high">
 <script>
 /* Фото не завантажилось: пробуємо запасну адресу (JPG без srcset), а якщо й вона ні, прибираємо слайд
@@ -203,8 +203,8 @@ window.imgFallback = function (img) {
 <script>window.DAKI_PAGE={"g":"mha","n":73,"rows":[[1545311193,27,"Кацукі Бакуго №1","кацуки бакуго","6766680695,3546513800,4557260422,4363779747|anime-dakimakura-katsuki",4,"",0],[1545311215,27,"Шото Тодорики №1","шото тодороки","6766684840,3546515766,4557260422,4363779747|anime-dakimakura-shoto",2,"",1],[1545311188,27,"Анімія Іуку Мідорія","изуку мидория","6766696479,3546513788,4557260422,4363779747|anime-dakimakura-izuku",0,"",2],[1545311189,27,"Іуку Мідорія","изуку мидория","6766700461,3546513791,4557260422,4363779747|anime-dakimakura-izuku",0,"",2],[1545311190,27,"Іуку Мідорія / Всемогутній","изуку мидория / всемогущий","6766688825,3546513794,4557260422,4363779747|anime-dakimakura-izuku",0,"",2],[1545311191,27,"Камінарі Денкі №1","каминари дэнки","6766689699,3546513797,4557260422,4363779747|anime-dakimakura-kaminari",0,"",7],[1545311192,27,"Камінарі Денкі №2","каминари дэнки","6766690445,3546513798,4557260422,4363779747|anime-dakimakura-kaminari",0,"",7],[1545311194,27,"Кацукі Бакуго №2","кацуки бакуго","6766681526,3546513802,4557260422,4363779747|anime-dakimakura-katsuki",0,"",0],[1545311195,27,"Кацукі Бакуго №3","кацуки бакуго","6766682260,3546513804,4557260422,4363779747|anime-dakimakura-katsuki",0,"",0],[1545311196,27,"Кацукі Бакуго №4","кацуки бакуго","6766683107,3546514479,4557260422,4363779747|anime-dakimakura-katsuki",0,"",0],[1545311197,27,"Кацукі Бакуго №5","кацуки бакуго","6766685165,3546514481,4557260422,4363779747|anime-dakimakura-katsuki",0,"",0],[1545311198,27,"Кацукі Бакуго №6","кацуки бакуго","6766686123,3546514484,4557260422,4363779747|anime-dakimakura-katsuki",0,"",0],[1545311199,27,"Кацукі Бакуго №7","кацуки бакуго","6766687085,3546514487,4557260422,4363779747|anime-dakimakura-katsuki",0,"",0],[1545311200,27,"Кацукі Бакуго №8","кацуки бакуго","6766687785,3546514490,4557260422,4363779747|anime-dakimakura-katsuki",0,"",0],[1545311205,27,"Очако Урарака №1","","6766696749,3546514504,4557260422,4363779747|anime-dakimakura-ochako",0,"",3],[1545311206,27,"Очако Урарака №2","","6766700624,3546515750,4557260422,4363779747|anime-dakimakura-ochako",0,"",3],[1545311211,27,"Хадо Неджіре","хадо неджире","6766691032,3546515760,4557260422,4363779747|anime-dakimakura-hado",0,"",9],[1545311212,27,"Цю Асуй №1","цую асуй","6766680565,3546515762,4557260422,4363779747|anime-dakimakura-tsuyu",0,"",6],[1545311213,27,"Цю Асуй №2","цую асуй","6766681386,3546515764,4557260422,4363779747|anime-dakimakura-tsuyu",0,"",6],[1545311214,27,"Шота Аізава","шота аизава","6766682557,3546515765,4557260422,4363779747|anime-dakimakura-shota",0,"",11],[1545311216,27,"Шото Тодорики №2","шото тодороки","6766685824,3546516796,4557260422,4363779747|anime-dakimakura-shoto",0,"",1],[1545311217,27,"Шото Тодорики №3","шото тодороки","6766686598,3546516797,4557260422,4363779747|anime-dakimakura-shoto",0,"",1],[1545311218,27,"Шото Тодорики №4","шото тодороки","6766687335,3546516798,4557260422,4363779747|anime-dakimakura-shoto",0,"",1],[1986505135,27,"Дабі №1","даби","4980323819,4557260422,4363779747,4363779877|dakimakura-gabardin-dabi",0,"",4],[1986505181,27,"Дабі 2","даби 2","4983295984,4557260422,4363779747,4363779877|dakimakura-gabardin-dabi",0,"",4],[2487331348,27,"Тодорокі Шото №1","тодороки шото","6475437154,6475437155,6475437156,6475437158|todoroki-shoto-moya",0,"",1],[2487338846,27,"Кацукі Бакуґо №1","кацуки бакуго","6475462007,6475462008,6475462009,6475462010|katsuki-bakugo-moya",0,"",0],[2487338848,27,"Хоукс №1","","6475462022,6475462023,6475462024,6475462025|houks-moya-gerojskaya",0,"",10],[2487338849,27,"Кацукі Бакуґо №2","кацуки бакуго","6475462029,6475462030,6475462031,6475462032|katsuki-bakugo-moya",0,"",0],[2487338850,27,"Тодорокі Шото №2","тодороки шото","6475462304,6475462305,6475462306,6475462307|todoroki-shoto-moya",0,"",1],[2487338851,27,"Ідзуку Мідорія №1","идзуку мидория","6475462315,6475462317,6475462320,6475462322|idzuku-midoriya-moya",0,"",2],[2487338852,27,"Кацукі Бакуґо №3","кацуки бакуго","6475462338,6475462340,6475462343,6475462345|katsuki-bakugo-moya",0,"",0],[2487338855,27,"Тодорокі Шото №3","тодороки шото","6475462399,6475462401,6475462403,6475462409|todoroki-shoto-moya",0,"",1],[2487338856,27,"Кацукі Бакуґо №4","кацуки бакуго","6475462421,6475462446,6475462450,6475462454|katsuki-bakugo-moya",0,"",0],[2487338857,27,"Тодорокі Шото №4","тодороки шото","6475462462,6475462466,6475462468,6475462470|todoroki-shoto-moya",0,"",1],[2487338858,27,"Ідзуку Мідорія №2","идзуку мидория","6475462627,6475462629,6475462631,6475462633|idzuku-midoriya-moya",0,"",2],[2487338859,27,"Цую Асуй (Фроппі)","тсую асуи (фроппи)","6475462642,6475462643,6475462645,6475462647|tsuyu-asui-froppi",0,"",6],[2487338860,27,"Кацукі Бакуґо №5","кацуки бакуго","6475462649,6475462651,6475462653,6475462655|katsuki-bakugo-moya",0,"",0],[2487338861,27,"Шота Айдзава","шота айзава","6475462656,6475462658,6475462660,6475462662|shota-ajzava-moya",0,"",11],[2487338863,27,"Неджіре Хадо","недзире хадо","6475462667,6475462668,6475462669,6475462670|nedzire-hado-moya",0,"",9],[2487338866,27,"Хоукс №2","","6475462774,6475462775,6475462776,6475462778|houks-moya-gerojskaya",0,"",10],[2487338867,27,"Очако Урарака №3","","6475462780,6475462782,6475462785,6475462789|ochako-uraraka-moya",0,"",3],[2487338868,27,"Кацукі Бакуґо №6","кацуки бакуго","6475462791,6475462794,6475462796,6475462798|katsuki-bakugo-moya",0,"",0],[2487338869,27,"Тодорокі Шото №5","тодороки шото","6475462800,6475462801,6475462803,6475462804|todoroki-shoto-moya",0,"",1],[2487338870,27,"Очако Урарака №4","","6475462805,6475462806,6475462807,6475462808|ochako-uraraka-moya",0,"",3],[2487338871,27,"Дабі №2","даби","6475462809,6475462810,6475462811,6475462812|dabi-moya-gerojskaya",0,"",4],[2516520485,27,"Кейго Такамі №1","кейго таками","6514394789,6514394790,6514394791,6514394792|dakimakura-kejgo-takami",0,"",5,["Dg7tDmcW/404180.jpg"],1],[2516520486,27,"Кейго Такамі №2","кейго таками","6514394793,6514394794,6514394795,6514394796|dakimakura-kejgo-takami",0,"",5,["MyKPnCQm/404181.jpg"],1]]};</script>
 <!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
 <script src="/shipping.js" defer></script>
-<script src="/dakimakury/meta.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/shared.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16e" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16f" defer></script>
 </body>
 </html>

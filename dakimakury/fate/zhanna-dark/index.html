@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-M52SP5TP');</script>
-<!-- End Google Tag Manager -->
-
-<!-- Meta Pixel -->
+<!-- Google Tag Manager і Meta Pixel, відкладені.
+     Черги dataLayer і fbq створюються одразу, тож жодна подія не губиться: PageView, view_item_list та інші
+     чекають у черзі. Самі скрипти (gtm.js, fbevents.js) вантажаться після першої дії людини (дотик, прокрутка,
+     клавіша, рух миші) або через 2 с після завантаження сторінки, щоб не заважати браузеру показати сторінку. -->
 <script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '2233263877061328');
-fbq('track', 'PageView');
+(function(w,d){
+  w.dataLayer=w.dataLayer||[];w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+  if(!w.fbq){var n=w.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!w._fbq)w._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];}
+  w.fbq('init','2233263877061328');w.fbq('track','PageView');
+  var done=false,ev=['pointerdown','touchstart','keydown','scroll','mousemove','wheel'];
+  function add(src){var j=d.createElement('script');j.async=true;j.src=src;d.head.appendChild(j);}
+  function go(){if(done)return;done=true;ev.forEach(function(e){w.removeEventListener(e,go,true);});
+    add('https://www.googletagmanager.com/gtm.js?id=GTM-M52SP5TP');add('https://connect.facebook.net/en_US/fbevents.js');}
+  ev.forEach(function(e){w.addEventListener(e,go,{capture:true,passive:true,once:true});});
+  if(d.readyState==='complete')setTimeout(go,2000);else w.addEventListener('load',function(){setTimeout(go,2000);});
+})(window,document);
 </script>
-<!-- End Meta Pixel -->
+<!-- End Google Tag Manager / Meta Pixel -->
 
 <title>Дакімакури Жанна д’Арк (Fate): купити від 1 100 грн | printme</title>
 <meta name="description" content="Дакімакури Жанна д’Арк (Fate) з доставкою по Україні: 16 дизайнів, розміри від 100 до 180 см, друк на габардині, оплата при отриманні на Новій Пошті.">
@@ -43,7 +43,7 @@ fbq('track', 'PageView');
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16e">
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16f">
 <link rel="preload" as="image" imagesrcset="https://images.prom.ua/6475440973_w350_h350_zhanna-dark-alter.webp 350w, https://images.prom.ua/6475440973_w640_h640_zhanna-dark-alter.webp 640w" imagesizes="(max-width: 860px) calc(50vw - 21px), 260px" fetchpriority="high">
 <script>
 /* Фото не завантажилось: пробуємо запасну адресу (JPG без srcset), а якщо й вона ні, прибираємо слайд
@@ -171,8 +171,8 @@ window.imgFallback = function (img) {
 <script>window.DAKI_PAGE={"g":"fate","sub":"Жанна д’Арк","n":16,"rows":[[2487333255,48,"Жанна д’Арк (Альтер) №1","жанна д’арк (альтер) /великий приказ доля","6475440973,6475440974,6475440975,6475440976|zhanna-dark-alter",1,"",2],[1986505200,48,"Жанна д'Арк","жанна д'арк, /великий приказ: вавилония доля","4983633947,4557260422,4363779747,4363779877|dakimakura-gabardin-zhanna",0,"",2],[2487327304,48,"Жанна д’Арк №1","жанна д’арк : великий приказ доля","6475427926,6475427927,6475427928,6475427929|zhanna-dark-sudba",0,"",2],[2487332752,48,"Жанна д’Арк №2","жанна д’арк /апокриф доля","6475438747,6475438748,6475438749,6475438750|zhanna-dark-sudbaapokrif",0,"",2],[2487332770,48,"Жанна д’Арк №3","жанна д’арк /великий приказ доля","6475439400,6475439401,6475439402,6475439403|zhanna-dark-sudbavelikij",0,"",2],[2487333240,48,"Жанна д’Арк №4","жанна д’арк /великий приказ доля","6475440750,6475440751,6475440752,6475440753|zhanna-dark-sudbavelikij",0,"",2],[2487333244,48,"Жанна д’Арк №5","жанна д’арк /великий приказ доля","6475440786,6475440787,6475440788,6475440789|zhanna-dark-sudbavelikij",0,"",2],[2487333246,48,"Жанна д’Арк №6","жанна д’арк /великий приказ доля","6475440795,6475440796,6475440797,6475440798|zhanna-dark-sudbavelikij",0,"",2],[2487333250,48,"Жанна д’Арк (Дівчина)","жанна д’арк (дивчина) /великий приказ доля","6475440909,6475440910,6475440911,6475440912|zhanna-dark-divchina",0,"",2],[2487333254,48,"Жанна д’Арк №7","жанна д’арк /великий приказ доля","6475440926,6475440927,6475440928,6475440929|zhanna-dark-sudbavelikij",0,"",2],[2487333260,48,"Жанна д’Арк (Альтер) №2","жанна д’арк (альтер) /великий приказ доля","6475440993,6475440994,6475440996,6475440997|zhanna-dark-alter",0,"",2],[2487333273,48,"Жанна д’Арк (Альтер) №3","жанна д’арк (альтер) /великий приказ доля","6475441226,6475441227,6475441228,6475441229|zhanna-dark-alter",0,"",2],[2487333288,48,"Жанна д’Арк (Лілія)","жанна д’арк (лилия) /великий приказ доля","6475441599,6475441601,6475441602,6475441605|zhanna-dark-liliya",0,"",2],[2487334060,48,"Жанна д’Арк №8","жанна д’арк /великий приказ доля","6475441720,6475441721,6475441722,6475441723|zhanna-dark-sudbavelikij",0,"",2,["yc7zYbzg/4649.png"],1],[2487334061,48,"Жанна д’Арк №9","жанна д’арк /великий приказ доля","6475441724,6475441725,6475441726,6475441727|zhanna-dark-sudbavelikij",0,"",2],[2487334072,48,"Жанна д’Арк (Правитель)","жанна д’арк (правитель) /великий приказ доля","6475441807,6475441808,6475441809,6475441810|zhanna-dark-pravitel",0,"",2]]};</script>
 <!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
 <script src="/shipping.js" defer></script>
-<script src="/dakimakury/meta.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/shared.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16e" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16f" defer></script>
 </body>
 </html>

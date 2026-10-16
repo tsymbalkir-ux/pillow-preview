@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-M52SP5TP');</script>
-<!-- End Google Tag Manager -->
-
-<!-- Meta Pixel -->
+<!-- Google Tag Manager і Meta Pixel, відкладені.
+     Черги dataLayer і fbq створюються одразу, тож жодна подія не губиться: PageView, view_item_list та інші
+     чекають у черзі. Самі скрипти (gtm.js, fbevents.js) вантажаться після першої дії людини (дотик, прокрутка,
+     клавіша, рух миші) або через 2 с після завантаження сторінки, щоб не заважати браузеру показати сторінку. -->
 <script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '2233263877061328');
-fbq('track', 'PageView');
+(function(w,d){
+  w.dataLayer=w.dataLayer||[];w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+  if(!w.fbq){var n=w.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!w._fbq)w._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];}
+  w.fbq('init','2233263877061328');w.fbq('track','PageView');
+  var done=false,ev=['pointerdown','touchstart','keydown','scroll','mousemove','wheel'];
+  function add(src){var j=d.createElement('script');j.async=true;j.src=src;d.head.appendChild(j);}
+  function go(){if(done)return;done=true;ev.forEach(function(e){w.removeEventListener(e,go,true);});
+    add('https://www.googletagmanager.com/gtm.js?id=GTM-M52SP5TP');add('https://connect.facebook.net/en_US/fbevents.js');}
+  ev.forEach(function(e){w.addEventListener(e,go,{capture:true,passive:true,once:true});});
+  if(d.readyState==='complete')setTimeout(go,2000);else w.addEventListener('load',function(){setTimeout(go,2000);});
+})(window,document);
 </script>
-<!-- End Meta Pixel -->
+<!-- End Google Tag Manager / Meta Pixel -->
 
 <title>Дакімакури LE SSERAFIM: купити від 1 100 грн | printme</title>
 <meta name="description" content="Дакімакури LE SSERAFIM з доставкою по Україні: 8 дизайнів, розміри від 100 до 180 см, друк на габардині, оплата при отриманні на Новій Пошті.">
@@ -43,7 +43,7 @@ fbq('track', 'PageView');
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16e">
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16f">
 <link rel="preload" as="image" imagesrcset="https://images.prom.ua/6769994896_w350_h350_le-sserafim-dakimakura.webp 350w, https://images.prom.ua/6769994896_w640_h640_le-sserafim-dakimakura.webp 640w" imagesizes="(max-width: 860px) calc(50vw - 21px), 260px" fetchpriority="high">
 <script>
 /* Фото не завантажилось: пробуємо запасну адресу (JPG без srcset), а якщо й вона ні, прибираємо слайд
@@ -163,8 +163,8 @@ window.imgFallback = function (img) {
 <script>window.DAKI_PAGE={"g":"kpop","sub":"LE SSERAFIM","n":8,"rows":[[2693892024,40,"LE SSERAFIM №1","","6769994896,6769994897,6769994898,6769994901|le-sserafim-dakimakura",1,"LE SSERAFIM",6,["JWT0fsZp/1164.jpg"],1],[2693891975,40,"Кадзуха (Kazuha) Le Sserafim","","6769993597,6769993598,6769993600,6769993602|kadzuha-kazuha-le",0,"LE SSERAFIM",6,["MyLNqgvQ/1169.jpg","8nn5MG2z/1169.png"],1],[2693891976,40,"Инче (Eunchae) Le Sserafim","ынчхэ (eunchae) le sserafim","6769993604,6769993605,6769993609,6769993611|ynchhe-eunchae-le",0,"LE SSERAFIM",6,["ZRRpJBGR/1170.jpg","TMYBLV8x/1170.png"],1],[2693892011,40,"Юнджін (Yunjin) Le Sserafim №1","юнджин (yunjin) le sserafim","6769994665,6769994666,6769994669,6769994672|yundzhin-yunjin-le",0,"LE SSERAFIM",6,["nZw4Jpb/1168.jpg","k2QPG2BJ/1168.png"],1],[2693892037,40,"Чевон (Chaewon) Le Sserafim №1","чхэвон (chaewon) le sserafim","6769995367,6769995369,6769995370,6769995371|chhevon-chaewon-le",0,"LE SSERAFIM",6,["s97bGdtD/1167.jpg","5wg0Jrz/1167.png"],1],[2693892045,40,"Сакура (Sakura) Le Sserafim №1","","6769995596,6769995597,6769995598,6769995599|sakura-sakura-le",0,"LE SSERAFIM",6,["CKY3YJnm/1166.jpg"],1],[2693892060,40,"LE SSERAFIM №3","","6769995914,6769995916,6769995919,6769995925|le-sserafim-dakimakura",0,"LE SSERAFIM",6,["YT1KTsD2/1163.jpg"],1],[2693892078,40,"LE SSERAFIM №4","","6769996469,6769996470,6769996471,6769996472|le-sserafim-dakimakura",0,"LE SSERAFIM",6,["qLNfHnZK/1165.jpg"],1]]};</script>
 <!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
 <script src="/shipping.js" defer></script>
-<script src="/dakimakury/meta.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/shared.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16e" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16f" defer></script>
 </body>
 </html>

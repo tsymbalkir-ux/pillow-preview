@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-M52SP5TP');</script>
-<!-- End Google Tag Manager -->
-
-<!-- Meta Pixel -->
+<!-- Google Tag Manager і Meta Pixel, відкладені.
+     Черги dataLayer і fbq створюються одразу, тож жодна подія не губиться: PageView, view_item_list та інші
+     чекають у черзі. Самі скрипти (gtm.js, fbevents.js) вантажаться після першої дії людини (дотик, прокрутка,
+     клавіша, рух миші) або через 2 с після завантаження сторінки, щоб не заважати браузеру показати сторінку. -->
 <script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '2233263877061328');
-fbq('track', 'PageView');
+(function(w,d){
+  w.dataLayer=w.dataLayer||[];w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+  if(!w.fbq){var n=w.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!w._fbq)w._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];}
+  w.fbq('init','2233263877061328');w.fbq('track','PageView');
+  var done=false,ev=['pointerdown','touchstart','keydown','scroll','mousemove','wheel'];
+  function add(src){var j=d.createElement('script');j.async=true;j.src=src;d.head.appendChild(j);}
+  function go(){if(done)return;done=true;ev.forEach(function(e){w.removeEventListener(e,go,true);});
+    add('https://www.googletagmanager.com/gtm.js?id=GTM-M52SP5TP');add('https://connect.facebook.net/en_US/fbevents.js');}
+  ev.forEach(function(e){w.addEventListener(e,go,{capture:true,passive:true,once:true});});
+  if(d.readyState==='complete')setTimeout(go,2000);else w.addEventListener('load',function(){setTimeout(go,2000);});
+})(window,document);
 </script>
-<!-- End Meta Pixel -->
+<!-- End Google Tag Manager / Meta Pixel -->
 
 <title>Дакімакури Exo: купити від 1 100 грн | printme</title>
 <meta name="description" content="Дакімакури Exo з доставкою по Україні: 42 дизайни, розміри від 100 до 180 см, друк на габардині, оплата при отриманні на Новій Пошті.">
@@ -43,7 +43,7 @@ fbq('track', 'PageView');
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16e">
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16f">
 <link rel="preload" as="image" imagesrcset="https://images.prom.ua/4182797284_w350_h350_dio-exo-dakimakura.webp 350w, https://images.prom.ua/4182797284_w640_h640_dio-exo-dakimakura.webp 640w" imagesizes="(max-width: 860px) calc(50vw - 21px), 260px" fetchpriority="high">
 <script>
 /* Фото не завантажилось: пробуємо запасну адресу (JPG без srcset), а якщо й вона ні, прибираємо слайд
@@ -197,8 +197,8 @@ window.imgFallback = function (img) {
 <script>window.DAKI_PAGE={"g":"exo","n":42,"rows":[[1742185482,72,"Дио","","4182797284,4557260422,4363779747,4363779877|dio-exo-dakimakura",0,"",0],[1742217871,72,"Дио №2","дио2","4182837162,4557260422,4363779747,4363779877|dio2-exo-dakimakura",0,"",0],[1742221222,72,"Кай","","4182978354,4557260422,4363779747,4363779877|kaj-exo-dakimakura",0,"",8],[1742221605,72,"Кай №2","кай2","4182980563,4557260422,4363779747,4363779877|kaj2-exo-dakimakura",0,"",8],[1742222046,72,"Бекхьон №1","","4182982663,4557260422,4363779747,4363779877|bekhon-exo-dakimakura",0,"",1],[1742222600,72,"Бекхьон №2","бекхьон2","4182985196,4557260422,4363779747,4363779877|bekhon2-exo-dakimakura",0,"",1],[1742224207,72,"Кріс Ву №1","крис","4182987992,4557260422,4363779747,4363779877|kris-vu-exo",0,"",6],[1742226025,72,"Кріс Ву №2","крис ву2","4182989866,4557260422,4363779747,4363779877|kris-vu2-exo",0,"",6],[1742257007,72,"Лей №1","","4183044612,4557260422,4363779747,4363779877|lej-exo-dakimakura",0,"",3],[1742261869,72,"Лей №2","лей2","4183055725,4557260422,4363779747,4363779877|lej2-exo-dakimakura",0,"",3],[1742265485,72,"Сехун №1","","4183063206,4557260422,4363779747,4363779877|sehun-exo-dakimakura",0,"",4],[1742270765,72,"Сехун №2","сехун2","4183072231,4557260422,4363779747,4363779877|sehun2-exo-dakimakura",0,"",4],[1742277329,72,"Сухо №1","","4183085146,4557260422,4363779747,4363779877|suho-exo-dakimakura",0,"",2],[1742281021,72,"Сухо №2","сухо2","4183095808,4557260422,4363779747,4363779877|suho2-exo-dakimakura",0,"",2],[1742286472,72,"Сюмін №1","сюмин","4183104558,4557260422,4363779747,4363779877|syumin-exo-dakimakura",0,"",5],[1742332701,72,"Сюмін №2","сюмин2","4183248498,4557260422,4363779747,4363779877|syumin2-exo-dakimakura",0,"",5],[1742336228,72,"Чен №1","","4183264785,4557260422,4363779747,4363779877|chen-exo-dakimakura",0,"",7],[1742338280,72,"Чен №2","чен2","4183276263,4557260422,4363779747,4363779877|chen2-exo-dakimakura",0,"",7],[2493767222,72,"Сюмін №3","сиумин xiumin","6485178028,6485178029,6485178030,6485178031|siumin-xiumin-exo",0,"",5],[2493767223,72,"Сухо №3","suho","6485178032,6485178033,6485178034,6485178035|suho-suho-exo",0,"",2],[2493767224,72,"Лей №3","лэй lay","6485178036,6485178037,6485178038,6485178039|lej-lay-exo",0,"",3],[2493767230,72,"Сехун №3","sehun","6485178887,6485178888,6485178889,6485178890|sehun-sehun-exo",0,"",4],[2693890926,72,"Сюмін №4","сиумин xiumin","6485178028,6485178029,6485178030,6485178031|siumin-xiumin-exo",0,"",5],[2693890927,72,"Бекхьон №3","пэкхён baekhyun","6485178040,6485178041,6485178042,6485178043|pekhyon-baekhyun-exo",0,"",1],[2693890929,72,"ДіО №1","d. o. d.o.","6485178877,6485178878,6485178880,6485178881|d-o-do",0,"",0],[2693891967,72,"Лей №4","лэй lay","6485178036,6485178037,6485178038,6485178039|lej-lay-exo",0,"",3],[2693892085,72,"ДіО №2","d. o. d.o.","6763834220,6763834221,6763834222,6763834223|dakimakura-d-o",0,"",0],[2693892086,72,"ДіО №3","d. o. d.o.","6763834225,6763834226,6763834227,6763834228|dakimakura-d-o",0,"",0],[2693892099,72,"Бекхьон №4","пэкхён baekhyun","6763836063,6763836064,6763836066,6763836067|dakimakura-pekhyon-baekhyun",0,"",1],[2693892100,72,"Бекхьон №5","пэкхён baekhyun","6763836069,6763836070,6763836071,6763836072|dakimakura-pekhyon-baekhyun",0,"",1],[2693892102,72,"Кріс Ву №3","крис","6763836079,6763836080,6763836081,6763836082|dakimakura-kris-vu",0,"",6],[2693892119,72,"Сехун №4","sehun","6763836671,6763836672,6763836673,6763836674|dakimakura-sehun-sehun",0,"",4],[2693892124,72,"Сухо №4","suho","6763836775,6763836779,6763836782,6763836783|dakimakura-suho-suho",0,"",2],[2693892125,72,"Сухо №5","suho","6763836786,6763836787,6763836788,6763836789|dakimakura-suho-suho",0,"",2],[2693892130,72,"Чен №3","chen","6763836814,6763836815,6763836816,6763836817|dakimakura-chen-chen",0,"",7],[2693890928,72,"Чаньоль","чханёль chanyeol","6485178048,6485178049,6485178050,6485178051|chhanyol-chanyeol-exo",0],[2493767219,72,"Exo №1","","6485176205,6485176206,6485176207,6485176208|exo-dakimakura-podushka",0],[2493767220,72,"Exo №2","","6485178020,6485178021,6485178022,6485178023|exo-dakimakura-podushka",0],[2493767221,72,"Exo №3","","6485178024,6485178025,6485178026,6485178027|exo-dakimakura-podushka",0],[2693890955,72,"Exo №4","","6485178024,6485178025,6485178026,6485178027|exo-dakimakura-podushka",0],[2693890959,72,"Exo №5","","6485178020,6485178021,6485178022,6485178023|exo-dakimakura-podushka",0],[2773261049,72,"EXO","","6858585626,6858585627,6858585628|exo-dakimakura-podushka",0]]};</script>
 <!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
 <script src="/shipping.js" defer></script>
-<script src="/dakimakury/meta.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/shared.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16e" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16f" defer></script>
 </body>
 </html>

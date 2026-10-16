@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-M52SP5TP');</script>
-<!-- End Google Tag Manager -->
-
-<!-- Meta Pixel -->
+<!-- Google Tag Manager і Meta Pixel, відкладені.
+     Черги dataLayer і fbq створюються одразу, тож жодна подія не губиться: PageView, view_item_list та інші
+     чекають у черзі. Самі скрипти (gtm.js, fbevents.js) вантажаться після першої дії людини (дотик, прокрутка,
+     клавіша, рух миші) або через 2 с після завантаження сторінки, щоб не заважати браузеру показати сторінку. -->
 <script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '2233263877061328');
-fbq('track', 'PageView');
+(function(w,d){
+  w.dataLayer=w.dataLayer||[];w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+  if(!w.fbq){var n=w.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!w._fbq)w._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];}
+  w.fbq('init','2233263877061328');w.fbq('track','PageView');
+  var done=false,ev=['pointerdown','touchstart','keydown','scroll','mousemove','wheel'];
+  function add(src){var j=d.createElement('script');j.async=true;j.src=src;d.head.appendChild(j);}
+  function go(){if(done)return;done=true;ev.forEach(function(e){w.removeEventListener(e,go,true);});
+    add('https://www.googletagmanager.com/gtm.js?id=GTM-M52SP5TP');add('https://connect.facebook.net/en_US/fbevents.js');}
+  ev.forEach(function(e){w.addEventListener(e,go,{capture:true,passive:true,once:true});});
+  if(d.readyState==='complete')setTimeout(go,2000);else w.addEventListener('load',function(){setTimeout(go,2000);});
+})(window,document);
 </script>
-<!-- End Meta Pixel -->
+<!-- End Google Tag Manager / Meta Pixel -->
 
 <title>Дакімакури Формула 1: купити від 1 100 грн | printme</title>
 <meta name="description" content="Дакімакури Формула 1 з доставкою по Україні: 25 дизайнів, розміри від 100 до 180 см, друк на габардині, оплата при отриманні на Новій Пошті.">
@@ -43,7 +43,7 @@ fbq('track', 'PageView');
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16e">
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16f">
 <link rel="preload" as="image" imagesrcset="https://images.prom.ua/4779373299_w350_h350_dakimakura-gabardin-sharl.webp 350w, https://images.prom.ua/4779373299_w640_h640_dakimakura-gabardin-sharl.webp 640w" imagesizes="(max-width: 860px) calc(50vw - 21px), 260px" fetchpriority="high">
 <script>
 /* Фото не завантажилось: пробуємо запасну адресу (JPG без srcset), а якщо й вона ні, прибираємо слайд
@@ -180,8 +180,8 @@ window.imgFallback = function (img) {
 <script>window.DAKI_PAGE={"g":"f1","n":25,"rows":[[1921663506,33,"Шарль Леклер №1","","4779373299,4557260422,4363779747,4363779877|dakimakura-gabardin-sharl",4,"",0],[2787143324,33,"Шарль Леклер №2","","6876257418,6876257419,6876257423|sharl-lekler-formula",3,"",0,["7JS9jMY9/11001003.png"],1],[2787143322,33,"Ландо Норріс","ландо норрис","6876257404,6876257406,6876257409|lando-norris-formula",3,"",-1,["wGpfN8R/11001001.png"],1],[2787143323,33,"Оскар Піастрі","оскар пиастри","6876257411,6876257414,6876257416|oskar-piastri-formula",2,"",-1,["SXT9XZnK/11001002.png"],1],[2787143325,33,"Льюїс Хемілтон","льюис хэмилтон","6876257425,6876257427,6876257429|lyuis-hemilton-formula",2,"",-1,["YF0vSp44/11001004.png"],1],[2787143326,33,"Макс Ферстаппен","","6876257431,6876257433,6876257437|maks-ferstappen-formula",2,"",-1,["zHPnWfPZ/11001005.png"],1],[2787143328,33,"Джордж Рассел","джордж расселл","6876257444,6876257447,6876257450|dzhordzh-rassell-formula",2,"",-1,["x8tKLbsC/11001007.png"],1],[2787143329,33,"Андреа Кімі Антонеллі","андреа кими антонелли","6876257457,6876257461,6876257465|andrea-kimi-antonelli",2,"",-1,["JjvPJ0YS/11001008.png"],1],[2787143336,33,"Карлос Сайнс","","6876260179,6876260180,6876260181|karlos-sajns-formula",2,"",-1,["XZfFt704/11001016.png"],1],[2787143327,33,"Юкі Цунода","юки цунода","6876257438,6876257440,6876257442|yuki-tsunoda-formula",1,"",-1,["fdpQt0hh/11001006.png"],1],[2773260957,33,"Мішель Вільямс (Michelle Williams) №1","мишель уильямс (michelle williams)","6858583163,6858583164,6858583166|mishel-uilyams-michelle",0,"",1],[2773260958,33,"Мішель Вільямс (Michelle Williams) №2","мишель уильямс (michelle williams)","6858583167,6858583169,6858583171|mishel-uilyams-michelle",0,"",1],[2773261061,33,"Хейлі Уільямс (Paramore) (Hayley Williams)","хейли уильямс (paramore) (hayley williams)","6858585844,6858585845,6858585846|hejli-uilyams-paramore",0],[2773261155,33,"Себастьян Феттель","sebastian vettel","6858588411,6858588413,6858588416|sebastyan-fettel-sebastian",0],[2773261157,33,"Вінус Вільямс (Venus Williams)","венера уильямс (venus williams)","6858588425,6858588426,6858588427|venera-uilyams-venus",0],[2787143330,33,"Олівер Бірман","оливер бирман","6876260152,6876260154,6876260156|oliver-birman-formula",0,"",-1,["mC8h0XzV/11001009.png"],1],[2787143331,33,"П'єр Гаслі","пьер гасли","6876260158,6876260161,6876260163|per-gasli-formula",0,"",-1,["s9v1KZt3/11001010.png"],1],[2787143332,33,"Франка Колапінто","франко колапинто","6876260164,6876260165,6876260166|franko-kolapinto-formula",0,"",-1,["GfwnKqt6/11001011.png"],1],[2787143333,33,"Ленс Стролл","лэнс стролл","6876260167,6876260168,6876260169|lens-stroll-formula",0,"",-1,["d4v8QQnz/11001013.png"],1],[2787143334,33,"Фернандо Алонсо","","6876260171,6876260173,6876260175|fernando-alonso-formula",0,"",-1,["DgKh80tg/11001014.png"],1],[2787143335,33,"Алекс Албон","","6876260176,6876260177,6876260178|aleks-albon-formula",0,"",-1,["YBwzhvjB/11001015.png"],1],[2787143337,33,"Ісак Хаджар","исак хаджар","6876260182,6876260183,6876260184|isak-hadzhar-formula",0,"",-1,["fV7R9HM6/11001017.png"],1],[2787143338,33,"Ліам Лоусон","лиам лоусон","6876260800,6876260801,6876260802|liam-louson-formula",0,"",-1,["KpzPQ7Dd/11001018.png"],1],[2787143339,33,"Ніко Хюлькенберг","нико хюлькенберг","6876260803,6876260804,6876260805|niko-hyulkenberg-formula",0,"",-1,["pj2YsjW1/11001019.png"],1],[2787143340,33,"Габріель Бортолето","габриэль бортолето","6876260806,6876260807,6876260808|gabriel-bortoleto-formula",0,"",-1,["s9BDwdVT/11001020.png"],1]]};</script>
 <!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
 <script src="/shipping.js" defer></script>
-<script src="/dakimakury/meta.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/shared.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16e" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16f" defer></script>
 </body>
 </html>

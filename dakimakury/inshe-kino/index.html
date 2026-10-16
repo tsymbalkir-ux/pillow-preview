@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-M52SP5TP');</script>
-<!-- End Google Tag Manager -->
-
-<!-- Meta Pixel -->
+<!-- Google Tag Manager і Meta Pixel, відкладені.
+     Черги dataLayer і fbq створюються одразу, тож жодна подія не губиться: PageView, view_item_list та інші
+     чекають у черзі. Самі скрипти (gtm.js, fbevents.js) вантажаться після першої дії людини (дотик, прокрутка,
+     клавіша, рух миші) або через 2 с після завантаження сторінки, щоб не заважати браузеру показати сторінку. -->
 <script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '2233263877061328');
-fbq('track', 'PageView');
+(function(w,d){
+  w.dataLayer=w.dataLayer||[];w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+  if(!w.fbq){var n=w.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!w._fbq)w._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];}
+  w.fbq('init','2233263877061328');w.fbq('track','PageView');
+  var done=false,ev=['pointerdown','touchstart','keydown','scroll','mousemove','wheel'];
+  function add(src){var j=d.createElement('script');j.async=true;j.src=src;d.head.appendChild(j);}
+  function go(){if(done)return;done=true;ev.forEach(function(e){w.removeEventListener(e,go,true);});
+    add('https://www.googletagmanager.com/gtm.js?id=GTM-M52SP5TP');add('https://connect.facebook.net/en_US/fbevents.js');}
+  ev.forEach(function(e){w.addEventListener(e,go,{capture:true,passive:true,once:true});});
+  if(d.readyState==='complete')setTimeout(go,2000);else w.addEventListener('load',function(){setTimeout(go,2000);});
+})(window,document);
 </script>
-<!-- End Meta Pixel -->
+<!-- End Google Tag Manager / Meta Pixel -->
 
 <title>Дакімакури з інших фільмів і серіалів: купити від 1 100 грн | printme</title>
 <meta name="description" content="Дакімакури з інших фільмів і серіалів з доставкою по Україні: 60 дизайнів, розміри від 100 до 180 см, друк на габардині, оплата при отриманні на Новій Пошті.">
@@ -43,7 +43,7 @@ fbq('track', 'PageView');
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16e">
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16f">
 <link rel="preload" as="image" imagesrcset="https://images.prom.ua/7093289263_w350_h350_dakimakura-alastor-hazbin.webp 350w, https://images.prom.ua/7093289263_w640_h640_dakimakura-alastor-hazbin.webp 640w" imagesizes="(max-width: 860px) calc(50vw - 21px), 260px" fetchpriority="high">
 <script>
 /* Фото не завантажилось: пробуємо запасну адресу (JPG без srcset), а якщо й вона ні, прибираємо слайд
@@ -203,8 +203,8 @@ window.imgFallback = function (img) {
 <script>window.DAKI_PAGE={"g":"movies2","n":60,"rows":[[2934162657,45,"Аластор Хазбін готель","аластор хазбин отель","7093289263,7093289264,7093289265,7093289266|dakimakura-alastor-hazbin",5,"Готель Хазбін і Helluva Boss",0,["93wWCfTP/407124.jpg"],1],[1908772308,45,"Домінік Торетто","доминик торетто форсаж (fast & furious)","4739162781,4557260422,4363779747,4363779877|dakimakura-gabardin-dominik",3,"Форсаж"],[1920880377,45,"Джейк Саллі","джейк салли аватар (фільм)","4776569922,4557260422,4363779747,4363779877|dakimakura-gabardin-dzhejk",1,"Аватар",11],[1964410262,45,"Джек Горобець, Пірати Карибського моря","джэк воробей, пираты карибского моря","4914259095,4557260422,4363779747,4363779877|dakimakura-gabardin-dzhek",1,"Пірати Карибського моря"],[1545313534,45,"Емі Роуз Сонік Ікс","эми соник икс соник ікс","6766687677,3546485278,4557260422,4363779747|anime-dakimakura-emi",0,"Соник Ікс",7],[1545315014,45,"Рейвен №1","юные титаны юні титани","6766698690,3546550618,4557260422,4363779747|anime-dakimakura-rejven",0,"Юні Титани",8],[1545315015,45,"Рейвен №2","юные титаны юні титани","6766699576,3546550619,4557260422,4363779747|anime-dakimakura-rejven",0,"Юні Титани",8],[1738850886,45,"Уенздей Адамс, Addams (Аніме версія) код №1","wednesday аниме версия венсдей","4172377159,4557260422,4363779747,4363779877|uenzdej-adams-wednesday",0,"Венсдей",4],[1738907356,45,"Уенздей Адамс, Addams (Аніме версія) код №2","wednesday аниме версия венсдей","4172507518,4557260422,4363779747,4363779877|uenzdej-adams-wednesday",0,"Венсдей",4],[1738920318,45,"Уенздей Адамс, Addams (Аніме версія) код №3","wednesday аниме версия венсдей","4172526596,4557260422,4363779747,4363779877|uenzdej-adams-wednesday",0,"Венсдей",4],[1738922520,45,"Уенздей Адамс, Addams (Аніме версія) код №4","wednesday аниме версия венсдей","4172569145,4557260422,4363779747,4363779877|uenzdej-adams-wednesday",0,"Венсдей",4],[1738924797,45,"Уенздей Адамс, Addams (Аніме версія) код №5","wednesday аниме версия венсдей","4172574455,4557260422,4363779747,4363779877|uenzdej-adams-wednesday",0,"Венсдей",4],[1738928654,45,"Уенздей Адамс, Addams (Аніме версія) код №6","wednesday аниме версия венсдей","4172586148,4557260422,4363779747,4363779877|uenzdej-adams-wednesday",0,"Венсдей",4],[1907651724,45,"BB8","star wars","4735285254,4557260422,4363779747,4363779877|dakimakura-gabardin-bb8",0,"Star Wars",1],[1907667349,45,"R2D2","star wars","4735293817,4557260422,4363779747,4363779877|dakimakura-gabardin-r2d2",0,"Star Wars",1],[1907710554,45,"Аквамен","dc comics","4735355154,4557260422,4363779747,4363779877|dakimakura-gabardin-akvamen",0,"DC Comics",2],[1907883414,45,"Бетмен","dc comics","4735477708,4557260422,4363779747,4363779877|dakimakura-gabardin-betmen",0,"DC Comics",2],[1907944571,45,"Пеннівайз","пеннивайз хорори","4736149032,4557260422,4363779747,4363779877|dakimakura-gabardin-pennivajz",0,"Хорори",9],[1908503795,45,"Вукі Чубака","вуки star wars","4738266302,4557260422,4363779747,4363779877|dakimakura-gabardin-vuki",0,"Star Wars",1],[1908542388,45,"Грогу","star wars","4738381668,4557260422,4363779747,4363779877|dakimakura-gabardin-grogu",0,"Star Wars",1],[1908551222,45,"Дарт Вейдер","star wars","4738411358,4557260422,4363779747,4363779877|dakimakura-gabardin-dart",0,"Star Wars",1],[1908745866,45,"Джокер","dc comics","4739039857,4557260422,4363779747,4363779877|dakimakura-gabardin-dzhoker",0,"DC Comics",2],[1909439092,45,"Мандалорець","мандолорец star wars","4741562850,4557260422,4363779747,4363779877|dakimakura-gabardin-mandolorets",0,"Star Wars",1],[1909521737,45,"Іоанн Павло III (Молодий тато)","иоанн павел молодой папа молодий папа","4741759239,4557260422,4363779747,4363779877|dakimakura-gabardin-ioann",0,"Молодий Папа",10],[1909586085,45,"Поуп Піус XII (Молодий тато)","пиус молодой папа молодий папа","4742036976,4557260422,4363779747,4363779877|dakimakura-gabardin-poup",0,"Молодий Папа",10],[1909730935,45,"Супермен","dc comics","4742279170,4557260422,4363779747,4363779877|dakimakura-gabardin-supermen",0,"DC Comics",2],[1909794242,45,"Харлі Квінн","харли квинн dc comics","4742449433,4557260422,4363779747,4363779877|dakimakura-gabardin-harli",0,"DC Comics",2],[1909806299,45,"Чудо жінка","женщина dc comics","4742481138,4557260422,4363779747,4363779877|dakimakura-gabardin-chudo",0,"DC Comics",2],[1909813323,45,"Штурмовик","star wars","4742497538,4557260422,4363779747,4363779877|dakimakura-gabardin-shturmovik",0,"Star Wars",1],[1921582632,45,"Керем Бюрсін","бюрсин турецькі серіали","4779157740,4557260422,4363779747,4363779877|dakimakura-gabardin-kerem",0,"Турецькі серіали",5],[1921640046,45,"Сонік","соник соник ікс","4779295635,4557260422,4363779747,4363779877|dakimakura-gabardin-sonik",0,"Соник Ікс",7],[1978140801,45,"Ферхат і Аслі, Чорно-біле кохання","асли черно-белая любовь турецькі серіали","4957245270,4557260422,4363779747,4363779877|dakimakura-gabardin-ferhat",0,"Турецькі серіали",5],[1986505164,45,"Стів Гаррінґтон","стив гаррингтон странные дела дивні дива","4982512553,4557260422,4363779747,4363779877|dakimakura-gabardin-stiv",0,"Дивні дива",12],[2487330141,45,"Тай Лі","ли аватар: легенда об аанге аватар","6475431981,6475431983,6475431986,6475431988|taj-li-avatar",0,"Аватар",11],[2487336871,45,"Луна","адский босс готель хазбін і helluva boss","6475447427,6475447428,6475447429,6475447430|luna-adskij-boss",0,"Готель Хазбін і Helluva Boss",0],[2487340552,45,"Міцукаса Аясе","мицукаса загадочный джокер dc comics","6475450882,6475450883,6475450884,6475450885|mitsukasa-ayase-zagadochnyj",0,"DC Comics",2],[2487340711,45,"Стів Гаррінгтон","стив харрингтон очень странные дела дивні дива","6475455125,6475455127,6475455129,6475455131|stiv-harrington-ochen",0,"Дивні дива",12],[2500153282,45,"Слендер","хорори","6493874579,6493874580,6493874581,6493874582|dakimakura-slender-12040",0,"Хорори",9],[2688302283,45,"Buffy №1","баффи баффі","6762107217,6762107220,6762107223,6762107225|dakimakura-buffy-baffi",0,"Баффі",6],[2688302310,45,"Buffy №2","баффи баффі","6762107764,6762107765,6762107766,6762107767|dakimakura-buffy-baffi",0,"Баффі",6],[2688302311,45,"Buffy №3","баффи баффі","6762107768,6762107769,6762107770,6762107771|dakimakura-buffy-baffi",0,"Баффі",6],[2688302312,45,"Supernatural №1","сверхъестественное надприродне","6762107772,6762107773,6762107774,6762107775|dakimakura-supernatural-sverhestestvennoe",0,"Надприродне",3],[2688302313,45,"Supernatural №2","сверхъестественное надприродне","6762107776,6762107777,6762107778,6762107779|dakimakura-supernatural-sverhestestvennoe",0,"Надприродне",3],[2688302314,45,"Dean Winchester (Supernatural), Дін Вінчестер №1","дин винчестер сверхъестественное надприродне","6762107808,6762107809,6762107810,6762107811|dakimakura-dean-winchester",0,"Надприродне",3],[2688302315,45,"Dean Winchester (Supernatural), Дін Вінчестер №2","дин винчестер сверхъестественное надприродне","6762107812,6762107813,6762107814,6762107815|dakimakura-dean-winchester",0,"Надприродне",3],[2688302316,45,"Sam Winchester (Supernatural), Сем Вінчестер №1","винчестер сверхъестественное надприродне","6762107816,6762107817,6762107818,6762107821|dakimakura-sam-winchester",0,"Надприродне",3],[2688302317,45,"Sam Winchester (Supernatural), Сем Вінчестер №2","винчестер сверхъестественное надприродне","6762107824,6762107828,6762107830,6762107831|dakimakura-sam-winchester",0,"Надприродне",3],[2688302318,45,"Sam Winchester (Supernatural), Сем Вінчестер №3","винчестер сверхъестественное надприродне","6762107832,6762107833,6762107834,6762107835|dakimakura-sam-winchester",0,"Надприродне",3]]};</script>
 <!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
 <script src="/shipping.js" defer></script>
-<script src="/dakimakury/meta.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/shared.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16e" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16f" defer></script>
 </body>
 </html>

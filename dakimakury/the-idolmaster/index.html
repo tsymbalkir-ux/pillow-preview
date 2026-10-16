@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-M52SP5TP');</script>
-<!-- End Google Tag Manager -->
-
-<!-- Meta Pixel -->
+<!-- Google Tag Manager і Meta Pixel, відкладені.
+     Черги dataLayer і fbq створюються одразу, тож жодна подія не губиться: PageView, view_item_list та інші
+     чекають у черзі. Самі скрипти (gtm.js, fbevents.js) вантажаться після першої дії людини (дотик, прокрутка,
+     клавіша, рух миші) або через 2 с після завантаження сторінки, щоб не заважати браузеру показати сторінку. -->
 <script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '2233263877061328');
-fbq('track', 'PageView');
+(function(w,d){
+  w.dataLayer=w.dataLayer||[];w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+  if(!w.fbq){var n=w.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!w._fbq)w._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];}
+  w.fbq('init','2233263877061328');w.fbq('track','PageView');
+  var done=false,ev=['pointerdown','touchstart','keydown','scroll','mousemove','wheel'];
+  function add(src){var j=d.createElement('script');j.async=true;j.src=src;d.head.appendChild(j);}
+  function go(){if(done)return;done=true;ev.forEach(function(e){w.removeEventListener(e,go,true);});
+    add('https://www.googletagmanager.com/gtm.js?id=GTM-M52SP5TP');add('https://connect.facebook.net/en_US/fbevents.js');}
+  ev.forEach(function(e){w.addEventListener(e,go,{capture:true,passive:true,once:true});});
+  if(d.readyState==='complete')setTimeout(go,2000);else w.addEventListener('load',function(){setTimeout(go,2000);});
+})(window,document);
 </script>
-<!-- End Meta Pixel -->
+<!-- End Google Tag Manager / Meta Pixel -->
 
 <title>Дакімакури The Idolmaster: купити від 1 100 грн | printme</title>
 <meta name="description" content="Дакімакури The Idolmaster з доставкою по Україні: 32 дизайни, розміри від 100 до 180 см, друк на габардині, оплата при отриманні на Новій Пошті.">
@@ -43,7 +43,7 @@ fbq('track', 'PageView');
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16e">
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16f">
 <link rel="preload" as="image" imagesrcset="https://images.prom.ua/6766705987_w350_h350_anime-dakimakura-kyoko.webp 350w, https://images.prom.ua/6766705987_w640_h640_anime-dakimakura-kyoko.webp 640w" imagesizes="(max-width: 860px) calc(50vw - 21px), 260px" fetchpriority="high">
 <script>
 /* Фото не завантажилось: пробуємо запасну адресу (JPG без srcset), а якщо й вона ні, прибираємо слайд
@@ -187,8 +187,8 @@ window.imgFallback = function (img) {
 <script>window.DAKI_PAGE={"g":"the-idolmaster","n":32,"rows":[[1545308255,80,"Кіоко Ігарасі Ідолмайстер №1","кёко игараси идолмастер","6766705987,3546546928,4557260422,4363779747|anime-dakimakura-kyoko",0,"",0],[1545308256,80,"Кіоко Ігарасі Ідолмайстер №2","кёко игараси идолмастер","6766707015,3546546929,4557260422,4363779747|anime-dakimakura-kyoko",0,"",0],[1545308265,80,"Ранко Кандзакі Ідолмайстер №1","кандзаки идолмастер","6766695545,3546548653,4557260422,4363779747|anime-dakimakura-ranko",0,"",1],[1545308266,80,"Ранко Кандзакі Ідолмайстер №2","кандзаки идолмастер","6766697495,3546548654,4557260422,4363779747|anime-dakimakura-ranko",0,"",1],[1545308252,80,"Акіра Суназука Ідолмайстер","акира идолмастер","6766702036,3546546925,4557260422,4363779747|anime-dakimakura-akira",0],[1545308253,80,"Андзу Футаба Ідолмас","идолмастер","6766703482,3546546926,4557260422,4363779747|anime-dakimakura-andzu",0],[1545308254,80,"Канаде Хаамі Ідолмайстер","канадэ хаями идолмастер","6766704920,3546546927,4557260422,4363779747|anime-dakimakura-kanade",0],[1545308258,80,"Когане Цукіока Ідолмайстер","коганэ цукиока идолмастер","6766698938,3546548646,4557260422,4363779747|anime-dakimakura-kogane",0],[1545308260,80,"Маю Сакума Ідолмас","идолмастер","6766680251,3546548648,4557260422,4363779747|anime-dakimakura-mayu",0],[1545308263,80,"Міку Маева Ідолмайстер","мику маэкава идолмастер","6766690174,3546548650,4557260422,4363779747|anime-dakimakura-miku",0],[1545308264,80,"Ніна Ітіхара Ідолмайстер","нина итихара идолмастер","6766694098,3546548652,4557260422,4363779747|anime-dakimakura-nina",0],[1545308267,80,"Ріаму Юмемі Ідолмайстер","риаму юмэми идолмастер","6766688402,3546549959,4557260422,4363779747|anime-dakimakura-riamu",0],[1545308268,80,"Рін Сібуя Ідолмас","рин сибуя идолмастер","6766689080,3546549960,4557260422,4363779747|anime-dakimakura-rin",0],[1545308270,80,"Ріса Мабу Ідолмайстер","риса матоба идолмастер","6766689797,3546549962,4557260422,4363779747|anime-dakimakura-risa",0],[1545308271,80,"Сатіко Кошідзу Ідолмайстер","сатико косимидзу идолмастер","6766690834,3546549963,4557260422,4363779747|anime-dakimakura-satiko",0],[1545308273,80,"Удзукі Сімамура Ідолмайстер","удзуки симамура идолмастер","6766681180,3546549965,4557260422,4363779747|anime-dakimakura-udzuki",0],[1545308275,80,"Фуміка Сагісава Ідолмайстер","фумика сагисава идолмастер","6766681388,3546549967,4557260422,4363779747|anime-dakimakura-fumika",0],[1545308277,80,"Цубаса Ібукі Ідолмайстер","ибуки идолмастер","6766682057,3546550771,4557260422,4363779747|anime-dakimakura-tsubasa",0],[1545308280,80,"Юка Накано Ідолмайстер","идолмастер","6766684844,3546550774,4557260422,4363779747|anime-dakimakura-yuka",0],[1545308282,80,"Юкімі Саджо Ідолмайстер","юкими идолмастер","6766704439,3546550776,4557260422,4363779747|anime-dakimakura-yukimi",0],[1545318108,80,"Макото Кікуті Ідолмайстер","кикути идолмастер","6766694473,3546548647,4557260422,4363779747|anime-dakimakura-makoto",0],[2487341086,80,"Мічіру Мацуcіма","мичиру мацуcима айдолмастер","6475457116,6475457117,6475457118,6475457119|michiru-matsucima-ajdolmaster",0],[2487341088,80,"Кіріко Юкоку","кирико айдолмастер","6475457132,6475457133,6475457134,6475457135|kiriko-yukoku-ajdolmaster",0],[2487341089,80,"Узукi Шимамура","узуки симамура айдолмастер","6475457136,6475457137,6475457138,6475457139|uzuki-simamura-ajdolmaster",0],[2487341090,80,"Фумі Саґісава","фуми сагисава айдолмастер","6475457140,6475457141,6475457142,6475457143|fumi-sagisava-ajdolmaster",0],[2487341091,80,"Сачіко Кошімізу","сачико кошимизу айдолмастер","6475457144,6475457145,6475457146,6475457147|sachiko-koshimizu-ajdolmaster",0],[2487341093,80,"Юкіхо Хагівара","юкихо хагивара айдолмастер","6475457152,6475457153,6475457154,6475457155|yukiho-hagivara-ajdolmaster",0],[2487341094,80,"Ранко Канзаки","айдолмастер","6475457252,6475457253,6475457254,6475457255|ranko-kanzaki-ajdolmaster",0],[2487341087,80,"Айдолмастер №1","","6475457120,6475457121,6475457122,6475457123|ajdolmaster-dakimakura-podushka",0],[2487341092,80,"Айдолмастер №2","","6475457148,6475457149,6475457150,6475457151|ajdolmaster-dakimakura-podushka",0],[2487341095,80,"Айдолмастер №3","","6475457256,6475457257,6475457258,6475457259|ajdolmaster-dakimakura-podushka",0],[2487341096,80,"Айдолмастер №4","","6475457260,6475457261,6475457262,6475457263|ajdolmaster-dakimakura-podushka",0]]};</script>
 <!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
 <script src="/shipping.js" defer></script>
-<script src="/dakimakury/meta.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/shared.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16e" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16f" defer></script>
 </body>
 </html>

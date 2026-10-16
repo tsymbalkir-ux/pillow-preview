@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-M52SP5TP');</script>
-<!-- End Google Tag Manager -->
-
-<!-- Meta Pixel -->
+<!-- Google Tag Manager і Meta Pixel, відкладені.
+     Черги dataLayer і fbq створюються одразу, тож жодна подія не губиться: PageView, view_item_list та інші
+     чекають у черзі. Самі скрипти (gtm.js, fbevents.js) вантажаться після першої дії людини (дотик, прокрутка,
+     клавіша, рух миші) або через 2 с після завантаження сторінки, щоб не заважати браузеру показати сторінку. -->
 <script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '2233263877061328');
-fbq('track', 'PageView');
+(function(w,d){
+  w.dataLayer=w.dataLayer||[];w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+  if(!w.fbq){var n=w.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!w._fbq)w._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];}
+  w.fbq('init','2233263877061328');w.fbq('track','PageView');
+  var done=false,ev=['pointerdown','touchstart','keydown','scroll','mousemove','wheel'];
+  function add(src){var j=d.createElement('script');j.async=true;j.src=src;d.head.appendChild(j);}
+  function go(){if(done)return;done=true;ev.forEach(function(e){w.removeEventListener(e,go,true);});
+    add('https://www.googletagmanager.com/gtm.js?id=GTM-M52SP5TP');add('https://connect.facebook.net/en_US/fbevents.js');}
+  ev.forEach(function(e){w.addEventListener(e,go,{capture:true,passive:true,once:true});});
+  if(d.readyState==='complete')setTimeout(go,2000);else w.addEventListener('load',function(){setTimeout(go,2000);});
+})(window,document);
 </script>
-<!-- End Meta Pixel -->
+<!-- End Google Tag Manager / Meta Pixel -->
 
 <title>Дакімакури Onmyoji: купити від 1 100 грн | printme</title>
 <meta name="description" content="Дакімакури Onmyoji з доставкою по Україні: 36 дизайнів, розміри від 100 до 180 см, друк на габардині, оплата при отриманні на Новій Пошті.">
@@ -43,7 +43,7 @@ fbq('track', 'PageView');
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16e">
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16f">
 <link rel="preload" as="image" imagesrcset="https://images.prom.ua/3546571738_w350_h350_anime-dakimakura-enenra.webp 350w, https://images.prom.ua/3546571738_w640_h640_anime-dakimakura-enenra.webp 640w" imagesizes="(max-width: 860px) calc(50vw - 21px), 260px" fetchpriority="high">
 <script>
 /* Фото не завантажилось: пробуємо запасну адресу (JPG без srcset), а якщо й вона ні, прибираємо слайд
@@ -191,8 +191,8 @@ window.imgFallback = function (img) {
 <script>window.DAKI_PAGE={"g":"onmyoji","n":36,"rows":[[1545315760,75,"Enenra №1","","3546571738,4557260422,4363779747,4363779877|anime-dakimakura-enenra",0,"",1],[1545315761,75,"Enenra №2","","3546571739,4557260422,4363779747,4363779877|anime-dakimakura-enenra",0,"",1],[1545315765,75,"Ibaraki Doji","","3546571743,4557260422,4363779747,4363779877|anime-dakimakura-ibaraki",0,"",2],[1545315766,75,"Kagura","","3546571744,4557260422,4363779747,4363779877|anime-dakimakura-kagura",0,"",3],[1545315768,75,"Kaguya /?","","3546572637,4557260422,4363779747,4363779877|anime-dakimakura-kaguya",0,"",3],[1545315769,75,"Kusa №1","","3546572638,4557260422,4363779747,4363779877|anime-dakimakura-kusa",0,"",4],[1545315770,75,"Kusa №2","","3546572639,4557260422,4363779747,4363779877|anime-dakimakura-kusa",0,"",4],[1545315773,75,"Yamausagi №1","","3546572642,4557260422,4363779747,4363779877|anime-dakimakura-yamausagi",0,"",5],[1545315774,75,"Yamausagi №2","","3546572643,4557260422,4363779747,4363779877|anime-dakimakura-yamausagi",0,"",5],[1986505062,75,"Ibaraki-douji","ibaraki-douji","4976092006,4557260422,4363779747,4363779877|dakimakura-gabardin-onmyoji",0,"",2],[2487340671,75,"Аоандон №1","молодой онмёдзи","6475453412,6475453414,6475453416,6475453418|aoandon-molodoj-onmyodzi",0,"",6],[2487340672,75,"Куса №1","молодой онмёдзи","6475453505,6475453507,6475453511,6475453513|kusa-molodoj-onmyodzi",0,"",0],[2487340673,75,"Яо Бікунi №1","бикуни молодой онмёдзи","6475453522,6475453524,6475453526,6475453527|yao-bikuni-molodoj",0,"",7],[2487340676,75,"Куса №2","молодой онмёдзи","6475453557,6475453558,6475453559,6475453560|kusa-molodoj-onmyodzi",0,"",0],[2487340677,75,"Аоандон №2","молодой онмёдзи","6475453562,6475453564,6475453566,6475453568|aoandon-molodoj-onmyodzi",0,"",6],[2487340679,75,"Куса №3","молодой онмёдзи","6475453578,6475453580,6475453583,6475453584|kusa-molodoj-onmyodzi",0,"",0],[2487340680,75,"Яо Бікунi №2","бикуни молодой онмёдзи","6475453873,6475453874,6475453875,6475453877|yao-bikuni-molodoj",0,"",7],[1545315758,75,"Shiro Mujou","","3546571736,4557260422,4363779747,4363779877|anime-dakimakura-shiro",0],[1545315759,75,"Aoandon","","3546571737,4557260422,4363779747,4363779877|anime-dakimakura-aoandon",0],[1545315763,75,"Hana","","3546571741,4557260422,4363779747,4363779877|anime-dakimakura-hana",0],[1545315764,75,"Higanbana","","3546571742,4557260422,4363779747,4363779877|anime-dakimakura-higanbana",0],[1545315771,75,"Momo no Sei","","3546572640,4557260422,4363779747,4363779877|anime-dakimakura-momo",0],[1545315772,75,"Анімійний Sanbi no Kitsune","","3546572641,4557260422,4363779747,4363779877|anime-dakimakura-sanbi",0],[1545315776,75,"Youko","","3546572645,4557260422,4363779747,4363779877|anime-dakimakura-youko",0],[1545315777,75,"Yuki","onna","3546573480,4557260422,4363779747,4363779877|anime-dakimakura-yuki",0],[2487339653,75,"Какуфуґецу","какуфугецу онмёдзи","6475468202,6475468203,6475468204,6475468205|kakufugetsu-onmyodzi-dakimakura",0],[2487339656,75,"Шутен Додзі","додзи онмёдзи","6475468239,6475468240,6475468241,6475468243|shuten-dodzi-onmyodzi",0],[2487339657,75,"Ібаракі Додзі","ибараки додзи онмёдзи","6475468245,6475468247,6475468249,6475468250|ibaraki-dodzi-onmyodzi",0],[2487339658,75,"Ененра","энэнра онмёдзи","6475468352,6475468353,6475468354,6475468355|enenra-onmyodzi-dakimakura",0],[2487339659,75,"Шірануі","ширануи онмёдзи","6475468356,6475468357,6475468358,6475468359|shiranui-onmyodzi-dakimakura",0],[2487340674,75,"Кагура","молодой онмёдзи","6475453534,6475453539,6475453546,6475453547|kagura-molodoj-onmyodzi",0],[2487340678,75,"Йоко","ёко молодой онмёдзи","6475453570,6475453572,6475453574,6475453576|yoko-molodoj-onmyodzi",0],[2487340681,75,"Юкі Онна","юки молодой онмёдзи","6475453880,6475453882,6475453884,6475453887|yuki-onna-molodoj",0],[2487339654,75,"Онмьодзі №1","онмёдзи","6475468212,6475468215,6475468216,6475468217|onmyodzi-dakimakura-podushka",0],[2487339655,75,"Онмьодзі №2","онмёдзи","6475468223,6475468226,6475468228,6475468230|onmyodzi-dakimakura-podushka",0],[2487340675,75,"Молодий","молодой онмёдзи","6475453553,6475453554,6475453555,6475453556|molodoj-onmyodzi-dakimakura",0]]};</script>
 <!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
 <script src="/shipping.js" defer></script>
-<script src="/dakimakury/meta.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/shared.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16e" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16f" defer></script>
 </body>
 </html>

@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-M52SP5TP');</script>
-<!-- End Google Tag Manager -->
-
-<!-- Meta Pixel -->
+<!-- Google Tag Manager і Meta Pixel, відкладені.
+     Черги dataLayer і fbq створюються одразу, тож жодна подія не губиться: PageView, view_item_list та інші
+     чекають у черзі. Самі скрипти (gtm.js, fbevents.js) вантажаться після першої дії людини (дотик, прокрутка,
+     клавіша, рух миші) або через 2 с після завантаження сторінки, щоб не заважати браузеру показати сторінку. -->
 <script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '2233263877061328');
-fbq('track', 'PageView');
+(function(w,d){
+  w.dataLayer=w.dataLayer||[];w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+  if(!w.fbq){var n=w.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!w._fbq)w._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];}
+  w.fbq('init','2233263877061328');w.fbq('track','PageView');
+  var done=false,ev=['pointerdown','touchstart','keydown','scroll','mousemove','wheel'];
+  function add(src){var j=d.createElement('script');j.async=true;j.src=src;d.head.appendChild(j);}
+  function go(){if(done)return;done=true;ev.forEach(function(e){w.removeEventListener(e,go,true);});
+    add('https://www.googletagmanager.com/gtm.js?id=GTM-M52SP5TP');add('https://connect.facebook.net/en_US/fbevents.js');}
+  ev.forEach(function(e){w.addEventListener(e,go,{capture:true,passive:true,once:true});});
+  if(d.readyState==='complete')setTimeout(go,2000);else w.addEventListener('load',function(){setTimeout(go,2000);});
+})(window,document);
 </script>
-<!-- End Meta Pixel -->
+<!-- End Google Tag Manager / Meta Pixel -->
 
 <title>Дакімакури зі спортсменами: купити від 1 100 грн | printme</title>
 <meta name="description" content="Дакімакури зі спортсменами з доставкою по Україні: 234 дизайни, розміри від 100 до 180 см, друк на габардині, оплата при отриманні на Новій Пошті.">
@@ -43,7 +43,7 @@ fbq('track', 'PageView');
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16e">
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16f">
 <link rel="preload" as="image" imagesrcset="https://images.prom.ua/4779166207_w350_h350_dakimakura-gabardin-krishtianu.webp 350w, https://images.prom.ua/4779166207_w640_h640_dakimakura-gabardin-krishtianu.webp 640w" imagesizes="(max-width: 860px) calc(50vw - 21px), 260px" fetchpriority="high">
 <script>
 /* Фото не завантажилось: пробуємо запасну адресу (JPG без srcset), а якщо й вона ні, прибираємо слайд
@@ -204,8 +204,8 @@ window.imgFallback = function (img) {
 <script>window.DAKI_PAGE={"s":"sport","n":234,"rows":[[1921584064,1,"Кріштіану Роналду №1","криштиану роналду","4779166207,4557260422,4363779747,4363779877|dakimakura-gabardin-krishtianu",7],[1921663506,33,"Шарль Леклер №1","","4779373299,4557260422,4363779747,4363779877|dakimakura-gabardin-sharl",4,"",0],[2518452609,1,"Кріштіану Роналду №2","роналду","6516814640,6516814643,6516814644,6516814646|dakimakura-ronaldu-podushka",4,"",-1,["67tSfX3v/111011.jpg"],1],[2787143324,33,"Шарль Леклер №2","","6876257418,6876257419,6876257423|sharl-lekler-formula",3,"",0,["7JS9jMY9/11001003.png"],1],[1921605343,42,"Михайло Мудрик","михаил мудрик","4779226832,4557260422,4363779747,4363779877|dakimakura-gabardin-mihail",3],[2787143322,33,"Ландо Норріс","ландо норрис","6876257404,6876257406,6876257409|lando-norris-formula",3,"",-1,["wGpfN8R/11001001.png"],1],[2518452599,42,"Kylian Mbappe №1","","6516812621,6516812623,6516812625,6516812627|dakimakura-kylian-mbappe",2,"",1,["ksyxQ74d/111001.jpg","Qj3FJfYn/111001.png"],1],[2518452606,42,"Неймар №1","","6516812682,6516812684,6516812685,6516812691|dakimakura-nejmar-podushka",2,"",2,["PKFLX0d/111008.jpg"],1],[2787143323,33,"Оскар Піастрі","оскар пиастри","6876257411,6876257414,6876257416|oskar-piastri-formula",2,"",-1,["SXT9XZnK/11001002.png"],1],[2787143325,33,"Льюїс Хемілтон","льюис хэмилтон","6876257425,6876257427,6876257429|lyuis-hemilton-formula",2,"",-1,["YF0vSp44/11001004.png"],1],[2787143326,33,"Макс Ферстаппен","","6876257431,6876257433,6876257437|maks-ferstappen-formula",2,"",-1,["zHPnWfPZ/11001005.png"],1],[2787143328,33,"Джордж Рассел","джордж расселл","6876257444,6876257447,6876257450|dzhordzh-rassell-formula",2,"",-1,["x8tKLbsC/11001007.png"],1],[2787143329,33,"Андреа Кімі Антонеллі","андреа кими антонелли","6876257457,6876257461,6876257465|andrea-kimi-antonelli",2,"",-1,["JjvPJ0YS/11001008.png"],1],[2787143336,33,"Карлос Сайнс","","6876260179,6876260180,6876260181|karlos-sajns-formula",2,"",-1,["XZfFt704/11001016.png"],1],[1909577220,42,"Неймар №2","","4742008813,4557260422,4363779747,4363779877|dakimakura-gabardin-nejmar",1,"",2],[2787143351,42,"Кіліан Мбаппе №1","","6876263104,6876263105,6876263106|kilian-mbappe-futbol",1,"",3,["p6tZYy6Z/11001032.png"],1],[1909429383,42,"Леонель Мессі","леонель месси","4741546338,4557260422,4363779747,4363779877|dakimakura-gabardin-leonel",1],[2787143327,33,"Юкі Цунода","юки цунода","6876257438,6876257440,6876257442|yuki-tsunoda-formula",1,"",-1,["fdpQt0hh/11001006.png"],1],[2787143353,42,"Рафінья","","6876264777,6876264778,6876264779|rafinya-futbol-dakimakura",1,"",-1,["GQgQXYjZ/11001034.png"],1],[1921583929,42,"Кіліан Мбаппе №2","килиан мбаппе","4779164095,4557260422,4363779747,4363779877|dakimakura-gabardin-kilian",0,"",3],[2518452600,42,"Kylian Mbappe №2","","6516812628,6516812631,6516812633,6516812635|dakimakura-kylian-mbappe",0,"",1,["4wvPLmXk/111002.jpg","wNTxMbnD/111002.png"],1],[2518452603,42,"Мессі №1","месси","6516812656,6516812659,6516812663,6516812665|dakimakura-messi-podushka",0,"",0],[2518452604,42,"Мессі №2","месси","6516812667,6516812669,6516812670,6516812671|dakimakura-messi-podushka",0,"",0],[2518452605,42,"Мессі №3","месси","6516812672,6516812674,6516812678,6516812680|dakimakura-messi-podushka",0,"",0],[2518452607,42,"Неймар №3","","6516814628,6516814629,6516814631,6516814632|dakimakura-nejmar-podushka",0,"",2,["fd8dBRmQ/111009.jpg"],1],[2518452608,42,"Неймар №4","","6516814633,6516814634,6516814636,6516814637|dakimakura-nejmar-podushka",0,"",2,["67SBjz0h/111010.jpg"],1],[2518452613,42,"Мессі №4","месси","6516814667,6516814668,6516814669,6516814670|dakimakura-messi-podushka",0,"",0],[2518452614,42,"Мессі №5","месси","6516814671,6516814672,6516814673,6516814674|dakimakura-messi-podushka",0,"",0],[2518452615,42,"Мессі №6","месси","6516816971,6516816972,6516816974,6516816977|dakimakura-messi-podushka",0,"",0],[2518452616,42,"Мессі №7","месси","6516816983,6516816984,6516816985,6516816986|dakimakura-messi-podushka",0,"",0],[2518452617,42,"Мессі №8","месси","6516816988,6516816989,6516816990,6516816991|dakimakura-messi-podushka",0,"",0],[2518452618,42,"Мессі №9","месси","6516816992,6516816993,6516816994,6516816995|dakimakura-messi-podushka",0,"",0],[2518452619,42,"Мессі №10","месси","6516816997,6516816999,6516817001,6516817005|dakimakura-messi-podushka",0,"",0],[2518452620,42,"Мессі №11","месси","6516817007,6516817008,6516817010,6516817013|dakimakura-messi-podushka",0,"",0],[2518452621,42,"Мессі №12","месси","6516817015,6516817018,6516817019,6516817023|dakimakura-messi-podushka",0,"",0],[2518452622,42,"Мессі №13","месси","6516817028,6516817031,6516817032,6516817036|dakimakura-messi-podushka",0,"",0],[2518452623,42,"Мессі №14","месси","6516818827,6516818829,6516818831,6516818833|dakimakura-messi-podushka",0,"",0],[2518452624,42,"Мессі №15","месси","6516818835,6516818837,6516818838,6516818839|dakimakura-messi-podushka",0,"",0],[2518452625,42,"Мессі №16","месси","6516818840,6516818842,6516818844,6516818847|dakimakura-messi-podushka",0,"",0],[2518452626,42,"Мессі №17","месси","6516818849,6516818851,6516818853,6516818855|dakimakura-messi-podushka",0,"",0],[2518452627,42,"Мессі №18","месси","6516818857,6516818859,6516818861,6516818863|dakimakura-messi-podushka",0,"",0],[2518452628,42,"Мессі №19","месси","6516818864,6516818866,6516818868,6516818871|dakimakura-messi-podushka",0,"",0],[2518452629,42,"Мессі №20","месси","6516818874,6516818875,6516818877,6516818878|dakimakura-messi-podushka",0,"",0],[2518452630,42,"Мессі №21","месси","6516818879,6516818880,6516818881,6516818882|dakimakura-messi-podushka",0,"",0],[2518452631,42,"Мессі №22","месси","6516821631,6516821634,6516821638,6516821641|dakimakura-messi-podushka",0,"",0],[2518452632,42,"Мессі №23","месси","6516821643,6516821645,6516821647,6516821649|dakimakura-messi-podushka",0,"",0],[2518452633,42,"Мессі №24","месси","6516821652,6516821654,6516821655,6516821658|dakimakura-messi-podushka",0,"",0],[2518452634,42,"Мессі №25","месси","6516821660,6516821662,6516821664,6516821666|dakimakura-messi-podushka",0,"",0]]};</script>
 <!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
 <script src="/shipping.js" defer></script>
-<script src="/dakimakury/meta.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/shared.js?v=2026-10-16e" defer></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16e" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16f" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16f" defer></script>
 </body>
 </html>
