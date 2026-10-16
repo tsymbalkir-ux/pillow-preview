@@ -39,8 +39,11 @@ fbq('track', 'PageView');
 <link rel="preconnect" href="https://images.prom.ua">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16">
+<!-- шрифти не блокують показ сторінки: спершу текст системним шрифтом, фірмовий підміняє його, щойно завантажиться -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16c">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Дакімакури","item":"https://printme.world/dakimakury/"},{"@type":"ListItem","position":2,"name":"Аніме","item":"https://printme.world/dakimakury/anime/"},{"@type":"ListItem","position":3,"name":"Осомацу-сан","item":"https://printme.world/dakimakury/osomatsu-san/"},{"@type":"ListItem","position":4,"name":"Тодомацу Мацуно","item":"https://printme.world/dakimakury/osomatsu-san/todomatsu-matsuno/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Дакімакури Тодомацу Мацуно (Осомацу-сан)","url":"https://printme.world/dakimakury/osomatsu-san/todomatsu-matsuno/","inLanguage":"uk","mainEntity":{"@type":"ItemList","numberOfItems":2,"itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"Product","name":"Дакімакура Тодомацу Мацуно","image":"https://images.prom.ua/6766681951_anime-dakimakura-todomatsu.jpg","category":"Осомацу-сан","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/osomatsu-san/todomatsu-matsuno/"}}},{"@type":"ListItem","position":2,"item":{"@type":"Product","name":"Дакімакура Тодомацу Мацуно / Джушімацу Мацуно","image":"https://images.prom.ua/6766682704_anime-dakimakura-todomatsu.jpg","category":"Осомацу-сан","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/osomatsu-san/todomatsu-matsuno/"}}}]}}</script>
 </head>
@@ -71,19 +74,13 @@ fbq('track', 'PageView');
         <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Осомацу-сан</span></button>
         <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
       </div>
-      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/osomatsu-san/kun/">Кун <span class="n">12</span></a><a href="/dakimakury/osomatsu-san/matsuno/">Мацуно <span class="n">4</span></a><a href="/dakimakury/osomatsu-san/dzhushimatsu-matsuno/">Джушімацу Мацуно <span class="n">2</span></a><a href="/dakimakury/osomatsu-san/karamatsu-matsuno/">Карамацу Мацуно <span class="n">2</span></a><a href="/dakimakury/osomatsu-san/todomatsu-matsuno/" aria-current="true">Тодомацу Мацуно <span class="n">2</span></a></div>
+      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/osomatsu-san/kun/" data-k="0">Кун <span class="n">12</span></a><a href="/dakimakury/osomatsu-san/matsuno/" data-k="1">Мацуно <span class="n">4</span></a><a href="/dakimakury/osomatsu-san/dzhushimatsu-matsuno/" data-k="2">Джушімацу Мацуно <span class="n">2</span></a><a href="/dakimakury/osomatsu-san/karamatsu-matsuno/" data-k="3">Карамацу Мацуно <span class="n">2</span></a><a href="/dakimakury/osomatsu-san/todomatsu-matsuno/" data-k="4" aria-current="true">Тодомацу Мацуно <span class="n">2</span></a><button type="button" data-k="-2" aria-pressed="false">Інші <span class="n">2</span></button></div>
       <p class="count" id="count" aria-live="polite">Дизайнів: 2</p>
 
 
   <main class="grid" id="grid">
-<article class="card" data-id="1545311665">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6766681951_w640_h640_anime-dakimakura-todomatsu.jpg" alt="Дакімакура Тодомацу Мацуно" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Тодомацу Мацуно</span><span class="sub">Осомацу-сан</span></div>
-    </article>
-<article class="card" data-id="1545311666">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6766682704_w640_h640_anime-dakimakura-todomatsu.jpg" alt="Дакімакура Тодомацу Мацуно / Джушімацу Мацуно" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Тодомацу Мацуно / Джушімацу Мацуно</span><span class="sub">Осомацу-сан</span></div>
-    </article>
+<article class="card" data-id="1545311665"><div class="pic"><span class="ph">ТМ</span><div class="track" aria-label="Тодомацу Мацуно: фото, гортай"><img src="https://images.prom.ua/6766681951_w640_h640_anime-dakimakura-todomatsu.jpg" data-full="https://images.prom.ua/6766681951_anime-dakimakura-todomatsu.jpg" alt="Дакімакура Тодомацу Мацуно" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/3546530951_w640_h640_anime-dakimakura-todomatsu.jpg" data-full="https://images.prom.ua/3546530951_anime-dakimakura-todomatsu.jpg" alt="Дакімакура Тодомацу Мацуно, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/4557260422_w640_h640_anime-dakimakura-todomatsu.jpg" data-full="https://images.prom.ua/4557260422_anime-dakimakura-todomatsu.jpg" alt="Дакімакура Тодомацу Мацуно, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/4363779747_w640_h640_anime-dakimakura-todomatsu.jpg" data-full="https://images.prom.ua/4363779747_anime-dakimakura-todomatsu.jpg" alt="Дакімакура Тодомацу Мацуно, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Тодомацу Мацуно</span><span class="sub">Осомацу-сан</span></div></article>
+<article class="card" data-id="1545311666"><div class="pic"><span class="ph">ТМ</span><div class="track" aria-label="Тодомацу Мацуно / Джушімацу Мацуно: фото, гортай"><img src="https://images.prom.ua/6766682704_w640_h640_anime-dakimakura-todomatsu.jpg" data-full="https://images.prom.ua/6766682704_anime-dakimakura-todomatsu.jpg" alt="Дакімакура Тодомацу Мацуно / Джушімацу Мацуно" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/3546530952_w640_h640_anime-dakimakura-todomatsu.jpg" data-full="https://images.prom.ua/3546530952_anime-dakimakura-todomatsu.jpg" alt="Дакімакура Тодомацу Мацуно / Джушімацу Мацуно, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/4557260422_w640_h640_anime-dakimakura-todomatsu.jpg" data-full="https://images.prom.ua/4557260422_anime-dakimakura-todomatsu.jpg" alt="Дакімакура Тодомацу Мацуно / Джушімацу Мацуно, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/4363779747_w640_h640_anime-dakimakura-todomatsu.jpg" data-full="https://images.prom.ua/4363779747_anime-dakimakura-todomatsu.jpg" alt="Дакімакура Тодомацу Мацуно / Джушімацу Мацуно, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Тодомацу Мацуно / Джушімацу Мацуно</span><span class="sub">Осомацу-сан</span></div></article>
 </main>
   <div class="more" id="more"></div>
     </div>
@@ -140,10 +137,11 @@ fbq('track', 'PageView');
   <div class="v3d-stage" id="v3dStage"><div class="v3d-load" id="v3dLoad"><span class="spin" aria-hidden="true"></span><b>Завантажуємо 3D-модель</b><span>Це не збій: модель важка, перший запуск триває до пів хвилини. Зачекай, будь ласка.</span></div></div>
 </dialog>
 
-<script>window.DAKI_PAGE={"g":"osomatsu-san","sub":"Тодомацу Мацуно"};</script>
-<script src="/shipping.js"></script>
-<script src="/dakimakury/data.js?v=2026-10-16"></script>
-<script src="/dakimakury/shared.js?v=2026-10-16"></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16"></script>
+<script>window.DAKI_PAGE={"g":"osomatsu-san","sub":"Тодомацу Мацуно","n":2,"rows":[[1545311665,97,"Тодомацу Мацуно","","6766681951,3546530951,4557260422,4363779747|anime-dakimakura-todomatsu",0,"",4],[1545311666,97,"Тодомацу Мацуно / Джушімацу Мацуно","джушимацу","6766682704,3546530952,4557260422,4363779747|anime-dakimakura-todomatsu",0,"",4]]};</script>
+<!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
+<script src="/shipping.js" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16c" defer></script>
 </body>
 </html>

@@ -278,3 +278,9 @@ dialog.v3d{max-width:min(760px,94vw);height:min(88vh,860px);border-radius:24px}
 
 /* пошук по всьому каталогу: підпис між збігами з поточного місця і рештою */
 .from-all{grid-column:1/-1;margin:8px 0 0;padding-top:14px;border-top:1px solid var(--line, #e3e1ec);font-weight:600;color:var(--muted, #6b6880)}
+
+/* підкатегорії: на телефоні 8, на комп'ютері 14 (див. topsHtml у shared.js) */
+@media (max-width:860px){.tops .t-x,.tops .t-d{display:none}}
+@media (min-width:861px){.tops .t-m,.tops .t-mo{display:none}}
+html.busy .grid{opacity:.55;transition:opacity .2s}
+html.busy,html.busy *{cursor:progress}

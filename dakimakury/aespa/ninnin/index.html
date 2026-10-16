@@ -39,8 +39,11 @@ fbq('track', 'PageView');
 <link rel="preconnect" href="https://images.prom.ua">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16">
+<!-- шрифти не блокують показ сторінки: спершу текст системним шрифтом, фірмовий підміняє його, щойно завантажиться -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16c">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Дакімакури","item":"https://printme.world/dakimakury/"},{"@type":"ListItem","position":2,"name":"K-pop і музика","item":"https://printme.world/dakimakury/k-pop-i-muzyka/"},{"@type":"ListItem","position":3,"name":"Aespa","item":"https://printme.world/dakimakury/aespa/"},{"@type":"ListItem","position":4,"name":"Ніннін","item":"https://printme.world/dakimakury/aespa/ninnin/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Дакімакури Ніннін (Aespa)","url":"https://printme.world/dakimakury/aespa/ninnin/","inLanguage":"uk","mainEntity":{"@type":"ItemList","numberOfItems":2,"itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"Product","name":"Дакімакура Ніннін","image":"https://images.prom.ua/6769996205_ninnin-ningning-aespa.jpg","category":"Aespa","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/aespa/ninnin/"}}},{"@type":"ListItem","position":2,"item":{"@type":"Product","name":"Дакімакура Нінін, па","image":"https://images.prom.ua/6769996209_ninnin-ningning-aespa.jpg","category":"Aespa","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/aespa/ninnin/"}}}]}}</script>
 </head>
@@ -71,19 +74,13 @@ fbq('track', 'PageView');
         <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Aespa</span></button>
         <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
       </div>
-      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/aespa/zhyzel/">Жизель <span class="n">3</span></a><a href="/dakimakury/aespa/vinter/">Вінтер <span class="n">2</span></a><a href="/dakimakury/aespa/ninnin/" aria-current="true">Ніннін <span class="n">2</span></a></div>
+      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/aespa/zhyzel/" data-k="0">Жизель <span class="n">3</span></a><a href="/dakimakury/aespa/vinter/" data-k="1">Вінтер <span class="n">2</span></a><a href="/dakimakury/aespa/ninnin/" data-k="2" aria-current="true">Ніннін <span class="n">2</span></a><button type="button" data-k="-2" aria-pressed="false">Інші <span class="n">4</span></button></div>
       <p class="count" id="count" aria-live="polite">Дизайнів: 2</p>
 
 
   <main class="grid" id="grid">
-<article class="card" data-id="2693892064">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6769996205_w640_h640_ninnin-ningning-aespa.jpg" alt="Дакімакура Ніннін" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Ніннін</span><span class="sub">Aespa</span></div>
-    </article>
-<article class="card" data-id="2693892065">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6769996209_w640_h640_ninnin-ningning-aespa.jpg" alt="Дакімакура Нінін, па" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Нінін, па</span><span class="sub">Aespa</span></div>
-    </article>
+<article class="card" data-id="2693892064"><div class="pic"><span class="ph">Н</span><div class="track" aria-label="Ніннін: фото, гортай"><img src="https://images.prom.ua/6769996205_w640_h640_ninnin-ningning-aespa.jpg" data-full="https://images.prom.ua/6769996205_ninnin-ningning-aespa.jpg" alt="Дакімакура Ніннін" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6769996206_w640_h640_ninnin-ningning-aespa.jpg" data-full="https://images.prom.ua/6769996206_ninnin-ningning-aespa.jpg" alt="Дакімакура Ніннін, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6769996207_w640_h640_ninnin-ningning-aespa.jpg" data-full="https://images.prom.ua/6769996207_ninnin-ningning-aespa.jpg" alt="Дакімакура Ніннін, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6769996208_w640_h640_ninnin-ningning-aespa.jpg" data-full="https://images.prom.ua/6769996208_ninnin-ningning-aespa.jpg" alt="Дакімакура Ніннін, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Ніннін</span><span class="sub">Aespa</span></div></article>
+<article class="card" data-id="2693892065"><div class="pic"><span class="ph">Нп</span><div class="track" aria-label="Нінін, па: фото, гортай"><img src="https://images.prom.ua/6769996209_w640_h640_ninnin-ningning-aespa.jpg" data-full="https://images.prom.ua/6769996209_ninnin-ningning-aespa.jpg" alt="Дакімакура Нінін, па" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6769996210_w640_h640_ninnin-ningning-aespa.jpg" data-full="https://images.prom.ua/6769996210_ninnin-ningning-aespa.jpg" alt="Дакімакура Нінін, па, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6769996211_w640_h640_ninnin-ningning-aespa.jpg" data-full="https://images.prom.ua/6769996211_ninnin-ningning-aespa.jpg" alt="Дакімакура Нінін, па, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6769996212_w640_h640_ninnin-ningning-aespa.jpg" data-full="https://images.prom.ua/6769996212_ninnin-ningning-aespa.jpg" alt="Дакімакура Нінін, па, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Нінін, па</span><span class="sub">Aespa</span></div></article>
 </main>
   <div class="more" id="more"></div>
     </div>
@@ -140,10 +137,11 @@ fbq('track', 'PageView');
   <div class="v3d-stage" id="v3dStage"><div class="v3d-load" id="v3dLoad"><span class="spin" aria-hidden="true"></span><b>Завантажуємо 3D-модель</b><span>Це не збій: модель важка, перший запуск триває до пів хвилини. Зачекай, будь ласка.</span></div></div>
 </dialog>
 
-<script>window.DAKI_PAGE={"g":"aespa","sub":"Ніннін"};</script>
-<script src="/shipping.js"></script>
-<script src="/dakimakury/data.js?v=2026-10-16"></script>
-<script src="/dakimakury/shared.js?v=2026-10-16"></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16"></script>
+<script>window.DAKI_PAGE={"g":"aespa","sub":"Ніннін","n":2,"rows":[[2693892064,186,"Ніннін","ниннин ningning","6769996205,6769996206,6769996207,6769996208|ninnin-ningning-aespa",0,"",2],[2693892065,186,"Нінін, па","ниннин ningning","6769996209,6769996210,6769996211,6769996212|ninnin-ningning-aespa",0,"",2]]};</script>
+<!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
+<script src="/shipping.js" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16c" defer></script>
 </body>
 </html>

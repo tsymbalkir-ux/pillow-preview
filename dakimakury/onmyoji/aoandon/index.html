@@ -39,8 +39,11 @@ fbq('track', 'PageView');
 <link rel="preconnect" href="https://images.prom.ua">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16">
+<!-- шрифти не блокують показ сторінки: спершу текст системним шрифтом, фірмовий підміняє його, щойно завантажиться -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16c">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Дакімакури","item":"https://printme.world/dakimakury/"},{"@type":"ListItem","position":2,"name":"Ігри","item":"https://printme.world/dakimakury/ihry/"},{"@type":"ListItem","position":3,"name":"Onmyoji","item":"https://printme.world/dakimakury/onmyoji/"},{"@type":"ListItem","position":4,"name":"Аоандон","item":"https://printme.world/dakimakury/onmyoji/aoandon/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Дакімакури Аоандон (Onmyoji)","url":"https://printme.world/dakimakury/onmyoji/aoandon/","inLanguage":"uk","mainEntity":{"@type":"ItemList","numberOfItems":2,"itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"Product","name":"Дакімакура Аоандон №1","image":"https://images.prom.ua/6475453412_aoandon-molodoj-onmyodzi.jpg","category":"Onmyoji","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/onmyoji/aoandon/"}}},{"@type":"ListItem","position":2,"item":{"@type":"Product","name":"Дакімакура Аоандон №2","image":"https://images.prom.ua/6475453562_aoandon-molodoj-onmyodzi.jpg","category":"Onmyoji","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/onmyoji/aoandon/"}}}]}}</script>
 </head>
@@ -71,19 +74,13 @@ fbq('track', 'PageView');
         <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Onmyoji</span></button>
         <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
       </div>
-      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/onmyoji/kusa/">Куса <span class="n">3</span></a><a href="/dakimakury/onmyoji/enenra/">Enenra <span class="n">2</span></a><a href="/dakimakury/onmyoji/ibaraki-doji/">Ibaraki Doji <span class="n">2</span></a><a href="/dakimakury/onmyoji/kagura/">Kagura <span class="n">2</span></a><a href="/dakimakury/onmyoji/kusa-2/">Kusa <span class="n">2</span></a><a href="/dakimakury/onmyoji/yamausagi/">Yamausagi <span class="n">2</span></a><a href="/dakimakury/onmyoji/aoandon/" aria-current="true">Аоандон <span class="n">2</span></a><a href="/dakimakury/onmyoji/yao-bikuni/">Яо Бікунi <span class="n">2</span></a></div>
+      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/onmyoji/kusa/" data-k="0">Куса <span class="n">3</span></a><a href="/dakimakury/onmyoji/enenra/" data-k="1">Enenra <span class="n">2</span></a><a href="/dakimakury/onmyoji/ibaraki-doji/" data-k="2">Ibaraki Doji <span class="n">2</span></a><a href="/dakimakury/onmyoji/kagura/" data-k="3">Kagura <span class="n">2</span></a><a href="/dakimakury/onmyoji/kusa-2/" data-k="4">Kusa <span class="n">2</span></a><a href="/dakimakury/onmyoji/yamausagi/" data-k="5">Yamausagi <span class="n">2</span></a><a href="/dakimakury/onmyoji/aoandon/" data-k="6" aria-current="true">Аоандон <span class="n">2</span></a><a href="/dakimakury/onmyoji/yao-bikuni/" data-k="7">Яо Бікунi <span class="n">2</span></a><button type="button" data-k="-2" aria-pressed="false">Інші <span class="n">19</span></button></div>
       <p class="count" id="count" aria-live="polite">Дизайнів: 2</p>
 
 
   <main class="grid" id="grid">
-<article class="card" data-id="2487340671">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6475453412_w640_h640_aoandon-molodoj-onmyodzi.jpg" alt="Дакімакура Аоандон №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Аоандон №1</span><span class="sub">Onmyoji</span></div>
-    </article>
-<article class="card" data-id="2487340677">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6475453562_w640_h640_aoandon-molodoj-onmyodzi.jpg" alt="Дакімакура Аоандон №2" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Аоандон №2</span><span class="sub">Onmyoji</span></div>
-    </article>
+<article class="card" data-id="2487340671"><div class="pic"><span class="ph">А</span><div class="track" aria-label="Аоандон №1: фото, гортай"><img src="https://images.prom.ua/6475453412_w640_h640_aoandon-molodoj-onmyodzi.jpg" data-full="https://images.prom.ua/6475453412_aoandon-molodoj-onmyodzi.jpg" alt="Дакімакура Аоандон №1" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475453414_w640_h640_aoandon-molodoj-onmyodzi.jpg" data-full="https://images.prom.ua/6475453414_aoandon-molodoj-onmyodzi.jpg" alt="Дакімакура Аоандон №1, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475453416_w640_h640_aoandon-molodoj-onmyodzi.jpg" data-full="https://images.prom.ua/6475453416_aoandon-molodoj-onmyodzi.jpg" alt="Дакімакура Аоандон №1, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475453418_w640_h640_aoandon-molodoj-onmyodzi.jpg" data-full="https://images.prom.ua/6475453418_aoandon-molodoj-onmyodzi.jpg" alt="Дакімакура Аоандон №1, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Аоандон №1</span><span class="sub">Onmyoji</span></div></article>
+<article class="card" data-id="2487340677"><div class="pic"><span class="ph">А</span><div class="track" aria-label="Аоандон №2: фото, гортай"><img src="https://images.prom.ua/6475453562_w640_h640_aoandon-molodoj-onmyodzi.jpg" data-full="https://images.prom.ua/6475453562_aoandon-molodoj-onmyodzi.jpg" alt="Дакімакура Аоандон №2" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475453564_w640_h640_aoandon-molodoj-onmyodzi.jpg" data-full="https://images.prom.ua/6475453564_aoandon-molodoj-onmyodzi.jpg" alt="Дакімакура Аоандон №2, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475453566_w640_h640_aoandon-molodoj-onmyodzi.jpg" data-full="https://images.prom.ua/6475453566_aoandon-molodoj-onmyodzi.jpg" alt="Дакімакура Аоандон №2, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475453568_w640_h640_aoandon-molodoj-onmyodzi.jpg" data-full="https://images.prom.ua/6475453568_aoandon-molodoj-onmyodzi.jpg" alt="Дакімакура Аоандон №2, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Аоандон №2</span><span class="sub">Onmyoji</span></div></article>
 </main>
   <div class="more" id="more"></div>
     </div>
@@ -140,10 +137,11 @@ fbq('track', 'PageView');
   <div class="v3d-stage" id="v3dStage"><div class="v3d-load" id="v3dLoad"><span class="spin" aria-hidden="true"></span><b>Завантажуємо 3D-модель</b><span>Це не збій: модель важка, перший запуск триває до пів хвилини. Зачекай, будь ласка.</span></div></div>
 </dialog>
 
-<script>window.DAKI_PAGE={"g":"onmyoji","sub":"Аоандон"};</script>
-<script src="/shipping.js"></script>
-<script src="/dakimakury/data.js?v=2026-10-16"></script>
-<script src="/dakimakury/shared.js?v=2026-10-16"></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16"></script>
+<script>window.DAKI_PAGE={"g":"onmyoji","sub":"Аоандон","n":2,"rows":[[2487340671,75,"Аоандон №1","молодой онмёдзи","6475453412,6475453414,6475453416,6475453418|aoandon-molodoj-onmyodzi",0,"",6],[2487340677,75,"Аоандон №2","молодой онмёдзи","6475453562,6475453564,6475453566,6475453568|aoandon-molodoj-onmyodzi",0,"",6]]};</script>
+<!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
+<script src="/shipping.js" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16c" defer></script>
 </body>
 </html>

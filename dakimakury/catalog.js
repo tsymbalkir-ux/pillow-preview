@@ -53,31 +53,27 @@ const ALIASES = [
 /* слова, які в пошуку нічого не уточнюють */
 const NOISE = /^(дак[иі]макур\S*|докимакур\S*|dakimakura|подушк\S*|обн[иі]машк\S*|об[иі]ймашк\S*|куп[иі]т[иь]|купити|ан[иі]ме|з|с|із|со|і|и|на|для)$/;
 
-const D = window.DAKI_DATA || { cols: [], items: [] };
+const D = window.DAKI_META || window.DAKI_DATA || { cols: [], secs: [], items: [] };
+if (!D.items) D.items = [];
 const COLS = D.cols;
 const SECS = D.secs || [];
 /* Оригінали принтів (пласкі файли для друку) лежать на i.ibb.co. Якщо вони є:
    1) стають останніми фото в галереї; 2) з них будується 3D. Без оригіналів кнопки 3D немає. */
-const ORIG_HOST = 'https://i.ibb.co/';
 /* дизайни, у яких перше фото показуємо цілим: на ньому дві подушки поруч на білому тлі */
 const WHOLE = new Set((D.whole || []).map(String));
 /* дизайни, у яких перше фото це плаский малюнок (дві сторони принта поруч): з нього складаємо мокап «пара подушок» */
 const PAIR = new Set((D.pair || []).map(String));
-const mockHtml = (src, name, lazy) => `<span class="mock"><span class="mk"><span class="za"><img src="${src}" alt="Дакімакура ${name}" loading="${lazy}" decoding="async" referrerpolicy="no-referrer"></span><span class="zb"><img src="${src}" alt="" loading="${lazy}" decoding="async" referrerpolicy="no-referrer"></span></span></span>`;
-const ITEMS = D.items.map(([id, c, name, ru, pics, sold, sub, k, o, og]) => {
-  /* фото: або список «номер_назва», або один рядок «номер,номер,…|назва», якщо назва у всіх фото та сама */
-  if (typeof pics === 'string') { const [nums, tail] = pics.split('|'); pics = nums.split(',').map(n => n + '_' + tail); }
-  const prom = pics.map(p => /^https?:/.test(p) ? p : `https://images.prom.ua/${p}.jpg`);
-  const orig = (o || []).map(p => /^https?:/.test(p) ? p : ORIG_HOST + p);
-  return {
-  id: String(id), whole: WHOLE.has(String(id)), pair: PAIR.has(String(id)), c, name, sold: sold || 0, sub: sub || COLS[c].t, k: k == null ? -1 : k,
-  orig, nProm: prom.length,
-  pics: prom.concat(orig.slice(0, og || 1)),
-  hay: norm(`${name} ${ru} ${sub || ''} ${COLS[c].t} ${COL_ALIAS[COLS[c].k] || ''}`),
-  };
-});
-/* спершу те, що купують найчастіше (за історією замовлень) */
-ITEMS.sort((a, b) => b.sold - a.sold);
+const mockHtml = S.mockHtml;
+/* Повні дані каталогу (data.js, ~1,8 МБ) вантажаться не одразу, а після першої дії людини (див. loadAll):
+   поки їх немає, ITEMS містить лише товари, що вже стоять у статичному HTML сторінки (DAKI_PAGE.rows). */
+const toItem = r => {
+  const it = S.itemFromRow(D, r, WHOLE, PAIR);
+  it.hay = norm(`${it.name} ${it.ru} ${it.label} ${COLS[it.c].t} ${COL_ALIAS[COLS[it.c].k] || ''}`);
+  return it;
+};
+let ITEMS = ((window.DAKI_PAGE || {}).rows || []).map(toItem);
+/* спершу те, що купують найчастіше (за історією замовлень); у статичних рядках порядок уже такий */
+const bySold = (a, b) => b.sold - a.sold;
 const times = n => { const d = n % 10, h = n % 100; return n + (d >= 2 && d <= 4 && (h < 12 || h > 14) ? ' рази' : d === 1 && h !== 11 ? ' раз' : ' разів'); };
 
 const $ = id => document.getElementById(id);
@@ -85,7 +81,7 @@ const fmt = n => n.toLocaleString('uk-UA') + ' ₴';
 const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[ch]));
 function norm(s){ return String(s).toLowerCase().replace(/ё/g, 'е').replace(/['’`ʼ]/g, '').replace(/\s+/g, ' ').trim(); }
 /* Prom CDN віддає зменшені копії фото, якщо в назву файлу додати _wW_hH_ */
-const sized = (url, w, h) => url.replace(/(\/\d+)_/, `$1_w${w}_h${h}_`);
+const sized = S.sized;
 const isPhone = () => matchMedia('(max-width: 860px)').matches;
 /* Фото не завантажилось: пробуємо повний розмір, а якщо й він ні, прибираємо слайд.
    На картці одразу вантажимо наступне фото, щоб замість битого першого не лишалась заглушка з літерою. */
@@ -336,19 +332,9 @@ $('shade').onclick = () => drawer(false);
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && drawerOpen()) drawer(false); });
 function renderTops(){
   const el = $('tops'), col = COLS[state.col];
-  /* велика колекція: підкатегорії (персонажі, бренди або тайтли) з кількістю дизайнів */
+  /* велика колекція: підкатегорії (персонажі, бренди або тайтли) з кількістю дизайнів; кількості пораховано в meta.js */
+  el.innerHTML = S.topsHtml(D, state.col, state.sub, { open: state.subsOpen, q: norm(state.q) });
   if (col && col.subs && col.subs.length) {
-    const n = col.subs.map(() => 0); let rest = 0;
-    ITEMS.forEach(it => { if (it.c === state.col) it.k >= 0 ? n[it.k]++ : rest++; });
-    const LIMIT = isPhone() ? 8 : 14;
-    let ids = col.subs.map((_, i) => i);
-    const hidden = state.subsOpen ? 0 : Math.max(0, ids.length - LIMIT);
-    if (hidden) { ids = ids.slice(0, LIMIT); if (state.sub >= LIMIT) ids.push(state.sub); }
-    const href = i => S.hasPage(D, state.col, i) ? S.pathFor(D, -1, state.col, i) : S.pathFor(D, -1, state.col, -1) + '?sub=' + encodeURIComponent(col.subs[i]);
-    el.innerHTML = `<span>${esc(col.sl || 'Підкатегорія')}:</span>` +
-      ids.map(i => `<a href="${href(i)}" data-k="${i}" ${state.sub === i ? 'aria-current="true"' : ''}>${esc(col.subs[i])} <span class="n">${n[i]}</span></a>`).join('') +
-      (rest && !hidden ? `<button type="button" data-k="-2" aria-pressed="${state.sub === -2}">Інші <span class="n">${rest}</span></button>` : '') +
-      (hidden ? `<button type="button" data-more="1">Ще ${hidden}</button>` : '');
     el.querySelectorAll('a, button').forEach(b => b.onclick = e => {
       if (b.dataset.more) { state.subsOpen = true; renderTops(); return; }
       if (!plainClick(e)) return;
@@ -360,10 +346,6 @@ function renderTops(){
     });
     return;
   }
-  const tops = col ? col.top : [];
-  if (!tops.length) { el.innerHTML = ''; return; }
-  const nq = norm(state.q);
-  el.innerHTML = '<span>Часто шукають:</span>' + tops.map(t => `<button type="button" aria-pressed="${norm(t) === nq}">${esc(t)}</button>`).join('');
   el.querySelectorAll('button').forEach(b => b.onclick = () => {
     const on = b.getAttribute('aria-pressed') === 'true';
     state.q = on ? '' : b.textContent; state.shown = PAGE; $('search').value = state.q;
@@ -371,9 +353,47 @@ function renderTops(){
   });
 }
 
+/* ---------- повні дані каталогу ----------
+   data.js (усі 10 000 дизайнів) не потрібен, щоб показати сторінку: перші 48 карток уже є в HTML.
+   Він вантажиться після першої дії людини (дотик, прокрутка, клавіша) або коли без нього не обійтись:
+   пошук, «Показати ще», інша колекція. Так телефон не розбирає 1,8 МБ даних, поки сторінка ще з'являється. */
+let FULL = false, loading = null;
+function loadAll(){
+  if (FULL) return Promise.resolve();
+  if (loading) return loading;
+  loading = new Promise((res, rej) => {
+    if (window.DAKI_DATA && window.DAKI_DATA.items) return res();
+    const sc = document.createElement('script');
+    sc.src = '/dakimakury/data.js?v=' + encodeURIComponent(D.v || '');
+    sc.onload = res; sc.onerror = () => rej(new Error('data.js'));
+    document.head.appendChild(sc);
+  }).then(() => {
+    D.items = window.DAKI_DATA.items;
+    ITEMS = D.items.map(toItem).sort(bySold);
+    VOCAB = null; lastSearch = { key: '', list: [], how: '', here: 0 };
+    FULL = true;
+  }).catch(err => { loading = null; throw err; })
+    .finally(() => document.documentElement.classList.remove('busy'));
+  return loading;
+}
+function loadFailed(err){
+  console.error(err);
+  $('count').textContent = '';
+  $('grid').innerHTML = '<div class="empty"><p>Каталог не завантажився. Онови сторінку або напиши нам у Telegram, і ми надішлемо дизайни.</p><div class="row"><a class="btn" href="https://t.me/Masterform_ua" data-contact="telegram">Написати в Telegram</a></div></div>';
+}
+/* виконати дію, коли повні дані вже є (поки вантажаться, сітка трохи блідне) */
+function withAll(fn){
+  if (FULL) return fn();
+  document.documentElement.classList.add('busy');
+  loadAll().then(fn, loadFailed);
+}
+['pointerdown', 'touchstart', 'keydown', 'wheel', 'scroll'].forEach(ev =>
+  addEventListener(ev, () => { loadAll().catch(() => {}); }, { once: true, passive: true }));
+
 /* ---------- сітка ---------- */
 let listToken = '';
 function renderGrid(){
+  if (!FULL) { withAll(renderGrid); return; }
   const list = currentList(), el = $('grid');
   const where = state.q && scoped() ? `: у «${scopeName()}» — ${state.here}, у всьому каталозі — ${list.length}` : `: ${list.length}`;
   $('count').textContent = list.length
@@ -390,31 +410,12 @@ function renderGrid(){
   }
   const part = list.slice(0, state.shown);
   /* свій принт замовляють частіше за будь-який готовий дизайн, тому він стоїть першим */
-  const own = !state.q && state.col < 0 && state.sub === -1 ? `<a class="card own" href="/dakimakura" id="ownCard">
-      <div class="pic">Твій арт або фото на подушці</div>
-      <div class="meta"><span class="name">Свій принт</span><span class="sub">Макет з'явиться одразу після завантаження</span></div>
-    </a>` : '';
+  const own = !state.q && state.col < 0 && state.sub === -1 ? S.OWN_CARD : '';
   /* межа між збігами з поточного місця і рештою каталогу */
   /* (якщо тут збігів немає, про це вже каже рядок над сіткою, тож розділювач не потрібен) */
   const cut = state.q && scoped() && state.here > 0 && state.here < list.length ? state.here : -1;
   const divider = `<p class="from-all">Ще в усьому каталозі: ${list.length - state.here}</p>`;
-  el.innerHTML = own + part.map((it, idx) => {
-    const n = it.pics.length;
-    return (idx === cut ? divider : '') + `<article class="card" data-id="${it.id}">
-      <div class="pic${it.whole ? ' whole' : it.pair ? ' pair' : ''}">
-        ${it.orig.length ? '<span class="b3d" title="Є 3D-перегляд">3D</span>' : ''}
-        <span class="ph">${esc(it.name.replace(/[^\p{L} ]/gu, '').trim().split(/\s+/).slice(0, 2).map(w => w[0] || '').join(''))}</span>
-        <div class="track" aria-label="${esc(it.name)}: фото, гортай">
-          ${it.pics.map((p, i) => i === 0
-            ? it.pair ? mockHtml(sized(p, 640, 640), esc(it.name), idx < 4 ? 'eager' : 'lazy') : `<img ${it.whole ? 'class="whole" ' : ''}src="${sized(p, 640, 640)}" data-full="${p}" alt="Дакімакура ${esc(it.name)}" loading="${idx < 4 ? 'eager' : 'lazy'}" fetchpriority="${idx < 2 ? 'high' : 'auto'}" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)">`
-            : `<img ${i >= it.nProm ? 'class="orig" ' : ''}data-src="${sized(p, 640, 640)}" data-full="${p}" alt="Дакімакура ${esc(it.name)}, ${i >= it.nProm ? 'принт' : 'фото ' + (i + 1)}" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)">`).join('')}
-        </div>
-        ${n > 1 ? `<button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button>
-        <div class="dots">${it.pics.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div>` : ''}
-      </div>
-      <div class="meta"><span class="name">${esc(it.name)}</span><span class="sub">${esc(it.sub)}</span></div>
-    </article>`;
-  }).join('');
+  el.innerHTML = own + part.map((it, idx) => (idx === cut ? divider : '') + S.cardHtml(it, idx)).join('');
   el.querySelectorAll('.card:not(.own)').forEach(setupCard);
   const oc = $('ownCard'); if (oc) oc.onclick = () => track('select_promotion', { promotion_name: 'own_print', creative_slot: 'grid_first' });
   const left = list.length - part.length;
@@ -801,5 +802,23 @@ $('search').addEventListener('input', e => {
   typing = setTimeout(() => { state.q = e.target.value.trim(); state.shown = PAGE; renderTops(); renderGrid(); syncUrl(); }, 180);
 });
 $('yr').textContent = new Date().getFullYear();
-renderAll();
-if (!ITEMS.length) $('grid').innerHTML = '<div class="empty"><p>Каталог не завантажився. Онови сторінку або напиши нам у Telegram, і ми надішлемо дизайни.</p><div class="row"><a class="btn" href="https://t.me/Masterform_ua" data-contact="telegram">Написати в Telegram</a></div></div>';
+/* Старт. Якщо сторінка показує саме те, що вже є в HTML (без пошуку й без ?g=, ?s=, ?sub= в адресі),
+   картки не перемальовуємо, а лише «оживляємо»: так найбільша картинка сторінки з'являється одразу з HTML.
+   Інакше (наприклад, ?q= з реклами) малюємо результат, щойно довантажаться повні дані. */
+function hydrate(){
+  const grid = $('grid'), total = CTX.n || ITEMS.length;
+  grid.querySelectorAll('.card:not(.own)').forEach(setupCard);
+  const oc = $('ownCard'); if (oc) oc.onclick = () => track('select_promotion', { promotion_name: 'own_print', creative_slot: 'grid_first' });
+  $('sideShow').textContent = 'Показати ' + S.designs(total);
+  const left = total - ITEMS.length;
+  $('more').innerHTML = left > 0 ? `<button class="btn ghost" type="button" id="moreBtn">Показати ще ${Math.min(PAGE, left)} із ${left}</button>` : '';
+  if (left > 0) $('moreBtn').onclick = () => withAll(() => { const y = scrollY; state.shown += PAGE; renderGrid(); scrollTo(0, y); });
+  listToken = state.col + '|' + state.sub + '|';
+  track('view_item_list', { ecommerce: { item_list_id: state.col >= 0 ? COLS[state.col].k : 'all', item_list_name: state.col >= 0 ? COLS[state.col].t : 'Усі',
+    items: ITEMS.slice(0, 12).map((it, i) => ({ ...gaItem(it), index: i })) } });
+}
+const fromHtml = !state.q && !['g', 's', 'sub'].some(k => params.has(k)) && ITEMS.length > 0;
+renderTree(); renderTops(); syncUrl();
+if (fromHtml) hydrate();
+else { renderHead(); renderLinks(); renderGrid(); }
+

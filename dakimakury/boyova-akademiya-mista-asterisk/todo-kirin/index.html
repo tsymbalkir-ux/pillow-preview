@@ -39,8 +39,11 @@ fbq('track', 'PageView');
 <link rel="preconnect" href="https://images.prom.ua">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16">
+<!-- шрифти не блокують показ сторінки: спершу текст системним шрифтом, фірмовий підміняє його, щойно завантажиться -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16c">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Дакімакури","item":"https://printme.world/dakimakury/"},{"@type":"ListItem","position":2,"name":"Аніме","item":"https://printme.world/dakimakury/anime/"},{"@type":"ListItem","position":3,"name":"Бойова академія міста Астеріск","item":"https://printme.world/dakimakury/boyova-akademiya-mista-asterisk/"},{"@type":"ListItem","position":4,"name":"Тодо Кірін","item":"https://printme.world/dakimakury/boyova-akademiya-mista-asterisk/todo-kirin/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Дакімакури Тодо Кірін (Бойова академія міста Астеріск)","url":"https://printme.world/dakimakury/boyova-akademiya-mista-asterisk/todo-kirin/","inLanguage":"uk","mainEntity":{"@type":"ItemList","numberOfItems":2,"itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"Product","name":"Дакімакура Тодо Кірін №1","image":"https://images.prom.ua/6475456653_todo-kirin-vojna.jpg","category":"Бойова академія міста Астеріск","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/boyova-akademiya-mista-asterisk/todo-kirin/"}}},{"@type":"ListItem","position":2,"item":{"@type":"Product","name":"Дакімакура Тодо Кірін №2","image":"https://images.prom.ua/6475456666_todo-kirin-vojna.jpg","category":"Бойова академія міста Астеріск","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/boyova-akademiya-mista-asterisk/todo-kirin/"}}}]}}</script>
 </head>
@@ -71,19 +74,13 @@ fbq('track', 'PageView');
         <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Бойова академія міста Астеріск</span></button>
         <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
       </div>
-      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/boyova-akademiya-mista-asterisk/kirin-todo/">Кірін Тодо <span class="n">4</span></a><a href="/dakimakury/boyova-akademiya-mista-asterisk/klaudiya-enfild/">Клаудія Енфілд <span class="n">2</span></a><a href="/dakimakury/boyova-akademiya-mista-asterisk/todo-kirin/" aria-current="true">Тодо Кірін <span class="n">2</span></a></div>
+      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/boyova-akademiya-mista-asterisk/kirin-todo/" data-k="0">Кірін Тодо <span class="n">4</span></a><a href="/dakimakury/boyova-akademiya-mista-asterisk/klaudiya-enfild/" data-k="1">Клаудія Енфілд <span class="n">2</span></a><a href="/dakimakury/boyova-akademiya-mista-asterisk/todo-kirin/" data-k="2" aria-current="true">Тодо Кірін <span class="n">2</span></a><button type="button" data-k="-2" aria-pressed="false">Інші <span class="n">6</span></button></div>
       <p class="count" id="count" aria-live="polite">Дизайнів: 2</p>
 
 
   <main class="grid" id="grid">
-<article class="card" data-id="2487341066">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6475456653_w640_h640_todo-kirin-vojna.jpg" alt="Дакімакура Тодо Кірін №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Тодо Кірін №1</span><span class="sub">Бойова академія міста Астеріск</span></div>
-    </article>
-<article class="card" data-id="2487341068">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6475456666_w640_h640_todo-kirin-vojna.jpg" alt="Дакімакура Тодо Кірін №2" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Тодо Кірін №2</span><span class="sub">Бойова академія міста Астеріск</span></div>
-    </article>
+<article class="card" data-id="2487341066"><div class="pic"><span class="ph">ТК</span><div class="track" aria-label="Тодо Кірін №1: фото, гортай"><img src="https://images.prom.ua/6475456653_w640_h640_todo-kirin-vojna.jpg" data-full="https://images.prom.ua/6475456653_todo-kirin-vojna.jpg" alt="Дакімакура Тодо Кірін №1" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475456654_w640_h640_todo-kirin-vojna.jpg" data-full="https://images.prom.ua/6475456654_todo-kirin-vojna.jpg" alt="Дакімакура Тодо Кірін №1, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475456655_w640_h640_todo-kirin-vojna.jpg" data-full="https://images.prom.ua/6475456655_todo-kirin-vojna.jpg" alt="Дакімакура Тодо Кірін №1, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475456657_w640_h640_todo-kirin-vojna.jpg" data-full="https://images.prom.ua/6475456657_todo-kirin-vojna.jpg" alt="Дакімакура Тодо Кірін №1, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Тодо Кірін №1</span><span class="sub">Бойова академія міста Астеріск</span></div></article>
+<article class="card" data-id="2487341068"><div class="pic"><span class="ph">ТК</span><div class="track" aria-label="Тодо Кірін №2: фото, гортай"><img src="https://images.prom.ua/6475456666_w640_h640_todo-kirin-vojna.jpg" data-full="https://images.prom.ua/6475456666_todo-kirin-vojna.jpg" alt="Дакімакура Тодо Кірін №2" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475456668_w640_h640_todo-kirin-vojna.jpg" data-full="https://images.prom.ua/6475456668_todo-kirin-vojna.jpg" alt="Дакімакура Тодо Кірін №2, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475456670_w640_h640_todo-kirin-vojna.jpg" data-full="https://images.prom.ua/6475456670_todo-kirin-vojna.jpg" alt="Дакімакура Тодо Кірін №2, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475456671_w640_h640_todo-kirin-vojna.jpg" data-full="https://images.prom.ua/6475456671_todo-kirin-vojna.jpg" alt="Дакімакура Тодо Кірін №2, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Тодо Кірін №2</span><span class="sub">Бойова академія міста Астеріск</span></div></article>
 </main>
   <div class="more" id="more"></div>
     </div>
@@ -140,10 +137,11 @@ fbq('track', 'PageView');
   <div class="v3d-stage" id="v3dStage"><div class="v3d-load" id="v3dLoad"><span class="spin" aria-hidden="true"></span><b>Завантажуємо 3D-модель</b><span>Це не збій: модель важка, перший запуск триває до пів хвилини. Зачекай, будь ласка.</span></div></div>
 </dialog>
 
-<script>window.DAKI_PAGE={"g":"boyova-akademiya-mista-asterisk","sub":"Тодо Кірін"};</script>
-<script src="/shipping.js"></script>
-<script src="/dakimakury/data.js?v=2026-10-16"></script>
-<script src="/dakimakury/shared.js?v=2026-10-16"></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16"></script>
+<script>window.DAKI_PAGE={"g":"boyova-akademiya-mista-asterisk","sub":"Тодо Кірін","n":2,"rows":[[2487341066,150,"Тодо Кірін №1","кирин война астерисков","6475456653,6475456654,6475456655,6475456657|todo-kirin-vojna",0,"",2],[2487341068,150,"Тодо Кірін №2","кирин война астерисков","6475456666,6475456668,6475456670,6475456671|todo-kirin-vojna",0,"",2]]};</script>
+<!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
+<script src="/shipping.js" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16c" defer></script>
 </body>
 </html>

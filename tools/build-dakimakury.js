@@ -38,7 +38,6 @@ const hiddenPaths = [];
 
 const STATIC_CARDS = 48;     // стільки ж карток показує catalog.js одразу після завантаження
 const LD_ITEMS = 24;         // товарів у розмітці для пошуковика
-const SUBS_SHOWN = 14;       // підкатегорій у рядку над сіткою
 const PRICES = [1100, 2390];
 
 /* ---------- дані для браузера ---------- */
@@ -46,8 +45,6 @@ const secIdx = {}; SRC.secs.forEach((s, i) => { secIdx[s.k] = i; });
 const colIdx = {}; SRC.cols.forEach((c, i) => { colIdx[c.k] = i; });
 const WHOLE = new Set((SRC.whole || []).map(String));
 const PAIR = new Set((SRC.pair || []).map(String));
-/* мокап «пара подушок» із плаского малюнка: ліва половина фото лягає на ліву подушку шаблону, права на праву (стилі в catalog.css) */
-const mockHtml = (src, name, lazy) => `<span class="mock"><span class="mk"><span class="za"><img src="${src}" alt="Дакімакура ${name}" loading="${lazy}" decoding="async" referrerpolicy="no-referrer"></span><span class="zb"><img src="${src}" alt="" loading="${lazy}" decoding="async" referrerpolicy="no-referrer"></span></span></span>`;
 const D = {
   v: SRC.v,
   /* id дизайнів, у яких перше фото показуємо цілим (дві подушки поруч на білому тлі) */
@@ -77,6 +74,22 @@ fs.writeFileSync(path.join(OUT, 'data.js'),
   '/* Дані каталогу з адресами сторінок. Файл генерує tools/build-dakimakury.js, руками не редагувати.\n' +
   '   Рядок: [id товару Prom, № колекції, назва, слова для пошуку, фото, продано, підпис, № підкатегорії, [оригінали принта], скільки оригіналів у галереї] */\n' +
   'window.DAKI_DATA=' + JSON.stringify(D) + ';\n');
+
+/* meta.js: усе, крім самих товарів (розділи, колекції, лічильники). Він маленький і вантажиться на кожній сторінці;
+   сам data.js браузер довантажує пізніше (див. loadAll у catalog.js). */
+{
+  const nCol = D.cols.map(() => 0), uCol = nCol.slice(), nSec = D.secs.map(() => 0);
+  D.items.forEach(it => { nCol[it[1]]++; uCol[it[1]] += it[5] || 0; nSec[D.cols[it[1]].s]++; });
+  D.cols.forEach((c, i) => {
+    if (!c.subs || !c.subs.length) return;
+    c.sn = c.subs.map(() => 0); c.sr = 0;
+    D.items.forEach(it => { if (it[1] !== i) return; const k = it[7] == null ? -1 : it[7]; if (k >= 0) c.sn[k]++; else c.sr++; });
+  });
+  const META = { v: D.v, whole: D.whole, pair: D.pair, secs: D.secs, cols: D.cols, st: { nCol, uCol, nSec, total: D.items.length } };
+  fs.writeFileSync(path.join(OUT, 'meta.js'),
+    '/* Розділи, колекції й лічильники каталогу без самих товарів. Файл генерує tools/build-dakimakury.js, руками не редагувати. */\n' +
+    'window.DAKI_META=' + JSON.stringify(META) + ';\n');
+}
 
 /* ---------- допоміжне ---------- */
 const esc = S.esc;
@@ -109,23 +122,16 @@ function page(sec, col, sub) {
         offers: { '@type': 'AggregateOffer', priceCurrency: 'UAH', lowPrice: PRICES[0], highPrice: PRICES[1], offerCount: 4,
           availability: 'https://schema.org/MadeToOrder', url } } })) } });
 
-  const cards = list.slice(0, STATIC_CARDS).map((it, i) => `<article class="card" data-id="${it[0]}">
-      <div class="pic${WHOLE.has(String(it[0])) ? ' whole' : PAIR.has(String(it[0])) ? ' pair' : ''}"><div class="track">${PAIR.has(String(it[0])) ? mockHtml(attr(sized(picUrl(firstPic(it)), 640, 640)), attr(it[2]), i < 4 ? 'eager' : 'lazy') : `<img ${WHOLE.has(String(it[0])) ? 'class="whole" ' : ''}src="${attr(sized(picUrl(firstPic(it)), 640, 640))}" alt="Дакімакура ${attr(it[2])}" width="640" height="640" loading="${i < 4 ? 'eager' : 'lazy'}" decoding="async" referrerpolicy="no-referrer">`}</div></div>
-      <div class="meta"><span class="name">${esc(it[2])}</span><span class="sub">${esc(labelOf(it))}</span></div>
-    </article>`).join('\n') + '\n';
+  /* картки ті самі, що малює catalog.js (S.cardHtml), тож скрипт їх не перемальовує, а лише оживляє */
+  const shown = list.slice(0, STATIC_CARDS);
+  const cards = (col < 0 && sub < 0 ? S.OWN_CARD + '\n' : '') + shown.map((it, i) => S.cardHtml(S.itemFromRow(D, it, WHOLE, PAIR), i)).join('\n') + '\n';
 
-  let tops = '';
   const c = col >= 0 ? D.cols[col] : null;
-  if (c && c.subs && c.subs.length) {
-    const n = c.subs.map(() => 0);
-    D.items.forEach(it => { if (it[1] === col && subOf(it) >= 0) n[subOf(it)]++; });
-    let ids = c.subs.map((_, i) => i).slice(0, SUBS_SHOWN);
-    if (sub >= SUBS_SHOWN) ids.push(sub);
-    tops = `<span>${esc(c.sl || 'Підкатегорія')}:</span>` + ids.map(i =>
-      `<a href="${S.pathFor(D, -1, col, i)}"${sub === i ? ' aria-current="true"' : ''}>${esc(c.subs[i])} <span class="n">${n[i]}</span></a>`).join('');
-  }
+  const tops = S.topsHtml(D, col, sub);
   const links = S.links(D, sec, sub >= 0 ? col : col);
   const pageCtx = col >= 0 ? (sub >= 0 ? { g: c.k, sub: c.subs[sub] } : { g: c.k }) : sec >= 0 ? { s: D.secs[sec].k } : {};
+  /* товари з карток цієї сторінки й загальна кількість: з ними вікно товару працює ще до завантаження data.js */
+  pageCtx.n = list.length; pageCtx.rows = shown;
   return fill(TPL, {
     TITLE: esc(S.title(D, sec, col, sub)), DESC: attr(S.description(D, sec, col, sub)), URL: url, H1: esc(h1),
     OGIMG: list.length ? attr(picUrl(firstPic(list[0]))) : '', V: D.v,

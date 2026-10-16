@@ -39,8 +39,11 @@ fbq('track', 'PageView');
 <link rel="preconnect" href="https://images.prom.ua">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16">
+<!-- шрифти не блокують показ сторінки: спершу текст системним шрифтом, фірмовий підміняє його, щойно завантажиться -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16c">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Дакімакури","item":"https://printme.world/dakimakury/"},{"@type":"ListItem","position":2,"name":"Аніме","item":"https://printme.world/dakimakury/anime/"},{"@type":"ListItem","position":3,"name":"Solo Leveling","item":"https://printme.world/dakimakury/solo-leveling/"},{"@type":"ListItem","position":4,"name":"Ігріс","item":"https://printme.world/dakimakury/solo-leveling/ihris/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Дакімакури Ігріс (Solo Leveling)","url":"https://printme.world/dakimakury/solo-leveling/ihris/","inLanguage":"uk","mainEntity":{"@type":"ItemList","numberOfItems":2,"itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"Product","name":"Дакімакура Ігріс №1","image":"https://images.prom.ua/6493893975_dakimakura-igris-podnyatie.jpg","category":"Solo Leveling","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/solo-leveling/ihris/"}}},{"@type":"ListItem","position":2,"item":{"@type":"Product","name":"Дакімакура Ігріс №2","image":"https://images.prom.ua/6493893979_dakimakura-igris-podnyatie.jpg","category":"Solo Leveling","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/solo-leveling/ihris/"}}}]}}</script>
 </head>
@@ -71,19 +74,13 @@ fbq('track', 'PageView');
         <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Solo Leveling</span></button>
         <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
       </div>
-      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/solo-leveling/ihris/" aria-current="true">Ігріс <span class="n">2</span></a><a href="/dakimakury/solo-leveling/cha-hae-in/">Cha Hae In <span class="n">2</span></a></div>
+      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/solo-leveling/ihris/" data-k="0" aria-current="true">Ігріс <span class="n">2</span></a><a href="/dakimakury/solo-leveling/cha-hae-in/" data-k="1">Cha Hae In <span class="n">2</span></a><button type="button" data-k="-2" aria-pressed="false">Інші <span class="n">9</span></button></div>
       <p class="count" id="count" aria-live="polite">Дизайнів: 2</p>
 
 
   <main class="grid" id="grid">
-<article class="card" data-id="2500153359">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6493893975_w640_h640_dakimakura-igris-podnyatie.jpg" alt="Дакімакура Ігріс №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Ігріс №1</span><span class="sub">Solo Leveling</span></div>
-    </article>
-<article class="card" data-id="2500153360">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6493893979_w640_h640_dakimakura-igris-podnyatie.jpg" alt="Дакімакура Ігріс №2" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Ігріс №2</span><span class="sub">Solo Leveling</span></div>
-    </article>
+<article class="card" data-id="2500153359"><div class="pic"><span class="ph">І</span><div class="track" aria-label="Ігріс №1: фото, гортай"><img src="https://images.prom.ua/6493893975_w640_h640_dakimakura-igris-podnyatie.jpg" data-full="https://images.prom.ua/6493893975_dakimakura-igris-podnyatie.jpg" alt="Дакімакура Ігріс №1" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6493893976_w640_h640_dakimakura-igris-podnyatie.jpg" data-full="https://images.prom.ua/6493893976_dakimakura-igris-podnyatie.jpg" alt="Дакімакура Ігріс №1, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6493893977_w640_h640_dakimakura-igris-podnyatie.jpg" data-full="https://images.prom.ua/6493893977_dakimakura-igris-podnyatie.jpg" alt="Дакімакура Ігріс №1, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6493893978_w640_h640_dakimakura-igris-podnyatie.jpg" data-full="https://images.prom.ua/6493893978_dakimakura-igris-podnyatie.jpg" alt="Дакімакура Ігріс №1, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Ігріс №1</span><span class="sub">Solo Leveling</span></div></article>
+<article class="card" data-id="2500153360"><div class="pic"><span class="ph">І</span><div class="track" aria-label="Ігріс №2: фото, гортай"><img src="https://images.prom.ua/6493893979_w640_h640_dakimakura-igris-podnyatie.jpg" data-full="https://images.prom.ua/6493893979_dakimakura-igris-podnyatie.jpg" alt="Дакімакура Ігріс №2" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6493893980_w640_h640_dakimakura-igris-podnyatie.jpg" data-full="https://images.prom.ua/6493893980_dakimakura-igris-podnyatie.jpg" alt="Дакімакура Ігріс №2, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6493893982_w640_h640_dakimakura-igris-podnyatie.jpg" data-full="https://images.prom.ua/6493893982_dakimakura-igris-podnyatie.jpg" alt="Дакімакура Ігріс №2, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6493893984_w640_h640_dakimakura-igris-podnyatie.jpg" data-full="https://images.prom.ua/6493893984_dakimakura-igris-podnyatie.jpg" alt="Дакімакура Ігріс №2, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Ігріс №2</span><span class="sub">Solo Leveling</span></div></article>
 </main>
   <div class="more" id="more"></div>
     </div>
@@ -140,10 +137,11 @@ fbq('track', 'PageView');
   <div class="v3d-stage" id="v3dStage"><div class="v3d-load" id="v3dLoad"><span class="spin" aria-hidden="true"></span><b>Завантажуємо 3D-модель</b><span>Це не збій: модель важка, перший запуск триває до пів хвилини. Зачекай, будь ласка.</span></div></div>
 </dialog>
 
-<script>window.DAKI_PAGE={"g":"solo-leveling","sub":"Ігріс"};</script>
-<script src="/shipping.js"></script>
-<script src="/dakimakury/data.js?v=2026-10-16"></script>
-<script src="/dakimakury/shared.js?v=2026-10-16"></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16"></script>
+<script>window.DAKI_PAGE={"g":"solo-leveling","sub":"Ігріс","n":2,"rows":[[2500153359,163,"Ігріс №1","игрис поднятие уровня одиночку","6493893975,6493893976,6493893977,6493893978|dakimakura-igris-podnyatie",0,"",0],[2500153360,163,"Ігріс №2","игрис поднятие уровня одиночку","6493893979,6493893980,6493893982,6493893984|dakimakura-igris-podnyatie",0,"",0]]};</script>
+<!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
+<script src="/shipping.js" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16c" defer></script>
 </body>
 </html>

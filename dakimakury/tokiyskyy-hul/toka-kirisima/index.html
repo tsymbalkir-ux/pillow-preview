@@ -39,8 +39,11 @@ fbq('track', 'PageView');
 <link rel="preconnect" href="https://images.prom.ua">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16">
+<!-- шрифти не блокують показ сторінки: спершу текст системним шрифтом, фірмовий підміняє його, щойно завантажиться -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16c">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Дакімакури","item":"https://printme.world/dakimakury/"},{"@type":"ListItem","position":2,"name":"Аніме","item":"https://printme.world/dakimakury/anime/"},{"@type":"ListItem","position":3,"name":"Токійський гуль","item":"https://printme.world/dakimakury/tokiyskyy-hul/"},{"@type":"ListItem","position":4,"name":"Тока Кірісіма","item":"https://printme.world/dakimakury/tokiyskyy-hul/toka-kirisima/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Дакімакури Тока Кірісіма (Токійський гуль)","url":"https://printme.world/dakimakury/tokiyskyy-hul/toka-kirisima/","inLanguage":"uk","mainEntity":{"@type":"ItemList","numberOfItems":2,"itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"Product","name":"Дакімакура Тока Кірісіма №1","image":"https://images.prom.ua/6766695582_anime-dakimakura-toka.jpg","category":"Токійський гуль","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/tokiyskyy-hul/toka-kirisima/"}}},{"@type":"ListItem","position":2,"item":{"@type":"Product","name":"Дакімакура Тока Кірісіма №2","image":"https://images.prom.ua/6766696593_anime-dakimakura-toka.jpg","category":"Токійський гуль","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/tokiyskyy-hul/toka-kirisima/"}}}]}}</script>
 </head>
@@ -71,19 +74,13 @@ fbq('track', 'PageView');
         <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Токійський гуль</span></button>
         <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
       </div>
-      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/tokiyskyy-hul/ken-kaneki/">Кен Канекі <span class="n">8</span></a><a href="/dakimakury/tokiyskyy-hul/sayko-yonebayashi/">Сайко Йонебаяші <span class="n">2</span></a><a href="/dakimakury/tokiyskyy-hul/toka-kirisima/" aria-current="true">Тока Кірісіма <span class="n">2</span></a><a href="/dakimakury/tokiyskyy-hul/touka-kirishyma/">Тоука Кірішима <span class="n">2</span></a></div>
+      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/tokiyskyy-hul/ken-kaneki/" data-k="0">Кен Канекі <span class="n">8</span></a><a href="/dakimakury/tokiyskyy-hul/sayko-yonebayashi/" data-k="1">Сайко Йонебаяші <span class="n">2</span></a><a href="/dakimakury/tokiyskyy-hul/toka-kirisima/" data-k="2" aria-current="true">Тока Кірісіма <span class="n">2</span></a><a href="/dakimakury/tokiyskyy-hul/touka-kirishyma/" data-k="3">Тоука Кірішима <span class="n">2</span></a><button type="button" data-k="-2" aria-pressed="false">Інші <span class="n">6</span></button></div>
       <p class="count" id="count" aria-live="polite">Дизайнів: 2</p>
 
 
   <main class="grid" id="grid">
-<article class="card" data-id="1545314102">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6766695582_w640_h640_anime-dakimakura-toka.jpg" alt="Дакімакура Тока Кірісіма №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Тока Кірісіма №1</span><span class="sub">Токійський гуль</span></div>
-    </article>
-<article class="card" data-id="1545314103">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6766696593_w640_h640_anime-dakimakura-toka.jpg" alt="Дакімакура Тока Кірісіма №2" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Тока Кірісіма №2</span><span class="sub">Токійський гуль</span></div>
-    </article>
+<article class="card" data-id="1545314102"><div class="pic"><span class="ph">ТК</span><div class="track" aria-label="Тока Кірісіма №1: фото, гортай"><img src="https://images.prom.ua/6766695582_w640_h640_anime-dakimakura-toka.jpg" data-full="https://images.prom.ua/6766695582_anime-dakimakura-toka.jpg" alt="Дакімакура Тока Кірісіма №1" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/3546508307_w640_h640_anime-dakimakura-toka.jpg" data-full="https://images.prom.ua/3546508307_anime-dakimakura-toka.jpg" alt="Дакімакура Тока Кірісіма №1, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/4557260422_w640_h640_anime-dakimakura-toka.jpg" data-full="https://images.prom.ua/4557260422_anime-dakimakura-toka.jpg" alt="Дакімакура Тока Кірісіма №1, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/4363779747_w640_h640_anime-dakimakura-toka.jpg" data-full="https://images.prom.ua/4363779747_anime-dakimakura-toka.jpg" alt="Дакімакура Тока Кірісіма №1, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Тока Кірісіма №1</span><span class="sub">Токійський гуль</span></div></article>
+<article class="card" data-id="1545314103"><div class="pic"><span class="ph">ТК</span><div class="track" aria-label="Тока Кірісіма №2: фото, гортай"><img src="https://images.prom.ua/6766696593_w640_h640_anime-dakimakura-toka.jpg" data-full="https://images.prom.ua/6766696593_anime-dakimakura-toka.jpg" alt="Дакімакура Тока Кірісіма №2" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/3546509128_w640_h640_anime-dakimakura-toka.jpg" data-full="https://images.prom.ua/3546509128_anime-dakimakura-toka.jpg" alt="Дакімакура Тока Кірісіма №2, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/4557260422_w640_h640_anime-dakimakura-toka.jpg" data-full="https://images.prom.ua/4557260422_anime-dakimakura-toka.jpg" alt="Дакімакура Тока Кірісіма №2, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/4363779747_w640_h640_anime-dakimakura-toka.jpg" data-full="https://images.prom.ua/4363779747_anime-dakimakura-toka.jpg" alt="Дакімакура Тока Кірісіма №2, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Тока Кірісіма №2</span><span class="sub">Токійський гуль</span></div></article>
 </main>
   <div class="more" id="more"></div>
     </div>
@@ -140,10 +137,11 @@ fbq('track', 'PageView');
   <div class="v3d-stage" id="v3dStage"><div class="v3d-load" id="v3dLoad"><span class="spin" aria-hidden="true"></span><b>Завантажуємо 3D-модель</b><span>Це не збій: модель важка, перший запуск триває до пів хвилини. Зачекай, будь ласка.</span></div></div>
 </dialog>
 
-<script>window.DAKI_PAGE={"g":"tokiyskyy-hul","sub":"Тока Кірісіма"};</script>
-<script src="/shipping.js"></script>
-<script src="/dakimakury/data.js?v=2026-10-16"></script>
-<script src="/dakimakury/shared.js?v=2026-10-16"></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16"></script>
+<script>window.DAKI_PAGE={"g":"tokiyskyy-hul","sub":"Тока Кірісіма","n":2,"rows":[[1545314102,107,"Тока Кірісіма №1","киришима токийский","6766695582,3546508307,4557260422,4363779747|anime-dakimakura-toka",0,"",2],[1545314103,107,"Тока Кірісіма №2","киришима токийский","6766696593,3546509128,4557260422,4363779747|anime-dakimakura-toka",0,"",2]]};</script>
+<!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
+<script src="/shipping.js" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16c" defer></script>
 </body>
 </html>
