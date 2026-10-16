@@ -604,8 +604,15 @@ function openItem(id, start = 0, toForm = false){
   d.showModal();
   track('view_item', { ecommerce: { currency: 'UAH', value: state.size.price, items: [gaItem(it)] } },
     'ViewContent', { content_ids: [it.id], content_type: 'product', value: state.size.price, currency: 'UAH' });
-  const shots = d.querySelector('.shots'), target = shots.children[start];
-  if (target) shots.scrollLeft = target.offsetLeft - shots.children[0].offsetLeft;
+  const shots = d.querySelector('.shots');
+  /* Галерея відкривається на фото, яке було на картці. Поки фото довантажуються, їхня ширина змінюється,
+     і Safari міг сам «перескочити» на інше (часто останнє) фото. Тому до першого дотику людини
+     після кожного завантаженого фото повертаємо галерею на потрібне. */
+  let touched = false;
+  const pin = () => { const t = shots.children[start]; if (!touched && t) shots.scrollLeft = t.offsetLeft - shots.children[0].offsetLeft; };
+  ['pointerdown', 'touchstart', 'wheel', 'keydown'].forEach(ev => shots.addEventListener(ev, () => { touched = true; }, { passive: true, once: true }));
+  pin();
+  [...shots.children].forEach(p => p.addEventListener('load', pin));
   /* стрілки галереї: гортають на одне фото, тож смугу прокрутки шукати не треба */
   const gPrev = q('.g-arrow.prev'), gNext = q('.g-arrow.next'), pics = [...shots.children];
   const gCount = q('.g-count');
@@ -616,6 +623,7 @@ function openItem(id, start = 0, toForm = false){
     gNext.disabled = shots.scrollLeft + shots.clientWidth > shots.scrollWidth - 8;
   };
   const gGo = dir => {
+    touched = true;
     const x = shots.scrollLeft + pics[0].offsetLeft;
     const at = pics.findIndex(p => p.offsetLeft >= x - 4), cur = at < 0 ? pics.length - 1 : at;
     const to = pics[Math.max(0, Math.min(pics.length - 1, cur + dir))];
