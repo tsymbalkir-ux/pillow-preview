@@ -1,0 +1,1721 @@
+{
+ "note": "Ручне розкладання фото й оригіналів для дизайнів зі спільним кодом товару Prom (сторінка spilni-kody-rozklad.html, 16.10.2026). id дизайну → p: фото Prom по порядку (перше — обкладинка), o: оригінали для 3D. Дизайн без жодного фото прибирається з каталогу. Застосовує tools/build-dakimakury.js після кожного імпорту.",
+ "designs": {
+  "1545314890": {
+   "name": "Макіма №1",
+   "p": [
+    "6766705112_anime-dakimakura-makima",
+    "3546536658_anime-dakimakura-makima",
+    "6766704932_anime-dakimakura-makima",
+    "4557260422_anime-dakimakura-makima",
+    "4363779747_anime-dakimakura-makima"
+   ],
+   "o": []
+  },
+  "2487336778": {
+   "name": "Хіната Шойо",
+   "p": [
+    "6475445899_hinata-shojo-volejbol",
+    "6475445900_hinata-shojo-volejbol",
+    "6475445901_hinata-shojo-volejbol",
+    "6475445902_hinata-shojo-volejbol",
+    "6475445903_hinata-shojo-volejbol",
+    "6475445904_hinata-shojo-volejbol",
+    "6475445905_hinata-shojo-volejbol"
+   ],
+   "o": []
+  },
+  "1545321222": {
+   "name": "Сільфіетта Реінкарнація безробітнього",
+   "p": [
+    "4557260422_anime-dakimakura-silfietta",
+    "4363779747_anime-dakimakura-silfietta"
+   ],
+   "o": []
+  },
+  "1545317547": {
+   "name": "Міка",
+   "p": [
+    "4557260422_anime-dakimakura-mika",
+    "4363779747_anime-dakimakura-mika"
+   ],
+   "o": []
+  },
+  "1545310671": {
+   "name": "Зеле Веллерай №1",
+   "p": [
+    "6766681279_anime-dakimakura-zele",
+    "3546478850_anime-dakimakura-zele",
+    "4557260422_anime-dakimakura-zele",
+    "4363779747_anime-dakimakura-zele"
+   ],
+   "o": []
+  },
+  "2693890885": {
+   "name": "BLACKPINK",
+   "p": [
+    "6480059792_blackpink-dakimakura-podushka",
+    "6480059793_blackpink-dakimakura-podushka",
+    "6480059794_blackpink-dakimakura-podushka",
+    "6480059795_blackpink-dakimakura-podushka"
+   ],
+   "o": [
+    "TDfRRY3V/1028.jpg"
+   ]
+  },
+  "2693891997": {
+   "name": "Сонхун",
+   "p": [
+    "6769994364_sonhun-sunghoon-enhypen",
+    "6769994365_sonhun-sunghoon-enhypen",
+    "6769994368_sonhun-sunghoon-enhypen",
+    "6769994391_sonhun-sunghoon-enhypen"
+   ],
+   "o": [
+    "hxZZcg6T/1149.jpg"
+   ]
+  },
+  "1545314094": {
+   "name": "Кейсуке Бадзі №1",
+   "p": [
+    "6766687089_anime-dakimakura-kejsuke",
+    "3546508293_anime-dakimakura-kejsuke",
+    "4557260422_anime-dakimakura-kejsuke",
+    "4363779747_anime-dakimakura-kejsuke"
+   ],
+   "o": []
+  },
+  "1545322707": {
+   "name": "Кейтсуке Бадзі №1",
+   "p": [
+    "4557260422_anime-dakimakura-kejsuke",
+    "4363779747_anime-dakimakura-kejsuke"
+   ],
+   "o": []
+  },
+  "1986505080": {
+   "name": "Шень Хе 3 №1",
+   "p": [
+    "4976256863_dakimakura-gabardin-shen",
+    "4557260422_dakimakura-gabardin-shen",
+    "4363779747_dakimakura-gabardin-shen",
+    "4363779877_dakimakura-gabardin-shen"
+   ],
+   "o": []
+  },
+  "1545306201": {
+   "name": "Гавр Гура №1",
+   "p": [
+    "6766696474_anime-dakimakura-gavr",
+    "3546495102_anime-dakimakura-gavr",
+    "4557260422_anime-dakimakura-gavr",
+    "4363779747_anime-dakimakura-gavr"
+   ],
+   "o": []
+  },
+  "1545310862": {
+   "name": "Наґато №1",
+   "p": [
+    "6766688042_anime-dakimakura-nagato",
+    "3546492783_anime-dakimakura-nagato",
+    "6766688043_anime-dakimakura-mikasa3",
+    "4557260422_anime-dakimakura-nagato",
+    "4363779747_anime-dakimakura-nagato"
+   ],
+   "o": []
+  },
+  "1800515268": {
+   "name": "Мікаса №3",
+   "p": [
+    "4557260422_anime-dakimakura-mikasa3",
+    "4363779747_anime-dakimakura-mikasa3"
+   ],
+   "o": []
+  },
+  "1545321178": {
+   "name": "Курумі Токісакі №17",
+   "p": [
+    "4557260422_anime-dakimakura-kurumi",
+    "4363779747_anime-dakimakura-kurumi"
+   ],
+   "o": []
+  },
+  "2487333121": {
+   "name": "Тачібана Руї Домашня дівчина",
+   "p": [],
+   "o": []
+  },
+  "2693892062": {
+   "name": "Enhypen №3",
+   "p": [
+    "6769996197_enhypen-dakimakura-podushka",
+    "6769996198_enhypen-dakimakura-podushka",
+    "6769996199_enhypen-dakimakura-podushka",
+    "6769996200_enhypen-dakimakura-podushka"
+   ],
+   "o": []
+  },
+  "2693890871": {
+   "name": "BTS №3",
+   "p": [
+    "6480054938_bts-dakimakura-podushka",
+    "6480054939_bts-dakimakura-podushka",
+    "6480054940_bts-dakimakura-podushka",
+    "6480054941_bts-dakimakura-podushka"
+   ],
+   "o": []
+  },
+  "2693890874": {
+   "name": "Кім Намджун (Kim Nam-joon, RM) №1",
+   "p": [
+    "6480054950_kim-namdzhun-kim",
+    "6480054951_kim-namdzhun-kim",
+    "6480054952_kim-namdzhun-kim",
+    "6480054953_kim-namdzhun-kim"
+   ],
+   "o": []
+  },
+  "2693890875": {
+   "name": "Джін (Jin) №1",
+   "p": [
+    "6480056970_dzhin-jin-bts",
+    "6480056971_dzhin-jin-bts",
+    "6480056972_dzhin-jin-bts",
+    "6480056973_dzhin-jin-bts"
+   ],
+   "o": [
+    "JwQWvh2T/1017.jpg"
+   ]
+  },
+  "2693890878": {
+   "name": "Шуґа (Suga)",
+   "p": [
+    "6480056983_shuga-suga-bts",
+    "6480056984_shuga-suga-bts",
+    "6480056985_shuga-suga-bts",
+    "6480056986_shuga-suga-bts"
+   ],
+   "o": [
+    "DfzVNSBf/1020.jpg"
+   ]
+  },
+  "1545319127": {
+   "name": "Кіана Каслана №13",
+   "p": [
+    "4557260422_anime-dakimakura-kiana",
+    "4363779747_anime-dakimakura-kiana"
+   ],
+   "o": []
+  },
+  "2693890880": {
+   "name": "Пак Чімін (Park Ji-min) №2",
+   "p": [
+    "6480056991_pak-chimin-park",
+    "6480056992_pak-chimin-park",
+    "6480056996_pak-chimin-park",
+    "6480056998_pak-chimin-park"
+   ],
+   "o": [
+    "1V6MWc6/1022.jpg"
+   ]
+  },
+  "2693890881": {
+   "name": "Пак Чімін (Park Ji-min) №3",
+   "p": [
+    "6480057000_pak-chimin-park",
+    "6480057002_pak-chimin-park",
+    "6480057004_pak-chimin-park",
+    "6480057005_pak-chimin-park"
+   ],
+   "o": [
+    "VpYp6DZq/1023.jpg"
+   ]
+  },
+  "2693890883": {
+   "name": "Кім Техьон (Kim Tae-hyung, V) №2",
+   "p": [
+    "6480059780_kim-thehyon-kim",
+    "6480059781_kim-thehyon-kim",
+    "6480059782_kim-thehyon-kim",
+    "6480059783_kim-thehyon-kim"
+   ],
+   "o": [
+    "39xXbLzm/1025.jpg"
+   ]
+  },
+  "2693890884": {
+   "name": "Чон Чонґук (Jeon Jungkook)",
+   "p": [
+    "6480059784_chon-chonguk-jeon",
+    "6480059785_chon-chonguk-jeon",
+    "6480059786_chon-chonguk-jeon",
+    "6480059787_chon-chonguk-jeon"
+   ],
+   "o": [
+    "KPT0NKQ/1026.jpg"
+   ]
+  },
+  "2693890887": {
+   "name": "Хан (Han) №1",
+   "p": [
+    "6480069919_han-han-stray",
+    "6480069923_han-han-stray",
+    "6480069927_han-han-stray",
+    "6480069931_han-han-stray"
+   ],
+   "o": [
+    "7dJCMSbQ/1060.jpg"
+   ]
+  },
+  "2693890888": {
+   "name": "Хан (Han) №2",
+   "p": [
+    "6480069935_han-han-stray",
+    "6480069941_han-han-stray",
+    "6480069945_han-han-stray",
+    "6480069947_han-han-stray"
+   ],
+   "o": [
+    "bjcpNwLd/1061.jpg"
+   ]
+  },
+  "2693890889": {
+   "name": "Фелікс (Felix) №2",
+   "p": [
+    "6480069950_feliks-felix-stray",
+    "6480069954_feliks-felix-stray",
+    "6480069959_feliks-felix-stray",
+    "6480069962_feliks-felix-stray"
+   ],
+   "o": [
+    "YBHTPhzV/1062.jpg"
+   ]
+  },
+  "2693890890": {
+   "name": "Фелікс (Felix) №3",
+   "p": [
+    "6480069965_feliks-felix-stray",
+    "6480069966_feliks-felix-stray",
+    "6480069967_feliks-felix-stray",
+    "6480069970_feliks-felix-stray"
+   ],
+   "o": [
+    "ns6hB9JG/1063.jpg"
+   ]
+  },
+  "2693890891": {
+   "name": "Синмін (Seungmin)",
+   "p": [
+    "6480069973_synmin-seungmin-stray",
+    "6480069975_synmin-seungmin-stray",
+    "6480069976_synmin-seungmin-stray",
+    "6480069978_synmin-seungmin-stray"
+   ],
+   "o": [
+    "HppyMGWD/1064.jpg"
+   ]
+  },
+  "2487328431": {
+   "name": "Армін Арлерт і Мікаса Аккерман",
+   "p": [
+    "6475432195_armin-arlert-i",
+    "6475432196_armin-arlert-i",
+    "6475432197_armin-arlert-i",
+    "6475432198_armin-arlert-i"
+   ],
+   "o": []
+  },
+  "2693890892": {
+   "name": "NewJeans",
+   "p": [
+    "6480074677_newjeans-dakimakura-podushka",
+    "6480074678_newjeans-dakimakura-podushka",
+    "6480074679_newjeans-dakimakura-podushka",
+    "6480074680_newjeans-dakimakura-podushka"
+   ],
+   "o": [
+    "YFZgjbbm/1073.jpg"
+   ]
+  },
+  "2487328424": {
+   "name": "Ервін Сміт №2",
+   "p": [
+    "6475431997_ervin-smit-ataka",
+    "6475431998_ervin-smit-ataka",
+    "6475431999_ervin-smit-ataka",
+    "6475432000_ervin-smit-ataka"
+   ],
+   "o": []
+  },
+  "2487328423": {
+   "name": "Леві Аккерман №6",
+   "p": [
+    "6475431990_levi-akkerman-ataka",
+    "6475431991_levi-akkerman-ataka",
+    "6475431992_levi-akkerman-ataka",
+    "6475431993_levi-akkerman-ataka"
+   ],
+   "o": []
+  },
+  "2693891961": {
+   "name": "Даніель",
+   "p": [
+    "6485172419_daniel-danielle-newjeans",
+    "6485172420_daniel-danielle-newjeans",
+    "6485172421_daniel-danielle-newjeans",
+    "6485172423_daniel-danielle-newjeans"
+   ],
+   "o": [
+    "cSZ8VgVg/1078.jpg"
+   ]
+  },
+  "2487328430": {
+   "name": "Жан Кірштайн №2",
+   "p": [
+    "6475432188_zhan-kirshtajn-ataka",
+    "6475432189_zhan-kirshtajn-ataka",
+    "6475432190_zhan-kirshtajn-ataka",
+    "6475432191_zhan-kirshtajn-ataka"
+   ],
+   "o": []
+  },
+  "2693890953": {
+   "name": "Херін №2",
+   "p": [
+    "6485172424_herin-haerin-newjeans",
+    "6485172425_herin-haerin-newjeans",
+    "6485172426_herin-haerin-newjeans",
+    "6485172427_herin-haerin-newjeans"
+   ],
+   "o": [
+    "1JrZBgv1/1079.jpg"
+   ]
+  },
+  "2487328428": {
+   "name": "Леві №2",
+   "p": [
+    "6475432174_levi-ataka-titanov",
+    "6475432175_levi-ataka-titanov",
+    "6475432176_levi-ataka-titanov",
+    "6475432177_levi-ataka-titanov"
+   ],
+   "o": []
+  },
+  "2693890917": {
+   "name": "Херін №1",
+   "p": [
+    "6485172428_herin-haerin-newjeans",
+    "6485172430_herin-haerin-newjeans",
+    "6485172431_herin-haerin-newjeans",
+    "6485172432_herin-haerin-newjeans"
+   ],
+   "o": [
+    "chdWxyDp/1080.jpg"
+   ]
+  },
+  "2487328419": {
+   "name": "Атака титанів",
+   "p": [
+    "6475431935_ataka-titanov-dakimakura",
+    "6475431936_ataka-titanov-dakimakura",
+    "6475431938_ataka-titanov-dakimakura",
+    "6475431943_ataka-titanov-dakimakura"
+   ],
+   "o": []
+  },
+  "2487328432": {
+   "name": "Майк Закаріус",
+   "p": [
+    "6475432202_majk-zakarius-ataka",
+    "6475432203_majk-zakarius-ataka",
+    "6475432204_majk-zakarius-ataka",
+    "6475432205_majk-zakarius-ataka"
+   ],
+   "o": [
+    "hRq5GrH6/1083.png"
+   ]
+  },
+  "1545310755": {
+   "name": "Чокола / Ванілла №1",
+   "p": [
+    "4557260422_anime-dakimakura-chokola",
+    "4363779747_anime-dakimakura-chokola"
+   ],
+   "o": []
+  },
+  "2487328425": {
+   "name": "Ерен Єґер Леві Аккерман",
+   "p": [
+    "6475432004_eren-jeger-levi",
+    "6475432006_eren-jeger-levi",
+    "6475432007_eren-jeger-levi",
+    "6475432008_eren-jeger-levi"
+   ],
+   "o": []
+  },
+  "2693890951": {
+   "name": "SEVENTEEN №2",
+   "p": [
+    "6485173300_seventeen-dakimakura-podushka",
+    "6485173301_seventeen-dakimakura-podushka",
+    "6485173302_seventeen-dakimakura-podushka",
+    "6485173303_seventeen-dakimakura-podushka"
+   ],
+   "o": [
+    "8D7BRXGH/1085.png"
+   ]
+  },
+  "2487328429": {
+   "name": "Леві Аккерман №7",
+   "p": [
+    "6475432181_levi-akkerman-ataka",
+    "6475432182_levi-akkerman-ataka",
+    "6475432183_levi-akkerman-ataka",
+    "6475432184_levi-akkerman-ataka"
+   ],
+   "o": []
+  },
+  "2693891971": {
+   "name": "Джошуа",
+   "p": [
+    "6485173313_dzhoshua-joshua-seventeen",
+    "6485173315_dzhoshua-joshua-seventeen",
+    "6485173316_dzhoshua-joshua-seventeen",
+    "6485173317_dzhoshua-joshua-seventeen"
+   ],
+   "o": [
+    "v4xFmhKq/1088.jpg"
+   ]
+  },
+  "1545310759": {
+   "name": "Чокола / Ванілла №4",
+   "p": [
+    "6766700267_anime-dakimakura-chokola",
+    "4557260422_anime-dakimakura-chokola",
+    "4363779747_anime-dakimakura-chokola"
+   ],
+   "o": []
+  },
+  "2487328422": {
+   "name": "Імір №2",
+   "p": [
+    "6475431978_imir-ataka-titanov",
+    "6475431980_imir-ataka-titanov",
+    "6475431982_imir-ataka-titanov",
+    "6475431984_imir-ataka-titanov"
+   ],
+   "o": []
+  },
+  "2693891963": {
+   "name": "Джун",
+   "p": [
+    "6485173318_dzhun-jun-seventeen",
+    "6485173319_dzhun-jun-seventeen",
+    "6485173320_dzhun-jun-seventeen",
+    "6485173321_dzhun-jun-seventeen"
+   ],
+   "o": [
+    "jmNLhwW/1089.jpg"
+   ]
+  },
+  "2487328421": {
+   "name": "Леві №1",
+   "p": [
+    "6475431964_levi-ataka-titanov",
+    "6475431966_levi-ataka-titanov",
+    "6475431968_levi-ataka-titanov",
+    "6475431970_levi-ataka-titanov"
+   ],
+   "o": []
+  },
+  "2693890922": {
+   "name": "Вону",
+   "p": [
+    "6485174009_vonu-wonwoo-seventeen",
+    "6485174010_vonu-wonwoo-seventeen",
+    "6485174011_vonu-wonwoo-seventeen",
+    "6485174012_vonu-wonwoo-seventeen"
+   ],
+   "o": [
+    "6Jr04rJz/1091.jpg"
+   ]
+  },
+  "2487328435": {
+   "name": "Леві №3",
+   "p": [
+    "6475432302_levi-ataka-titanov",
+    "6475432303_levi-ataka-titanov",
+    "6475432304_levi-ataka-titanov",
+    "6475432305_levi-ataka-titanov"
+   ],
+   "o": []
+  },
+  "2487328427": {
+   "name": "Райнер Браун №3",
+   "p": [
+    "6475432167_rajner-braun-ataka",
+    "6475432168_rajner-braun-ataka",
+    "6475432169_rajner-braun-ataka",
+    "6475432170_rajner-braun-ataka"
+   ],
+   "o": []
+  },
+  "2693890927": {
+   "name": "Бекхьон №3",
+   "p": [
+    "6485178040_pekhyon-baekhyun-exo",
+    "6485178041_pekhyon-baekhyun-exo",
+    "6485178042_pekhyon-baekhyun-exo",
+    "6485178043_pekhyon-baekhyun-exo"
+   ],
+   "o": [
+    "zVPQXVfZ/1119.jpg"
+   ]
+  },
+  "2487328426": {
+   "name": "Жан Кірштайн №1",
+   "p": [
+    "6475432012_zhan-kirshtajn-ataka",
+    "6475432013_zhan-kirshtajn-ataka",
+    "6475432014_zhan-kirshtajn-ataka",
+    "6475432015_zhan-kirshtajn-ataka"
+   ],
+   "o": []
+  },
+  "2487328436": {
+   "name": "Армін Арлерт №2",
+   "p": [
+    "6475432306_armin-arlert-ataka",
+    "6475432307_armin-arlert-ataka",
+    "6475432308_armin-arlert-ataka",
+    "6475432309_armin-arlert-ataka"
+   ],
+   "o": [
+    "MxzJF6Vr/1121.png"
+   ]
+  },
+  "2693890928": {
+   "name": "Чаньоль",
+   "p": [
+    "6485178048_chhanyol-chanyeol-exo",
+    "6485178049_chhanyol-chanyeol-exo",
+    "6485178050_chhanyol-chanyeol-exo",
+    "6485178051_chhanyol-chanyeol-exo"
+   ],
+   "o": [
+    "x8c52L5j/1121.jpg"
+   ]
+  },
+  "2487328420": {
+   "name": "Імір №1",
+   "p": [
+    "6475431951_imir-ataka-titanov",
+    "6475431953_imir-ataka-titanov",
+    "6475431955_imir-ataka-titanov",
+    "6475431957_imir-ataka-titanov"
+   ],
+   "o": [
+    "Mx4NZ8RW/1122.jpg"
+   ]
+  },
+  "2487328434": {
+   "name": "Ані Леонгарт",
+   "p": [
+    "6475432210_ani-leonhart-ataka",
+    "6475432211_ani-leonhart-ataka",
+    "6475432212_ani-leonhart-ataka",
+    "6475432213_ani-leonhart-ataka"
+   ],
+   "o": []
+  },
+  "2693892029": {
+   "name": "Джей",
+   "p": [
+    "6769995117_dzhej-jay-enhypen",
+    "6769995121_dzhej-jay-enhypen",
+    "6769995123_dzhej-jay-enhypen",
+    "6769995126_dzhej-jay-enhypen"
+   ],
+   "o": [
+    "nN8RX6Kh/1147.jpg"
+   ]
+  },
+  "2693892007": {
+   "name": "Джейк №2",
+   "p": [
+    "6769994640_dzhejk-jake-enhypen",
+    "6769994641_dzhejk-jake-enhypen",
+    "6769994642_dzhejk-jake-enhypen",
+    "6769994643_dzhejk-jake-enhypen"
+   ],
+   "o": [
+    "SwM56WvJ/1148.jpg"
+   ]
+  },
+  "2693892005": {
+   "name": "Сону",
+   "p": [
+    "6769994624_sonu-sunoo-enhypen",
+    "6769994627_sonu-sunoo-enhypen",
+    "6769994629_sonu-sunoo-enhypen",
+    "6769994631_sonu-sunoo-enhypen"
+   ],
+   "o": [
+    "VWhJNvn9/1150.jpg"
+   ]
+  },
+  "2693891999": {
+   "name": "Чонвон",
+   "p": [
+    "6769994396_chonvon-jungwon-enhypen",
+    "6769994397_chonvon-jungwon-enhypen",
+    "6769994398_chonvon-jungwon-enhypen",
+    "6769994399_chonvon-jungwon-enhypen"
+   ],
+   "o": [
+    "dJzFvFH5/1151.jpg"
+   ]
+  },
+  "2693892068": {
+   "name": "Ні-кі №2",
+   "p": [],
+   "o": []
+  },
+  "2693892069": {
+   "name": "Ріки, па",
+   "p": [
+    "6769996227_riki-ni-ki-enhypen",
+    "6769996230_riki-ni-ki-enhypen",
+    "6769996232_riki-ni-ki-enhypen",
+    "6769996234_riki-ni-ki-enhypen"
+   ],
+   "o": [
+    "9H8F0YQz/1153.jpg"
+   ]
+  },
+  "2693892037": {
+   "name": "Чевон (Chaewon) Le Sserafim №1",
+   "p": [
+    "6769995367_chhevon-chaewon-le",
+    "6769995369_chhevon-chaewon-le",
+    "6769995370_chhevon-chaewon-le",
+    "6769995371_chhevon-chaewon-le"
+   ],
+   "o": [
+    "s97bGdtD/1167.jpg"
+   ]
+  },
+  "2693892011": {
+   "name": "Юнджін (Yunjin) Le Sserafim №1",
+   "p": [
+    "6769994665_yundzhin-yunjin-le",
+    "6769994666_yundzhin-yunjin-le",
+    "6769994669_yundzhin-yunjin-le",
+    "6769994672_yundzhin-yunjin-le"
+   ],
+   "o": [
+    "nZw4Jpb/1168.jpg"
+   ]
+  },
+  "1800502507": {
+   "name": "Ерен Єгер №2",
+   "p": [
+    "4369552326_anime-dakimakura-eren",
+    "4557260422_anime-dakimakura-eren",
+    "4363779747_anime-dakimakura-eren",
+    "4363779877_anime-dakimakura-eren"
+   ],
+   "o": []
+  },
+  "2693891980": {
+   "name": "Югьом",
+   "p": [
+    "6769993633_yugyom-yugyeom-got7",
+    "6769993634_yugyom-yugyeom-got7",
+    "6769993635_yugyom-yugyeom-got7",
+    "6769993636_yugyom-yugyeom-got7"
+   ],
+   "o": [
+    "8nt37ybF/1189.jpg"
+   ]
+  },
+  "1545310860": {
+   "name": "Ле Малін №4",
+   "p": [
+    "6766686274_anime-dakimakura-le",
+    "3546491930_anime-dakimakura-le",
+    "6766686275_anime-dakimakura-mikasa",
+    "4557260422_anime-dakimakura-le",
+    "4363779747_anime-dakimakura-le"
+   ],
+   "o": []
+  },
+  "1800508746": {
+   "name": "Мікаса №1",
+   "p": [
+    "4369565471_anime-dakimakura-mikasa",
+    "4557260422_anime-dakimakura-mikasa",
+    "4363779747_anime-dakimakura-mikasa"
+   ],
+   "o": []
+  },
+  "2693892082": {
+   "name": "Марк №3",
+   "p": [
+    "6769996484_mark-mark-got7",
+    "6769996485_mark-mark-got7",
+    "6769996486_mark-mark-got7",
+    "6769996487_mark-mark-got7"
+   ],
+   "o": [
+    "zV7rS081/1190.jpg"
+   ]
+  },
+  "1545310861": {
+   "name": "Літторіо №1",
+   "p": [
+    "6766687096_anime-dakimakura-littorio",
+    "3546492782_anime-dakimakura-littorio",
+    "6766687097_anime-dakimakura-mikasa2",
+    "4557260422_anime-dakimakura-littorio",
+    "4363779747_anime-dakimakura-littorio"
+   ],
+   "o": []
+  },
+  "1545319297": {
+   "name": "Литторіо",
+   "p": [
+    "4557260422_anime-dakimakura-littorio",
+    "4363779747_anime-dakimakura-littorio"
+   ],
+   "o": []
+  },
+  "1800512029": {
+   "name": "Мікаса №2",
+   "p": [
+    "4369574711_anime-dakimakura-mikasa2",
+    "4557260422_anime-dakimakura-mikasa2",
+    "4363779747_anime-dakimakura-mikasa2"
+   ],
+   "o": []
+  },
+  "2693892049": {
+   "name": "Red Velvet №4",
+   "p": [
+    "6769995624_red-velvet-dakimakura",
+    "6769995626_red-velvet-dakimakura",
+    "6769995628_red-velvet-dakimakura",
+    "6769995630_red-velvet-dakimakura"
+   ],
+   "o": [
+    "LdwMtkzC/1191.jpg"
+   ]
+  },
+  "1800518030": {
+   "name": "Мікаса №4",
+   "p": [
+    "4369593721_anime-dakimakura-mikasa4",
+    "4557260422_anime-dakimakura-mikasa4",
+    "4363779747_anime-dakimakura-mikasa4"
+   ],
+   "o": []
+  },
+  "2693892015": {
+   "name": "Red Velvet №1",
+   "p": [
+    "6769994816_red-velvet-dakimakura",
+    "6769994817_red-velvet-dakimakura",
+    "6769994818_red-velvet-dakimakura",
+    "6769994819_red-velvet-dakimakura"
+   ],
+   "o": [
+    "kgnmF7sV/1193.jpg"
+   ]
+  },
+  "1800934203": {
+   "name": "Ханджі Зое №1",
+   "p": [
+    "4371035190_anime-dakimakura-handzhi",
+    "4557260422_anime-dakimakura-handzhi",
+    "4363779747_anime-dakimakura-handzhi"
+   ],
+   "o": []
+  },
+  "2693892039": {
+   "name": "Red Velvet №3",
+   "p": [
+    "6769995377_red-velvet-dakimakura",
+    "6769995378_red-velvet-dakimakura",
+    "6769995379_red-velvet-dakimakura",
+    "6769995380_red-velvet-dakimakura"
+   ],
+   "o": [
+    "PG3pCntX/1194.jpg"
+   ]
+  },
+  "1800936204": {
+   "name": "Ханджі Зое №2",
+   "p": [
+    "4371040387_anime-dakimakura-handzhi",
+    "4557260422_anime-dakimakura-handzhi",
+    "4363779747_anime-dakimakura-handzhi"
+   ],
+   "o": []
+  },
+  "2693892055": {
+   "name": "Red Velvet №5",
+   "p": [
+    "6769995829_red-velvet-dakimakura",
+    "6769995855_red-velvet-dakimakura",
+    "6769995859_red-velvet-dakimakura",
+    "6769995862_red-velvet-dakimakura"
+   ],
+   "o": [
+    "PsBCmDjb/1195.jpg"
+   ]
+  },
+  "1800956058": {
+   "name": "Ханджі Зое №3",
+   "p": [
+    "4371109428_anime-dakimakura-handzhi",
+    "4557260422_anime-dakimakura-handzhi",
+    "4363779747_anime-dakimakura-handzhi"
+   ],
+   "o": []
+  },
+  "2693891993": {
+   "name": "Айрін №3",
+   "p": [
+    "6769994144_ajrin-irene-red",
+    "6769994145_ajrin-irene-red",
+    "6769994146_ajrin-irene-red",
+    "6769994147_ajrin-irene-red"
+   ],
+   "o": [
+    "n8gBQmq0/1196.jpg"
+   ]
+  },
+  "1545310867": {
+   "name": "Наґато №5",
+   "p": [
+    "6766693755_anime-dakimakura-nagato",
+    "3546492789_anime-dakimakura-nagato",
+    "6766693756_anime-dakimakura-handzhi",
+    "4557260422_anime-dakimakura-nagato",
+    "4363779747_anime-dakimakura-nagato"
+   ],
+   "o": []
+  },
+  "1800959068": {
+   "name": "Ханджі Зое №4",
+   "p": [
+    "4371114299_anime-dakimakura-handzhi",
+    "4557260422_anime-dakimakura-handzhi",
+    "4363779747_anime-dakimakura-handzhi"
+   ],
+   "o": []
+  },
+  "2693892056": {
+   "name": "Сильґі",
+   "p": [
+    "6769995867_sylgi-seulgi-red",
+    "6769995870_sylgi-seulgi-red",
+    "6769995872_sylgi-seulgi-red",
+    "6769995874_sylgi-seulgi-red"
+   ],
+   "o": [
+    "fdsNhh6P/1197.png"
+   ]
+  },
+  "1800962397": {
+   "name": "Ханджі Зое №5",
+   "p": [
+    "4371122154_anime-dakimakura-handzhi",
+    "4557260422_anime-dakimakura-handzhi",
+    "4363779747_anime-dakimakura-handzhi",
+    "4363779877_anime-dakimakura-handzhi"
+   ],
+   "o": []
+  },
+  "2693891981": {
+   "name": "Венді №3",
+   "p": [
+    "6769993769_vendi-wendy-red",
+    "6769993770_vendi-wendy-red",
+    "6769993771_vendi-wendy-red",
+    "6769993772_vendi-wendy-red"
+   ],
+   "o": [
+    "h1KS20qM/1198.jpg"
+   ]
+  },
+  "1545310869": {
+   "name": "Ношіро №1",
+   "p": [
+    "6766694505_anime-dakimakura-noshiro",
+    "3546492791_anime-dakimakura-noshiro",
+    "6766694506_anime-dakimakura-armin",
+    "4557260422_anime-dakimakura-noshiro",
+    "4363779747_anime-dakimakura-noshiro"
+   ],
+   "o": []
+  },
+  "1800964528": {
+   "name": "Армін Арлерт №1",
+   "p": [
+    "4371127683_anime-dakimakura-armin",
+    "4557260422_anime-dakimakura-armin",
+    "4363779747_anime-dakimakura-armin"
+   ],
+   "o": []
+  },
+  "2693892072": {
+   "name": "Джой №3",
+   "p": [
+    "6769996330_dzhoj-joy-red",
+    "6769996332_dzhoj-joy-red",
+    "6769996336_dzhoj-joy-red",
+    "6769996341_dzhoj-joy-red"
+   ],
+   "o": [
+    "C3GPB88k/1199.jpg"
+   ]
+  },
+  "2693892073": {
+   "name": "Джой, па",
+   "p": [
+    "6769996345_dzhoj-joy-red",
+    "6769996349_dzhoj-joy-red",
+    "6769996352_dzhoj-joy-red",
+    "6769996356_dzhoj-joy-red"
+   ],
+   "o": [
+    "jP8St8Y0/1199.jpg"
+   ]
+  },
+  "1545310870": {
+   "name": "Ношіро №2",
+   "p": [
+    "6766695481_anime-dakimakura-noshiro",
+    "3546492792_anime-dakimakura-noshiro",
+    "6766695482_anime-dakimakura-levi",
+    "4557260422_anime-dakimakura-noshiro",
+    "4363779747_anime-dakimakura-noshiro"
+   ],
+   "o": []
+  },
+  "1800982898": {
+   "name": "Леві Акерман №1",
+   "p": [
+    "4371153263_anime-dakimakura-levi",
+    "4557260422_anime-dakimakura-levi",
+    "4363779747_anime-dakimakura-levi"
+   ],
+   "o": []
+  },
+  "2693892025": {
+   "name": "Єрі",
+   "p": [
+    "6769994903_jeri-yeri-red",
+    "6769994906_jeri-yeri-red",
+    "6769994908_jeri-yeri-red",
+    "6769994911_jeri-yeri-red"
+   ],
+   "o": [
+    "99VFD13j/1200.jpg"
+   ]
+  },
+  "2693892093": {
+   "name": "Лаліса Манобан, Ліса №2",
+   "p": [
+    "6763835507_dakimakura-lalisa-manoban",
+    "6763835508_dakimakura-lalisa-manoban",
+    "6763835509_dakimakura-lalisa-manoban",
+    "6763835510_dakimakura-lalisa-manoban"
+   ],
+   "o": [
+    "DfystGjf/2010.jpg"
+   ]
+  },
+  "2693892110": {
+   "name": "Мін Юнгі №2",
+   "p": [
+    "6763836443_dakimakura-min-yungi",
+    "6763836444_dakimakura-min-yungi",
+    "6763836445_dakimakura-min-yungi",
+    "6763836446_dakimakura-min-yungi"
+   ],
+   "o": [
+    "Q3fQwmmT/2027.jpg"
+   ]
+  },
+  "2693892111": {
+   "name": "Мін Юнгі №3",
+   "p": [
+    "6763836448_dakimakura-min-yungi",
+    "6763836449_dakimakura-min-yungi",
+    "6763836450_dakimakura-min-yungi",
+    "6763836451_dakimakura-min-yungi"
+   ],
+   "o": [
+    "nZjC95B/2028.jpg"
+   ]
+  },
+  "1545313555": {
+   "name": "Артурія Пендрагон Ленсер №2",
+   "p": [
+    "4557260422_anime-dakimakura-arturiya",
+    "4363779747_anime-dakimakura-arturiya"
+   ],
+   "o": []
+  },
+  "2693892117": {
+   "name": "Пак Чхе Йон №2",
+   "p": [
+    "6763836661_dakimakura-pak-chhe",
+    "6763836662_dakimakura-pak-chhe",
+    "6763836663_dakimakura-pak-chhe",
+    "6763836664_dakimakura-pak-chhe"
+   ],
+   "o": []
+  },
+  "2693892132": {
+   "name": "Чон Хосок Джей Хоуп №2",
+   "p": [
+    "6763837156_dakimakura-chon-hosok",
+    "6763837157_dakimakura-chon-hosok",
+    "6763837158_dakimakura-chon-hosok",
+    "6763837159_dakimakura-chon-hosok"
+   ],
+   "o": []
+  },
+  "1545313574": {
+   "name": "Аталанта №1",
+   "p": [
+    "4557260422_anime-dakimakura-atalanta",
+    "4363779747_anime-dakimakura-atalanta"
+   ],
+   "o": []
+  },
+  "2487331728": {
+   "name": "Осаму Дадзай, Ацуші Накадзіма",
+   "p": [
+    "6475437341_osamu-dazaj-atsushi",
+    "6475437342_osamu-dazaj-atsushi",
+    "6475437343_osamu-dazaj-atsushi",
+    "6475437344_osamu-dazaj-atsushi"
+   ],
+   "o": []
+  },
+  "1986505022": {
+   "name": "Сатору Годжо №2",
+   "p": [
+    "4969344378_dakimakura-gabardin-satoru",
+    "4557260422_dakimakura-gabardin-satoru",
+    "4363779747_dakimakura-gabardin-satoru",
+    "4363779877_dakimakura-gabardin-satoru"
+   ],
+   "o": []
+  },
+  "2487331754": {
+   "name": "Лейкоцит",
+   "p": [
+    "6475437903_lejkotsit-kletki-za",
+    "6475437904_lejkotsit-kletki-za",
+    "6475437905_lejkotsit-kletki-za",
+    "6475437906_lejkotsit-kletki-za"
+   ],
+   "o": [
+    "PZ2vhyp3/3024.png"
+   ]
+  },
+  "1545307091": {
+   "name": "Міхо Нісидзумі",
+   "p": [
+    "6766688041_anime-dakimakura-miho",
+    "3546515992_anime-dakimakura-miho",
+    "4557260422_anime-dakimakura-miho",
+    "4363779747_anime-dakimakura-miho"
+   ],
+   "o": []
+  },
+  "1545307153": {
+   "name": "Ґолд Шип №2",
+   "p": [
+    "6766686888_anime-dakimakura-gold",
+    "3546522354_anime-dakimakura-gold",
+    "4557260422_anime-dakimakura-gold",
+    "4363779747_anime-dakimakura-gold"
+   ],
+   "o": []
+  },
+  "2487327382": {
+   "name": "Арісака Машіро №1",
+   "p": [
+    "6475430259_arisaka-mashiro-aokana",
+    "6475430260_arisaka-mashiro-aokana",
+    "6475430262_arisaka-mashiro-aokana",
+    "6475430265_arisaka-mashiro-aokana"
+   ],
+   "o": [
+    "Dg88fQXs/614.png"
+   ]
+  },
+  "1545305218": {
+   "name": "Гатсуне Міку №26",
+   "p": [
+    "6766693732_anime-dakimakura-hatsune",
+    "3546476331_anime-dakimakura-hatsune",
+    "4557260422_anime-dakimakura-hatsune",
+    "4363779747_anime-dakimakura-hatsune"
+   ],
+   "o": []
+  },
+  "1545305221": {
+   "name": "Гатсуне Міку №28",
+   "p": [
+    "4557260422_anime-dakimakura-hatsune",
+    "4363779747_anime-dakimakura-hatsune"
+   ],
+   "o": []
+  },
+  "1545305224": {
+   "name": "Гатсуне Міку №31",
+   "p": [
+    "6766689888_anime-dakimakura-hatsune",
+    "3546476337_anime-dakimakura-hatsune",
+    "4557260422_anime-dakimakura-hatsune",
+    "4363779747_anime-dakimakura-hatsune"
+   ],
+   "o": []
+  },
+  "1545316536": {
+   "name": "Хатсуне Міку / ВОКАЛОЇД КЛУБ №15",
+   "p": [
+    "4557260422_anime-dakimakura-hatsune",
+    "4363779747_anime-dakimakura-hatsune"
+   ],
+   "o": []
+  },
+  "1545308403": {
+   "name": "Сінобу Коге №4",
+   "p": [
+    "6766694179_anime-dakimakura-sinobu",
+    "3546562493_anime-dakimakura-sinobu",
+    "4557260422_anime-dakimakura-sinobu",
+    "4363779747_anime-dakimakura-sinobu"
+   ],
+   "o": []
+  },
+  "1545310710": {
+   "name": "Рита Россвайс №2",
+   "p": [
+    "6766702581_anime-dakimakura-rita",
+    "4557260422_anime-dakimakura-rita",
+    "4363779747_anime-dakimakura-rita"
+   ],
+   "o": []
+  },
+  "1545310756": {
+   "name": "Чокола / Ванілла №2",
+   "p": [
+    "4557260422_anime-dakimakura-chokola",
+    "4363779747_anime-dakimakura-chokola"
+   ],
+   "o": []
+  },
+  "1545319211": {
+   "name": "Піррха Нікос Червоний, Білий, Жовтий",
+   "p": [
+    "4557260422_anime-dakimakura-pirrha",
+    "4363779747_anime-dakimakura-pirrha"
+   ],
+   "o": []
+  },
+  "1545310776": {
+   "name": "Рубі Роуз №1",
+   "p": [
+    "4557260422_anime-dakimakura-rubi",
+    "4363779747_anime-dakimakura-rubi"
+   ],
+   "o": []
+  },
+  "1545319213": {
+   "name": "Рубі Роуз Червоний, Білий, Жовтий №2",
+   "p": [
+    "4557260422_anime-dakimakura-rubi",
+    "4363779747_anime-dakimakura-rubi"
+   ],
+   "o": []
+  },
+  "1545310780": {
+   "name": "Рубі Роуз №3",
+   "p": [
+    "4557260422_anime-dakimakura-rubi",
+    "4363779747_anime-dakimakura-rubi"
+   ],
+   "o": []
+  },
+  "1545319218": {
+   "name": "Рубі Роуз Червоний, Білий, Жовтий №4",
+   "p": [
+    "4557260422_anime-dakimakura-rubi",
+    "4363779747_anime-dakimakura-rubi"
+   ],
+   "o": []
+  },
+  "1545319219": {
+   "name": "Рубі Роуз Червоний, Білий, Жовтий №5",
+   "p": [
+    "4557260422_anime-dakimakura-rubi",
+    "4363779747_anime-dakimakura-rubi"
+   ],
+   "o": []
+  },
+  "2693890959": {
+   "name": "Exo №5",
+   "p": [],
+   "o": []
+  },
+  "2693890955": {
+   "name": "Exo №4",
+   "p": [],
+   "o": []
+  },
+  "2693891967": {
+   "name": "Лей №4",
+   "p": [],
+   "o": []
+  },
+  "1545310825": {
+   "name": "Амаги",
+   "p": [
+    "4557260422_anime-dakimakura-amagi",
+    "4363779747_anime-dakimakura-amagi"
+   ],
+   "o": []
+  },
+  "2693892076": {
+   "name": "Субін",
+   "p": [],
+   "o": []
+  },
+  "1545310841": {
+   "name": "Балтімор №1",
+   "p": [
+    "4557260422_anime-dakimakura-baltimor",
+    "4363779747_anime-dakimakura-baltimor",
+    "4363779877_anime-dakimakura-baltimor"
+   ],
+   "o": []
+  },
+  "1545305306": {
+   "name": "Ейяф'ялла №3",
+   "p": [
+    "4557260422_anime-dakimakura-ejyafyalla",
+    "4363779747_anime-dakimakura-ejyafyalla"
+   ],
+   "o": []
+  },
+  "1545311767": {
+   "name": "Глен Ічіносе / Мікаела Хякуя",
+   "p": [
+    "4557260422_anime-dakimakura-glen",
+    "4363779747_anime-dakimakura-glen"
+   ],
+   "o": []
+  },
+  "1545311783": {
+   "name": "Гаутер Прогрішення",
+   "p": [
+    "6766700262_anime-dakimakura-gauter",
+    "4557260422_anime-dakimakura-gauter",
+    "4363779747_anime-dakimakura-gauter"
+   ],
+   "o": []
+  },
+  "1545321084": {
+   "name": "Мюкі Куджо Простолюдин у школі благородних дівчат",
+   "p": [
+    "4557260422_anime-dakimakura-miyuki",
+    "4363779747_anime-dakimakura-miyuki"
+   ],
+   "o": []
+  },
+  "1800493625": {
+   "name": "Ерен Єгер",
+   "p": [
+    "4369529226_anime-dakimakura-eren",
+    "4557260422_anime-dakimakura-eren",
+    "4363779747_anime-dakimakura-eren"
+   ],
+   "o": []
+  },
+  "1805732940": {
+   "name": "Цінь Юй №2",
+   "p": [
+    "4385855202_anime-dakimakura-tsin",
+    "4557260422_anime-dakimakura-tsin",
+    "4363779747_anime-dakimakura-tsin"
+   ],
+   "o": []
+  },
+  "1545321262": {
+   "name": "Коккоро Зв'язок принцес: повторне занурення №1",
+   "p": [
+    "4557260422_anime-dakimakura-kokkoro",
+    "4363779747_anime-dakimakura-kokkoro"
+   ],
+   "o": []
+  },
+  "1545312639": {
+   "name": "Юї Кусано Зв'язок принцес: повторне занурення №2",
+   "p": [
+    "6766706634_anime-dakimakura-yui",
+    "4557260422_anime-dakimakura-yui",
+    "4363779747_anime-dakimakura-yui"
+   ],
+   "o": []
+  },
+  "1545312658": {
+   "name": "Такао №1",
+   "p": [
+    "4557260422_anime-dakimakura-takao",
+    "4363779747_anime-dakimakura-takao"
+   ],
+   "o": []
+  },
+  "1545312669": {
+   "name": "Хікарі Цунекі Сірена №1",
+   "p": [
+    "4557260422_anime-dakimakura-hikari",
+    "4363779747_anime-dakimakura-hikari"
+   ],
+   "o": []
+  },
+  "1545322114": {
+   "name": "Мія Чинен / Ракі Кян Скайт: Безкінченність",
+   "p": [
+    "4557260422_anime-dakimakura-miya",
+    "4363779747_anime-dakimakura-miya"
+   ],
+   "o": []
+  },
+  "1545313525": {
+   "name": "Леонмішель Галетт Де Руа",
+   "p": [
+    "4557260422_anime-dakimakura-leonmishel",
+    "4363779747_anime-dakimakura-leonmishel"
+   ],
+   "o": []
+  },
+  "1545322138": {
+   "name": "Олександр",
+   "p": [
+    "4557260422_anime-dakimakura-aleksandr",
+    "4363779747_anime-dakimakura-aleksandr"
+   ],
+   "o": []
+  },
+  "1545313624": {
+   "name": "Кастер Медея №1",
+   "p": [
+    "4557260422_anime-dakimakura-kaster",
+    "4363779747_anime-dakimakura-kaster"
+   ],
+   "o": []
+  },
+  "1545313625": {
+   "name": "Кіохіме №1",
+   "p": [
+    "4557260422_anime-dakimakura-kiyohime",
+    "4363779747_anime-dakimakura-kiyohime"
+   ],
+   "o": []
+  },
+  "1545322223": {
+   "name": "Кіохіме №5",
+   "p": [
+    "4557260422_anime-dakimakura-kiyohime",
+    "4363779747_anime-dakimakura-kiyohime"
+   ],
+   "o": []
+  },
+  "1545322249": {
+   "name": "Меш Кириллайт №1",
+   "p": [
+    "4557260422_anime-dakimakura-mesh",
+    "4363779747_anime-dakimakura-mesh"
+   ],
+   "o": []
+  },
+  "1545313659": {
+   "name": "Меш Кириєлайт №4",
+   "p": [
+    "6766701899_anime-dakimakura-mesh",
+    "4557260422_anime-dakimakura-mesh",
+    "4363779747_anime-dakimakura-mesh"
+   ],
+   "o": []
+  },
+  "1545313685": {
+   "name": "Рін Тосака №1",
+   "p": [
+    "4557260422_anime-dakimakura-rin",
+    "4363779747_anime-dakimakura-rin"
+   ],
+   "o": []
+  },
+  "1545322295": {
+   "name": "Скатамі №3",
+   "p": [
+    "4557260422_anime-dakimakura-skatah",
+    "4363779747_anime-dakimakura-skatah"
+   ],
+   "o": []
+  },
+  "1805715176": {
+   "name": "Цінь Юй",
+   "p": [
+    "4385787417_anime-dakimakura-tsin",
+    "4557260422_anime-dakimakura-tsin",
+    "4363779747_anime-dakimakura-tsin"
+   ],
+   "o": []
+  },
+  "1545313745": {
+   "name": "Піч №2",
+   "p": [
+    "6766689077_anime-dakimakura-pich",
+    "3546501631_anime-dakimakura-pich",
+    "6766689078_anime-dakimakura-tsin",
+    "4557260422_anime-dakimakura-pich",
+    "4363779747_anime-dakimakura-pich"
+   ],
+   "o": []
+  },
+  "1805724796": {
+   "name": "Цінь Юй №2",
+   "p": [
+    "4385826216_anime-dakimakura-tsin",
+    "4557260422_anime-dakimakura-tsin",
+    "4363779747_anime-dakimakura-tsin"
+   ],
+   "o": []
+  },
+  "1545313747": {
+   "name": "Супер Соніко №1",
+   "p": [
+    "3546501633_anime-dakimakura-super",
+    "4557260422_anime-dakimakura-super",
+    "4363779747_anime-dakimakura-super"
+   ],
+   "o": []
+  },
+  "1805734819": {
+   "name": "Лі Цзян №2",
+   "p": [
+    "6766689905_anime-dakimakura-li",
+    "4557260422_anime-dakimakura-li",
+    "4363779747_anime-dakimakura-li"
+   ],
+   "o": []
+  },
+  "1805780013": {
+   "name": "Фей Хоу №2",
+   "p": [
+    "4385958071_anime-dakimakura-fej",
+    "4557260422_anime-dakimakura-fej",
+    "4363779747_anime-dakimakura-fej"
+   ],
+   "o": []
+  },
+  "1545314060": {
+   "name": "Меказукі Мунчика / Когіцунемара",
+   "p": [
+    "4557260422_anime-dakimakura-mikazuki",
+    "4363779747_anime-dakimakura-mikazuki"
+   ],
+   "o": []
+  },
+  "1545322699": {
+   "name": "Себастьян Міхаеліс Темний №3",
+   "p": [
+    "4557260422_anime-dakimakura-sebastyan",
+    "4363779747_anime-dakimakura-sebastyan"
+   ],
+   "o": []
+  },
+  "1545314177": {
+   "name": "Стокінг Анархія Труська, Чулко і Пресвятий Подв'яз №1",
+   "p": [
+    "4557260422_anime-dakimakura-stoking",
+    "4363779747_anime-dakimakura-stoking"
+   ],
+   "o": []
+  },
+  "1545322804": {
+   "name": "Соко Комі У Комі проблеми з спілкуванням",
+   "p": [
+    "4557260422_anime-dakimakura-syoko",
+    "4363779747_anime-dakimakura-syoko"
+   ],
+   "o": []
+  },
+  "1545314940": {
+   "name": "Рірі Гітоцуянагі",
+   "p": [
+    "4557260422_anime-dakimakura-riri",
+    "4363779747_anime-dakimakura-riri"
+   ],
+   "o": []
+  },
+  "1806711689": {
+   "name": "Ірума Сузукі №2",
+   "p": [
+    "4557260422_anime-dakimakura-iruma",
+    "4363779747_anime-dakimakura-iruma",
+    "4363779877_anime-dakimakura-iruma"
+   ],
+   "o": []
+  },
+  "1545305206": {
+   "name": "Гатсуне Міку №15",
+   "p": [
+    "4557260422_anime-dakimakura-hatsune",
+    "4363779747_anime-dakimakura-hatsune"
+   ],
+   "o": []
+  },
+  "1545305209": {
+   "name": "Гатсуне Міку №18",
+   "p": [
+    "4557260422_anime-dakimakura-hatsune",
+    "4363779747_anime-dakimakura-hatsune"
+   ],
+   "o": []
+  },
+  "1545316522": {
+   "name": "Хатсуне Міку / ВОКАЛОЇД КЛУБ №7",
+   "p": [
+    "4557260422_anime-dakimakura-hatsune",
+    "4363779747_anime-dakimakura-hatsune"
+   ],
+   "o": []
+  },
+  "1545305211": {
+   "name": "Гатсуне Міку №20",
+   "p": [
+    "4557260422_anime-dakimakura-hatsune",
+    "4363779747_anime-dakimakura-hatsune"
+   ],
+   "o": []
+  },
+  "1545316525": {
+   "name": "Хатсуне Міку / ВОКАЛОЇД КЛУБ №9",
+   "p": [
+    "4557260422_anime-dakimakura-hatsune",
+    "4363779747_anime-dakimakura-hatsune"
+   ],
+   "o": []
+  },
+  "1545316527": {
+   "name": "Хатсуне Міку №7",
+   "p": [
+    "4557260422_anime-dakimakura-hatsune",
+    "4363779747_anime-dakimakura-hatsune",
+    "4363779877_anime-dakimakura-hatsune"
+   ],
+   "o": []
+  },
+  "1545316531": {
+   "name": "Хатсуне Міку / ВОКАЛОЇД КЛУБ №11",
+   "p": [
+    "4557260422_anime-dakimakura-hatsune",
+    "4363779747_anime-dakimakura-hatsune"
+   ],
+   "o": []
+  },
+  "1545316534": {
+   "name": "Хатсуне Міку / ВОКАЛОЇД КЛУБ №13",
+   "p": [
+    "4557260422_anime-dakimakura-hatsune",
+    "4363779747_anime-dakimakura-hatsune"
+   ],
+   "o": []
+  },
+  "1545305223": {
+   "name": "Гатсуне Міку №30",
+   "p": [
+    "4557260422_anime-dakimakura-hatsune",
+    "4363779747_anime-dakimakura-hatsune"
+   ],
+   "o": []
+  },
+  "1545305225": {
+   "name": "Гатсуне Міку №32",
+   "p": [
+    "6766691339_anime-dakimakura-hatsune",
+    "4557260422_anime-dakimakura-hatsune",
+    "4363779747_anime-dakimakura-hatsune"
+   ],
+   "o": []
+  },
+  "1545305227": {
+   "name": "Гатсуне Міку №33",
+   "p": [
+    "4557260422_anime-dakimakura-hatsune",
+    "4363779747_anime-dakimakura-hatsune"
+   ],
+   "o": []
+  },
+  "1545305228": {
+   "name": "Гатсуне Міку №34",
+   "p": [
+    "4557260422_anime-dakimakura-hatsune",
+    "4363779747_anime-dakimakura-hatsune"
+   ],
+   "o": []
+  },
+  "1545316541": {
+   "name": "Хатсуне Міку / ВОКАЛОЇД КЛУБ №18",
+   "p": [
+    "4557260422_anime-dakimakura-hatsune",
+    "4363779747_anime-dakimakura-hatsune"
+   ],
+   "o": []
+  },
+  "1545318212": {
+   "name": "Юкіно Юкіно Юкіношіта, як і очікував, моє шкільне романтичне життя не вдалася №6",
+   "p": [
+    "4557260422_anime-dakimakura-yukino",
+    "4363779747_anime-dakimakura-yukino"
+   ],
+   "o": []
+  },
+  "1545308396": {
+   "name": "Неедзуко Камадо №2",
+   "p": [
+    "4557260422_anime-dakimakura-nedzuko",
+    "4363779747_anime-dakimakura-nedzuko"
+   ],
+   "o": []
+  },
+  "1545318241": {
+   "name": "Нідзуко №3",
+   "p": [
+    "4557260422_anime-dakimakura-nedzuko",
+    "4363779747_anime-dakimakura-nedzuko"
+   ],
+   "o": []
+  },
+  "1545318242": {
+   "name": "Нідзуко №4",
+   "p": [
+    "4557260422_anime-dakimakura-nedzuko",
+    "4363779747_anime-dakimakura-nedzuko"
+   ],
+   "o": []
+  }
+ }
+}
