@@ -135,6 +135,8 @@ function page(sec, col, sub) {
   return fill(TPL, {
     TITLE: esc(S.title(D, sec, col, sub)), DESC: attr(S.description(D, sec, col, sub)), URL: url, H1: esc(h1),
     OGIMG: list.length ? attr(picUrl(firstPic(list[0]))) : '', V: D.v,
+    /* перше фото сітки браузер починає тягнути одразу, ще до скриптів: це найбільший елемент першого екрана */
+    PRELOAD: list.length ? `<link rel="preload" as="image" imagesrcset="${attr(S.picSet(picUrl(firstPic(list[0]))))}" imagesizes="${attr(S.PIC_SIZES)}" fetchpriority="high">` : '',
     LD: ld.map(o => '<script type="application/ld+json">' + JSON.stringify(o).replace(/</g, '\\u003c') + '</script>').join('\n'),
     TREE: S.tree(D, sec, col, { compact: sub >= 0 }),
     CRUMBS: cr.length > 1 ? cr.map((x, i) => i === cr.length - 1 ? `<span aria-current="page">${esc(x.t)}</span>` : `<a href="${x.href}">${esc(x.t)}</a>`).join('<span class="sep">/</span>') : '',
