@@ -474,10 +474,12 @@ const orderId = () => {
   return `${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}-${Math.floor(1000 + Math.random() * 9000)}`;
 };
 /* Один POST у Apps Script. mode:'no-cors' обов'язковий, інакше браузер зробить preflight,
-   якого Apps Script не вміє. Відповідь прочитати не можна, тому успіх перевіряємо окремим GET. */
+   якого Apps Script не вміє. Відповідь прочитати не можна, тому успіх перевіряємо окремим GET.
+   keepalive: запит доходить, навіть якщо людина одразу закрила сторінку. */
 async function postGAS(payload){
-  await fetch(ORDER_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+  await fetch(ORDER_URL, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
 }
+const wait = ms => new Promise(res => setTimeout(res, ms));
 /* те, що людина вже ввела, не губиться, якщо вона закрила вікно й відкрила інший дизайн */
 const draft = { fname: '', lname: '', phone: '', city: '', np: '' };
 
@@ -536,44 +538,71 @@ function openItem(id, start = 0, toForm = false){
     if (digits.length < 10) { note.className = 'note err'; note.textContent = 'Перевір номер телефону: у ньому має бути щонайменше 10 цифр.'; q('#phone').focus(); return; }
     const btn = q('#submit'), s = state.size, oid = orderId();
     btn.disabled = true; btn.textContent = 'Надсилаємо…'; note.className = 'note'; note.textContent = '';
-    try {
-      await postGAS({
-        kind: 'order', order_id: oid,
-        size_value: s.v,
-        /* назва дизайну продубльована в size_label: цю колонку таблиця замовлень уже має */
-        size_label: `${s.label} | ${it.name} (${COLS[it.c].t}) | Prom ${it.id}`,
-        price_uah: s.price, sides: 'catalog', same_both: true,
-        first_name: q('#fname').value.trim(), last_name: q('#lname').value.trim(),
-        phone: q('#phone').value.trim(), city: q('#city').value.trim(), np_branch: q('#np').value.trim(),
-        source: 'catalog', ts: new Date().toISOString(),
-        /* додаткові поля: потраплять у таблицю, щойно в Apps Script для них з'являться колонки */
-        design_id: it.id, design_name: it.name, design_collection: COLS[it.c].k, design_photo: it.pics[0],
-        page_url: location.href,
-      });
-      let ok = false;
-      try {
-        const r = await fetch(`${ORDER_URL}?check=${oid}&t=${Date.now()}`, { cache: 'no-store' });
-        ok = r.ok && (await r.json()).found;
-      } catch { /* перевірка не критична */ }
-
-      trackOnce('order-' + oid, 'purchase', {
-        ecommerce: { transaction_id: oid, currency: 'UAH', value: s.price, items: [gaItem(it, s)] },
-        user_data: {
-          phone_number: phoneE164(q('#phone').value),
-          address: { first_name: q('#fname').value.trim(), last_name: q('#lname').value.trim(), city: q('#city').value.trim(), country: 'UA' },
-        },
-      }, 'Purchase', { value: s.price, currency: 'UAH', content_ids: [it.id], content_type: 'product' }, { eventID: oid });
-
-      form.outerHTML = `<div class="done" role="status"><b>Замовлення прийнято</b>
-        <span>${esc(it.name)}, ${s.label} см, ${fmt(s.price)}. Номер ${oid}.</span>
-        <span>${ok ? 'Зателефонуємо найближчим часом, щоб підтвердити дизайн і відділення.' : 'Якщо ми не зателефонуємо протягом дня, напиши нам цей номер у Telegram.'}</span></div>`;
-      q('#pick').querySelectorAll('button').forEach(b => { b.disabled = true; });
-    } catch (err) {
-      console.error(err);
+    const payload = {
+      kind: 'order', order_id: oid,
+      size_value: s.v,
+      /* назва дизайну продубльована в size_label: цю колонку таблиця замовлень уже має */
+      size_label: `${s.label} | ${it.name} (${COLS[it.c].t}) | Prom ${it.id}`,
+      price_uah: s.price, sides: 'catalog', same_both: true,
+      first_name: q('#fname').value.trim(), last_name: q('#lname').value.trim(),
+      phone: q('#phone').value.trim(), city: q('#city').value.trim(), np_branch: q('#np').value.trim(),
+      source: 'catalog', ts: new Date().toISOString(),
+      /* додаткові поля: потраплять у таблицю, щойно в Apps Script для них з'являться колонки */
+      design_id: it.id, design_name: it.name, design_collection: COLS[it.c].k, design_photo: it.pics[0],
+      page_url: location.href,
+    };
+    /* Apps Script відповідає кілька секунд, а з перевіркою ще стільки ж. Людину стільки не тримаємо:
+       якщо за 1,2 с запит не впав (немає інтернету тощо), одразу показуємо «Замовлення прийнято»,
+       а доставку й перевірку доводимо у фоні. Якщо надіслати таки не вдалося, на тому ж місці
+       з'являється кнопка «Надіслати ще раз» з тим самим номером замовлення. */
+    let failed = null;
+    const sending = postGAS(payload).then(() => true, err => { failed = err; return false; });
+    await Promise.race([sending, wait(1200)]);
+    if (failed) {
+      console.error(failed);
       note.className = 'note err';
       note.textContent = 'Не вдалося надіслати замовлення. Перевір інтернет і спробуй ще раз або напиши нам у Telegram.';
       btn.disabled = false; btn.textContent = `Замовити за ${fmt(state.size.price)}`;
+      return;
     }
+    trackOnce('order-' + oid, 'purchase', {
+      ecommerce: { transaction_id: oid, currency: 'UAH', value: s.price, items: [gaItem(it, s)] },
+      user_data: {
+        phone_number: phoneE164(payload.phone),
+        address: { first_name: payload.first_name, last_name: payload.last_name, city: payload.city, country: 'UA' },
+      },
+    }, 'Purchase', { value: s.price, currency: 'UAH', content_ids: [it.id], content_type: 'product' }, { eventID: oid });
+
+    form.outerHTML = `<div class="done" role="status"><b>Замовлення прийнято</b>
+      <span>${esc(it.name)}, ${s.label} см, ${fmt(s.price)}. Номер ${oid}.</span>
+      <span class="done-st">Зателефонуємо найближчим часом, щоб підтвердити дизайн і відділення.</span></div>`;
+    q('#pick').querySelectorAll('button').forEach(b => { b.disabled = true; });
+    const doneBox = q('.done'), st = q('.done-st');
+
+    /* фон: дочекатися доставки, потім перевірити, що рядок з'явився в таблиці */
+    const finish = async ok => {
+      if (!ok) {
+        if (!doneBox.isConnected) return;
+        doneBox.querySelector('b').textContent = 'Замовлення не надіслано';
+        st.innerHTML = 'Схоже, зник інтернет. <button class="btn" type="button" id="resend">Надіслати ще раз</button> або напиши нам номер замовлення в <a href="https://t.me/Masterform_ua" data-contact="telegram">Telegram</a>.';
+        q('#resend').onclick = async () => {
+          st.textContent = 'Надсилаємо…';
+          finish(await postGAS(payload).then(() => true, () => false));
+        };
+        return;
+      }
+      if (doneBox.isConnected) {
+        doneBox.querySelector('b').textContent = 'Замовлення прийнято';
+        st.textContent = 'Зателефонуємо найближчим часом, щоб підтвердити дизайн і відділення.';
+      }
+      let found = false;
+      try {
+        const r = await fetch(`${ORDER_URL}?check=${oid}&t=${Date.now()}`, { cache: 'no-store' });
+        found = r.ok && (await r.json()).found;
+      } catch { /* перевірка не критична */ }
+      if (!found && st.isConnected) st.textContent = 'Якщо ми не зателефонуємо протягом дня, напиши нам цей номер у Telegram.';
+    };
+    sending.then(finish);
   };
 
   lockPage(true);
