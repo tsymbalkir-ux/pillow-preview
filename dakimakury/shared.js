@@ -180,15 +180,24 @@
     return { id: id, whole: whole.has(id), pair: pair.has(id), c: c, name: r[2], ru: r[3] || '', sold: r[5] || 0, sub: r[6] || D.cols[c].t,
       label: r[6] || '', k: r[7] == null ? -1 : r[7], orig: orig, nProm: prom.length, pics: prom.concat(orig.slice(0, og || 1)) };
   }
-  function mockHtml(src, name, lazy) {
-    return '<span class="mock"><span class="mk"><span class="za"><img src="' + src + '" alt="Дакімакура ' + name + '" loading="' + lazy + '" decoding="async" referrerpolicy="no-referrer"></span><span class="zb"><img src="' + src + '" alt="" loading="' + lazy + '" decoding="async" referrerpolicy="no-referrer"></span></span></span>';
+  /* Фото з Prom: CDN віддає зменшені копії (_w350_h350_, _w640_h640_) і формат WebP (.webp замість .jpg).
+     Браузер сам обирає: телефон бере 350 px, екран із великою щільністю пікселів або комп'ютер 640 px.
+     src із JPG лишається запасним варіантом для старих браузерів. */
+  var PIC_SIZES = '(max-width: 860px) calc(50vw - 21px), 260px';
+  var webp = function (url) { return url.replace(/\.jpe?g$/i, '.webp'); };
+  function picSet(p) { return webp(sized(p, 350, 350)) + ' 350w, ' + webp(sized(p, 640, 640)) + ' 640w'; }
+  function picAttrs(p) { return 'src="' + sized(p, 640, 640) + '" srcset="' + picSet(p) + '" sizes="' + PIC_SIZES + '"'; }
+  /* p: повна адреса фото Prom */
+  function mockHtml(p, name, lazy) {
+    var a = /^https:\/\/images\.prom\.ua\//.test(p) ? picAttrs(p) + ' data-full="' + sized(p, 640, 640) + '" onerror="imgFallback(this)"' : 'src="' + p + '"';
+    return '<span class="mock"><span class="mk"><span class="za"><img ' + a + ' alt="Дакімакура ' + name + '" loading="' + lazy + '" decoding="async" referrerpolicy="no-referrer"></span><span class="zb"><img ' + a + ' alt="" loading="' + lazy + '" decoding="async" referrerpolicy="no-referrer"></span></span></span>';
   }
   function cardHtml(it, idx) {
     var n = it.pics.length, lazy = idx < 4 ? 'eager' : 'lazy';
     var slides = it.pics.map(function (p, i) {
-      if (i === 0) return it.pair ? mockHtml(sized(p, 640, 640), esc(it.name), lazy)
-        : '<img ' + (it.whole ? 'class="whole" ' : '') + 'src="' + sized(p, 640, 640) + '" data-full="' + p + '" alt="Дакімакура ' + esc(it.name) + '" loading="' + lazy + '" fetchpriority="' + (idx < 2 ? 'high' : 'auto') + '" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)">';
-      return '<img ' + (i >= it.nProm ? 'class="orig" ' : '') + 'data-src="' + sized(p, 640, 640) + '" data-full="' + p + '" alt="Дакімакура ' + esc(it.name) + ', ' + (i >= it.nProm ? 'принт' : 'фото ' + (i + 1)) + '" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)">';
+      if (i === 0) return it.pair ? mockHtml(p, esc(it.name), lazy)
+        : '<img ' + (it.whole ? 'class="whole" ' : '') + picAttrs(p) + ' data-full="' + p + '" alt="Дакімакура ' + esc(it.name) + '" loading="' + lazy + '" fetchpriority="' + (idx < 2 ? 'high' : 'auto') + '" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)">';
+      return '<img ' + (i >= it.nProm ? 'class="orig" ' : '') + 'data-src="' + sized(p, 640, 640) + '"' + (i < it.nProm ? ' data-srcset="' + picSet(p) + '" sizes="' + PIC_SIZES + '"' : '') + ' data-full="' + p + '" alt="Дакімакура ' + esc(it.name) + ', ' + (i >= it.nProm ? 'принт' : 'фото ' + (i + 1)) + '" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)">';
     }).join('');
     var initials = it.name.replace(/[^\p{L} ]/gu, '').trim().split(/\s+/).slice(0, 2).map(function (w) { return w[0] || ''; }).join('');
     return '<article class="card" data-id="' + it.id + '">' +
@@ -205,6 +214,6 @@
 
   var api = { tree: tree, esc: esc, BASE: BASE, ORIGIN: ORIGIN, plural: plural, designs: designs, money: money, count: count,
     pathFor: pathFor, hasPage: hasPage, h1: h1, title: title, lead: lead, description: description, crumbs: crumbs, links: links,
-    sized: sized, itemFromRow: itemFromRow, mockHtml: mockHtml, cardHtml: cardHtml, OWN_CARD: OWN_CARD, topsHtml: topsHtml };
+    sized: sized, itemFromRow: itemFromRow, mockHtml: mockHtml, cardHtml: cardHtml, picSet: picSet, PIC_SIZES: PIC_SIZES, OWN_CARD: OWN_CARD, topsHtml: topsHtml };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.DakiShared = api;
 })(typeof window !== 'undefined' ? window : this);

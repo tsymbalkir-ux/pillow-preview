@@ -44,6 +44,22 @@ fbq('track', 'PageView');
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
 <link rel="stylesheet" href="/dakimakury/catalog.css?v={{V}}">
+{{PRELOAD}}
+<script>
+/* Фото не завантажилось: пробуємо запасну адресу (JPG без srcset), а якщо й вона ні, прибираємо слайд
+   і одразу вантажимо наступне фото, щоб на картці не лишалась заглушка. Стоїть тут, а не в catalog.js,
+   бо фото з HTML можуть «впасти» раніше, ніж завантажиться скрипт. */
+window.imgFallback = function (img) {
+  if (img.dataset.full && !img.dataset.retried) { img.dataset.retried = '1'; img.removeAttribute('srcset'); img.src = img.dataset.full; return; }
+  var mk = img.closest('.mock'), tr = img.closest('.track');
+  if (mk) { mk.remove(); } else img.remove();
+  if (!tr) return;
+  var nxt = tr.querySelector('img[data-src]');
+  if (nxt && !mk) { if (nxt.dataset.srcset) { nxt.srcset = nxt.dataset.srcset; nxt.removeAttribute('data-srcset'); } nxt.src = nxt.dataset.src; nxt.removeAttribute('data-src'); }
+  var dots = tr.parentNode.querySelector('.dots');
+  if (dots && dots.lastElementChild) dots.lastElementChild.remove();
+};
+</script>
 {{LD}}
 </head>
 <body>

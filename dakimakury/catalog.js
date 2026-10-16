@@ -83,17 +83,7 @@ function norm(s){ return String(s).toLowerCase().replace(/ё/g, 'е').replace(/[
 /* Prom CDN віддає зменшені копії фото, якщо в назву файлу додати _wW_hH_ */
 const sized = S.sized;
 const isPhone = () => matchMedia('(max-width: 860px)').matches;
-/* Фото не завантажилось: пробуємо повний розмір, а якщо й він ні, прибираємо слайд.
-   На картці одразу вантажимо наступне фото, щоб замість битого першого не лишалась заглушка з літерою. */
-window.imgFallback = img => {
-  if (img.dataset.full && img.src !== img.dataset.full && !img.dataset.retried) { img.dataset.retried = '1'; img.src = img.dataset.full; return; }
-  const tr = img.closest('.track'), nxt = img.nextElementSibling;
-  img.remove();
-  if (!tr) return;
-  if (nxt && nxt.dataset && nxt.dataset.src) { nxt.src = nxt.dataset.src; nxt.removeAttribute('data-src'); }
-  const dots = tr.closest('.pic')?.querySelector('.dots');
-  if (dots && dots.lastElementChild) dots.lastElementChild.remove();
-};
+/* window.imgFallback визначено прямо в шаблоні сторінки (tools/dakimakury-page.html), бо фото з HTML можуть не завантажитись раніше, ніж цей скрипт. */
 const sizeBy = len => SIZES.find(s => s.len === len) || SIZES[1];
 
 /* ---------- стан і адреса ---------- */
@@ -433,7 +423,11 @@ function renderGrid(){
   }
 }
 /* фото, крім першого, вантажаться лише коли людина до них гортає */
-function loadSlide(img){ if (img && img.dataset.src) { img.src = img.dataset.src; img.removeAttribute('data-src'); } }
+function loadSlide(img){
+  if (!img || !img.dataset.src) return;
+  if (img.dataset.srcset) { img.srcset = img.dataset.srcset; img.removeAttribute('data-srcset'); }
+  img.src = img.dataset.src; img.removeAttribute('data-src');
+}
 function setupCard(card){
   /* слайди це прямі діти стрічки: фото або мокап, складений із двох половин одного фото */
   const id = card.dataset.id, tr = card.querySelector('.track'), imgs = tr.children;   // жива колекція: биті фото з неї зникають
