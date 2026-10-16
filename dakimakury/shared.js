@@ -94,6 +94,7 @@
   function esc(s) { return String(s).replace(/[&<>"]/g, function (ch) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]; }); }
   var statsFor = null, statsVal = null;
   function stats(D) {
+    if (D.st) return D.st;                 // браузер: пораховано заздалегідь у meta.js, бо товари вантажаться пізніше
     if (statsFor === D) return statsVal;
     var nCol = D.cols.map(function () { return 0; }), uCol = nCol.slice(), nSec = D.secs.map(function () { return 0; });
     D.items.forEach(function (it) { nCol[it[1]]++; uCol[it[1]] += it[5] || 0; nSec[D.cols[it[1]].s]++; });
@@ -118,7 +119,7 @@
       return '<a class="' + cls + '" href="' + href + '" ' + attr + (on ? ' aria-current="true"' : '') + '><span>' + esc(t) + '</span><span class="n">' + n + '</span></a>';
     }
     function li(i) { return '<li>' + row('t-col', pathFor(D, -1, i, -1), 'data-c="' + i + '"', D.cols[i].t, st.nCol[i], col === i) + '</li>'; }
-    var out = row('t-row', BASE, 'data-s="-1"', 'Усі дизайни', D.items.length, sec < 0);
+    var out = row('t-row', BASE, 'data-s="-1"', 'Усі дизайни', D.st ? D.st.total : D.items.length, sec < 0);
     D.secs.forEach(function (s, i) {
       if (!st.nSec[i]) return;
       var open = sec === i, shut = open && !!opts.shut, ids = [], list = '';
@@ -136,7 +137,74 @@
     return out;
   }
 
+  /* Рядок під заголовком: підкатегорії великої колекції з кількістю або «Часто шукають».
+     Той самий HTML і в статичній сторінці, і в браузері. На телефоні видно 8 підкатегорій, на комп'ютері 14:
+     зайві ховає CSS (.t-x), тож після завантаження скрипта нічого не стрибає.
+     cnt: { n: [кількість у кожній підкатегорії], rest: без підкатегорії } */
+  var TOPS_DESK = 14, TOPS_PHONE = 8;
+  function topsHtml(D, col, sub, opts) {
+    opts = opts || {};
+    var c = col >= 0 ? D.cols[col] : null;
+    if (c && c.subs && c.subs.length) {
+      var cnt = opts.cnt || { n: c.sn || c.subs.map(function () { return 0; }), rest: c.sr || 0 };
+      var len = c.subs.length, open = !!opts.open;
+      var hidD = open ? 0 : Math.max(0, len - TOPS_DESK), hidP = open ? 0 : Math.max(0, len - TOPS_PHONE);
+      var href = function (i) { return hasPage(D, col, i) ? pathFor(D, -1, col, i) : pathFor(D, -1, col, -1) + '?sub=' + encodeURIComponent(c.subs[i]); };
+      var out = '<span>' + esc(c.sl || 'Підкатегорія') + ':</span>';
+      for (var i = 0; i < len; i++) {
+        if (!open && i >= TOPS_DESK && i !== sub) continue;
+        var x = !open && i >= TOPS_PHONE && i !== sub ? ' class="t-x"' : '';
+        out += '<a href="' + href(i) + '" data-k="' + i + '"' + x + (sub === i ? ' aria-current="true"' : '') + '>' + esc(c.subs[i]) + ' <span class="n">' + cnt.n[i] + '</span></a>';
+      }
+      if (cnt.rest && !hidD) out += '<button type="button" data-k="-2"' + (hidP ? ' class="t-x"' : '') + ' aria-pressed="' + (sub === -2) + '">Інші <span class="n">' + cnt.rest + '</span></button>';
+      if (hidP) out += '<button type="button" data-more="1"' + (hidD ? '' : ' class="t-mo"') + '><span class="t-m">Ще ' + hidP + '</span>' + (hidD ? '<span class="t-d">Ще ' + hidD + '</span>' : '') + '</button>';
+      return out;
+    }
+    var tops = c ? c.top || [] : [];
+    if (!tops.length) return '';
+    var nq = String(opts.q || '').toLowerCase().trim();
+    return '<span>Часто шукають:</span>' + tops.map(function (t) {
+      return '<button type="button" aria-pressed="' + (t.toLowerCase() === nq) + '">' + esc(t) + '</button>';
+    }).join('');
+  }
+
+  /* ---------- товар і картка: однакові в статичному HTML і в браузері ---------- */
+  var ORIG_HOST = 'https://i.ibb.co/';
+  var sized = function (url, w, h) { return url.replace(/(\/\d+)_/, '$1_w' + w + '_h' + h + '_'); };
+  /* рядок даних → товар. whole/pair: Set з id дизайнів зі старими фото (див. catalog.js) */
+  function itemFromRow(D, r, whole, pair) {
+    var id = String(r[0]), c = r[1], pics = r[4], o = r[8] || [], og = r[9] || 0;
+    if (typeof pics === 'string') { var parts = pics.split('|'); pics = parts[0].split(',').map(function (n) { return n + '_' + parts[1]; }); }
+    var prom = pics.map(function (p) { return /^https?:/.test(p) ? p : 'https://images.prom.ua/' + p + '.jpg'; });
+    var orig = o.map(function (p) { return /^https?:/.test(p) ? p : ORIG_HOST + p; });
+    return { id: id, whole: whole.has(id), pair: pair.has(id), c: c, name: r[2], ru: r[3] || '', sold: r[5] || 0, sub: r[6] || D.cols[c].t,
+      label: r[6] || '', k: r[7] == null ? -1 : r[7], orig: orig, nProm: prom.length, pics: prom.concat(orig.slice(0, og || 1)) };
+  }
+  function mockHtml(src, name, lazy) {
+    return '<span class="mock"><span class="mk"><span class="za"><img src="' + src + '" alt="Дакімакура ' + name + '" loading="' + lazy + '" decoding="async" referrerpolicy="no-referrer"></span><span class="zb"><img src="' + src + '" alt="" loading="' + lazy + '" decoding="async" referrerpolicy="no-referrer"></span></span></span>';
+  }
+  function cardHtml(it, idx) {
+    var n = it.pics.length, lazy = idx < 4 ? 'eager' : 'lazy';
+    var slides = it.pics.map(function (p, i) {
+      if (i === 0) return it.pair ? mockHtml(sized(p, 640, 640), esc(it.name), lazy)
+        : '<img ' + (it.whole ? 'class="whole" ' : '') + 'src="' + sized(p, 640, 640) + '" data-full="' + p + '" alt="Дакімакура ' + esc(it.name) + '" loading="' + lazy + '" fetchpriority="' + (idx < 2 ? 'high' : 'auto') + '" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)">';
+      return '<img ' + (i >= it.nProm ? 'class="orig" ' : '') + 'data-src="' + sized(p, 640, 640) + '" data-full="' + p + '" alt="Дакімакура ' + esc(it.name) + ', ' + (i >= it.nProm ? 'принт' : 'фото ' + (i + 1)) + '" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)">';
+    }).join('');
+    var initials = it.name.replace(/[^\p{L} ]/gu, '').trim().split(/\s+/).slice(0, 2).map(function (w) { return w[0] || ''; }).join('');
+    return '<article class="card" data-id="' + it.id + '">' +
+      '<div class="pic' + (it.whole ? ' whole' : it.pair ? ' pair' : '') + '">' +
+      (it.orig.length ? '<span class="b3d" title="Є 3D-перегляд">3D</span>' : '') +
+      '<span class="ph">' + esc(initials) + '</span>' +
+      '<div class="track" aria-label="' + esc(it.name) + ': фото, гортай">' + slides + '</div>' +
+      (n > 1 ? '<button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button>' +
+        '<div class="dots">' + it.pics.map(function (_, i) { return '<i class="' + (i ? '' : 'on') + '"></i>'; }).join('') + '</div>' : '') +
+      '</div><div class="meta"><span class="name">' + esc(it.name) + '</span><span class="sub">' + esc(it.sub) + '</span></div></article>';
+  }
+  var OWN_CARD = '<a class="card own" href="/dakimakura" id="ownCard"><div class="pic">Твій арт або фото на подушці</div>' +
+    '<div class="meta"><span class="name">Свій принт</span><span class="sub">Макет з\'явиться одразу після завантаження</span></div></a>';
+
   var api = { tree: tree, esc: esc, BASE: BASE, ORIGIN: ORIGIN, plural: plural, designs: designs, money: money, count: count,
-    pathFor: pathFor, hasPage: hasPage, h1: h1, title: title, lead: lead, description: description, crumbs: crumbs, links: links };
+    pathFor: pathFor, hasPage: hasPage, h1: h1, title: title, lead: lead, description: description, crumbs: crumbs, links: links,
+    sized: sized, itemFromRow: itemFromRow, mockHtml: mockHtml, cardHtml: cardHtml, OWN_CARD: OWN_CARD, topsHtml: topsHtml };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.DakiShared = api;
 })(typeof window !== 'undefined' ? window : this);

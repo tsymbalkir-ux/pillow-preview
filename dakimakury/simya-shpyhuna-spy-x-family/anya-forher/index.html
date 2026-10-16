@@ -39,8 +39,11 @@ fbq('track', 'PageView');
 <link rel="preconnect" href="https://images.prom.ua">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16">
+<!-- шрифти не блокують показ сторінки: спершу текст системним шрифтом, фірмовий підміняє його, щойно завантажиться -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16c">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Дакімакури","item":"https://printme.world/dakimakury/"},{"@type":"ListItem","position":2,"name":"Аніме","item":"https://printme.world/dakimakury/anime/"},{"@type":"ListItem","position":3,"name":"Сім'я шпигуна (Spy x Family)","item":"https://printme.world/dakimakury/simya-shpyhuna-spy-x-family/"},{"@type":"ListItem","position":4,"name":"Аня Форгер","item":"https://printme.world/dakimakury/simya-shpyhuna-spy-x-family/anya-forher/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Дакімакури Аня Форгер (Сім'я шпигуна (Spy x Family))","url":"https://printme.world/dakimakury/simya-shpyhuna-spy-x-family/anya-forher/","inLanguage":"uk","mainEntity":{"@type":"ItemList","numberOfItems":2,"itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"Product","name":"Дакімакура Аня Форгер №1","image":"https://images.prom.ua/6475455092_anya-forger-shpion.jpg","category":"Сім'я шпигуна (Spy x Family)","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/simya-shpyhuna-spy-x-family/anya-forher/"}}},{"@type":"ListItem","position":2,"item":{"@type":"Product","name":"Дакімакура Аня Форгер №2","image":"https://images.prom.ua/6475455102_anya-forger-shpion.jpg","category":"Сім'я шпигуна (Spy x Family)","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/simya-shpyhuna-spy-x-family/anya-forher/"}}}]}}</script>
 </head>
@@ -71,19 +74,13 @@ fbq('track', 'PageView');
         <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Сім'я шпигуна (Spy x Family)</span></button>
         <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
       </div>
-      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/simya-shpyhuna-spy-x-family/yol-forher/">Йол Форгер <span class="n">12</span></a><a href="/dakimakury/simya-shpyhuna-spy-x-family/yor-brayar/">Йор Брайар <span class="n">2</span></a><a href="/dakimakury/simya-shpyhuna-spy-x-family/anya-forher/" aria-current="true">Аня Форгер <span class="n">2</span></a><a href="/dakimakury/simya-shpyhuna-spy-x-family/yor/">Йор <span class="n">2</span></a></div>
+      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/simya-shpyhuna-spy-x-family/yol-forher/" data-k="0">Йол Форгер <span class="n">12</span></a><a href="/dakimakury/simya-shpyhuna-spy-x-family/yor-brayar/" data-k="1">Йор Брайар <span class="n">2</span></a><a href="/dakimakury/simya-shpyhuna-spy-x-family/anya-forher/" data-k="2" aria-current="true">Аня Форгер <span class="n">2</span></a><a href="/dakimakury/simya-shpyhuna-spy-x-family/yor/" data-k="3">Йор <span class="n">2</span></a><button type="button" data-k="-2" aria-pressed="false">Інші <span class="n">13</span></button></div>
       <p class="count" id="count" aria-live="polite">Дизайнів: 2</p>
 
 
   <main class="grid" id="grid">
-<article class="card" data-id="2487340705">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6475455092_w640_h640_anya-forger-shpion.jpg" alt="Дакімакура Аня Форгер №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Аня Форгер №1</span><span class="sub">Сім'я шпигуна (Spy x Family)</span></div>
-    </article>
-<article class="card" data-id="2487340707">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6475455102_w640_h640_anya-forger-shpion.jpg" alt="Дакімакура Аня Форгер №2" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Аня Форгер №2</span><span class="sub">Сім'я шпигуна (Spy x Family)</span></div>
-    </article>
+<article class="card" data-id="2487340705"><div class="pic"><span class="ph">АФ</span><div class="track" aria-label="Аня Форгер №1: фото, гортай"><img src="https://images.prom.ua/6475455092_w640_h640_anya-forger-shpion.jpg" data-full="https://images.prom.ua/6475455092_anya-forger-shpion.jpg" alt="Дакімакура Аня Форгер №1" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475455093_w640_h640_anya-forger-shpion.jpg" data-full="https://images.prom.ua/6475455093_anya-forger-shpion.jpg" alt="Дакімакура Аня Форгер №1, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475455094_w640_h640_anya-forger-shpion.jpg" data-full="https://images.prom.ua/6475455094_anya-forger-shpion.jpg" alt="Дакімакура Аня Форгер №1, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475455095_w640_h640_anya-forger-shpion.jpg" data-full="https://images.prom.ua/6475455095_anya-forger-shpion.jpg" alt="Дакімакура Аня Форгер №1, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Аня Форгер №1</span><span class="sub">Сім'я шпигуна (Spy x Family)</span></div></article>
+<article class="card" data-id="2487340707"><div class="pic"><span class="ph">АФ</span><div class="track" aria-label="Аня Форгер №2: фото, гортай"><img src="https://images.prom.ua/6475455102_w640_h640_anya-forger-shpion.jpg" data-full="https://images.prom.ua/6475455102_anya-forger-shpion.jpg" alt="Дакімакура Аня Форгер №2" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475455103_w640_h640_anya-forger-shpion.jpg" data-full="https://images.prom.ua/6475455103_anya-forger-shpion.jpg" alt="Дакімакура Аня Форгер №2, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475455104_w640_h640_anya-forger-shpion.jpg" data-full="https://images.prom.ua/6475455104_anya-forger-shpion.jpg" alt="Дакімакура Аня Форгер №2, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475455105_w640_h640_anya-forger-shpion.jpg" data-full="https://images.prom.ua/6475455105_anya-forger-shpion.jpg" alt="Дакімакура Аня Форгер №2, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Аня Форгер №2</span><span class="sub">Сім'я шпигуна (Spy x Family)</span></div></article>
 </main>
   <div class="more" id="more"></div>
     </div>
@@ -140,10 +137,11 @@ fbq('track', 'PageView');
   <div class="v3d-stage" id="v3dStage"><div class="v3d-load" id="v3dLoad"><span class="spin" aria-hidden="true"></span><b>Завантажуємо 3D-модель</b><span>Це не збій: модель важка, перший запуск триває до пів хвилини. Зачекай, будь ласка.</span></div></div>
 </dialog>
 
-<script>window.DAKI_PAGE={"g":"simya-shpyhuna-spy-x-family","sub":"Аня Форгер"};</script>
-<script src="/shipping.js"></script>
-<script src="/dakimakury/data.js?v=2026-10-16"></script>
-<script src="/dakimakury/shared.js?v=2026-10-16"></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16"></script>
+<script>window.DAKI_PAGE={"g":"simya-shpyhuna-spy-x-family","sub":"Аня Форгер","n":2,"rows":[[2487340705,86,"Аня Форгер №1","шпион семья","6475455092,6475455093,6475455094,6475455095|anya-forger-shpion",0,"",2],[2487340707,86,"Аня Форгер №2","шпион семья","6475455102,6475455103,6475455104,6475455105|anya-forger-shpion",0,"",2]]};</script>
+<!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
+<script src="/shipping.js" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16c" defer></script>
 </body>
 </html>

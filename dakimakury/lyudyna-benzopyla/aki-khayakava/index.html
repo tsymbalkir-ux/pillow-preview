@@ -39,8 +39,11 @@ fbq('track', 'PageView');
 <link rel="preconnect" href="https://images.prom.ua">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16">
+<!-- шрифти не блокують показ сторінки: спершу текст системним шрифтом, фірмовий підміняє його, щойно завантажиться -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16c">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Дакімакури","item":"https://printme.world/dakimakury/"},{"@type":"ListItem","position":2,"name":"Аніме","item":"https://printme.world/dakimakury/anime/"},{"@type":"ListItem","position":3,"name":"Людина-бензопила","item":"https://printme.world/dakimakury/lyudyna-benzopyla/"},{"@type":"ListItem","position":4,"name":"Акі Хаякава","item":"https://printme.world/dakimakury/lyudyna-benzopyla/aki-khayakava/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Дакімакури Акі Хаякава (Людина-бензопила)","url":"https://printme.world/dakimakury/lyudyna-benzopyla/aki-khayakava/","inLanguage":"uk","mainEntity":{"@type":"ItemList","numberOfItems":2,"itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"Product","name":"Дакімакура Акі Хаякава №1","image":"https://images.prom.ua/6475467816_aki-hayakava-chelovek-benzopila.jpg","category":"Людина-бензопила","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/lyudyna-benzopyla/aki-khayakava/"}}},{"@type":"ListItem","position":2,"item":{"@type":"Product","name":"Дакімакура Акі Хаякава №2","image":"https://images.prom.ua/6876348030_aki-hayakava-chelovek-benzopila.jpg","category":"Людина-бензопила","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/lyudyna-benzopyla/aki-khayakava/"}}}]}}</script>
 </head>
@@ -71,19 +74,13 @@ fbq('track', 'PageView');
         <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Людина-бензопила</span></button>
         <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
       </div>
-      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/lyudyna-benzopyla/makima/">Макіма <span class="n">19</span></a><a href="/dakimakury/lyudyna-benzopyla/reze/">Резе <span class="n">6</span></a><a href="/dakimakury/lyudyna-benzopyla/khimeno/">Хімено <span class="n">2</span></a><a href="/dakimakury/lyudyna-benzopyla/pauer/">Пауер <span class="n">4</span></a><a href="/dakimakury/lyudyna-benzopyla/aki-khayakava/" aria-current="true">Акі Хаякава <span class="n">2</span></a><a href="/dakimakury/lyudyna-benzopyla/dendzhi/">Денджі <span class="n">2</span></a></div>
+      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/lyudyna-benzopyla/makima/" data-k="0">Макіма <span class="n">19</span></a><a href="/dakimakury/lyudyna-benzopyla/reze/" data-k="1">Резе <span class="n">6</span></a><a href="/dakimakury/lyudyna-benzopyla/khimeno/" data-k="2">Хімено <span class="n">2</span></a><a href="/dakimakury/lyudyna-benzopyla/pauer/" data-k="3">Пауер <span class="n">4</span></a><a href="/dakimakury/lyudyna-benzopyla/aki-khayakava/" data-k="4" aria-current="true">Акі Хаякава <span class="n">2</span></a><a href="/dakimakury/lyudyna-benzopyla/dendzhi/" data-k="5">Денджі <span class="n">2</span></a><button type="button" data-k="-2" aria-pressed="false">Інші <span class="n">11</span></button></div>
       <p class="count" id="count" aria-live="polite">Дизайнів: 2</p>
 
 
   <main class="grid" id="grid">
-<article class="card" data-id="2487339634">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6475467816_w640_h640_aki-hayakava-chelovek-benzopila.jpg" alt="Дакімакура Акі Хаякава №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Акі Хаякава №1</span><span class="sub">Людина-бензопила</span></div>
-    </article>
-<article class="card" data-id="2787143669">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6876348030_w640_h640_aki-hayakava-chelovek-benzopila.jpg" alt="Дакімакура Акі Хаякава №2" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Акі Хаякава №2</span><span class="sub">Людина-бензопила</span></div>
-    </article>
+<article class="card" data-id="2487339634"><div class="pic"><span class="ph">АХ</span><div class="track" aria-label="Акі Хаякава №1: фото, гортай"><img src="https://images.prom.ua/6475467816_w640_h640_aki-hayakava-chelovek-benzopila.jpg" data-full="https://images.prom.ua/6475467816_aki-hayakava-chelovek-benzopila.jpg" alt="Дакімакура Акі Хаякава №1" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475467819_w640_h640_aki-hayakava-chelovek-benzopila.jpg" data-full="https://images.prom.ua/6475467819_aki-hayakava-chelovek-benzopila.jpg" alt="Дакімакура Акі Хаякава №1, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475467822_w640_h640_aki-hayakava-chelovek-benzopila.jpg" data-full="https://images.prom.ua/6475467822_aki-hayakava-chelovek-benzopila.jpg" alt="Дакімакура Акі Хаякава №1, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475467823_w640_h640_aki-hayakava-chelovek-benzopila.jpg" data-full="https://images.prom.ua/6475467823_aki-hayakava-chelovek-benzopila.jpg" alt="Дакімакура Акі Хаякава №1, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Акі Хаякава №1</span><span class="sub">Людина-бензопила</span></div></article>
+<article class="card" data-id="2787143669"><div class="pic"><span class="ph">АХ</span><div class="track" aria-label="Акі Хаякава №2: фото, гортай"><img src="https://images.prom.ua/6876348030_w640_h640_aki-hayakava-chelovek-benzopila.jpg" data-full="https://images.prom.ua/6876348030_aki-hayakava-chelovek-benzopila.jpg" alt="Дакімакура Акі Хаякава №2" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6876348031_w640_h640_aki-hayakava-chelovek-benzopila.jpg" data-full="https://images.prom.ua/6876348031_aki-hayakava-chelovek-benzopila.jpg" alt="Дакімакура Акі Хаякава №2, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6876348032_w640_h640_aki-hayakava-chelovek-benzopila.jpg" data-full="https://images.prom.ua/6876348032_aki-hayakava-chelovek-benzopila.jpg" alt="Дакімакура Акі Хаякава №2, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Акі Хаякава №2</span><span class="sub">Людина-бензопила</span></div></article>
 </main>
   <div class="more" id="more"></div>
     </div>
@@ -140,10 +137,11 @@ fbq('track', 'PageView');
   <div class="v3d-stage" id="v3dStage"><div class="v3d-load" id="v3dLoad"><span class="spin" aria-hidden="true"></span><b>Завантажуємо 3D-модель</b><span>Це не збій: модель важка, перший запуск триває до пів хвилини. Зачекай, будь ласка.</span></div></div>
 </dialog>
 
-<script>window.DAKI_PAGE={"g":"chainsaw","sub":"Акі Хаякава"};</script>
-<script src="/shipping.js"></script>
-<script src="/dakimakury/data.js?v=2026-10-16"></script>
-<script src="/dakimakury/shared.js?v=2026-10-16"></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16"></script>
+<script>window.DAKI_PAGE={"g":"chainsaw","sub":"Акі Хаякава","n":2,"rows":[[2487339634,21,"Акі Хаякава №1","аки хаякава","6475467816,6475467819,6475467822,6475467823|aki-hayakava-chelovek-benzopila",0,"",4],[2787143669,21,"Акі Хаякава №2","аки хаякава","6876348030,6876348031,6876348032|aki-hayakava-chelovek-benzopila",0,"",4]]};</script>
+<!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
+<script src="/shipping.js" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16c" defer></script>
 </body>
 </html>

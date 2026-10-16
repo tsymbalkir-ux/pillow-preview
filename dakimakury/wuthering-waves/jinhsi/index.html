@@ -39,8 +39,11 @@ fbq('track', 'PageView');
 <link rel="preconnect" href="https://images.prom.ua">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16">
+<!-- шрифти не блокують показ сторінки: спершу текст системним шрифтом, фірмовий підміняє його, щойно завантажиться -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16c">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Дакімакури","item":"https://printme.world/dakimakury/"},{"@type":"ListItem","position":2,"name":"Ігри","item":"https://printme.world/dakimakury/ihry/"},{"@type":"ListItem","position":3,"name":"Wuthering Waves","item":"https://printme.world/dakimakury/wuthering-waves/"},{"@type":"ListItem","position":4,"name":"Jinhsi","item":"https://printme.world/dakimakury/wuthering-waves/jinhsi/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Дакімакури Jinhsi (Wuthering Waves)","url":"https://printme.world/dakimakury/wuthering-waves/jinhsi/","inLanguage":"uk","mainEntity":{"@type":"ItemList","numberOfItems":2,"itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"Product","name":"Дакімакура Jinhsi","image":"https://images.prom.ua/6493888561_dakimakura-jinhsi-wuthering.jpg","category":"Wuthering Waves","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/wuthering-waves/jinhsi/"}}},{"@type":"ListItem","position":2,"item":{"@type":"Product","name":"Дакімакура Jinhsi Цзінсі","image":"https://images.prom.ua/6532310677_dakimakura-jinhsi-tszinsi.jpg","category":"Wuthering Waves","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/wuthering-waves/jinhsi/"}}}]}}</script>
 </head>
@@ -71,19 +74,13 @@ fbq('track', 'PageView');
         <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Wuthering Waves</span></button>
         <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
       </div>
-      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/wuthering-waves/zani-vuva/">Зані Вува <span class="n">4</span></a><a href="/dakimakury/wuthering-waves/shorekeeper/">Shorekeeper <span class="n">3</span></a><a href="/dakimakury/wuthering-waves/in-lin-vuva/">Інь Лінь Вува <span class="n">3</span></a><a href="/dakimakury/wuthering-waves/jinhsi/" aria-current="true">Jinhsi <span class="n">2</span></a><a href="/dakimakury/wuthering-waves/kartesiya-vuva/">Картесія Вува <span class="n">2</span></a></div>
+      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/wuthering-waves/zani-vuva/" data-k="0">Зані Вува <span class="n">4</span></a><a href="/dakimakury/wuthering-waves/shorekeeper/" data-k="1">Shorekeeper <span class="n">3</span></a><a href="/dakimakury/wuthering-waves/in-lin-vuva/" data-k="2">Інь Лінь Вува <span class="n">3</span></a><a href="/dakimakury/wuthering-waves/jinhsi/" data-k="3" aria-current="true">Jinhsi <span class="n">2</span></a><a href="/dakimakury/wuthering-waves/kartesiya-vuva/" data-k="4">Картесія Вува <span class="n">2</span></a><button type="button" data-k="-2" aria-pressed="false">Інші <span class="n">3</span></button></div>
       <p class="count" id="count" aria-live="polite">Дизайнів: 2</p>
 
 
   <main class="grid" id="grid">
-<article class="card" data-id="2500153334">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6493888561_w640_h640_dakimakura-jinhsi-wuthering.jpg" alt="Дакімакура Jinhsi" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Jinhsi</span><span class="sub">Wuthering Waves</span></div>
-    </article>
-<article class="card" data-id="2528427832">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6532310677_w640_h640_dakimakura-jinhsi-tszinsi.jpg" alt="Дакімакура Jinhsi Цзінсі" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Jinhsi Цзінсі</span><span class="sub">Wuthering Waves</span></div>
-    </article>
+<article class="card" data-id="2500153334"><div class="pic"><span class="b3d" title="Є 3D-перегляд">3D</span><span class="ph">J</span><div class="track" aria-label="Jinhsi: фото, гортай"><img src="https://images.prom.ua/6493888561_w640_h640_dakimakura-jinhsi-wuthering.jpg" data-full="https://images.prom.ua/6493888561_dakimakura-jinhsi-wuthering.jpg" alt="Дакімакура Jinhsi" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6493888564_w640_h640_dakimakura-jinhsi-wuthering.jpg" data-full="https://images.prom.ua/6493888564_dakimakura-jinhsi-wuthering.jpg" alt="Дакімакура Jinhsi, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6493888567_w640_h640_dakimakura-jinhsi-wuthering.jpg" data-full="https://images.prom.ua/6493888567_dakimakura-jinhsi-wuthering.jpg" alt="Дакімакура Jinhsi, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6493888569_w640_h640_dakimakura-jinhsi-wuthering.jpg" data-full="https://images.prom.ua/6493888569_dakimakura-jinhsi-wuthering.jpg" alt="Дакімакура Jinhsi, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img class="orig" data-src="https://i.ibb.co/gZ2WbxTT/404060.jpg" data-full="https://i.ibb.co/gZ2WbxTT/404060.jpg" alt="Дакімакура Jinhsi, принт" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Jinhsi</span><span class="sub">Wuthering Waves</span></div></article>
+<article class="card" data-id="2528427832"><div class="pic"><span class="b3d" title="Є 3D-перегляд">3D</span><span class="ph">JЦ</span><div class="track" aria-label="Jinhsi Цзінсі: фото, гортай"><img src="https://images.prom.ua/6532310677_w640_h640_dakimakura-jinhsi-tszinsi.jpg" data-full="https://images.prom.ua/6532310677_dakimakura-jinhsi-tszinsi.jpg" alt="Дакімакура Jinhsi Цзінсі" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6532310678_w640_h640_dakimakura-jinhsi-tszinsi.jpg" data-full="https://images.prom.ua/6532310678_dakimakura-jinhsi-tszinsi.jpg" alt="Дакімакура Jinhsi Цзінсі, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6532310679_w640_h640_dakimakura-jinhsi-tszinsi.jpg" data-full="https://images.prom.ua/6532310679_dakimakura-jinhsi-tszinsi.jpg" alt="Дакімакура Jinhsi Цзінсі, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6532310680_w640_h640_dakimakura-jinhsi-tszinsi.jpg" data-full="https://images.prom.ua/6532310680_dakimakura-jinhsi-tszinsi.jpg" alt="Дакімакура Jinhsi Цзінсі, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img class="orig" data-src="https://i.ibb.co/zWcqGsx2/404358.jpg" data-full="https://i.ibb.co/zWcqGsx2/404358.jpg" alt="Дакімакура Jinhsi Цзінсі, принт" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Jinhsi Цзінсі</span><span class="sub">Wuthering Waves</span></div></article>
 </main>
   <div class="more" id="more"></div>
     </div>
@@ -140,10 +137,11 @@ fbq('track', 'PageView');
   <div class="v3d-stage" id="v3dStage"><div class="v3d-load" id="v3dLoad"><span class="spin" aria-hidden="true"></span><b>Завантажуємо 3D-модель</b><span>Це не збій: модель важка, перший запуск триває до пів хвилини. Зачекай, будь ласка.</span></div></div>
 </dialog>
 
-<script>window.DAKI_PAGE={"g":"wuwa","sub":"Jinhsi"};</script>
-<script src="/shipping.js"></script>
-<script src="/dakimakury/data.js?v=2026-10-16"></script>
-<script src="/dakimakury/shared.js?v=2026-10-16"></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16"></script>
+<script>window.DAKI_PAGE={"g":"wuwa","sub":"Jinhsi","n":2,"rows":[[2500153334,18,"Jinhsi","","6493888561,6493888564,6493888567,6493888569|dakimakura-jinhsi-wuthering",0,"",3,["gZ2WbxTT/404060.jpg"],1],[2528427832,18,"Jinhsi Цзінсі","jinhsi цзинси","6532310677,6532310678,6532310679,6532310680|dakimakura-jinhsi-tszinsi",0,"",3,["zWcqGsx2/404358.jpg"],1]]};</script>
+<!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
+<script src="/shipping.js" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16c" defer></script>
 </body>
 </html>

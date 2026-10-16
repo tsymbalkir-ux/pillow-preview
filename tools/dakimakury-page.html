@@ -39,7 +39,10 @@ fbq('track', 'PageView');
 <link rel="preconnect" href="https://images.prom.ua">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- шрифти не блокують показ сторінки: спершу текст системним шрифтом, фірмовий підміняє його, щойно завантажиться -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
 <link rel="stylesheet" href="/dakimakury/catalog.css?v={{V}}">
 {{LD}}
 </head>
@@ -132,9 +135,10 @@ fbq('track', 'PageView');
 </dialog>
 
 <script>window.DAKI_PAGE={{PAGE}};</script>
-<script src="/shipping.js"></script>
-<script src="/dakimakury/data.js?v={{V}}"></script>
-<script src="/dakimakury/shared.js?v={{V}}"></script>
-<script src="/dakimakury/catalog.js?v={{V}}"></script>
+<!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
+<script src="/shipping.js" defer></script>
+<script src="/dakimakury/meta.js?v={{V}}" defer></script>
+<script src="/dakimakury/shared.js?v={{V}}" defer></script>
+<script src="/dakimakury/catalog.js?v={{V}}" defer></script>
 </body>
 </html>

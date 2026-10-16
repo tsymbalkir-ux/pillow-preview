@@ -39,8 +39,11 @@ fbq('track', 'PageView');
 <link rel="preconnect" href="https://images.prom.ua">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16">
+<!-- шрифти не блокують показ сторінки: спершу текст системним шрифтом, фірмовий підміняє його, щойно завантажиться -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16c">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Дакімакури","item":"https://printme.world/dakimakury/"},{"@type":"ListItem","position":2,"name":"Кіно й мультфільми","item":"https://printme.world/dakimakury/kino-y-multfilmy/"},{"@type":"ListItem","position":3,"name":"Друзі","item":"https://printme.world/dakimakury/druzi/"},{"@type":"ListItem","position":4,"name":"Моніка","item":"https://printme.world/dakimakury/druzi/monika/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Дакімакури Моніка (Друзі)","url":"https://printme.world/dakimakury/druzi/monika/","inLanguage":"uk","mainEntity":{"@type":"ItemList","numberOfItems":2,"itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"Product","name":"Дакімакура Моніка №1","image":"https://images.prom.ua/5080679769_dakimakura-gabardin-monika.jpg","category":"Друзі","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/druzi/monika/"}}},{"@type":"ListItem","position":2,"item":{"@type":"Product","name":"Дакімакура Моніка №2","image":"https://images.prom.ua/6762105893_dakimakura-monika-druzya.jpg","category":"Друзі","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/druzi/monika/"}}}]}}</script>
 </head>
@@ -71,19 +74,13 @@ fbq('track', 'PageView');
         <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Друзі</span></button>
         <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
       </div>
-      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/druzi/fibi/">Фібі <span class="n">6</span></a><a href="/dakimakury/druzi/reychel/">Рейчел <span class="n">5</span></a><a href="/dakimakury/druzi/ros/">Рос <span class="n">4</span></a><a href="/dakimakury/druzi/monika/" aria-current="true">Моніка <span class="n">2</span></a><a href="/dakimakury/druzi/chendler/">Чендлер <span class="n">2</span></a></div>
+      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/druzi/fibi/" data-k="0">Фібі <span class="n">6</span></a><a href="/dakimakury/druzi/reychel/" data-k="1">Рейчел <span class="n">5</span></a><a href="/dakimakury/druzi/ros/" data-k="2">Рос <span class="n">4</span></a><a href="/dakimakury/druzi/monika/" data-k="3" aria-current="true">Моніка <span class="n">2</span></a><a href="/dakimakury/druzi/chendler/" data-k="4">Чендлер <span class="n">2</span></a><button type="button" data-k="-2" aria-pressed="false">Інші <span class="n">15</span></button></div>
       <p class="count" id="count" aria-live="polite">Дизайнів: 2</p>
 
 
   <main class="grid" id="grid">
-<article class="card" data-id="2012734921">
-      <div class="pic whole"><div class="track"><img class="whole" src="https://images.prom.ua/5080679769_w640_h640_dakimakura-gabardin-monika.jpg" alt="Дакімакура Моніка №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Моніка №1</span><span class="sub">Друзі</span></div>
-    </article>
-<article class="card" data-id="2688302227">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6762105893_w640_h640_dakimakura-monika-druzya.jpg" alt="Дакімакура Моніка №2" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Моніка №2</span><span class="sub">Друзі</span></div>
-    </article>
+<article class="card" data-id="2012734921"><div class="pic whole"><span class="ph">М</span><div class="track" aria-label="Моніка №1: фото, гортай"><img class="whole" src="https://images.prom.ua/5080679769_w640_h640_dakimakura-gabardin-monika.jpg" data-full="https://images.prom.ua/5080679769_dakimakura-gabardin-monika.jpg" alt="Дакімакура Моніка №1" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/4557260422_w640_h640_dakimakura-gabardin-monika.jpg" data-full="https://images.prom.ua/4557260422_dakimakura-gabardin-monika.jpg" alt="Дакімакура Моніка №1, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/4363779747_w640_h640_dakimakura-gabardin-monika.jpg" data-full="https://images.prom.ua/4363779747_dakimakura-gabardin-monika.jpg" alt="Дакімакура Моніка №1, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/4363779877_w640_h640_dakimakura-gabardin-monika.jpg" data-full="https://images.prom.ua/4363779877_dakimakura-gabardin-monika.jpg" alt="Дакімакура Моніка №1, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Моніка №1</span><span class="sub">Друзі</span></div></article>
+<article class="card" data-id="2688302227"><div class="pic"><span class="ph">М</span><div class="track" aria-label="Моніка №2: фото, гортай"><img src="https://images.prom.ua/6762105893_w640_h640_dakimakura-monika-druzya.jpg" data-full="https://images.prom.ua/6762105893_dakimakura-monika-druzya.jpg" alt="Дакімакура Моніка №2" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6762105896_w640_h640_dakimakura-monika-druzya.jpg" data-full="https://images.prom.ua/6762105896_dakimakura-monika-druzya.jpg" alt="Дакімакура Моніка №2, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6762105900_w640_h640_dakimakura-monika-druzya.jpg" data-full="https://images.prom.ua/6762105900_dakimakura-monika-druzya.jpg" alt="Дакімакура Моніка №2, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6762105903_w640_h640_dakimakura-monika-druzya.jpg" data-full="https://images.prom.ua/6762105903_dakimakura-monika-druzya.jpg" alt="Дакімакура Моніка №2, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Моніка №2</span><span class="sub">Друзі</span></div></article>
 </main>
   <div class="more" id="more"></div>
     </div>
@@ -140,10 +137,11 @@ fbq('track', 'PageView');
   <div class="v3d-stage" id="v3dStage"><div class="v3d-load" id="v3dLoad"><span class="spin" aria-hidden="true"></span><b>Завантажуємо 3D-модель</b><span>Це не збій: модель важка, перший запуск триває до пів хвилини. Зачекай, будь ласка.</span></div></div>
 </dialog>
 
-<script>window.DAKI_PAGE={"g":"druzi","sub":"Моніка"};</script>
-<script src="/shipping.js"></script>
-<script src="/dakimakury/data.js?v=2026-10-16"></script>
-<script src="/dakimakury/shared.js?v=2026-10-16"></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16"></script>
+<script>window.DAKI_PAGE={"g":"druzi","sub":"Моніка","n":2,"rows":[[2012734921,79,"Моніка №1","моника друзья friends","5080679769,4557260422,4363779747,4363779877|dakimakura-gabardin-monika",0,"",3],[2688302227,79,"Моніка №2","моника друзья","6762105893,6762105896,6762105900,6762105903|dakimakura-monika-druzya",0,"",3]]};</script>
+<!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
+<script src="/shipping.js" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16c" defer></script>
 </body>
 </html>

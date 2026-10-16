@@ -39,8 +39,11 @@ fbq('track', 'PageView');
 <link rel="preconnect" href="https://images.prom.ua">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16">
+<!-- шрифти не блокують показ сторінки: спершу текст системним шрифтом, фірмовий підміняє його, щойно завантажиться -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16c">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Дакімакури","item":"https://printme.world/dakimakury/"},{"@type":"ListItem","position":2,"name":"Аніме","item":"https://printme.world/dakimakury/anime/"},{"@type":"ListItem","position":3,"name":"To Love-Ru","item":"https://printme.world/dakimakury/to-love-ru/"},{"@type":"ListItem","position":4,"name":"Немезіс","item":"https://printme.world/dakimakury/to-love-ru/nemezis/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Дакімакури Немезіс (To Love-Ru)","url":"https://printme.world/dakimakury/to-love-ru/nemezis/","inLanguage":"uk","mainEntity":{"@type":"ItemList","numberOfItems":2,"itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"Product","name":"Дакімакура Немезіс №1","image":"https://images.prom.ua/6475461104_nemezis-lyubovnye-nepriyatnosti.jpg","category":"To Love-Ru","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/to-love-ru/nemezis/"}}},{"@type":"ListItem","position":2,"item":{"@type":"Product","name":"Дакімакура Немезіс №2","image":"https://images.prom.ua/6475461112_nemezis-lyubovnye-nepriyatnosti.jpg","category":"To Love-Ru","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/to-love-ru/nemezis/"}}}]}}</script>
 </head>
@@ -71,19 +74,13 @@ fbq('track', 'PageView');
         <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">To Love-Ru</span></button>
         <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
       </div>
-      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/to-love-ru/zolota-tyama/">Золота Тяма <span class="n">6</span></a><a href="/dakimakury/to-love-ru/momo-bel-divylyuk/">Момо Бел Дівилюк <span class="n">2</span></a><a href="/dakimakury/to-love-ru/nimezida-lyubovi-nepryyemnosti/">Німезіда Любові неприємності <span class="n">2</span></a><a href="/dakimakury/to-love-ru/nemezis/" aria-current="true">Немезіс <span class="n">2</span></a></div>
+      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/to-love-ru/zolota-tyama/" data-k="0">Золота Тяма <span class="n">6</span></a><a href="/dakimakury/to-love-ru/momo-bel-divylyuk/" data-k="1">Момо Бел Дівилюк <span class="n">2</span></a><a href="/dakimakury/to-love-ru/nimezida-lyubovi-nepryyemnosti/" data-k="2">Німезіда Любові неприємності <span class="n">2</span></a><a href="/dakimakury/to-love-ru/nemezis/" data-k="3" aria-current="true">Немезіс <span class="n">2</span></a><button type="button" data-k="-2" aria-pressed="false">Інші <span class="n">4</span></button></div>
       <p class="count" id="count" aria-live="polite">Дизайнів: 2</p>
 
 
   <main class="grid" id="grid">
-<article class="card" data-id="2487341198">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6475461104_w640_h640_nemezis-lyubovnye-nepriyatnosti.jpg" alt="Дакімакура Немезіс №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Немезіс №1</span><span class="sub">To Love-Ru</span></div>
-    </article>
-<article class="card" data-id="2487341199">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6475461112_w640_h640_nemezis-lyubovnye-nepriyatnosti.jpg" alt="Дакімакура Немезіс №2" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Немезіс №2</span><span class="sub">To Love-Ru</span></div>
-    </article>
+<article class="card" data-id="2487341198"><div class="pic"><span class="ph">Н</span><div class="track" aria-label="Немезіс №1: фото, гортай"><img src="https://images.prom.ua/6475461104_w640_h640_nemezis-lyubovnye-nepriyatnosti.jpg" data-full="https://images.prom.ua/6475461104_nemezis-lyubovnye-nepriyatnosti.jpg" alt="Дакімакура Немезіс №1" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475461105_w640_h640_nemezis-lyubovnye-nepriyatnosti.jpg" data-full="https://images.prom.ua/6475461105_nemezis-lyubovnye-nepriyatnosti.jpg" alt="Дакімакура Немезіс №1, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475461106_w640_h640_nemezis-lyubovnye-nepriyatnosti.jpg" data-full="https://images.prom.ua/6475461106_nemezis-lyubovnye-nepriyatnosti.jpg" alt="Дакімакура Немезіс №1, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475461107_w640_h640_nemezis-lyubovnye-nepriyatnosti.jpg" data-full="https://images.prom.ua/6475461107_nemezis-lyubovnye-nepriyatnosti.jpg" alt="Дакімакура Немезіс №1, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Немезіс №1</span><span class="sub">To Love-Ru</span></div></article>
+<article class="card" data-id="2487341199"><div class="pic"><span class="ph">Н</span><div class="track" aria-label="Немезіс №2: фото, гортай"><img src="https://images.prom.ua/6475461112_w640_h640_nemezis-lyubovnye-nepriyatnosti.jpg" data-full="https://images.prom.ua/6475461112_nemezis-lyubovnye-nepriyatnosti.jpg" alt="Дакімакура Немезіс №2" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475461113_w640_h640_nemezis-lyubovnye-nepriyatnosti.jpg" data-full="https://images.prom.ua/6475461113_nemezis-lyubovnye-nepriyatnosti.jpg" alt="Дакімакура Немезіс №2, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475461114_w640_h640_nemezis-lyubovnye-nepriyatnosti.jpg" data-full="https://images.prom.ua/6475461114_nemezis-lyubovnye-nepriyatnosti.jpg" alt="Дакімакура Немезіс №2, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6475461115_w640_h640_nemezis-lyubovnye-nepriyatnosti.jpg" data-full="https://images.prom.ua/6475461115_nemezis-lyubovnye-nepriyatnosti.jpg" alt="Дакімакура Немезіс №2, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Немезіс №2</span><span class="sub">To Love-Ru</span></div></article>
 </main>
   <div class="more" id="more"></div>
     </div>
@@ -140,10 +137,11 @@ fbq('track', 'PageView');
   <div class="v3d-stage" id="v3dStage"><div class="v3d-load" id="v3dLoad"><span class="spin" aria-hidden="true"></span><b>Завантажуємо 3D-модель</b><span>Це не збій: модель важка, перший запуск триває до пів хвилини. Зачекай, будь ласка.</span></div></div>
 </dialog>
 
-<script>window.DAKI_PAGE={"g":"to-love-ru","sub":"Немезіс"};</script>
-<script src="/shipping.js"></script>
-<script src="/dakimakury/data.js?v=2026-10-16"></script>
-<script src="/dakimakury/shared.js?v=2026-10-16"></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16"></script>
+<script>window.DAKI_PAGE={"g":"to-love-ru","sub":"Немезіс","n":2,"rows":[[2487341198,129,"Немезіс №1","немезис любовные неприятности","6475461104,6475461105,6475461106,6475461107|nemezis-lyubovnye-nepriyatnosti",0,"",3],[2487341199,129,"Немезіс №2","немезис любовные неприятности","6475461112,6475461113,6475461114,6475461115|nemezis-lyubovnye-nepriyatnosti",0,"",3]]};</script>
+<!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
+<script src="/shipping.js" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16c" defer></script>
 </body>
 </html>

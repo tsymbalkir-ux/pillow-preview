@@ -39,8 +39,11 @@ fbq('track', 'PageView');
 <link rel="preconnect" href="https://images.prom.ua">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16">
+<!-- шрифти не блокують показ сторінки: спершу текст системним шрифтом, фірмовий підміняє його, щойно завантажиться -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<link rel="stylesheet" href="/dakimakury/catalog.css?v=2026-10-16c">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Дакімакури","item":"https://printme.world/dakimakury/"},{"@type":"ListItem","position":2,"name":"Аніме","item":"https://printme.world/dakimakury/anime/"},{"@type":"ListItem","position":3,"name":"Сім'я шпигуна (Spy x Family)","item":"https://printme.world/dakimakury/simya-shpyhuna-spy-x-family/"},{"@type":"ListItem","position":4,"name":"Йор","item":"https://printme.world/dakimakury/simya-shpyhuna-spy-x-family/yor/"}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Дакімакури Йор (Сім'я шпигуна (Spy x Family))","url":"https://printme.world/dakimakury/simya-shpyhuna-spy-x-family/yor/","inLanguage":"uk","mainEntity":{"@type":"ItemList","numberOfItems":2,"itemListElement":[{"@type":"ListItem","position":1,"item":{"@type":"Product","name":"Дакімакура Йор №1","image":"https://images.prom.ua/6532336456_dakimakura-jor-podushka.jpg","category":"Сім'я шпигуна (Spy x Family)","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/simya-shpyhuna-spy-x-family/yor/"}}},{"@type":"ListItem","position":2,"item":{"@type":"Product","name":"Дакімакура Йор №2","image":"https://images.prom.ua/6544116096_dakimakura-jor-semya.jpg","category":"Сім'я шпигуна (Spy x Family)","offers":{"@type":"AggregateOffer","priceCurrency":"UAH","lowPrice":1100,"highPrice":2390,"offerCount":4,"availability":"https://schema.org/MadeToOrder","url":"https://printme.world/dakimakury/simya-shpyhuna-spy-x-family/yor/"}}}]}}</script>
 </head>
@@ -71,19 +74,13 @@ fbq('track', 'PageView');
         <button class="catbtn" id="sideOpen" type="button" aria-controls="side" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span id="sideNow">Сім'я шпигуна (Spy x Family)</span></button>
         <input class="search" id="search" type="search" placeholder="Пошук персонажа" aria-label="Пошук персонажа">
       </div>
-      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/simya-shpyhuna-spy-x-family/yol-forher/">Йол Форгер <span class="n">12</span></a><a href="/dakimakury/simya-shpyhuna-spy-x-family/yor-brayar/">Йор Брайар <span class="n">2</span></a><a href="/dakimakury/simya-shpyhuna-spy-x-family/anya-forher/">Аня Форгер <span class="n">2</span></a><a href="/dakimakury/simya-shpyhuna-spy-x-family/yor/" aria-current="true">Йор <span class="n">2</span></a></div>
+      <div class="tops" id="tops"><span>Персонаж:</span><a href="/dakimakury/simya-shpyhuna-spy-x-family/yol-forher/" data-k="0">Йол Форгер <span class="n">12</span></a><a href="/dakimakury/simya-shpyhuna-spy-x-family/yor-brayar/" data-k="1">Йор Брайар <span class="n">2</span></a><a href="/dakimakury/simya-shpyhuna-spy-x-family/anya-forher/" data-k="2">Аня Форгер <span class="n">2</span></a><a href="/dakimakury/simya-shpyhuna-spy-x-family/yor/" data-k="3" aria-current="true">Йор <span class="n">2</span></a><button type="button" data-k="-2" aria-pressed="false">Інші <span class="n">13</span></button></div>
       <p class="count" id="count" aria-live="polite">Дизайнів: 2</p>
 
 
   <main class="grid" id="grid">
-<article class="card" data-id="2528428825">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6532336456_w640_h640_dakimakura-jor-podushka.jpg" alt="Дакімакура Йор №1" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Йор №1</span><span class="sub">Сім'я шпигуна (Spy x Family)</span></div>
-    </article>
-<article class="card" data-id="2536579142">
-      <div class="pic"><div class="track"><img src="https://images.prom.ua/6544116096_w640_h640_dakimakura-jor-semya.jpg" alt="Дакімакура Йор №2" width="640" height="640" loading="eager" decoding="async" referrerpolicy="no-referrer"></div></div>
-      <div class="meta"><span class="name">Йор №2</span><span class="sub">Сім'я шпигуна (Spy x Family)</span></div>
-    </article>
+<article class="card" data-id="2528428825"><div class="pic"><span class="ph">Й</span><div class="track" aria-label="Йор №1: фото, гортай"><img src="https://images.prom.ua/6532336456_w640_h640_dakimakura-jor-podushka.jpg" data-full="https://images.prom.ua/6532336456_dakimakura-jor-podushka.jpg" alt="Дакімакура Йор №1" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6532336457_w640_h640_dakimakura-jor-podushka.jpg" data-full="https://images.prom.ua/6532336457_dakimakura-jor-podushka.jpg" alt="Дакімакура Йор №1, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6532336458_w640_h640_dakimakura-jor-podushka.jpg" data-full="https://images.prom.ua/6532336458_dakimakura-jor-podushka.jpg" alt="Дакімакура Йор №1, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6532336459_w640_h640_dakimakura-jor-podushka.jpg" data-full="https://images.prom.ua/6532336459_dakimakura-jor-podushka.jpg" alt="Дакімакура Йор №1, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Йор №1</span><span class="sub">Сім'я шпигуна (Spy x Family)</span></div></article>
+<article class="card" data-id="2536579142"><div class="pic"><span class="ph">Й</span><div class="track" aria-label="Йор №2: фото, гортай"><img src="https://images.prom.ua/6544116096_w640_h640_dakimakura-jor-semya.jpg" data-full="https://images.prom.ua/6544116096_dakimakura-jor-semya.jpg" alt="Дакімакура Йор №2" loading="eager" fetchpriority="high" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6544116099_w640_h640_dakimakura-jor-semya.jpg" data-full="https://images.prom.ua/6544116099_dakimakura-jor-semya.jpg" alt="Дакімакура Йор №2, фото 2" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6544116102_w640_h640_dakimakura-jor-semya.jpg" data-full="https://images.prom.ua/6544116102_dakimakura-jor-semya.jpg" alt="Дакімакура Йор №2, фото 3" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"><img data-src="https://images.prom.ua/6544116105_w640_h640_dakimakura-jor-semya.jpg" data-full="https://images.prom.ua/6544116105_dakimakura-jor-semya.jpg" alt="Дакімакура Йор №2, фото 4" decoding="async" referrerpolicy="no-referrer" onerror="imgFallback(this)"></div><button class="arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="arrow next" type="button" aria-label="Наступне фото">›</button><div class="dots"><i class="on"></i><i class=""></i><i class=""></i><i class=""></i></div></div><div class="meta"><span class="name">Йор №2</span><span class="sub">Сім'я шпигуна (Spy x Family)</span></div></article>
 </main>
   <div class="more" id="more"></div>
     </div>
@@ -140,10 +137,11 @@ fbq('track', 'PageView');
   <div class="v3d-stage" id="v3dStage"><div class="v3d-load" id="v3dLoad"><span class="spin" aria-hidden="true"></span><b>Завантажуємо 3D-модель</b><span>Це не збій: модель важка, перший запуск триває до пів хвилини. Зачекай, будь ласка.</span></div></div>
 </dialog>
 
-<script>window.DAKI_PAGE={"g":"simya-shpyhuna-spy-x-family","sub":"Йор"};</script>
-<script src="/shipping.js"></script>
-<script src="/dakimakury/data.js?v=2026-10-16"></script>
-<script src="/dakimakury/shared.js?v=2026-10-16"></script>
-<script src="/dakimakury/catalog.js?v=2026-10-16"></script>
+<script>window.DAKI_PAGE={"g":"simya-shpyhuna-spy-x-family","sub":"Йор","n":2,"rows":[[2528428825,86,"Йор №1","","6532336456,6532336457,6532336458,6532336459|dakimakura-jor-podushka",0,"",3],[2536579142,86,"Йор №2","семья шпиона","6544116096,6544116099,6544116102,6544116105|dakimakura-jor-semya",0,"",3]]};</script>
+<!-- data.js (усі товари) тут не підключено: catalog.js довантажує його сам, коли він знадобиться -->
+<script src="/shipping.js" defer></script>
+<script src="/dakimakury/meta.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/shared.js?v=2026-10-16c" defer></script>
+<script src="/dakimakury/catalog.js?v=2026-10-16c" defer></script>
 </body>
 </html>
