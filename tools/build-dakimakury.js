@@ -39,6 +39,23 @@ const TPL = fs.readFileSync(path.join(__dirname, 'dakimakury-page.html'), 'utf8'
   if (dropped.size) console.log('Прибрано дизайнів без фото (photofix): ' + dropped.size);
 }
 
+/* ---------- сховані дизайни (tools/dakimakury-exclude.txt) і дизайни «вниз» (tools/dakimakury-down.txt) ----------
+   exclude: ті самі id, що пропускає import-prom.py; тут прибираємо їх і з уже імпортованих даних.
+   down: дизайн лишається, але в списках стоїть після решти, незалежно від продажів. */
+const idList = f => fs.readFileSync(path.join(__dirname, f), 'utf8').split('\n').map(l => l.replace(/#.*/, '').trim()).filter(Boolean);
+const EXCLUDE = new Set(idList('dakimakury-exclude.txt'));
+const DOWN = new Set(idList('dakimakury-down.txt'));
+{
+  const before = SRC.items.length;
+  SRC.items = SRC.items.filter(it => !EXCLUDE.has(String(it[0])));
+  SRC.whole = (SRC.whole || []).filter(id => !EXCLUDE.has(String(id)));
+  SRC.pair = (SRC.pair || []).filter(id => !EXCLUDE.has(String(id)));
+  if (before !== SRC.items.length) console.log('Прибрано дизайнів зі списку exclude: ' + (before - SRC.items.length));
+  const known = new Set(SRC.items.map(it => String(it[0])));
+  const lost = [...DOWN].filter(id => !known.has(id));
+  if (lost.length) console.log('dakimakury-down.txt: немає в каталозі (пропущено): ' + lost.join(', '));
+}
+
 /* ---------- сховані колекції (tools/dakimakury-hidden.txt) ----------
    Прибираємо їх із даних ще до збирання: ні сторінок, ні товарів у data.js, ні рядків у sitemap.
    Розділ, у якому не лишилось колекцій, зникає теж. Старі адреси ведуть на головну каталогу. */
@@ -76,6 +93,8 @@ const D = {
   whole: (SRC.whole || []).map(id => (/^\d{1,15}$/.test(id) ? +id : id)),
   /* id дизайнів, у яких перше фото це плаский малюнок: з нього складаємо мокап «пара подушок» */
   pair: (SRC.pair || []).map(id => (/^\d{1,15}$/.test(id) ? +id : id)),
+  /* id дизайнів, які в списках стоять у кінці (tools/dakimakury-down.txt) */
+  down: SRC.items.map(it => String(it[0])).filter(id => DOWN.has(id)).map(id => (/^\d{1,15}$/.test(id) ? +id : id)),
   secs: SRC.secs,
   cols: SRC.cols.map(c => {
     const o = { k: c.k, t: c.t, h: c.h, s: secIdx[c.s], top: c.top || [], p: c.p };
@@ -126,8 +145,9 @@ const times = n => { const d = n % 10, h = n % 100; return n + (d >= 2 && d <= 4
 const subOf = it => (it[7] == null ? -1 : it[7]);
 const labelOf = it => it[6] || D.cols[it[1]].t;
 
-/* той самий порядок, що в catalog.js: за продажами, далі як у файлі */
-const ORDERED = D.items.map((it, i) => [it, i]).sort((a, b) => (b[0][5] || 0) - (a[0][5] || 0) || a[1] - b[1]).map(x => x[0]);
+/* той самий порядок, що в catalog.js: дизайни «вниз» в кінці, решта за продажами, далі як у файлі */
+const isDown = it => DOWN.has(String(it[0])) ? 1 : 0;
+const ORDERED = D.items.map((it, i) => [it, i]).sort((a, b) => isDown(a[0]) - isDown(b[0]) || (b[0][5] || 0) - (a[0][5] || 0) || a[1] - b[1]).map(x => x[0]);
 function listFor(sec, col, sub) {
   return ORDERED.filter(it => (col >= 0 ? it[1] === col && (sub < 0 || subOf(it) === sub) : sec < 0 || D.cols[it[1]].s === sec));
 }
