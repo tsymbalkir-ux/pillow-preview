@@ -130,6 +130,7 @@ dialog::backdrop{background:rgba(15,12,35,.7)}
 .g-arrow:hover{background:#fff}
 .g-arrow:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .g-arrow[disabled]{display:none}
+.g-count{display:none}
 .info{padding:20px 22px 22px;display:flex;flex-direction:column;gap:14px;overflow:auto;min-height:0}
 .info h2{font:700 21px/1.2 var(--display);margin:0;overflow-wrap:anywhere}
 .info .spec{font-size:14px;color:var(--muted);margin:0}
@@ -206,8 +207,11 @@ dialog.v3d{max-width:min(760px,94vw);height:min(88vh,860px);border-radius:24px}
   .t-col{padding:10px 12px;font-size:15px}
   .side-foot{display:block;padding:10px 4px calc(env(safe-area-inset-bottom,0px) + 12px);border-top:1px solid var(--line)}
   .dlg{grid-template-columns:minmax(0,1fr);grid-template-rows:none;height:auto}
-  .shots{height:auto}
-  .shots img{height:46vh}
+  /* телефон: одне фото на всю ширину, гортання завжди зупиняється рівно на фото, лічильник «2 / 5» у куті */
+  .shots{height:auto;gap:0;padding:0;scroll-snap-type:x mandatory;scroll-padding:0;scrollbar-width:none;overscroll-behavior-x:contain}
+  .shots::-webkit-scrollbar{display:none}
+  .shots img{flex:0 0 100%;width:100%;height:min(100vw,56vh);object-fit:contain;border-radius:0;scroll-snap-align:center;scroll-snap-stop:always}
+  .g-count{display:block;position:absolute;right:12px;bottom:12px;padding:3px 9px;border-radius:999px;background:rgba(31,26,61,.72);color:#fff;font-size:12px;font-weight:600;pointer-events:none}
   .g-arrow{display:none}
   .works{gap:8px}
   .works img{border-radius:12px}

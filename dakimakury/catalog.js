@@ -483,7 +483,7 @@ function openItem(id, start = 0, toForm = false){
   if (!it) return;
   const ship = (window.SHIP_DATE || '').trim();
   d.innerHTML = `<div class="dlg">
-    <div class="gal"><div class="shots">${it.pics.map((p, i) => `<img src="${isPhone() ? sized(p, 640, 640) : p}" data-full="${p}" alt="Дакімакура ${esc(it.name)}, ${i >= it.nProm ? 'принт' : 'фото ' + (i + 1)}" referrerpolicy="no-referrer" loading="${i < 2 ? 'eager' : 'lazy'}" decoding="async" onerror="imgFallback(this)">`).join('')}</div><button class="g-arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="g-arrow next" type="button" aria-label="Наступне фото">›</button></div>
+    <div class="gal"><div class="shots">${it.pics.map((p, i) => `<img src="${isPhone() ? sized(p, 640, 640) : p}" data-full="${p}" alt="Дакімакура ${esc(it.name)}, ${i >= it.nProm ? 'принт' : 'фото ' + (i + 1)}" referrerpolicy="no-referrer" loading="${i < 2 ? 'eager' : 'lazy'}" decoding="async" onerror="imgFallback(this)">`).join('')}</div><button class="g-arrow prev" type="button" aria-label="Попереднє фото" disabled>‹</button><button class="g-arrow next" type="button" aria-label="Наступне фото">›</button>${it.pics.length > 1 ? `<span class="g-count" aria-hidden="true">1 / ${it.pics.length}</span>` : ''}</div>
     <div class="info">
       <div class="info-top">${it.orig.length ? `<button class="open3d" type="button" id="dlg3d"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 7.5v9L12 21l8-4.5v-9L12 3Z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></svg>Показати в 3D</button>` : '<span></span>'}<button class="close" type="button">Закрити ✕</button></div>
       <div><h2>${esc(it.name)}</h2><p class="spec">${esc(it.sub)}. Габардин, сублімаційний друк, прихована блискавка, холофайбер.</p></div>
@@ -608,7 +608,10 @@ function openItem(id, start = 0, toForm = false){
   if (target) shots.scrollLeft = target.offsetLeft - shots.children[0].offsetLeft;
   /* стрілки галереї: гортають на одне фото, тож смугу прокрутки шукати не треба */
   const gPrev = q('.g-arrow.prev'), gNext = q('.g-arrow.next'), pics = [...shots.children];
+  const gCount = q('.g-count');
   const gState = () => {
+    /* на телефоні одне фото на весь екран: лічильник «2 / 5» показує, яке саме */
+    if (gCount) gCount.textContent = `${Math.min(pics.length, Math.round(shots.scrollLeft / Math.max(1, pics[0].offsetWidth + (parseFloat(getComputedStyle(shots).columnGap) || 0))) + 1)} / ${pics.length}`;
     gPrev.disabled = shots.scrollLeft < 8;
     gNext.disabled = shots.scrollLeft + shots.clientWidth > shots.scrollWidth - 8;
   };
