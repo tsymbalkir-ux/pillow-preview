@@ -192,6 +192,14 @@ a{color:var(--ink)}
 @media (max-width:560px){ .pad .ar{width:34px;height:34px}
   .ar.lf{left:6px} .ar.rt{right:6px} }
 .slide canvas{transition:opacity .25s}
+/* комп'ютер: мокап не вищий за екран мінус кнопки під ним, щоб фото, перемикач мокапів і кнопки сторін
+   було видно разом без прокрутки (пропорція мокапу 3:4, тож ширину рахуємо від висоти) */
+@media (min-width:700px){
+  .carousel{--sw:min(508px, max(380px, 100dvh - 340px) * .75)}
+  .track{padding:0 calc((100% - var(--sw)) / 2)}     /* поточний мокап стоїть по центру, сусідні визирають з боків */
+  .slide{flex-basis:var(--sw)}
+  .pad{width:var(--sw)}
+}
 @keyframes pop{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:none}}
 
 /* ---------- головна дія ---------- */
@@ -733,27 +741,30 @@ function scrollToSlide(i) {
   const sl = $('track').children[i];
   if (sl) $('track').scrollTo({ left: sl.offsetLeft - $('track').offsetLeft, behavior: 'smooth' });
 }
-function step(dir) {
-  const t = $('track');
-  const max = t.scrollWidth - t.clientWidth;
-  // зсув на ~55% ширини: сусідній кадр заходить частково, стрічка не «перестрибує»
-  const to = t.scrollLeft + dir * t.clientWidth * 0.55;
-  // на краю не впираємось, а перескакуємо на протилежний — карусель кільцева
-  if (to > max + 4) t.scrollTo({ left: 0, behavior: 'smooth' });
-  else if (to < -4) t.scrollTo({ left: max, behavior: 'smooth' });
-  else t.scrollTo({ left: Math.max(0, Math.min(max, to)), behavior: 'smooth' });
-}
-$('prev').onclick = () => step(-1);
-$('next').onclick = () => step(1);
-
-function syncNav() {
-  const t = $('track');
-  const mid = t.scrollLeft + t.clientWidth / 2;
+/* який мокап зараз посередині стрічки */
+function currentSlide() {
+  const t = $('track'), mid = t.scrollLeft + t.clientWidth / 2;
   let best = 0, bd = 1e9;
   [...t.children].forEach((sl, i) => {
     const d = Math.abs(sl.offsetLeft - t.offsetLeft + sl.offsetWidth / 2 - mid);
     if (d < bd) { bd = d; best = i; }
   });
+  return best;
+}
+/* стрілки гортають рівно на один мокап і ставлять його посередині; на краю перескакують на протилежний — карусель кільцева */
+function step(dir) {
+  const t = $('track'), n = t.children.length;
+  if (!n) return;
+  const sl = t.children[(currentSlide() + dir + n) % n];
+  const max = t.scrollWidth - t.clientWidth;
+  const to = sl.offsetLeft - t.offsetLeft + sl.offsetWidth / 2 - t.clientWidth / 2;
+  t.scrollTo({ left: Math.max(0, Math.min(max, to)), behavior: 'smooth' });
+}
+$('prev').onclick = () => step(-1);
+$('next').onclick = () => step(1);
+
+function syncNav() {
+  const best = currentSlide();
   [...$('dots').children].forEach((d, i) => d.classList.toggle('on', i === best));
 }
 $('track').addEventListener('scroll', syncNav, { passive: true });
