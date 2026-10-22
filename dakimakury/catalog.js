@@ -117,7 +117,7 @@ function syncUrl(){
   if (state.q) p.set('q', state.q);
   if (state.size.len !== 120) p.set('size', state.size.len);
   const path = S.pathFor(D, state.sec, state.col, sub), qs = p.toString();
-  if (location.protocol.startsWith('http')) history.replaceState(null, '', path + (qs ? '?' + qs : ''));
+  if (location.protocol.startsWith('http')) history.replaceState(history.state, '', path + (qs ? '?' + qs : ''));  // стан (відкрите вікно) зберігаємо
   const canon = document.querySelector('link[rel="canonical"]');
   if (canon) canon.href = S.ORIGIN + path;
 }
@@ -467,6 +467,30 @@ function lockPage(on){
 }
 ['dlg', 'v3d'].forEach(id => $(id).addEventListener('close', () => { if (!$('dlg').open && !$('v3d').open) lockPage(false); }));
 
+/* Кнопка «Назад» у браузері чи жест назад на телефоні закриває вікно товару або 3D, а не йде зі сторінки.
+   Відкриваючи вікно, додаємо в історію запис із тією самою адресою; «Назад» його знімає і закриває вікно.
+   Якщо вікно закрили хрестиком, тлом чи Esc, прибираємо цей запис самі, щоб «Назад» не треба було тиснути двічі.
+   Перехід «вікно товару → 3D» використовує той самий запис. */
+let overlayEntry = false;
+function overlayOpened(){
+  if (overlayEntry || !location.protocol.startsWith('http')) return;
+  history.pushState({ overlay: true }, '', location.href);
+  overlayEntry = true;
+}
+function overlayClosed(){
+  if ($('dlg').open || $('v3d').open || !overlayEntry) return;   // ще відкрите інше вікно (товар → 3D)
+  overlayEntry = false;
+  if (history.state && history.state.overlay) history.back();
+}
+['dlg', 'v3d'].forEach(id => $(id).addEventListener('close', overlayClosed));
+addEventListener('popstate', () => {
+  if (!overlayEntry) return;
+  overlayEntry = false;
+  if ($('v3d').open) $('v3d').close();
+  if ($('dlg').open) $('dlg').close();
+  syncUrl();   // повернути в адресу параметри, змінені у вікні (наприклад, розмір)
+});
+
 /* ---------- вікно товару: фото, розмір, форма ---------- */
 const orderId = () => {
   const d = new Date(), p = n => String(n).padStart(2, '0');
@@ -606,6 +630,7 @@ function openItem(id, start = 0, toForm = false){
 
   lockPage(true);
   d.showModal();
+  overlayOpened();
   track('view_item', { ecommerce: { currency: 'UAH', value: state.size.price, items: [gaItem(it)] } },
     'ViewContent', { content_ids: [it.id], content_type: 'product', value: state.size.price, currency: 'UAH' });
   const shots = d.querySelector('.shots');
@@ -766,6 +791,7 @@ async function open3D(id){
   if (v3d) v3d.renderer.domElement.style.visibility = 'hidden';
   lockPage(true);
   d.showModal();
+  overlayOpened();
   track('open_3d', { item_id: it.id, size: state.size.v });
   try {
     if (!MM) {
