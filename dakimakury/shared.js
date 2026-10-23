@@ -175,7 +175,7 @@
   function itemFromRow(D, r, whole, pair) {
     var id = String(r[0]), c = r[1], pics = r[4], o = r[8] || [], og = r[9] || 0;
     if (typeof pics === 'string') { var parts = pics.split('|'); pics = parts[0].split(',').map(function (n) { return n + '_' + parts[1]; }); }
-    var prom = pics.map(function (p) { return /^https?:/.test(p) ? p : 'https://images.prom.ua/' + p + '.jpg'; });
+    var prom = pics.map(function (p) { return /^(https?:|\/)/.test(p) ? p : 'https://images.prom.ua/' + p + '.jpg'; });   // «/img/…» — власні мокапи на сайті
     var orig = o.map(function (p) { return /^https?:/.test(p) ? p : ORIG_HOST + p; });
     return { id: id, whole: whole.has(id), pair: pair.has(id), c: c, name: r[2], ru: r[3] || '', sold: r[5] || 0, sub: r[6] || D.cols[c].t,
       label: r[6] || '', k: r[7] == null ? -1 : r[7], orig: orig, nProm: prom.length, pics: prom.concat(orig.slice(0, og || 1)) };
@@ -185,8 +185,13 @@
      src із JPG лишається запасним варіантом для старих браузерів. */
   var PIC_SIZES = '(max-width: 860px) calc(50vw - 21px), 260px';
   var webp = function (url) { return url.replace(/\.jpe?g$/i, '.webp'); };
-  function picSet(p) { return webp(sized(p, 350, 350)) + ' 350w, ' + webp(sized(p, 640, 640)) + ' 640w'; }
-  function picAttrs(p) { return 'src="' + sized(p, 640, 640) + '" srcset="' + picSet(p) + '" sizes="' + PIC_SIZES + '"'; }
+  /* власні мокапи сайту (/img/…/назва.jpg, 900×1200) мають поруч зменшену копію назва-480.webp */
+  var own = function (p) { return /\/img\/[^?]+\.jpg$/.test(p); };
+  function picSet(p) {
+    if (own(p)) return p.replace(/\.jpg$/, '-480.webp') + ' 480w, ' + p + ' 900w';
+    return webp(sized(p, 350, 350)) + ' 350w, ' + webp(sized(p, 640, 640)) + ' 640w';
+  }
+  function picAttrs(p) { return 'src="' + (own(p) ? p : sized(p, 640, 640)) + '" srcset="' + picSet(p) + '" sizes="' + PIC_SIZES + '"'; }
   /* p: повна адреса фото Prom */
   function mockHtml(p, name, lazy) {
     var a = /^https:\/\/images\.prom\.ua\//.test(p) ? picAttrs(p) + ' data-full="' + sized(p, 640, 640) + '" onerror="imgFallback(this)"' : 'src="' + p + '"';

@@ -14,6 +14,18 @@ const S = require(path.join(OUT, 'shared.js'));
 const SRC = JSON.parse(fs.readFileSync(path.join(__dirname, 'dakimakury-src.json'), 'utf8'));
 const TPL = fs.readFileSync(path.join(__dirname, 'dakimakury-page.html'), 'utf8');
 
+/* ---------- власні дизайни, яких немає на Prom (tools/dakimakury-extra.json) ----------
+   Розділи з цього файлу стають першими у списку, колекції й товари додаються до даних з Prom. */
+{
+  const EXTRA = JSON.parse(fs.readFileSync(path.join(__dirname, 'dakimakury-extra.json'), 'utf8'));
+  const ks = new Set((EXTRA.secs || []).map(s => s.k));
+  SRC.secs = (EXTRA.secs || []).concat(SRC.secs.filter(s => !ks.has(s.k)));
+  const kc = new Set((EXTRA.cols || []).map(c => c.k));
+  SRC.cols = SRC.cols.filter(c => !kc.has(c.k)).concat(EXTRA.cols || []);
+  const ki = new Set((EXTRA.items || []).map(it => String(it[0])));
+  SRC.items = SRC.items.filter(it => !ki.has(String(it[0]))).concat(EXTRA.items || []);
+}
+
 /* ---------- ручне розкладання фото (tools/dakimakury-photofix.json) ----------
    Для дизайнів, у яких на Prom спільний код товару з іншими, фото й оригінали розкладено вручну.
    Дизайн, якому не лишилось жодного фото, з каталогу прибираємо. */
@@ -138,7 +150,7 @@ fs.writeFileSync(path.join(OUT, 'data.js'),
 /* ---------- допоміжне ---------- */
 const esc = S.esc;
 const attr = s => esc(s).replace(/'/g, '&#39;');
-const picUrl = p => /^https?:/.test(p) ? p : `https://images.prom.ua/${p}.jpg`;
+const picUrl = p => /^https?:/.test(p) ? p : p.startsWith('/') ? S.ORIGIN + p : `https://images.prom.ua/${p}.jpg`;
 const sized = (url, w, h) => url.replace(/(\/\d+)_/, `$1_w${w}_h${h}_`);
 const firstPic = it => { const p = it[4]; if (typeof p === 'string') { const [n, t] = p.split('|'); return n.split(',')[0] + '_' + t; } return p[0]; };
 const times = n => { const d = n % 10, h = n % 100; return n + (d >= 2 && d <= 4 && (h < 12 || h > 14) ? ' рази' : d === 1 && h !== 11 ? ' раз' : ' разів'); };

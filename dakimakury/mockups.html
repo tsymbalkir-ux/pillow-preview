@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Мокапи для нових дизайнів</title>
+<style>
+body{margin:0;font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;background:#F2F1F7;color:#1F1A3D}
+header{position:sticky;top:0;background:#fff;border-bottom:1px solid #DCD9EA;padding:12px 20px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;z-index:2}
+h1{font-size:17px;margin:0}
+button{font:inherit;border:1px solid #DCD9EA;background:#fff;border-radius:8px;padding:7px 14px;cursor:pointer}
+button.main{background:#E0457B;color:#fff;border-color:#E0457B}
+button:disabled{opacity:.5;cursor:default}
+#st{color:#6A6588}
+main{padding:16px 20px 60px;max-width:1300px;margin:0 auto}
+.help{background:#fff;border:1px solid #DCD9EA;border-radius:12px;padding:12px 16px;color:#6A6588;margin-bottom:16px}
+.it{background:#fff;border:1px solid #DCD9EA;border-radius:12px;padding:10px 12px;margin-bottom:10px;display:flex;gap:12px;align-items:center}
+.it b{display:block}.it small{color:#6A6588}
+.it .shots{display:flex;gap:6px;margin-left:auto}
+.it img{height:120px;border-radius:6px;background:#eee}
+.it.err{border-color:#E0457B}.it.ok{border-color:#23804A}
+</style>
+</head>
+<body>
+<header>
+  <h1>Мокапи для нових дизайнів</h1>
+  <button class="main" id="go" type="button">Згенерувати мокапи</button>
+  <button id="zip" type="button" disabled>Завантажити ZIP</button>
+  <span id="st"></span>
+</header>
+<main>
+  <div class="help">Сторінка бере оригінали принтів з imgbb і складає з них ті самі мокапи, що на головній: «У руках», «В обіймах», «Обидві сторони».
+  Якщо у файлі обидві сторони поруч, він ріжеться навпіл (A ліворуч, B праворуч), інакше сторона B повторює A.
+  Натисни «Згенерувати мокапи», дочекайся кінця, переглянь мініатюри, потім «Завантажити ZIP» і надішли цей архів у чат.</div>
+  <div id="list"></div>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script type="module">
+const ITEMS = [{"code": "2310001", "name": "Князь Кий", "cat": "Князі, правителі та діячі Київської Русі", "url": "https://i.ibb.co/qLms4cpt/2310001.jpg"}, {"code": "2310002", "name": "Аскольд", "cat": "Князі, правителі та діячі Київської Русі", "url": "https://i.ibb.co/G4WrGnvy/2310002.jpg"}, {"code": "2310003", "name": "Князь Олег", "cat": "Князі, правителі та діячі Київської Русі", "url": "https://i.ibb.co/tMzjmmSD/2310003.jpg"}, {"code": "2310004", "name": "Князь Ігор", "cat": "Князі, правителі та діячі Київської Русі", "url": "https://i.ibb.co/hFVvP7yG/2310004.jpg"}, {"code": "2310005", "name": "Княгиня Ольга", "cat": "Князі, правителі та діячі Київської Русі", "url": "https://i.ibb.co/B5NhqX6h/2310005.jpg"}, {"code": "2310006", "name": "Святослав Хоробрий", "cat": "Князі, правителі та діячі Київської Русі", "url": "https://i.ibb.co/XkCrvx7j/2310006.jpg"}, {"code": "2310007", "name": "Володимир Великий", "cat": "Князі, правителі та діячі Київської Русі", "url": "https://i.ibb.co/dw7Q08ht/2310007.jpg"}, {"code": "2310008", "name": "Ярослав Мудрий", "cat": "Князі, правителі та діячі Київської Русі", "url": "https://i.ibb.co/Lh2x7SXb/2310008.jpg"}, {"code": "2310009", "name": "Володимир Мономах", "cat": "Князі, правителі та діячі Київської Русі", "url": "https://i.ibb.co/5Xpn1fHt/2310009.jpg"}, {"code": "2310011", "name": "Роман Мстиславич", "cat": "Князі, правителі та діячі Київської Русі", "url": "https://i.ibb.co/Cs1RdSjR/2310011.jpg"}, {"code": "2310012", "name": "Данило Галицький", "cat": "Князі, правителі та діячі Київської Русі", "url": "https://i.ibb.co/gCph2D1/2310012.png"}, {"code": "2310013", "name": "Василько Романович", "cat": "Князі, правителі та діячі Київської Русі", "url": "https://i.ibb.co/bjHjHddR/2310013.jpg"}, {"code": "2310014", "name": "Лев Данилович", "cat": "Князі, правителі та діячі Київської Русі", "url": "https://i.ibb.co/PZqGq6hG/2310014.jpg"}, {"code": "2310015", "name": "Юрій I Львович", "cat": "Князі, правителі та діячі Київської Русі", "url": "https://i.ibb.co/Fkd52ndH/2310015.jpg"}, {"code": "2310016", "name": "Володимир Василькович", "cat": "Князі, правителі та діячі Київської Русі", "url": "https://i.ibb.co/NdrfZtyq/2310016.jpg"}, {"code": "2310017", "name": "Костянтин Острозький", "cat": "Князі, правителі та діячі Київської Русі", "url": "https://i.ibb.co/230V3pNp/2310017.jpg"}, {"code": "2310019", "name": "Дмитро Вишневецький", "cat": "Князі, правителі та діячі Київської Русі", "url": "https://i.ibb.co/q3kfjBD2/2310019.jpg"}, {"code": "2310021", "name": "Петро Конашевич-Сагайдачний", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/LhC4jk8f/2310021.jpg"}, {"code": "2310022", "name": "Богдан Хмельницький", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/p6M6HH0P/2310022.jpg"}, {"code": "2310023", "name": "Іван Мазепа", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/SwJQjjb9/2310023.jpg"}, {"code": "2310024", "name": "Пилип Орлик", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/60JyYtX4/2310024.jpg"}, {"code": "2310025", "name": "Іван Виговський", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/B5dPc7rz/2310025.jpg"}, {"code": "2310026", "name": "Іван Сірко", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/5WynhY8f/2310026.jpg"}, {"code": "2310027", "name": "Петро Дорошенко", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/VcMbfZZf/2310027.jpg"}, {"code": "2310028", "name": "Іван Богун", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/pBgnTgyw/2310028.jpg"}, {"code": "2310029", "name": "Максим Кривоніс", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/bM0ZvPt0/2310029.jpg"}, {"code": "2310030", "name": "Северин Наливайко", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/21xWY896/2310030.jpg"}, {"code": "2310031", "name": "Криштоф Косинський", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/rG0C6nNZ/2310031.png"}, {"code": "2310032", "name": "Павло Полуботок", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/1GLPMy7k/2310032.jpg"}, {"code": "2310033", "name": "Іван Самойлович", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/KzhmtzhD/2310033.jpg"}, {"code": "2310034", "name": "Дем'ян Многогрішний", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/7NNmYxfS/2310034.jpg"}, {"code": "2310036", "name": "Павло Тетеря", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/Z1RvNBsY/2310036.jpg"}, {"code": "2310037", "name": "Іван Брюховецький", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/yFYrh1qC/2310037.jpg"}, {"code": "2310038", "name": "Данило Апостол", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/G4wF7w58/2310038.jpg"}, {"code": "2310039", "name": "Кирило Розумовський", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/Mkb8k7GY/2310039.jpg"}, {"code": "2310040", "name": "Петро Калнишевський", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/8RSt4fq/2310040.jpg"}, {"code": "2310041", "name": "Іван Підкова", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/xtBRDXVg/2310041.jpg"}, {"code": "2310044", "name": "Самійло Кішка", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/WpdzKszB/2310044.jpg"}, {"code": "2310046", "name": "Петро Могила", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/ccKBzJyy/2310046.jpg"}, {"code": "2310047", "name": "Семен Палій", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/q3y0wPQ8/2310047.jpg"}, {"code": "2310049", "name": "Нестор Махно", "cat": "Козацькі гетьмани та полководці", "url": "https://i.ibb.co/675r0dwg/2310049.jpg"}, {"code": "2310051", "name": "Михайло Грушевський", "cat": "Державні, політичні та громадські діячі", "url": "https://i.ibb.co/7JWd3wT9/2310051.jpg"}, {"code": "2310052", "name": "Володимир Винниченко", "cat": "Державні, політичні та громадські діячі", "url": "https://i.ibb.co/PzY11p4b/2310052.jpg"}, {"code": "2310053", "name": "Симон Петлюра", "cat": "Державні, політичні та громадські діячі", "url": "https://i.ibb.co/p6RgjFT4/2310053.jpg"}, {"code": "2310054", "name": "Павло Скоропадський", "cat": "Державні, політичні та громадські діячі", "url": "https://i.ibb.co/7Jx8JQyc/2310054.jpg"}, {"code": "2310055", "name": "Євген Петрушевич", "cat": "Державні, політичні та громадські діячі", "url": "https://i.ibb.co/3GbJK9p/2310055.jpg"}, {"code": "2310056", "name": "Дмитро Донцов", "cat": "Державні, політичні та громадські діячі", "url": "https://i.ibb.co/8DHLpCjj/2310056.jpg"}, {"code": "2310057", "name": "Микола Міхновський", "cat": "Державні, політичні та громадські діячі", "url": "https://i.ibb.co/GvKcvRZ5/2310057.jpg"}, {"code": "2310058", "name": "Степан Бандера", "cat": "Державні, політичні та громадські діячі", "url": "https://i.ibb.co/k2FGRpMt/2310058.jpg"}, {"code": "2310059", "name": "Євген Коновалець", "cat": "Державні, політичні та громадські діячі", "url": "https://i.ibb.co/cSz1xwSj/2310059.jpg"}, {"code": "2310060", "name": "Андрій Мельник", "cat": "Державні, політичні та громадські діячі", "url": "https://i.ibb.co/G3H0929S/2310060.jpg"}, {"code": "2310061", "name": "Роман Шухевич", "cat": "Державні, політичні та громадські діячі", "url": "https://i.ibb.co/qMr9V54L/2310061.jpg"}, {"code": "2310062", "name": "Ярослав Стецько", "cat": "Державні, політичні та громадські діячі", "url": "https://i.ibb.co/23rxtpz4/2310062.jpg"}, {"code": "2310063", "name": "Левко Лук'яненко", "cat": "Державні, політичні та громадські діячі", "url": "https://i.ibb.co/rGYnFmdz/2310063.jpg"}, {"code": "2310064", "name": "В'ячеслав Чорновіл", "cat": "Державні, політичні та громадські діячі", "url": "https://i.ibb.co/ks8wYp3y/2310064.jpg"}, {"code": "2310072", "name": "Олекса Тихий", "cat": "Державні, політичні та громадські діячі", "url": "https://i.ibb.co/gLJybvQj/2310072.jpg"}, {"code": "2310073", "name": "Микола Руденко", "cat": "Державні, політичні та громадські діячі", "url": "https://i.ibb.co/b5GsKnBb/2310073.jpg"}, {"code": "2310075", "name": "Іван Світличний", "cat": "Державні, політичні та громадські діячі", "url": "https://i.ibb.co/gL5TCjd4/2310075.jpg"}, {"code": "2310078", "name": "Леонід Кравчук", "cat": "Державні, політичні та громадські діячі", "url": "https://i.ibb.co/KcHb8JMs/2310078.jpg"}, {"code": "2310079", "name": "Леонід Кучма", "cat": "Державні, політичні та громадські діячі", "url": "https://i.ibb.co/BHLZvN28/2310079.jpg"}, {"code": "2310080", "name": "Віктор Ющенко", "cat": "Державні, політичні та громадські діячі", "url": "https://i.ibb.co/Gfv0ggNy/2310080.jpg"}, {"code": "2310086", "name": "Тарас Шевченко", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/GQnPBtNv/2310086.jpg"}, {"code": "2310087", "name": "Іван Франко", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/nMHH3q4R/2310087.jpg"}, {"code": "2310088", "name": "Леся Українка", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/rGySKrhF/2310088.jpg"}, {"code": "2310089", "name": "Іван Котляревський", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/HpNywR0C/2310089.jpg"}, {"code": "2310090", "name": "Григорій Квітка-Основ'яненко", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/Pvbv4W7r/2310090.jpg"}, {"code": "2310091", "name": "Пантелеймон Куліш", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/mCmSzyNT/2310091.jpg"}, {"code": "2310092", "name": "Марко Вовчок", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/6cLy1XBq/2310092.jpg"}, {"code": "2310093", "name": "Ольга Кобилянська", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/h179PW8F/2310093.jpg"}, {"code": "2310094", "name": "Михайло Коцюбинський", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/9HfdJk5S/2310094.jpg"}, {"code": "2310095", "name": "Василь Стефаник", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/S4bFQypG/2310095.jpg"}, {"code": "2310096", "name": "Олена Пчілка", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/cK6pGHp1/2310096.jpg"}, {"code": "2310097", "name": "Борис Грінченко", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/kgdpvgZX/2310097.jpg"}, {"code": "2310098", "name": "Павло Тичина", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/20LrN9Zj/2310098.jpg"}, {"code": "2310099", "name": "Максим Рильський", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/4R2kRzZd/2310099.jpg"}, {"code": "2310100", "name": "Володимир Сосюра", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/Nd3ZC1vS/2310100.jpg"}, {"code": "2310101", "name": "Микола Хвильовий", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/zWQxbSst/2310101.jpg"}, {"code": "2310102", "name": "Микола Зеров", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/2YpvQDLs/2310102.jpg"}, {"code": "2310103", "name": "Євген Плужник", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/ycgGkX4y/2310103.jpg"}, {"code": "2310104", "name": "Валер'ян Підмогильний", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/Cs7SXMvZ/2310104.jpg"}, {"code": "2310105", "name": "Остап Вишня", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/K4jtqpV/2310105.jpg"}, {"code": "2310106", "name": "Микола Куліш", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/sdhyHPh9/2310106.jpg"}, {"code": "2310107", "name": "Олександр Довженко", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/XrSDFrXM/2310107.jpg"}, {"code": "2310108", "name": "Олесь Гончар", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/GvDwrpCw/2310108.jpg"}, {"code": "2310109", "name": "Василь Симоненко", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/0jDsPvrr/2310109.jpg"}, {"code": "2310110", "name": "Василь Стус", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/wDpb7vj/2310110.jpg"}, {"code": "2310111", "name": "Ліна Костенко", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/Lzf0QMTH/2310111.png"}, {"code": "2310112", "name": "Дмитро Павличко", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/gLpHmqbb/2310112.jpg"}, {"code": "2310113", "name": "Іван Драч", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/Wpkq3mGg/2310113.jpg"}, {"code": "2310114", "name": "Григір Тютюнник", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/XfkqFq8n/2310114.jpg"}, {"code": "2310117", "name": "Улас Самчук", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/844FVGKp/2310117.jpg"}, {"code": "2310118", "name": "Євген Маланюк", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/3ybKjLc2/2310118.jpg"}, {"code": "2310120", "name": "Олег Ольжич", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/xq5xZnv1/2310120.jpg"}, {"code": "2310121", "name": "Богдан-Ігор Антонич", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/4Rgmnwfx/2310121.jpg"}, {"code": "2310125", "name": "Юрій Андрухович", "cat": "Письменники, поети, драматурги", "url": "https://i.ibb.co/HD1LVxB1/2310125.jpg"}, {"code": "2310136", "name": "Григорій Сковорода", "cat": "Філософи, історики, просвітителі", "url": "https://i.ibb.co/wt0bRGj/2310136.jpg"}, {"code": "2310138", "name": "Нестор Літописець", "cat": "Філософи, історики, просвітителі", "url": "https://i.ibb.co/NnL9d91m/2310138.jpg"}, {"code": "2310142", "name": "Іван Федоров (Федорович)", "cat": "Філософи, історики, просвітителі", "url": "https://i.ibb.co/qL9s5KLW/2310142.jpg"}, {"code": "2310144", "name": "Михайло Максимович", "cat": "Філософи, історики, просвітителі", "url": "https://i.ibb.co/1tgQRTqN/2310144.jpg"}, {"code": "2310145", "name": "Микола Костомаров", "cat": "Філософи, історики, просвітителі", "url": "https://i.ibb.co/7t80TvZX/2310145.jpg"}, {"code": "2310146", "name": "Володимир Антонович", "cat": "Філософи, історики, просвітителі", "url": "https://i.ibb.co/ZRMZHJsP/2310146.jpg"}, {"code": "2310147", "name": "Дмитро Яворницький", "cat": "Філософи, історики, просвітителі", "url": "https://i.ibb.co/DDyjnxQr/2310147.jpg"}, {"code": "2310148", "name": "Михайло Драгоманов", "cat": "Філософи, історики, просвітителі", "url": "https://i.ibb.co/CKXXhsFw/2310148.jpg"}, {"code": "2310149", "name": "Дмитро Багалій", "cat": "Філософи, історики, просвітителі", "url": "https://i.ibb.co/Xx6bn0D8/2310149.jpg"}, {"code": "2310160", "name": "Василь Сухомлинський", "cat": "Філософи, історики, просвітителі", "url": "https://i.ibb.co/ch2Mv30P/2310160.jpg"}, {"code": "2310161", "name": "Ігор Сікорський", "cat": "Науковці, інженери та винахідники", "url": "https://i.ibb.co/gLfsHSDT/2310161.jpg"}, {"code": "2310162", "name": "Сергій Корольов", "cat": "Науковці, інженери та винахідники", "url": "https://i.ibb.co/xqF32r3q/2310162.jpg"}, {"code": "2310164", "name": "Володимир Вернадський", "cat": "Науковці, інженери та винахідники", "url": "https://i.ibb.co/BKLDG4K8/2310164.jpg"}, {"code": "2310165", "name": "Євген Патон", "cat": "Науковці, інженери та винахідники", "url": "https://i.ibb.co/Vp5ZyFvk/2310165.jpg"}, {"code": "2310168", "name": "Іван Пулюй", "cat": "Науковці, інженери та винахідники", "url": "https://i.ibb.co/yFVtyqyP/2310168.jpg"}, {"code": "2310196", "name": "Ілля Рєпін", "cat": "Художники, скульптори, архітектори", "url": "https://i.ibb.co/7d46QVqf/2310196.jpg"}, {"code": "2310198", "name": "Іван Айвазовський", "cat": "Художники, скульптори, архітектори", "url": "https://i.ibb.co/LXhNPdLh/2310198.jpg"}, {"code": "2310222", "name": "Микола Леонтович", "cat": "Композитори, музиканти та співаки", "url": "https://i.ibb.co/bg9sKJcc/2310222.jpg"}, {"code": "2310230", "name": "Володимир Івасюк", "cat": "Композитори, музиканти та співаки", "url": "https://i.ibb.co/k6mhPqKr/2310230.jpg"}, {"code": "2310231", "name": "Соломія Крушельницька", "cat": "Композитори, музиканти та співаки", "url": "https://i.ibb.co/1tNXTNqh/2310231.jpg"}, {"code": "2310245", "name": "Андрій Кузьменко (Кузьма Скрябін)", "cat": "Композитори, музиканти та співаки", "url": "https://i.ibb.co/nMj2cFCf/2310245.jpg"}, {"code": "2310256", "name": "Лесь Курбас", "cat": "Актори, режисери, театральні діячі", "url": "https://i.ibb.co/d4Zqc740/2310256.jpg"}, {"code": "2310261", "name": "Сергій Параджанов", "cat": "Актори, режисери, театральні діячі", "url": "https://i.ibb.co/hRntts8F/2310261.jpg"}, {"code": "2310287", "name": "Тарас Бульба-Боровець", "cat": "Військові діячі та борці за незалежність", "url": "https://i.ibb.co/YFttKp4M/2310287.jpg"}, {"code": "2310288", "name": "Олекса Довбуш", "cat": "Військові діячі та борці за незалежність", "url": "https://i.ibb.co/35g9f9Fk/2310288.jpg"}, {"code": "2310289", "name": "Устим Кармалюк", "cat": "Військові діячі та борці за незалежність", "url": "https://i.ibb.co/pB0n2Npk/2310289.jpg"}, {"code": "2310290", "name": "Максим Залізняк", "cat": "Військові діячі та борці за незалежність", "url": "https://i.ibb.co/v4t8HZCV/2310290.jpg"}, {"code": "2310291", "name": "Іван Гонта", "cat": "Військові діячі та борці за незалежність", "url": "https://i.ibb.co/ymbtv7m9/2310291.jpg"}, {"code": "2310295", "name": "Роман Дашкевич", "cat": "Військові діячі та борці за незалежність", "url": "https://i.ibb.co/5XkR7hDx/2310295.jpg"}, {"code": "2310296", "name": "Юрій Тютюнник", "cat": "Військові діячі та борці за незалежність", "url": "https://i.ibb.co/ZpCTLCdH/2310296.jpg"}];
+const SHEET_MIN = 0.5, SHEET_MAX = 0.9;
+function hasMiddleSeam(px, w, h){
+  const c = w / 2, at = (x, y) => (y * w + x) * 4;
+  /* наскільки відрізняються стовпчики x-2 та x+1: два середні пропускаємо, бо при зменшенні вони змішуються */
+  const step = x => {
+    let sum = 0;
+    for (let y = 0; y < h; y++) {
+      const a = at(x - 2, y), b = at(x + 1, y);
+      sum += Math.abs(px[a] - px[b]) + Math.abs(px[a + 1] - px[b + 1]) + Math.abs(px[a + 2] - px[b + 2]);
+    }
+    return sum / (h * 3);
+  };
+  const others = [];
+  for (let x = 4; x < w - 3; x++) if (Math.abs(x - c) > 4) others.push(step(x));
+  others.sort((a, b) => a - b);
+  const p90 = others[Math.floor(others.length * 0.9)], top = others[others.length - 1], seam = step(c);
+  if (seam > 12 && seam > p90 * 1.6 && seam > top * 1.15) return true;
+
+  /* порожня смуга: середні стовпчики одного кольору згори донизу, а по обидва боки від них є малюнок */
+  const bg = [px[at(c, 0)], px[at(c, 0) + 1], px[at(c, 0) + 2]];
+  const far = i => Math.abs(px[i] - bg[0]) + Math.abs(px[i + 1] - bg[1]) + Math.abs(px[i + 2] - bg[2]) > 36;
+  for (let x = c - 2; x <= c + 1; x++) for (let y = 0; y < h; y++) if (far(at(x, y))) return false;
+  const filled = (x0, x1) => { let n = 0; for (let x = x0; x < x1; x++) for (let y = 0; y < h; y++) if (far(at(x, y))) n++; return n / ((x1 - x0) * h); };
+  return filled(0, c - 2) > 0.04 && filled(c + 2, w) > 0.04;
+}
+/* true, якщо у файлі один предмет по центру на рівному тлі: краї порожні, середина заповнена,
+   і посередині малюнка не менше, ніж у чвертях (у розгортці навпаки: фігури в чвертях, між ними рідше). */
+function isSingleObject(px, w, h){
+  const at = (x, y) => (y * w + x) * 4, bg = [px[0], px[1], px[2]];
+  const far = i => Math.abs(px[i] - bg[0]) + Math.abs(px[i + 1] - bg[1]) + Math.abs(px[i + 2] - bg[2]) > 36;
+  const filled = (f0, f1) => {
+    const x0 = Math.round(w * f0), x1 = Math.max(x0 + 1, Math.round(w * f1)); let n = 0;
+    for (let x = x0; x < x1; x++) for (let y = 0; y < h; y++) if (far(at(x, y))) n++;
+    return n / ((x1 - x0) * h);
+  };
+  const edge = Math.max(filled(0, 0.06), filled(0.94, 1)), mid = filled(0.44, 0.56);
+  const quarter = (filled(0.15, 0.35) + filled(0.65, 0.85)) / 2;
+  return edge < 0.03 && mid > 0.3 && mid >= quarter * 0.9;
+}
+function isSheet(bmp, fix){
+  if (fix === 1 || fix === 2) return fix === 2;
+  const ratio = bmp.width / bmp.height;
+  if (ratio < SHEET_MIN || ratio > SHEET_MAX) return false;
+  const w = 128, h = Math.max(8, Math.round(w / ratio));
+  const cv = document.createElement('canvas');
+  cv.width = w; cv.height = h;
+  const g = cv.getContext('2d', { willReadFrequently: true });
+  g.fillStyle = '#fff'; g.fillRect(0, 0, w, h);        // прозорий PNG рахуємо як малюнок на білому
+  g.drawImage(bmp, 0, 0, w, h);
+  const px = g.getImageData(0, 0, w, h).data;
+  return hasMiddleSeam(px, w, h) || !isSingleObject(px, w, h);
+}
+
+const $ = id => document.getElementById(id);
+const out = new Map();     // назва файлу → Blob
+const meta = {};           // code → { sheet }
+$('list').innerHTML = ITEMS.map(it => `<div class="it" id="i${it.code}"><div><b>${it.name}</b><small>${it.code} · ${it.cat}</small></div><div class="shots"></div></div>`).join('');
+const root = await fetch('/pillow.json', { cache: 'no-cache' }).then(r => r.json());
+const tag = '?v=' + root.v;
+const M = await import('/pillow-mockup.js' + tag);
+const ORDER = ['held', 'hug', 'pair'];
+const slides = ORDER.map(id => root.slides.find(s => s.id === id)).filter(Boolean);
+function crop(bmp, sx, sw){
+  const cv = document.createElement('canvas'); cv.width = sw; cv.height = bmp.height;
+  cv.getContext('2d').drawImage(bmp, sx, 0, sw, bmp.height, 0, 0, sw, bmp.height);
+  return new Promise(res => cv.toBlob(res, 'image/png'));
+}
+async function one(it){
+  const row = $('i' + it.code), box = row.querySelector('.shots');
+  const blob = await fetch(it.url, { mode: 'cors' }).then(r => { if (!r.ok) throw new Error('imgbb ' + r.status); return r.blob(); });
+  const bmp = await createImageBitmap(blob);
+  const sheet = isSheet(bmp);
+  meta[it.code] = { sheet, w: bmp.width, h: bmp.height };
+  let a = blob, b = null;
+  if (sheet) { const half = Math.floor(bmp.width / 2); [a, b] = await Promise.all([crop(bmp, 0, half), crop(bmp, bmp.width - half, half)]); }
+  bmp.close?.();
+  const A = new M.PhotoSide('A'), B = new M.PhotoSide('B');
+  const fill = s => { if (s.photoFit === 'cover' && s.transform) { s.transform.margin = 0; s._changed?.(); } };
+  await A.setPhoto(a); fill(A);
+  if (b) { await B.setPhoto(b); fill(B); } else B.copyFrom(A);
+  for (const sd of slides) {
+    const cv = document.createElement('canvas');
+    const v = await new M.MockupView({ canvas: cv, cfg: sd, dir: '/', sides: { A, B }, quality: 2 }).load(tag);
+    v.render();
+    const jpg = await new Promise(res => cv.toBlob(res, 'image/jpeg', 0.86));
+    out.set(`${it.code}-${sd.id}.jpg`, jpg);
+    const im = new Image(); im.src = URL.createObjectURL(jpg); im.title = sd.name; box.append(im);
+  }
+  row.classList.add('ok');
+}
+$('go').onclick = async () => {
+  $('go').disabled = true; out.clear();
+  let done = 0, bad = 0; const queue = ITEMS.slice();
+  const work = async () => { while (queue.length) { const it = queue.shift();
+    try { await one(it); } catch (e) { bad++; const r = $('i' + it.code); r.classList.add('err'); r.querySelector('.shots').textContent = 'Помилка: ' + e.message; }
+    done++; $('st').textContent = `Готово ${done} з ${ITEMS.length}` + (bad ? `, помилок ${bad}` : ''); } };
+  await Promise.all([work(), work(), work()]);
+  $('zip').disabled = false;
+};
+$('zip').onclick = async () => {
+  $('zip').disabled = true; $('st').textContent = 'Пакуємо архів…';
+  const z = new JSZip();
+  for (const [n, b] of out) z.file(n, b);
+  z.file('meta.json', JSON.stringify(meta));
+  const blob = await z.generateAsync({ type: 'blob' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'mockups-welcome-to-ukraine.zip'; a.click();
+  $('st').textContent = 'Архів завантажено: ' + (blob.size / 1e6).toFixed(1) + ' МБ. Надішли його в чат.'; $('zip').disabled = false;
+};
+</script>
+</body>
+</html>
