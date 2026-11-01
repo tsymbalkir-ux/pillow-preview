@@ -1,0 +1,19 @@
+/* Каталог ростових фігур: доповнення до /dakimakury/catalog.css (той самий вигляд, інші картки) */
+.card .pic{aspect-ratio:3/4;border:0;padding:0;margin:0;width:100%;cursor:pointer;font:inherit;color:inherit}
+.card .pic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .25s}
+.card .pic:hover img{transform:scale(1.03)}
+.card .meta{display:flex;flex-direction:column;gap:2px}
+.card .price{font-weight:600;font-size:15px;margin-top:2px}
+.card .price small{font-weight:400;color:var(--muted);font-size:13px}
+.more .btn{min-width:220px}
+.empty{grid-column:1/-1;padding:28px;border:1px dashed var(--line);border-radius:20px;text-align:center}
+.empty p{margin:0 0 14px;color:var(--muted)}
+.empty .row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+/* вікно товару: фото фігур високі, тож показуємо цілими */
+.rf-dlg .shots img{object-fit:contain;background:#F3EEF1}
+.rf-size{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0}
+.rf-size div{padding:10px 12px;border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column}
+.rf-size dt{font-size:13px;color:var(--muted)}
+.rf-size dd{margin:0;font-weight:600}
+.rf-size .pr dd{font:700 18px/1.2 var(--display)}
+@media (prefers-reduced-motion:reduce){ .card .pic img{transition:none} }

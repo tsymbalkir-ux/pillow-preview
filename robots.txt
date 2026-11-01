@@ -4,3 +4,4 @@ Disallow: /*?check=
 
 Sitemap: https://printme.world/sitemap.xml
 Sitemap: https://printme.world/dakimakury/sitemap.xml
+Sitemap: https://printme.world/rostovi-figury/sitemap.xml
